@@ -47,7 +47,7 @@ Description for the new VM.
 
 `--format` `<qcow2 | raw | vmdk>` ::
 
-Target format for file storage. Only valid for full clone.
+Target disk format. Only valid for full clone. If the target storage does not support the format, the storage's default format is used instead.
 
 `--full` `<boolean>` ::
 
@@ -350,7 +350,7 @@ Set a name for the VM. Only used on the configuration web interface.
 
 cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
 
-`--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
+`--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,host-tunnel=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
 Specify network devices.
 
@@ -608,7 +608,7 @@ Prevent changes if current configuration file has different SHA1 digest. This ca
 
 `--format` `<qcow2 | raw | vmdk>` ::
 
-Target Format.
+Target disk format. Only used when moving to a different storage. If the target storage does not support the format, the storage's default format is used instead.
 
 `--target-digest` `<string>` ::
 
@@ -991,7 +991,7 @@ Set a name for the VM. Only used on the configuration web interface.
 
 cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
 
-`--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
+`--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,host-tunnel=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
 Specify network devices.
 
@@ -1360,7 +1360,7 @@ The (unique) ID of the VM.
 
 `--nocheck` `<boolean>` ::
 
-no description available
+Do not check whether the VM is running, used internally during migration. Only root may use this option.
 
 `--skiplock` `<boolean>` ::
 
@@ -1617,7 +1617,7 @@ Set a name for the VM. Only used on the configuration web interface.
 
 cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
 
-`--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
+`--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,host-tunnel=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
 Specify network devices.
 

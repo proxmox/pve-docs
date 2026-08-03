@@ -5439,6 +5439,7 @@ const apiSchema = [
                                           },
                                           "comment" : {
                                              "description" : "Descriptive comment.",
+                                             "format" : "pve-fw-comment-spec",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -5770,6 +5771,7 @@ const apiSchema = [
                                     },
                                     "comment" : {
                                        "description" : "Descriptive comment.",
+                                       "format" : "pve-fw-comment-spec",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -5928,6 +5930,7 @@ const apiSchema = [
                            "items" : {
                               "properties" : {
                                  "comment" : {
+                                    "description" : "Optional comment or description.",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
@@ -5965,6 +5968,7 @@ const apiSchema = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "comment" : {
+                                 "format" : "pve-fw-comment-spec",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -6189,6 +6193,7 @@ const apiSchema = [
                                     },
                                     "comment" : {
                                        "description" : "Descriptive comment.",
+                                       "format" : "pve-fw-comment-spec",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -6473,6 +6478,7 @@ const apiSchema = [
                               },
                               "comment" : {
                                  "description" : "Descriptive comment.",
+                                 "format" : "pve-fw-comment-spec",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -6709,6 +6715,7 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "comment" : {
+                                             "format" : "pve-fw-comment-spec",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -6865,6 +6872,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "comment" : {
+                                       "format" : "pve-fw-comment-spec",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -6962,6 +6970,7 @@ const apiSchema = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "comment" : {
+                                 "format" : "pve-fw-comment-spec",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -7096,6 +7105,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "comment" : {
+                                       "format" : "pve-fw-comment-spec",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -7208,6 +7218,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "comment" : {
+                                 "format" : "pve-fw-comment-spec",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -7520,19 +7531,24 @@ const apiSchema = [
                            "items" : {
                               "properties" : {
                                  "comment" : {
+                                    "description" : "Optional comment or description.",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
                                  "name" : {
+                                    "description" : "The name of the alias or ipset.",
                                     "type" : "string"
                                  },
                                  "ref" : {
+                                    "description" : "The reference string used in firewall rules.",
                                     "type" : "string"
                                  },
                                  "scope" : {
+                                    "description" : "The scope of the reference (e.g., SDN).",
                                     "type" : "string"
                                  },
                                  "type" : {
+                                    "description" : "The type of reference (alias or ipset).",
                                     "enum" : [
                                        "alias",
                                        "ipset"
@@ -10083,97 +10099,140 @@ const apiSchema = [
                               "method" : "PUT",
                               "name" : "update_rule",
                               "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "affinity" : {
-                                       "description" : "Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').",
-                                       "enum" : [
-                                          "positive",
-                                          "negative"
+                                 "allOf" : [
+                                    {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "delete" : {
+                                             "description" : "A list of settings you want to delete.",
+                                             "format" : "pve-configid-list",
+                                             "maxLength" : 4096,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "rule" : {
+                                             "description" : "HA rule identifier.",
+                                             "format" : "pve-configid",
+                                             "optional" : 0,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    {
+                                       "oneOf" : [
+                                          {
+                                             "additionalProperties" : 0,
+                                             "instance-type" : "node-affinity",
+                                             "properties" : {
+                                                "affinity" : {
+                                                   "default" : "positive",
+                                                   "description" : "Describes whether the HA resources are supposed to be placed on the given nodes ('positive'), or are supposed to be placed on any but the given nodes ('negative').",
+                                                   "enum" : [
+                                                      "positive",
+                                                      "negative"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "comment" : {
+                                                   "description" : "HA rule description.",
+                                                   "maxLength" : 4096,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "disable" : {
+                                                   "description" : "Whether the HA rule is disabled.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
+                                                "nodes" : {
+                                                   "description" : "List of cluster node names with optional priority.",
+                                                   "format" : "pve-ha-node-list",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
+                                                   "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the resources will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority."
+                                                },
+                                                "resources" : {
+                                                   "description" : "List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).",
+                                                   "format" : "pve-ha-resource-id-list",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<type>:<name>{,<type>:<name>}*"
+                                                },
+                                                "strict" : {
+                                                   "default" : 0,
+                                                   "description" : "Describes whether the node affinity rule is strict or non-strict.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>",
+                                                   "verbose_description" : "Describes whether the node affinity rule is strict or non-strict.\n\nA non-strict node affinity rule makes resources prefer to be on the defined nodes.\nIf none of the defined nodes are available, the resource may run on any other node.\n\nA strict node affinity rule makes resources be restricted to the defined nodes. If\nnone of the defined nodes are available, the resource will be stopped.\n"
+                                                }
+                                             }
+                                          },
+                                          {
+                                             "additionalProperties" : 0,
+                                             "instance-type" : "resource-affinity",
+                                             "properties" : {
+                                                "affinity" : {
+                                                   "description" : "Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').",
+                                                   "enum" : [
+                                                      "positive",
+                                                      "negative"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "comment" : {
+                                                   "description" : "HA rule description.",
+                                                   "maxLength" : 4096,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "disable" : {
+                                                   "description" : "Whether the HA rule is disabled.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
+                                                "resources" : {
+                                                   "description" : "List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).",
+                                                   "format" : "pve-ha-resource-id-list",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<type>:<name>{,<type>:<name>}*"
+                                                }
+                                             }
+                                          }
                                        ],
-                                       "instance-types" : [
-                                          "resource-affinity"
-                                       ],
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "type-property" : "type"
-                                    },
-                                    "comment" : {
-                                       "description" : "HA rule description.",
-                                       "maxLength" : 4096,
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "delete" : {
-                                       "description" : "A list of settings you want to delete.",
-                                       "format" : "pve-configid-list",
-                                       "maxLength" : 4096,
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "digest" : {
-                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 64,
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "disable" : {
-                                       "description" : "Whether the HA rule is disabled.",
-                                       "optional" : 1,
-                                       "type" : "boolean",
-                                       "typetext" : "<boolean>"
-                                    },
-                                    "nodes" : {
-                                       "description" : "List of cluster node names with optional priority.",
-                                       "format" : "pve-ha-node-list",
-                                       "instance-types" : [
-                                          "node-affinity"
-                                       ],
-                                       "optional" : 1,
-                                       "type" : "string",
                                        "type-property" : "type",
-                                       "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
-                                       "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the resources will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority."
-                                    },
-                                    "resources" : {
-                                       "description" : "List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).",
-                                       "format" : "pve-ha-resource-id-list",
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<type>:<name>{,<type>:<name>}*"
-                                    },
-                                    "rule" : {
-                                       "description" : "HA rule identifier.",
-                                       "format" : "pve-configid",
-                                       "optional" : 0,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "strict" : {
-                                       "default" : 0,
-                                       "description" : "Describes whether the node affinity rule is strict or non-strict.",
-                                       "instance-types" : [
-                                          "node-affinity"
-                                       ],
-                                       "optional" : 1,
-                                       "type" : "boolean",
-                                       "type-property" : "type",
-                                       "typetext" : "<boolean>",
-                                       "verbose_description" : "Describes whether the node affinity rule is strict or non-strict.\n\nA non-strict node affinity rule makes resources prefer to be on the defined nodes.\nIf none of the defined nodes are available, the resource may run on any other node.\n\nA strict node affinity rule makes resources be restricted to the defined nodes. If\nnone of the defined nodes are available, the resource will be stopped.\n"
-                                    },
-                                    "type" : {
-                                       "description" : "HA rule type.",
-                                       "enum" : [
-                                          "node-affinity",
-                                          "resource-affinity"
-                                       ],
-                                       "type" : "string"
+                                       "type-property-schema" : {
+                                          "description" : "HA rule type.",
+                                          "enum" : [
+                                             "node-affinity",
+                                             "resource-affinity"
+                                          ],
+                                          "type" : "string"
+                                       }
                                     }
-                                 },
-                                 "type" : "object"
+                                 ]
                               },
                               "permissions" : {
                                  "check" : [
@@ -10254,82 +10313,120 @@ const apiSchema = [
                         "method" : "POST",
                         "name" : "create_rule",
                         "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "affinity" : {
-                                 "description" : "Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').",
-                                 "enum" : [
-                                    "positive",
-                                    "negative"
-                                 ],
-                                 "instance-types" : [
-                                    "resource-affinity"
-                                 ],
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "type-property" : "type"
+                           "allOf" : [
+                              {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "rule" : {
+                                       "description" : "HA rule identifier.",
+                                       "format" : "pve-configid",
+                                       "optional" : 0,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
                               },
-                              "comment" : {
-                                 "description" : "HA rule description.",
-                                 "maxLength" : 4096,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "disable" : {
-                                 "description" : "Whether the HA rule is disabled.",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "nodes" : {
-                                 "description" : "List of cluster node names with optional priority.",
-                                 "format" : "pve-ha-node-list",
-                                 "instance-types" : [
-                                    "node-affinity"
+                              {
+                                 "oneOf" : [
+                                    {
+                                       "additionalProperties" : 0,
+                                       "instance-type" : "node-affinity",
+                                       "properties" : {
+                                          "affinity" : {
+                                             "default" : "positive",
+                                             "description" : "Describes whether the HA resources are supposed to be placed on the given nodes ('positive'), or are supposed to be placed on any but the given nodes ('negative').",
+                                             "enum" : [
+                                                "positive",
+                                                "negative"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "comment" : {
+                                             "description" : "HA rule description.",
+                                             "maxLength" : 4096,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "disable" : {
+                                             "description" : "Whether the HA rule is disabled.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "nodes" : {
+                                             "description" : "List of cluster node names with optional priority.",
+                                             "format" : "pve-ha-node-list",
+                                             "optional" : 0,
+                                             "type" : "string",
+                                             "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
+                                             "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the resources will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority."
+                                          },
+                                          "resources" : {
+                                             "description" : "List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).",
+                                             "format" : "pve-ha-resource-id-list",
+                                             "optional" : 0,
+                                             "type" : "string",
+                                             "typetext" : "<type>:<name>{,<type>:<name>}*"
+                                          },
+                                          "strict" : {
+                                             "default" : 0,
+                                             "description" : "Describes whether the node affinity rule is strict or non-strict.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>",
+                                             "verbose_description" : "Describes whether the node affinity rule is strict or non-strict.\n\nA non-strict node affinity rule makes resources prefer to be on the defined nodes.\nIf none of the defined nodes are available, the resource may run on any other node.\n\nA strict node affinity rule makes resources be restricted to the defined nodes. If\nnone of the defined nodes are available, the resource will be stopped.\n"
+                                          }
+                                       }
+                                    },
+                                    {
+                                       "additionalProperties" : 0,
+                                       "instance-type" : "resource-affinity",
+                                       "properties" : {
+                                          "affinity" : {
+                                             "description" : "Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').",
+                                             "enum" : [
+                                                "positive",
+                                                "negative"
+                                             ],
+                                             "optional" : 0,
+                                             "type" : "string"
+                                          },
+                                          "comment" : {
+                                             "description" : "HA rule description.",
+                                             "maxLength" : 4096,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "disable" : {
+                                             "description" : "Whether the HA rule is disabled.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "resources" : {
+                                             "description" : "List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).",
+                                             "format" : "pve-ha-resource-id-list",
+                                             "optional" : 0,
+                                             "type" : "string",
+                                             "typetext" : "<type>:<name>{,<type>:<name>}*"
+                                          }
+                                       }
+                                    }
                                  ],
-                                 "optional" : 1,
-                                 "type" : "string",
                                  "type-property" : "type",
-                                 "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
-                                 "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the resources will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority."
-                              },
-                              "resources" : {
-                                 "description" : "List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).",
-                                 "format" : "pve-ha-resource-id-list",
-                                 "optional" : 0,
-                                 "type" : "string",
-                                 "typetext" : "<type>:<name>{,<type>:<name>}*"
-                              },
-                              "rule" : {
-                                 "description" : "HA rule identifier.",
-                                 "format" : "pve-configid",
-                                 "optional" : 0,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "strict" : {
-                                 "default" : 0,
-                                 "description" : "Describes whether the node affinity rule is strict or non-strict.",
-                                 "instance-types" : [
-                                    "node-affinity"
-                                 ],
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "type-property" : "type",
-                                 "typetext" : "<boolean>",
-                                 "verbose_description" : "Describes whether the node affinity rule is strict or non-strict.\n\nA non-strict node affinity rule makes resources prefer to be on the defined nodes.\nIf none of the defined nodes are available, the resource may run on any other node.\n\nA strict node affinity rule makes resources be restricted to the defined nodes. If\nnone of the defined nodes are available, the resource will be stopped.\n"
-                              },
-                              "type" : {
-                                 "description" : "HA rule type.",
-                                 "enum" : [
-                                    "node-affinity",
-                                    "resource-affinity"
-                                 ],
-                                 "type" : "string"
+                                 "type-property-schema" : {
+                                    "description" : "HA rule type.",
+                                    "enum" : [
+                                       "node-affinity",
+                                       "resource-affinity"
+                                    ],
+                                    "type" : "string"
+                                 }
                               }
-                           },
-                           "type" : "object"
+                           ]
                         },
                         "permissions" : {
                            "check" : [
@@ -12389,6 +12486,78 @@ const apiSchema = [
                   "leaf" : 1,
                   "path" : "/cluster/ceph/status",
                   "text" : "status"
+               },
+               {
+                  "info" : {
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Cluster-wide rolling restart of all Ceph daemons of the given type. For MON/MGR/MDS each daemon is restarted only after Ceph reports the previous one is back up and the next one is safe to stop. For OSDs the cluster path orchestrates the per-node endpoint at /nodes/{node}/ceph/restart-bulk on each node in turn, inheriting that endpoint's per-OSD 'noout' handling and resume support. The 'noout' flag itself is not exposed by this endpoint as it is OSD-specific (and for OSDs handled by the per-node sub-tasks).",
+                        "expose_credentials" : 1,
+                        "method" : "POST",
+                        "name" : "restart_bulk",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "dry-run" : {
+                                 "default" : 0,
+                                 "description" : "Log the plan (which daemons would be restarted, in what order) without actually doing anything.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "force" : {
+                                 "default" : 0,
+                                 "description" : "Proceed past a HEALTH_WARN with non-benign checks like PG_DEGRADED, SLOW_OPS, or MON_DOWN. HEALTH_ERR is always fatal regardless. The operator is responsible for confirming the cluster is stable enough to absorb a rolling restart.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "only-outdated" : {
+                                 "default" : 0,
+                                 "description" : "OSDs only: restart only OSDs whose running version differs from the locally-installed ceph-osd binary on their host. Forwarded to each per-node sub-task so the per-host installed version is used (a partial upgrade where one host is on a newer build is handled correctly).",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "service-type" : {
+                                 "description" : "Ceph daemon type to restart cluster-wide.",
+                                 "enum" : [
+                                    "mon",
+                                    "mgr",
+                                    "mds",
+                                    "osd"
+                                 ],
+                                 "type" : "string"
+                              },
+                              "timeout" : {
+                                 "default" : 600,
+                                 "description" : "Per-daemon timeout (in seconds) for the up-wait phase. Note: for daemons on remote nodes the same timeout also bounds the remote restart task, so the per-daemon budget can be up to 2x this value. Default sized for slow MDS journal replay or MON paxos settle on busy clusters; bump higher if the cluster routinely takes longer to stabilize after a daemon restart.",
+                                 "maximum" : 1800,
+                                 "minimum" : 30,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (30 - 1800)"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/ceph/restart-bulk",
+                  "text" : "restart-bulk"
                },
                {
                   "children" : [
@@ -14685,6 +14854,7 @@ const apiSchema = [
                                                       },
                                                       "comment" : {
                                                          "description" : "Descriptive comment.",
+                                                         "format" : "pve-fw-comment-spec",
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -14975,6 +15145,7 @@ const apiSchema = [
                                                 },
                                                 "comment" : {
                                                    "description" : "Descriptive comment.",
+                                                   "format" : "pve-fw-comment-spec",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -23961,6 +24132,534 @@ const apiSchema = [
                      "user" : "all"
                   },
                   "returns" : {
+                     "properties" : {
+                        "allowed-tags" : {
+                           "description" : "The tags the current user is allowed to set and see.",
+                           "items" : {
+                              "description" : "A tag.",
+                              "type" : "string"
+                           },
+                           "type" : "array"
+                        },
+                        "bwlimit" : {
+                           "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                           "format" : {
+                              "clone" : {
+                                 "description" : "bandwidth limit in KiB/s for cloning disks",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "default" : {
+                                 "description" : "default bandwidth limit in KiB/s",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "migration" : {
+                                 "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "move" : {
+                                 "description" : "bandwidth limit in KiB/s for moving disks",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "restore" : {
+                                 "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "consent-text" : {
+                           "description" : "Consent text that is displayed before logging in.",
+                           "maxLength" : 65536,
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "console" : {
+                           "description" : "Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), an HTML5 based vnc viewer (noVNC), or an HTML5 based console client (xtermjs). If the selected viewer is not available (e.g. SPICE not activated for the VM), the fallback is noVNC.",
+                           "enum" : [
+                              "applet",
+                              "vv",
+                              "html5",
+                              "xtermjs"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "crs" : {
+                           "description" : "Cluster resource scheduling settings.",
+                           "format" : {
+                              "ha" : {
+                                 "default" : "basic",
+                                 "description" : "Use this resource scheduler mode for HA.",
+                                 "enum" : [
+                                    "basic",
+                                    "static",
+                                    "dynamic"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "verbose_description" : "Configures how the HA Manager should select nodes to start or recover services:\n\n- with 'basic', only the number of services is used,\n- with 'static', static CPU and memory configuration of services are considered,\n- with 'dynamic', static and dynamic CPU and memory usage of services are considered.\n"
+                              },
+                              "ha-auto-rebalance" : {
+                                 "default" : 0,
+                                 "description" : "Whether to use CRS for balancing HA resources automatically depending on the current node imbalance.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "ha-auto-rebalance-hold-duration" : {
+                                 "default" : 3,
+                                 "description" : "The number of HA rounds for which the cluster node imbalance threshold must be exceeded before triggering an automatic resource balancing migration.",
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "requires" : "ha-auto-rebalance",
+                                 "type" : "number"
+                              },
+                              "ha-auto-rebalance-margin" : {
+                                 "default" : 10,
+                                 "description" : "The minimum relative improvement in cluster node imbalance, in percent, to commit to a resource balancing migration.",
+                                 "maximum" : 100,
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "requires" : "ha-auto-rebalance",
+                                 "type" : "number"
+                              },
+                              "ha-auto-rebalance-method" : {
+                                 "default" : "bruteforce",
+                                 "description" : "The method to use for the scoring of balancing migrations.",
+                                 "enum" : [
+                                    "bruteforce",
+                                    "topsis"
+                                 ],
+                                 "optional" : 1,
+                                 "requires" : "ha-auto-rebalance",
+                                 "type" : "string"
+                              },
+                              "ha-auto-rebalance-threshold" : {
+                                 "default" : 30,
+                                 "description" : "The cluster node imbalance, in percent, which will trigger the automatic resource balancing system if exceeded.",
+                                 "maximum" : 100,
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "requires" : "ha-auto-rebalance",
+                                 "type" : "number"
+                              },
+                              "ha-rebalance-on-start" : {
+                                 "default" : 0,
+                                 "description" : "Set to use CRS for selecting a suited node when a HA services request-state changes from stop to start.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "description" : {
+                           "description" : "Datacenter description. Shown in the web-interface datacenter notes panel. This is saved as comment inside the configuration file.",
+                           "maxLength" : 65536,
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "email_from" : {
+                           "description" : "Specify email address to send notification from (default is root@$hostname)",
+                           "format" : "email-opt",
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "fencing" : {
+                           "default" : "watchdog",
+                           "description" : "Set the fencing mode of the HA cluster. Hardware mode needs a valid configuration of fence devices in /etc/pve/ha/fence.cfg. With both all two modes are used.\n\nWARNING: 'hardware' and 'both' are EXPERIMENTAL & WIP",
+                           "enum" : [
+                              "watchdog",
+                              "hardware",
+                              "both"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "ha" : {
+                           "description" : "Cluster wide HA settings.",
+                           "format" : {
+                              "shutdown_policy" : {
+                                 "default" : "conditional",
+                                 "description" : "The policy for HA services on node shutdown. 'freeze' disables auto-recovery, 'failover' ensures recovery, 'conditional' recovers on poweroff and freezes on reboot. 'migrate' will migrate running services to other nodes, if possible. With 'freeze' or 'failover', HA Services will always get stopped first on shutdown.",
+                                 "enum" : [
+                                    "freeze",
+                                    "failover",
+                                    "conditional",
+                                    "migrate"
+                                 ],
+                                 "type" : "string",
+                                 "verbose_description" : "Describes the policy for handling HA services on poweroff or reboot of a node. Freeze will always freeze services which are still located on the node on shutdown, those services won't be recovered by the HA manager. Failover will not mark the services as frozen and thus the services will get recovered to other nodes, if the shutdown node does not come up again quickly (< 1min). 'conditional' chooses automatically depending on the type of shutdown, i.e., on a reboot the service will be frozen but on a poweroff the service will stay as is, and thus get recovered after about 2 minutes. Migrate will try to move all running services to another node when a reboot or shutdown was triggered. The poweroff process will only continue once no running services are located on the node anymore. If the node comes up again, the service will be moved back to the previously powered-off node, at least if no other migration, reloaction or recovery took place."
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "http_proxy" : {
+                           "description" : "Specify external http proxy which is used for downloads (example: 'http://username:password@host:port/')",
+                           "optional" : 1,
+                           "pattern" : "http://.*",
+                           "type" : "string"
+                        },
+                        "keyboard" : {
+                           "description" : "Default keybord layout for vnc server.",
+                           "enum" : [
+                              "de",
+                              "de-ch",
+                              "da",
+                              "en-gb",
+                              "en-us",
+                              "es",
+                              "fi",
+                              "fr",
+                              "fr-be",
+                              "fr-ca",
+                              "fr-ch",
+                              "hu",
+                              "is",
+                              "it",
+                              "ja",
+                              "lt",
+                              "mk",
+                              "nl",
+                              "no",
+                              "pl",
+                              "pt",
+                              "pt-br",
+                              "sv",
+                              "sl",
+                              "tr"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "language" : {
+                           "description" : "Default GUI language.",
+                           "enum" : [
+                              "ar",
+                              "ca",
+                              "da",
+                              "de",
+                              "en",
+                              "es",
+                              "eu",
+                              "fa",
+                              "fr",
+                              "hr",
+                              "he",
+                              "it",
+                              "ja",
+                              "ka",
+                              "kr",
+                              "nb",
+                              "nl",
+                              "nn",
+                              "pl",
+                              "pt_BR",
+                              "ru",
+                              "sl",
+                              "sv",
+                              "tr",
+                              "ukr",
+                              "zh_CN",
+                              "zh_TW"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "location" : {
+                           "description" : "The location of the cluster.",
+                           "format" : "pve-node-location",
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "mac_prefix" : {
+                           "default" : "BC:24:11",
+                           "description" : "Prefix for the auto-generated MAC addresses of virtual guests. The default 'BC:24:11' is the OUI assigned by the IEEE to Proxmox Server Solutions GmbH for a 24-bit large MAC block. You're allowed to use this in local networks, i.e., those not directly reachable by the public (e.g., in a LAN or behind NAT).",
+                           "format" : "mac-prefix",
+                           "optional" : 1,
+                           "type" : "string",
+                           "verbose_description" : "Prefix for the auto-generated MAC addresses of virtual guests. The default `BC:24:11` is the Organizationally Unique Identifier (OUI) assigned by the IEEE to Proxmox Server Solutions GmbH for a MAC Address Block Large (MA-L). You're allowed to use this in local networks, i.e., those not directly reachable by the public (e.g., in a LAN or NAT/Masquerading).\n \nNote that when you run multiple cluster that (partially) share the networks of their virtual guests, it's highly recommended that you extend the default MAC prefix, or generate a custom (valid) one, to reduce the chance of MAC collisions. For example, add a separate extra hexadecimal to the Proxmox OUI for each cluster, like `BC:24:11:0` for the first, `BC:24:11:1` for the second, and so on.\n Alternatively, you can also separate the networks of the guests logically, e.g., by using VLANs.\n\nFor publicly accessible guests it's recommended that you get your own https://standards.ieee.org/products-programs/regauth/[OUI from the IEEE] registered or coordinate with your, or your hosting providers, network admins."
+                        },
+                        "max_workers" : {
+                           "description" : "Defines how many workers (per node) are maximal started  on actions like 'stopall VMs' or task from the ha-manager.",
+                           "minimum" : 1,
+                           "optional" : 1,
+                           "type" : "integer"
+                        },
+                        "migration" : {
+                           "description" : "For cluster wide migration settings.",
+                           "format" : {
+                              "network" : {
+                                 "description" : "CIDR of the (sub) network that is used for migration. Used as a fallback for replications jobs if the replication network setting is not set",
+                                 "format" : "CIDR",
+                                 "format_description" : "CIDR",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "type" : {
+                                 "default" : "secure",
+                                 "default_key" : 1,
+                                 "description" : "Migration traffic is encrypted using an SSH tunnel by default. On secure, completely private networks this can be disabled to increase performance.",
+                                 "enum" : [
+                                    "secure",
+                                    "insecure"
+                                 ],
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "migration_unsecure" : {
+                           "description" : "Migration is secure using SSH tunnel by default. For secure private networks you can disable it to speed up migration. Deprecated, use the 'migration' property instead!",
+                           "optional" : 1,
+                           "type" : "boolean"
+                        },
+                        "next-id" : {
+                           "description" : "Control the range for the free VMID auto-selection pool.",
+                           "format" : {
+                              "lower" : {
+                                 "default" : 100,
+                                 "description" : "Lower, inclusive boundary for free next-id API range.",
+                                 "max" : 999999999,
+                                 "min" : 100,
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              },
+                              "upper" : {
+                                 "default" : 1000000,
+                                 "description" : "Upper, exclusive boundary for free next-id API range.",
+                                 "max" : 1000000000,
+                                 "min" : 100,
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "notify" : {
+                           "description" : "Cluster-wide notification settings.",
+                           "format" : {
+                              "fencing" : {
+                                 "description" : "UNUSED - Use datacenter notification settings instead.",
+                                 "enum" : [
+                                    "always",
+                                    "never"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "package-updates" : {
+                                 "default" : "auto",
+                                 "description" : "DEPRECATED: Use datacenter notification settings instead. Control when the daily update job should send out notifications.",
+                                 "enum" : [
+                                    "auto",
+                                    "always",
+                                    "never"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "verbose_description" : "DEPRECATED: Use datacenter notification settings instead.\nControl how often the daily update job should send out notifications:\n* 'auto' daily for systems with a valid subscription, as those are assumed to be  production-ready and thus should know about pending updates.\n* 'always' every update, if there are new pending updates.\n* 'never' never send a notification for new pending updates.\n"
+                              },
+                              "replication" : {
+                                 "description" : "UNUSED - Use datacenter notification settings instead.",
+                                 "enum" : [
+                                    "always",
+                                    "never"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "target-fencing" : {
+                                 "description" : "UNUSED - Use datacenter notification settings instead.",
+                                 "format_description" : "TARGET",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "target-package-updates" : {
+                                 "description" : "UNUSED - Use datacenter notification settings instead.",
+                                 "format_description" : "TARGET",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "target-replication" : {
+                                 "description" : "UNUSED - Use datacenter notification settings instead.",
+                                 "format_description" : "TARGET",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "registered-tags" : {
+                           "description" : "A list of tags that require a `Sys.Modify` on '/' to set and delete. Tags set here that are also in 'user-tag-access' also require `Sys.Modify`.",
+                           "optional" : 1,
+                           "pattern" : "(?:(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*);)*(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*)",
+                           "type" : "string",
+                           "typetext" : "<tag>[;<tag>...]"
+                        },
+                        "replication" : {
+                           "description" : "For cluster wide replication settings.",
+                           "format" : {
+                              "network" : {
+                                 "description" : "CIDR of the (sub) network that is used for replication jobs.",
+                                 "format" : "CIDR",
+                                 "format_description" : "CIDR",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "type" : {
+                                 "default" : "secure",
+                                 "default_key" : 1,
+                                 "description" : "Replication traffic is encrypted using an SSH tunnel by default. On secure, completely private networks this can be disabled to increase performance.",
+                                 "enum" : [
+                                    "secure",
+                                    "insecure"
+                                 ],
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "tag-style" : {
+                           "description" : "Tag style options.",
+                           "format" : {
+                              "case-sensitive" : {
+                                 "default" : 0,
+                                 "description" : "Controls if filtering for unique tags on update should check case-sensitive.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "color-map" : {
+                                 "description" : "Manual color mapping for tags (semicolon separated).",
+                                 "optional" : 1,
+                                 "pattern" : "(?:(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*):[0-9a-fA-F]{6}(?::[0-9a-fA-F]{6})?)(?:;(?:(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*):[0-9a-fA-F]{6}(?::[0-9a-fA-F]{6})?))*",
+                                 "type" : "string",
+                                 "typetext" : "<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]"
+                              },
+                              "ordering" : {
+                                 "default" : "alphabetical",
+                                 "description" : "Controls the sorting of the tags in the web-interface and the API update.",
+                                 "enum" : [
+                                    "config",
+                                    "alphabetical"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "shape" : {
+                                 "default" : "circle",
+                                 "description" : "Tag shape for the web ui tree. 'full' draws the full tag. 'circle' draws only a circle with the background color. 'dense' only draws a small rectancle (useful when many tags are assigned to each guest).'none' disables showing the tags.",
+                                 "enum" : [
+                                    "full",
+                                    "circle",
+                                    "dense",
+                                    "none"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "u2f" : {
+                           "description" : "u2f",
+                           "format" : {
+                              "appid" : {
+                                 "description" : "U2F AppId URL override. Defaults to the origin.",
+                                 "format_description" : "APPID",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "origin" : {
+                                 "description" : "U2F Origin override. Mostly useful for single nodes with a single URL.",
+                                 "format_description" : "URL",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "user-tag-access" : {
+                           "description" : "Privilege options for user-settable tags",
+                           "format" : {
+                              "user-allow" : {
+                                 "default" : "free",
+                                 "description" : "Controls tag usage for users without `Sys.Modify` on `/` by either allowing `none`, a `list`, already `existing` or anything (`free`).",
+                                 "enum" : [
+                                    "none",
+                                    "list",
+                                    "existing",
+                                    "free"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "verbose_description" : "Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are alwaysunrestricted.\n* 'none' no tags are usable.\n* 'list' tags from 'user-allow-list' are usable.\n* 'existing' like list, but already existing tags of resources are also usable.\n* 'free' no tag restrictions.\n"
+                              },
+                              "user-allow-list" : {
+                                 "description" : "List of tags users are allowed to set and delete (semicolon separated) for 'user-allow' values 'list' and 'existing'.",
+                                 "optional" : 1,
+                                 "pattern" : "(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*)(?:;(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*))*",
+                                 "type" : "string",
+                                 "typetext" : "<tag>[;<tag>...]"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "webauthn" : {
+                           "description" : "webauthn configuration",
+                           "format" : {
+                              "allow-subdomains" : {
+                                 "default" : 1,
+                                 "description" : "Whether to allow the origin to be a subdomain, rather than the exact URL.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "id" : {
+                                 "description" : "Relying party ID. Must be the domain name without protocol, port or location. Changing this *will* break existing credentials.",
+                                 "format_description" : "DOMAINNAME",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "origin" : {
+                                 "description" : "Site origin. Must be a `https://` URL (or `http://localhost`). Should contain the address users type in their browsers to access the web interface. Changing this *may* break existing credentials.",
+                                 "format_description" : "URL",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "rp" : {
+                                 "description" : "Relying party name. Any text identifier. Changing this *may* break existing credentials.",
+                                 "format_description" : "RELYING_PARTY",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        }
+                     },
                      "type" : "object"
                   }
                },
@@ -24228,27 +24927,7 @@ const apiSchema = [
                         },
                         "location" : {
                            "description" : "The location of the cluster.",
-                           "format" : {
-                              "latitude" : {
-                                 "description" : "The latitude of the nodes location in degrees.",
-                                 "maximum" : 90,
-                                 "minimum" : -90,
-                                 "type" : "number"
-                              },
-                              "longitude" : {
-                                 "description" : "The longitude of the nodes location in degrees.",
-                                 "maximum" : 180,
-                                 "minimum" : -180,
-                                 "type" : "number"
-                              },
-                              "name" : {
-                                 "description" : "The name of the location of this node",
-                                 "maxLength" : 128,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<name>"
-                              }
-                           },
+                           "format" : "pve-node-location",
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "latitude=<number> ,longitude=<number> [,name=<name>]"
@@ -24925,6 +25604,7 @@ const apiSchema = [
                                                       },
                                                       "comment" : {
                                                          "description" : "Descriptive comment.",
+                                                         "format" : "pve-fw-comment-spec",
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -25239,6 +25919,7 @@ const apiSchema = [
                                                 },
                                                 "comment" : {
                                                    "description" : "Descriptive comment.",
+                                                   "format" : "pve-fw-comment-spec",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -25502,6 +26183,7 @@ const apiSchema = [
                                                          "typetext" : "<string>"
                                                       },
                                                       "comment" : {
+                                                         "format" : "pve-fw-comment-spec",
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -25644,6 +26326,7 @@ const apiSchema = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "comment" : {
+                                                   "format" : "pve-fw-comment-spec",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -25820,6 +26503,7 @@ const apiSchema = [
                                                                "typetext" : "<string>"
                                                             },
                                                             "comment" : {
+                                                               "format" : "pve-fw-comment-spec",
                                                                "optional" : 1,
                                                                "type" : "string",
                                                                "typetext" : "<string>"
@@ -26018,6 +26702,7 @@ const apiSchema = [
                                                          "typetext" : "<string>"
                                                       },
                                                       "comment" : {
+                                                         "format" : "pve-fw-comment-spec",
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -26145,6 +26830,7 @@ const apiSchema = [
                                              "additionalProperties" : 0,
                                              "properties" : {
                                                 "comment" : {
+                                                   "format" : "pve-fw-comment-spec",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -29249,6 +29935,12 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
+                                                "host-tunnel" : {
+                                                   "description" : "Enable host GSO over UDP tunnel offload. (VirtIO only).",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Enable host GSO over UDP tunnel offload (VirtIO only). Requires QEMU > 10.2 and guest and host kernel support. Disabled by default starting with machine version 11.0+pve1 to work around an issue with the virtio-net driver in guest kernels. With machine versions 10.2 and 11.0, this is enabled by default."
+                                                },
                                                 "i82551" : {
                                                    "alias" : "macaddr",
                                                    "keyAlias" : "model"
@@ -31699,6 +32391,12 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
+                                                "host-tunnel" : {
+                                                   "description" : "Enable host GSO over UDP tunnel offload. (VirtIO only).",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Enable host GSO over UDP tunnel offload (VirtIO only). Requires QEMU > 10.2 and guest and host kernel support. Disabled by default starting with machine version 11.0+pve1 to work around an issue with the virtio-net driver in guest kernels. With machine versions 10.2 and 11.0, this is enabled by default."
+                                                },
                                                 "i82551" : {
                                                    "alias" : "macaddr",
                                                    "keyAlias" : "model"
@@ -31806,7 +32504,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
+                                             "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,host-tunnel=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -34165,6 +34863,12 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
+                                                "host-tunnel" : {
+                                                   "description" : "Enable host GSO over UDP tunnel offload. (VirtIO only).",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Enable host GSO over UDP tunnel offload (VirtIO only). Requires QEMU > 10.2 and guest and host kernel support. Disabled by default starting with machine version 11.0+pve1 to work around an issue with the virtio-net driver in guest kernels. With machine versions 10.2 and 11.0, this is enabled by default."
+                                                },
                                                 "i82551" : {
                                                    "alias" : "macaddr",
                                                    "keyAlias" : "model"
@@ -34272,7 +34976,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
+                                             "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,host-tunnel=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -37027,6 +37731,7 @@ const apiSchema = [
                                              "additionalProperties" : 0,
                                              "properties" : {
                                                 "nocheck" : {
+                                                   "description" : "Do not check whether the VM is running, used internally during migration. Only root may use this option.",
                                                    "optional" : 1,
                                                    "type" : "boolean",
                                                    "typetext" : "<boolean>"
@@ -37282,7 +37987,7 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "format" : {
-                                             "description" : "Target format for file storage. Only valid for full clone.",
+                                             "description" : "Target disk format. Only valid for full clone. If the target storage does not support the format, the storage's default format is used instead.",
                                              "enum" : [
                                                 "raw",
                                                 "qcow2",
@@ -37755,7 +38460,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "format" : {
-                                             "description" : "Target Format.",
+                                             "description" : "Target disk format. Only used when moving to a different storage. If the target storage does not support the format, the storage's default format is used instead.",
                                              "enum" : [
                                                 "raw",
                                                 "qcow2",
@@ -40673,6 +41378,12 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
+                                    "host-tunnel" : {
+                                       "description" : "Enable host GSO over UDP tunnel offload. (VirtIO only).",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "verbose_description" : "Enable host GSO over UDP tunnel offload (VirtIO only). Requires QEMU > 10.2 and guest and host kernel support. Disabled by default starting with machine version 11.0+pve1 to work around an issue with the virtio-net driver in guest kernels. With machine versions 10.2 and 11.0, this is enabled by default."
+                                    },
                                     "i82551" : {
                                        "alias" : "macaddr",
                                        "keyAlias" : "model"
@@ -40780,7 +41491,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
+                                 "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,host-tunnel=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -44705,6 +45416,7 @@ const apiSchema = [
                                                       },
                                                       "comment" : {
                                                          "description" : "Descriptive comment.",
+                                                         "format" : "pve-fw-comment-spec",
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -45019,6 +45731,7 @@ const apiSchema = [
                                                 },
                                                 "comment" : {
                                                    "description" : "Descriptive comment.",
+                                                   "format" : "pve-fw-comment-spec",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -45282,6 +45995,7 @@ const apiSchema = [
                                                          "typetext" : "<string>"
                                                       },
                                                       "comment" : {
+                                                         "format" : "pve-fw-comment-spec",
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -45424,6 +46138,7 @@ const apiSchema = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "comment" : {
+                                                   "format" : "pve-fw-comment-spec",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -45600,6 +46315,7 @@ const apiSchema = [
                                                                "typetext" : "<string>"
                                                             },
                                                             "comment" : {
+                                                               "format" : "pve-fw-comment-spec",
                                                                "optional" : 1,
                                                                "type" : "string",
                                                                "typetext" : "<string>"
@@ -45798,6 +46514,7 @@ const apiSchema = [
                                                          "typetext" : "<string>"
                                                       },
                                                       "comment" : {
+                                                         "format" : "pve-fw-comment-spec",
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -45925,6 +46642,7 @@ const apiSchema = [
                                              "additionalProperties" : 0,
                                              "properties" : {
                                                 "comment" : {
+                                                   "format" : "pve-fw-comment-spec",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -52507,6 +53225,71 @@ const apiSchema = [
                      },
                      {
                         "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "List all known Ceph releases, marking which ones can be installed on this node.",
+                              "method" : "GET",
+                              "name" : "releases",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "available" : {
+                                          "description" : "Whether this release can be installed on this node, that is, it has packages for the node's architecture and current Proxmox VE release.",
+                                          "type" : "boolean"
+                                       },
+                                       "is-default" : {
+                                          "description" : "Whether this is the release recommended for new installations.",
+                                          "type" : "boolean"
+                                       },
+                                       "release" : {
+                                          "description" : "The Ceph release code name, for example 'squid'.",
+                                          "type" : "string"
+                                       },
+                                       "unsupported" : {
+                                          "description" : "Whether this release is not (yet) supported for production use.",
+                                          "type" : "boolean"
+                                       },
+                                       "version" : {
+                                          "description" : "The Ceph release major version, for example '19.2'.",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/ceph/releases",
+                        "text" : "releases"
+                     },
+                     {
+                        "info" : {
                            "POST" : {
                               "allowtoken" : 1,
                               "description" : "Create the initial Ceph default configuration and set up symlinks. Idempotent on re-call: if a [global] section already exists in ceph.conf, the existing fsid / auth / pool defaults are preserved and most parameters are silently ignored.",
@@ -52728,6 +53511,95 @@ const apiSchema = [
                         "leaf" : 1,
                         "path" : "/nodes/{node}/ceph/restart",
                         "text" : "restart"
+                     },
+                     {
+                        "info" : {
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Rolling restart of all Ceph OSDs on this node. Each OSD is restarted only after Ceph reports the previous one is back up and the next one is safe to stop. For non-OSD Ceph daemons, use the cluster-wide endpoint at /cluster/ceph/restart-bulk. The 'noout' flag is applied only to the OSDs targeted by this run, so unrelated OSDs on other nodes that fail during the restart window still get out-marked normally. Aborting the resulting task (for example via 'pvesh task stop') triggers a SIGTERM handler that unsets the per-OSD 'noout' if this endpoint set it. Per-daemon progress is checkpointed in Ceph's config-key store ('pve/ceph-bulk-restart/node/<node>'), so an aborted run can be resumed by re-issuing this endpoint with 'resume=1'.",
+                              "method" : "POST",
+                              "name" : "restart_bulk",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "dry-run" : {
+                                       "default" : 0,
+                                       "description" : "Log the plan (which OSDs would be restarted, in what order) without actually doing anything.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "force" : {
+                                       "default" : 0,
+                                       "description" : "Proceed past a HEALTH_WARN with non-benign checks like PG_DEGRADED, SLOW_OPS, or MON_DOWN. HEALTH_ERR is always fatal regardless. The operator is responsible for confirming the cluster is stable enough to absorb a rolling restart.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "only-outdated" : {
+                                       "default" : 0,
+                                       "description" : "Restart only OSDs whose running version differs from the locally-installed ceph-osd binary. Useful for post-upgrade rolling restarts that should touch only daemons that need it. Refuses if the local binary version cannot be determined. Ignored on resume (the saved plan is used as-is).",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "resume" : {
+                                       "default" : 0,
+                                       "description" : "Resume an aborted bulk-restart from the checkpoint stored in Ceph's config-key store. The plan and noout decision from the prior run are honored; 'set-noout' is ignored. When false (default), the endpoint refuses to start if a checkpoint exists for this node, to avoid silently overwriting in-progress work.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "service-type" : {
+                                       "description" : "Ceph daemon type to restart. Only OSDs can be rolling-restarted on a per-node basis.",
+                                       "enum" : [
+                                          "osd"
+                                       ],
+                                       "type" : "string"
+                                    },
+                                    "set-noout" : {
+                                       "default" : 1,
+                                       "description" : "Set the 'noout' flag on each OSD targeted by this run for the duration of the rolling restart, and unset it on completion. Per-OSD rather than cluster-wide so that unrelated OSDs failing on other nodes still trigger backfill normally.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "timeout" : {
+                                       "default" : 600,
+                                       "description" : "Per-OSD timeout (in seconds). Bounds both the wait for a restarted OSD to come back up and the wait for recovery to quiesce enough that Ceph reports the next OSD safe to stop. Default sized for busy clusters where multi-TB OSDs with many PGs can need several minutes to clear peering after a restart; bump higher for very large or heavily-loaded OSDs.",
+                                       "maximum" : 1800,
+                                       "minimum" : 30,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (30 - 1800)"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/ceph/restart-bulk",
+                        "text" : "restart-bulk"
                      },
                      {
                         "info" : {
@@ -54443,7 +55315,7 @@ const apiSchema = [
                               "key" : {
                                  "description" : "Proxmox VE subscription key",
                                  "maxLength" : 32,
-                                 "pattern" : "\\s*pve([1248])([cbsp])-[0-9a-f]{10}\\s*",
+                                 "pattern" : "\\s*pve([1248])([cbsp])-(arm-)?[0-9a-f]{10}\\s*",
                                  "type" : "string"
                               },
                               "node" : {
@@ -60900,6 +61772,7 @@ const apiSchema = [
                                           },
                                           "comment" : {
                                              "description" : "Descriptive comment.",
+                                             "format" : "pve-fw-comment-spec",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -61198,6 +62071,7 @@ const apiSchema = [
                                     },
                                     "comment" : {
                                        "description" : "Descriptive comment.",
+                                       "format" : "pve-fw-comment-spec",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -62713,27 +63587,7 @@ const apiSchema = [
                               },
                               "location" : {
                                  "description" : "The location of the node. Overrides the default from the datacenter config.",
-                                 "format" : {
-                                    "latitude" : {
-                                       "description" : "The latitude of the nodes location in degrees.",
-                                       "maximum" : 90,
-                                       "minimum" : -90,
-                                       "type" : "number"
-                                    },
-                                    "longitude" : {
-                                       "description" : "The longitude of the nodes location in degrees.",
-                                       "maximum" : 180,
-                                       "minimum" : -180,
-                                       "type" : "number"
-                                    },
-                                    "name" : {
-                                       "description" : "The name of the location of this node",
-                                       "maxLength" : 128,
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<name>"
-                                    }
-                                 },
+                                 "format" : "pve-node-location",
                                  "optional" : 1,
                                  "type" : "string"
                               },
@@ -62872,27 +63726,7 @@ const apiSchema = [
                               },
                               "location" : {
                                  "description" : "The location of the node. Overrides the default from the datacenter config.",
-                                 "format" : {
-                                    "latitude" : {
-                                       "description" : "The latitude of the nodes location in degrees.",
-                                       "maximum" : 90,
-                                       "minimum" : -90,
-                                       "type" : "number"
-                                    },
-                                    "longitude" : {
-                                       "description" : "The longitude of the nodes location in degrees.",
-                                       "maximum" : 180,
-                                       "minimum" : -180,
-                                       "type" : "number"
-                                    },
-                                    "name" : {
-                                       "description" : "The name of the location of this node",
-                                       "maxLength" : 128,
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<name>"
-                                    }
-                                 },
+                                 "format" : "pve-node-location",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "latitude=<number> ,longitude=<number> [,name=<name>]"
@@ -64336,6 +65170,20 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "identifiers" : {
+                                 "default" : 0,
+                                 "description" : "Also return a record listing the distinct syslog identifiers present, for filter completion. Only honored together with 'structured'.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "kernel" : {
+                                 "default" : 0,
+                                 "description" : "Only print kernel messages.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "lastentries" : {
                                  "description" : "Limit to the last X lines. Conflicts with a range.",
                                  "minimum" : 0,
@@ -64349,6 +65197,19 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "priority" : {
+                                 "description" : "Only print messages of this syslog priority: a single level from 0 (emerg) to 7 (debug), selecting that level and everything more severe, or a 'LOW..HIGH' range. Empty means no priority filter.",
+                                 "optional" : 1,
+                                 "pattern" : "^([0-7](\\.\\.[0-7])?)?$",
+                                 "type" : "string"
+                              },
+                              "service" : {
+                                 "description" : "Only print messages whose syslog identifier matches this glob, for example 'pve*' or 'postfix/*'.",
+                                 "maxLength" : 128,
+                                 "optional" : 1,
+                                 "pattern" : "^[A-Za-z0-9_.@:*?!\\[\\]\\/-]+$",
+                                 "type" : "string"
+                              },
                               "since" : {
                                  "description" : "Display all log since this UNIX epoch. Conflicts with 'startcursor'.",
                                  "minimum" : 0,
@@ -64361,6 +65222,27 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "structured" : {
+                                 "default" : 0,
+                                 "description" : "Return one JSON object per entry with separate fields (timestamp, identifier, message, priority, ...) instead of pre-rendered text lines.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "unit" : {
+                                 "description" : "Only print messages of this systemd unit (the .service suffix is implied).",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "pattern" : "^[A-Za-z0-9_.@:-]+$",
+                                 "type" : "string"
+                              },
+                              "units" : {
+                                 "default" : 0,
+                                 "description" : "Also return a record listing the distinct systemd units present, for filter completion. Only honored together with 'structured'.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "until" : {
                                  "description" : "Display all log until this UNIX epoch. Conflicts with 'endcursor'.",

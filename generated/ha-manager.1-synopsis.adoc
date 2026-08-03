@@ -236,7 +236,7 @@ HA resource ID. This consists of a resource type followed by a resource specific
 Remove this resource from rules that reference it, deleting the rule if this resource is the only resource in the rule
 
 [[cli_ha-manager_rules_add]]
-*ha-manager rules add* `<type> <rule> --resources <string>` `[OPTIONS]`
+*ha-manager rules add* `<type> <rule>` `[OPTIONS]`
 
 Create HA rule.
 
@@ -247,6 +247,43 @@ HA rule type.
 `<rule>`: `<string>` ::
 
 HA rule identifier.
+
+
+
+
+`Conditional options:`
+
+`[type=node-affinity]` ;;
+
+`--affinity` `<negative | positive>` ('default =' `positive`)::
+
+Describes whether the HA resources are supposed to be placed on the given nodes ('positive'), or are supposed to be placed on any but the given nodes ('negative').
+
+`--comment` `<string>` ::
+
+HA rule description.
+
+`--disable` `<boolean>` ::
+
+Whether the HA rule is disabled.
+
+`--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
+
+List of cluster node names with optional priority.
+
+`--resources` `<type>:<name>{,<type>:<name>}*` ::
+
+List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
+
+`--strict` `<boolean>` ('default =' `0`)::
+
+Describes whether the node affinity rule is strict or non-strict.
+
+`[type=resource-affinity]` ;;
+
+`--affinity` `<negative | positive>` ::
+
+Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').
 
 `--comment` `<string>` ::
 
@@ -259,27 +296,6 @@ Whether the HA rule is disabled.
 `--resources` `<type>:<name>{,<type>:<name>}*` ::
 
 List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
-
-
-
-
-`Conditional options:`
-
-`[type=node-affinity]` ;;
-
-`--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
-
-List of cluster node names with optional priority.
-
-`--strict` `<boolean>` ('default =' `0`)::
-
-Describes whether the node affinity rule is strict or non-strict.
-
-`[type=resource-affinity]` ;;
-
-`--affinity` `<negative | positive>` ::
-
-Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').
 
 [[cli_ha-manager_rules_config]]
 *ha-manager rules config* `[OPTIONS]` `[FORMAT_OPTIONS]`
@@ -329,10 +345,6 @@ HA rule type.
 
 HA rule identifier.
 
-`--comment` `<string>` ::
-
-HA rule description.
-
 `--delete` `<string>` ::
 
 A list of settings you want to delete.
@@ -341,14 +353,6 @@ A list of settings you want to delete.
 
 Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.
 
-`--disable` `<boolean>` ::
-
-Whether the HA rule is disabled.
-
-`--resources` `<type>:<name>{,<type>:<name>}*` ::
-
-List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
-
 
 
 
@@ -356,9 +360,25 @@ List of HA resource IDs. This consists of a list of resource types followed by a
 
 `[type=node-affinity]` ;;
 
+`--affinity` `<negative | positive>` ('default =' `positive`)::
+
+Describes whether the HA resources are supposed to be placed on the given nodes ('positive'), or are supposed to be placed on any but the given nodes ('negative').
+
+`--comment` `<string>` ::
+
+HA rule description.
+
+`--disable` `<boolean>` ::
+
+Whether the HA rule is disabled.
+
 `--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
 
 List of cluster node names with optional priority.
+
+`--resources` `<type>:<name>{,<type>:<name>}*` ::
+
+List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
 
 `--strict` `<boolean>` ('default =' `0`)::
 
@@ -369,6 +389,18 @@ Describes whether the node affinity rule is strict or non-strict.
 `--affinity` `<negative | positive>` ::
 
 Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').
+
+`--comment` `<string>` ::
+
+HA rule description.
+
+`--disable` `<boolean>` ::
+
+Whether the HA rule is disabled.
+
+`--resources` `<type>:<name>{,<type>:<name>}*` ::
+
+List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
 
 [[cli_ha-manager_set]]
 *ha-manager set* `<sid>` `[OPTIONS]`
