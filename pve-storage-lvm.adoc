@@ -44,18 +44,40 @@ accessed by other LVs created later (which happen to be assigned the same
 physical extents). This is a costly operation, but may be required as a security
 measure in certain environments.
 +
-Storage devices that support the "write zeroes" operation will use `blkdiscard`
-to zero blocks. Otherwise, a fallback to `cstream` is performed.
+Storage devices that support the "write zeroes" operation use it to zero blocks.
+Otherwise, zeroes are written manually. The volume is processed range by range,
+according to `saferemove-stepsize`.
+
+`on-volume-remove`::
+
+Configure additional actions to run before an LV is removed.
+The LV is first renamed to `del-*`; if cleanup fails, it is kept and
+renamed to `failed-<N>-del-*`, so it can be inspected, cleaned up
+manually, or removed explicitly.
++
+Set `discard=1` to issue discard (TRIM) requests for the LV's blocks before the
+LV is removed, so thin-provisioned backing storage, such as a SAN LUN, can
+reclaim space the LV occupied. This is called "Discard Removed Volumes"
+in the web UI. Configuring the discard option fails if any backing device in
+the LV's volume group is detected as not supporting it.
++
+If `saferemove` and `discard` are both enabled, the LV is processed range by
+range. Ranges are zeroed until reaching a boundary aligned with both the
+zeroing step size and the discard granularity. The accumulated range is then
+discarded before processing continues. This prevents complete discard chunks
+from being skipped and avoids allocating the whole LV with zeroes on
+thin-provisioned backing storage before the space can be reclaimed again.
 
 `saferemove-stepsize`::
 
-Wipe step size in MiB (`blkdiscard -p` parameter value), capped to the maximum
-step size supported by the underlying storage. Up to 32 MiB (maximum) by
-default.
+Wipe step size in MiB, capped to the maximum step size supported by the
+underlying storage. Up to 32 MiB (maximum) by default.
 
 `saferemove_throughput`::
 
-Wipe throughput (`cstream -t` parameter value), up to 10 MiB/s by default.
+Limits wipe throughput. If the backing storage supports the "write zeroes"
+operation, throughput is unlimited by default. Otherwise, manually written
+zeroes are limited to 10 MiB/s by default.
 
 `snapshot-as-volume-chain`::
 
