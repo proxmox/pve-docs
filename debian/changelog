@@ -1,3 +1,23 @@
+pve-docs (9.2.5) trixie; urgency=medium
+
+  * pveceph: document the Ceph keyrings that Proxmox VE manages and where
+    each one lives, which userspace and kernel clients support the aes256k
+    cipher, and how to migrate the cephx keys of an upgraded cluster to it.
+    Ceph 19.2.6 and 20.2.4 report every key still on the old cipher as
+    insecure, so this affects every cluster that upgrades to them.
+
+  * pveceph: document how to mute a Ceph health check, give the mute a
+    duration, and unmute it again, both with 'ceph health mute' and in the
+    health panel of the web interface. A check that stays, whether it cannot
+    be resolved or is scheduled for a later maintenance window, keeps the
+    cluster out of HEALTH_OK and buries the ones that can still be acted on.
+
+  * update static/schema information for API viewer and generated synopsis.
+
+  * cifs: fix description of default for 'smbversion' setting
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 26 Aug 2026 19:48:04 +0200
+
 pve-docs (9.2.4) trixie; urgency=medium
 
   * ha-manager: document the node and resource affinity rules, including
