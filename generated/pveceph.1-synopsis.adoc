@@ -1,6 +1,11 @@
 [[cli_pveceph]]
 *pveceph* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pveceph_auth_status]]
+*pveceph auth status* `[FORMAT_OPTIONS]`
+
+Get the cephx key cipher status, for judging the aes256k key migration.
+
 [[cli_pveceph_createmgr]]
 *pveceph createmgr*
 
@@ -158,7 +163,7 @@ Create Ceph Metadata Server (MDS)
 
 `--hotstandby` `<boolean>` ('default =' `0`)::
 
-Determines whether a ceph-mds daemon should poll and replay the log of an active MDS. Faster switch on MDS failure, but needs more idle resources.
+Determines whether a ceph-mds daemon should poll and replay the log of an active MDS. Faster switch on MDS failure, but needs more idle resources. Deprecated: the setting was removed in Ceph 14.1.1.
 
 `--name` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ('default =' `nodename`)::
 

@@ -12507,7 +12507,7 @@ const apiSchema = [
                               },
                               "force" : {
                                  "default" : 0,
-                                 "description" : "Proceed past a HEALTH_WARN with non-benign checks like PG_DEGRADED, SLOW_OPS, or MON_DOWN. HEALTH_ERR is always fatal regardless. The operator is responsible for confirming the cluster is stable enough to absorb a rolling restart.",
+                                 "description" : "Proceed past a HEALTH_WARN with non-benign checks like PG_DEGRADED, SLOW_OPS, or MON_DOWN. A blocking HEALTH_ERR is fatal regardless of this flag. Checks that ceph reports as muted, and checks known to be harmless for a rolling restart, never block and are named in the task log. The cluster-wide OSD map flags are only ever evaluated for an OSD restart, since they govern nothing a mon, mgr or mds restart touches. The operator is responsible for confirming the cluster is stable enough to absorb a rolling restart.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -12810,6 +12810,118 @@ const apiSchema = [
                   "leaf" : 0,
                   "path" : "/cluster/ceph/flags",
                   "text" : "flags"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Mute or unmute a Ceph health check. A muted check no longer counts towards the cluster status, but stays visible and keeps being evaluated.",
+                              "method" : "PUT",
+                              "name" : "health_mute",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "code" : {
+                                       "description" : "The health check to mute, as reported by 'ceph health', for example 'AUTH_INSECURE_CLIENT_KEY_TYPE'.",
+                                       "maxLength" : 64,
+                                       "pattern" : "[A-Z][A-Z0-9_]+",
+                                       "type" : "string"
+                                    },
+                                    "sticky" : {
+                                       "default" : 0,
+                                       "description" : "Keep the mute even when the check gets worse. Without this a mute clears itself as soon as the number of affected items grows, which brings the check back to attention. Only used when muting.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "ttl" : {
+                                       "description" : "How long the mute lasts, for example '2h', '3d' or '1w'. Without it the mute has no expiry. Only used when muting.",
+                                       "optional" : 1,
+                                       "pattern" : "\\d+[ \\t]*(?:s|sec|seconds?|m|min|minutes?|h|hr|hours?|d|days?|w|wk|weeks?|mo|months?|y|yr|years?)(?:[ \\t]*\\d+[ \\t]*(?:s|sec|seconds?|m|min|minutes?|h|hr|hours?|d|days?|w|wk|weeks?|mo|months?|y|yr|years?))*(?!\\n)",
+                                       "type" : "string"
+                                    },
+                                    "value" : {
+                                       "description" : "Whether to mute (true) or unmute (false) the check.",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/ceph/health-mute/{code}",
+                        "text" : "{code}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Get the currently muted Ceph health checks.",
+                        "method" : "GET",
+                        "name" : "health_mute_index",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit",
+                                 "Datastore.Audit"
+                              ],
+                              "any",
+                              1
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "code" : {
+                                    "description" : "The muted health check.",
+                                    "type" : "string"
+                                 },
+                                 "sticky" : {
+                                    "description" : "Whether the mute survives the check getting worse.",
+                                    "type" : "boolean"
+                                 },
+                                 "summary" : {
+                                    "description" : "What the check reports.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "ttl" : {
+                                    "description" : "When the mute expires. Absent if it does not.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/ceph/health-mute",
+                  "text" : "health-mute"
                }
             ],
             "info" : {
@@ -51748,7 +51860,7 @@ const apiSchema = [
                                        "properties" : {
                                           "hotstandby" : {
                                              "default" : 0,
-                                             "description" : "Determines whether a ceph-mds daemon should poll and replay the log of an active MDS. Faster switch on MDS failure, but needs more idle resources.",
+                                             "description" : "Determines whether a ceph-mds daemon should poll and replay the log of an active MDS. Faster switch on MDS failure, but needs more idle resources. Deprecated: the setting was removed in Ceph 14.1.1.",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -53531,7 +53643,7 @@ const apiSchema = [
                                     },
                                     "force" : {
                                        "default" : 0,
-                                       "description" : "Proceed past a HEALTH_WARN with non-benign checks like PG_DEGRADED, SLOW_OPS, or MON_DOWN. HEALTH_ERR is always fatal regardless. The operator is responsible for confirming the cluster is stable enough to absorb a rolling restart.",
+                                       "description" : "Proceed past a HEALTH_WARN with non-benign checks like PG_DEGRADED, SLOW_OPS, or MON_DOWN. A blocking HEALTH_ERR is fatal regardless of this flag. Checks that ceph reports as muted, and checks known to be harmless for a rolling restart, never block and are named in the task log. The cluster-wide OSD map flags are only ever evaluated for an OSD restart, since they govern nothing a mon, mgr or mds restart touches. The operator is responsible for confirming the cluster is stable enough to absorb a rolling restart.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -54494,7 +54606,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage (and fleecing storage when fleecing is used). The 'tmpdir', 'dumpdir', 'script' and 'job-id' parameters are restricted to the 'root@pam' user. The 'prune-backups' setting requires 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'.",
+                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage (and fleecing storage when fleecing is used). The 'tmpdir', 'dumpdir', 'script' and 'job-id' parameters are restricted to the 'root@pam' user. The 'prune-backups' setting requires 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'. The 'stop' parameter requires 'Sys.Modify' on '/nodes/{node}'",
                            "user" : "all"
                         },
                         "protected" : 1,
