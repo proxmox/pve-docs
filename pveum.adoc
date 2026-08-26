@@ -115,6 +115,50 @@ To use an API token, set the HTTP header 'Authorization' to the displayed value
 of the form `PVEAPIToken=USER@REALM!TOKENID=UUID` when making API requests, or
 refer to your API client's documentation.
 
+[[pveum_token_policy]]
+Token Policy
+~~~~~~~~~~~~
+
+The optional `token-policy` datacenter option sets cluster-wide rules for
+creating and updating API tokens, as compliance standards like PCI DSS,
+SOC 2, or ISO 27001 often require, most notably a limited credential
+lifetime. The policy can require an expiration date for new tokens, limit
+how far in the future the expiration date can be set, forbid extending the
+expiration date of existing tokens, and require privilege separation.
+
+WARNING: The policy is enforced by the nodes that handle a token request,
+so in a cluster, only configure it once all nodes run a version supporting
+it. Nodes running an older version ignore the policy, and changing
+datacenter options on such a node removes it from the configuration.
+
+Changing the policy requires `Sys.Modify` on `/`, like any other datacenter
+option. Configure it in the web interface under *Datacenter -> Options ->
+API Token Policy*, or on the command line:
+
+[source,bash]
+----
+pvesh set /cluster/options --token-policy max-lifetime=7776000
+----
+
+`max-lifetime` is set in seconds (7776000 above is 90 days), while the web
+interface takes days. It counts from when the expiration date is set, that
+is on token creation or when an update changes it, and implies
+`require-expiry`, as a token without an expiration date would exceed any
+maximum lifetime.
+
+The policy only applies when a token is created or updated, and only to
+values that actually change. Existing tokens stay valid even if they do not
+conform to a policy configured later, and unrelated updates of such tokens
+keep working. A new expiration date must be within the limit. With
+`disallow-expiry-extension`, the expiration date of an existing token can
+only be shortened, or set if it has none. Tokens can always be deleted and
+recreated.
+
+NOTE: The policy also applies to tokens that other tools create through the
+API, for example when adding the cluster as a remote to Proxmox Datacenter
+Manager. If such a tool cannot create a compliant token, create one manually
+and use that in the tool instead.
+
 [[pveum_resource_pools]]
 Resource Pools
 --------------
