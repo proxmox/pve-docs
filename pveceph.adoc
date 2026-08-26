@@ -1294,6 +1294,500 @@ NOTE: Muting a check means that you accept the risk it describes for as long as
 the mute lasts, so mute deliberately.
 
 
+[[pveceph_keyrings]]
+Ceph Keyrings
+~~~~~~~~~~~~~
+
+Ceph authenticates its daemons and clients with cephx keys, which are stored in
+keyring files. {pve} keeps the keyrings of a managed cluster in two places, and
+the difference matters whenever a key changes.
+
+The authoritative `client.admin` keyring is
+`/etc/pve/priv/ceph.client.admin.keyring`, not the one in `/etc/ceph`. {pve}
+stores it on the xref:chapter_pmxcfs[configuration file system (pmxcfs)], which
+syncs to every node in real time. Write it once on any node, no copying is
+needed. Keyrings for external Ceph clusters are stored in
+`/etc/pve/priv/ceph/<STORAGE_ID>.keyring`.
+
+The per-daemon keyrings below `/var/lib/ceph` are local to their node and are
+not synced. Update them on the node the daemon runs on.
+
+WARNING: The file `/etc/pve/priv/ceph.mon.keyring` holds the `mon.` key as well,
+and `pveceph mon create` passes that file to `ceph-mon --mkfs`. If you change
+the `mon.` key without updating that file, every monitor created later boots
+with a stale key and can never join the cluster. Always merge a new key into
+that file, never overwrite it, as it also holds the `client.admin` key.
+
+[[pveceph_cipher_support]]
+Key Cipher Support
+^^^^^^^^^^^^^^^^^^
+
+Ceph Squid 19.2.6 and Ceph Tentacle 20.2.4 added a key cipher called `aes256k`,
+which fixes CVE-2025-30156, an authentication bypass caused by a misuse of
+AES-CBC. Whether a key can use the new cipher depends on the client that reads
+it.
+
+The userspace clients ship with Ceph itself, so `librados`, `librbd`, and
+`libcephfs` understand `aes256k` as soon as the packages are upgraded. Virtual
+machines normally use `librbd`.
+
+The Linux kernel clients are separate. They support `aes256k` starting with
+kernel 7.0. A node must run a supported kernel, not merely have one installed.
+{pve} 9 can use such a key while running kernel 7.0 or newer, but its 6.14 and
+6.17 kernels cannot. {pve} 8 does not provide a kernel that supports the new
+cipher.
+
+Migrate a client key only if every client that uses it supports `aes256k`. Every
+node that can use the key through an in-kernel RBD or CephFS client must run
+kernel 7.0 or newer. Consider these {pve} consumers:
+
+* Containers always use the RBD kernel client, regardless of the storage's
+`krbd` setting.
+* Virtual machines use the RBD kernel client when the storage has `krbd`
+enabled.
+* CephFS uses the kernel client by default. Enabling the storage's `fuse` option
+switches it to the userspace client.
+
+Also check external hosts that map RBD images or mount CephFS with the same key.
+
+[[pveceph_cephx_migration]]
+Migrate cephx Keys to the aes256k Cipher
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After an upgrade to Ceph Squid 19.2.6 or Ceph Tentacle 20.2.4, the cluster
+reports every key that still uses the old cipher as insecure, through six health
+checks. Two of them are errors, `AUTH_INSECURE_SERVICE_TICKETS` and
+`AUTH_INSECURE_SERVICE_KEY_TYPE`, so the cluster status changes to 'HEALTH_ERR'.
+Nothing breaks: all daemons keep running and the storage stays available.
+Migrate the keys to get the cluster back to a healthy state.
+
+NOTE: These health checks do not block the rolling restart of the Ceph daemons
+in the {pve} web interface. Finish the upgrade first, then migrate the keys.
+
+To see where a cluster stands, run `pveceph auth status`. It reports which keys
+still use the old cipher, whether the service and client keys can be migrated
+yet, and the kernel of every node. The local node's kernel comes from `uname`,
+the others from what their Ceph daemons reported when they started, which the
+report says per node. A node running no Ceph daemon is listed as unknown.
+
+Ceph enforces the order of the migration. No key can use the new cipher before
+every monitor in the quorum runs the new binaries, so finish the rolling restart
+of all Ceph daemons first. Then migrate the keys in this order:
+
+1. Rotate the service keys and switch the service tickets over, which clears
+both errors. {pve} has a helper for this.
+2. Rotate the client keys, `client.admin` included, if your clients can use the
+new cipher.
+3. Drop the old cipher, which clears the last two warnings.
+
+Rotate the Service Keys
+^^^^^^^^^^^^^^^^^^^^^^^
+
+First decide which cipher the monitors should use for newly created keys. This
+choice applies to client and service keys, so the helper does not change the
+long-term setting. During a live key swap, the helper temporarily sets
+`auth_preferred_cipher` to `aes256k`, because Ceph cannot select a cipher
+explicitly when it creates a pending key. The helper restores the previous
+value when it finishes. If a run leaves the temporary value in place, the next
+run with `--apply` attempts to restore it before continuing.
+
+[source,bash]
+----
+ceph mon set auth_preferred_cipher aes256k
+----
+
+Set it if every client of this cluster can already use the new cipher. A manager
+or metadata server created afterwards then gets the new cipher too, instead of
+raising the error again. Leave it at `aes` if you still have to create keys for
+kernel clients that do not support `aes256k` yet, and rotate any daemon that is
+added during the migration by hand. Either way you can pass `--key-type` on a
+single `ceph auth` command to override the default for that one key. OSDs are
+unaffected, as `ceph-volume` generates their keys locally and already uses the
+new cipher.
+
+Then use the helper that {pve} ships for the rotation itself. It checks that the
+monitors accept the new cipher, rotates the key of every MGR, MDS, and OSD one
+daemon at a time, writes the new key where that daemon reads it from, and
+switches the service tickets over at the end. It runs as a dry run and shows you
+the plan, unless you pass `--apply`:
+
+[source,bash]
+----
+/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys
+----
+
+Run the helper on one node only. It reaches the other nodes over SSH and drives
+the whole cluster from that node. For each daemon type it touches, the helper
+takes the same lock as the rolling restart in the web interface. This lock is
+advisory: Ceph's configuration store has no compare-and-swap operation, so two
+jobs started at the same time can both acquire it. Do not start another helper
+or a rolling restart until the current run finishes.
+
+A daemon that is stopped is migrated as well. Ceph does not list it, so the
+helper takes it from what each node reports about itself, writes the key where
+that daemon reads it, and leaves the daemon stopped. Otherwise a single stopped
+daemon would block the service ticket switch at the end of the migration.
+
+It also repairs a stale `mon.` key in `/etc/pve/priv/ceph.mon.keyring` on its
+own, without `--rotate-mon-key` and without restarting anything, since that
+copy only matters for monitors created later.
+
+Pass `--help` for the full list of options. Some are worth knowing about here:
+
+`--only <SCOPE>`:: Restrict the run to `mon`, to one daemon type, such as
+`--only mgr`, or to a single daemon, such as `--only osd.3`. Several can be
+given at once, either comma-separated or by repeating the option. Use this to
+try the migration on a few daemons first, or to repair a daemon that was left
+behind. A restricted run does not switch the service tickets over, as it cannot
+know that the keys it skipped are migrated. This only scopes the daemon keys and
+the `mon.` key. A client key is rotated whenever its own option asks for it.
+
+`--rotate-mon-key`:: Also rotate the shared `mon.` key. Ceph does not report
+that key as insecure, because it lives in the monitor keyrings rather than in
+the authentication database, so rotating it is not needed to clear either error.
+It is the most privileged key in the cluster though, so you may still want it on
+the new cipher. This restarts every monitor, one at a time. Note that rotating
+it moves the key into the authentication database, after which Ceph does report
+it like any other service key, and then this option becomes required rather than
+optional.
+
+`--restart-daemons`:: Stop, rotate and start each daemon instead of swapping its
+key while it runs. Normally the helper hands the new key to the running daemon,
+so nothing is stopped and clients stay connected. It falls back to this path on
+its own for a daemon that does not take the key that way, for a standby manager,
+which cannot take one while running, and for a daemon an earlier run already
+stopped. Because that can happen at any point, the `noout` flag is set for the
+run's OSDs either way. Monitors always use this path, as they have no
+`rotate-key` command.
+
+`--rotate-client-keys`:: Also rotate the `client.bootstrap-*` keys and
+`client.crash`. {pve} does not use these keys for storage I/O, so the kernel
+version does not restrict their rotation. Ceph deployment tools can use their
+standard keyrings. The helper updates each standard
+`/var/lib/ceph/bootstrap-<type>/<cluster>.keyring` that exists on a cluster
+node. It cannot find nonstandard or external copies, which remain on the old
+key.
+
+`--rotate-admin-key`:: Also rotate `client.admin` and rewrite every copy that
+{pve} manages. This includes the authoritative keyring on the configuration
+file system, the keyring or secret of each managed Ceph storage that uses
+`client.admin`, the `client.admin` section of
+`/etc/pve/priv/ceph.mon.keyring`, and an existing copy in `/etc/ceph` on each
+node. The helper excludes storages that use `monhost`, because they refer to an
+external cluster. It also cannot update copies in scripts, on external hosts,
+or in other nonstandard locations.
++
+Before using this option, verify that the independent `mon.` credential can
+read the current admin entry. This credential provides recovery if an
+interruption leaves the authoritative admin keyring stale:
++
+[source,bash]
+----
+ceph --name mon. --keyring /etc/pve/priv/ceph.mon.keyring \
+    auth get client.admin >/dev/null
+----
++
+To recover, export the current entry with the `mon.` credential, import it into
+both keyrings on the configuration file system, and verify a fresh
+`client.admin` connection. Remove the temporary keyring afterwards:
++
+[source,bash]
+----
+ceph --name mon. --keyring /etc/pve/priv/ceph.mon.keyring \
+    auth get client.admin -o /root/client.admin.recovery.keyring
+ceph-authtool /etc/pve/priv/ceph.client.admin.keyring \
+    --import-keyring /root/client.admin.recovery.keyring
+ceph-authtool /etc/pve/priv/ceph.mon.keyring \
+    --import-keyring /root/client.admin.recovery.keyring
+ceph -s
+rm /root/client.admin.recovery.keyring
+----
+
+`--rotate-storage-key <STORAGE>`:: Rotate the key of one Ceph storage that has
+its own user, and rewrite that storage's keyring or secret. A storage that uses
+`client.admin` needs `--rotate-admin-key` instead, since that key is shared with
+the command line and with every other storage.
+
+`--assume-yes`:: Do not ask for confirmation. Without it, `--apply` still asks
+once before it starts, and declines outright when standard input is not a
+terminal, which is what happens from a script or a pipe. `-y` is a synonym.
+
+`--force`:: Continue when the cluster reports an unrelated health warning, such
+as a degraded placement group. Without this option, the helper refuses to start
+when it encounters a warning that it does not recognize. The helper never
+overrides a health error or a failed health query. It skips the health check
+when the run does not stop anything: no monitor needs a restart, the service
+cipher remains unchanged, and every daemon in the plan is already down. A
+daemon left down by an earlier run can itself cause the warning in that case.
+`--force` also overrides the kernel check for client keys. Rotating such a key
+can make every affected RBD image and CephFS mount unavailable on an unsupported
+node until it runs kernel 7.0 or newer.
+
+`--wipe-rotating-keys`:: Discard the rotating service keys at the end instead of
+waiting for them to expire, which clears
+`AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE` immediately. Every client then has to
+fetch a new ticket, and only clients running Ceph 19.2.6 or newer can, so use
+this only if all of them are upgraded.
+
+`--timeout <SECONDS>`:: How long to wait for a daemon to come back up, 600 by
+default.
+
+After a successful unrestricted run, `ceph -s` no longer reports
+`AUTH_INSECURE_SERVICE_KEY_TYPE` or `AUTH_INSECURE_SERVICE_TICKETS`.
+
+The helper records pre-rotation daemon keys and migration progress in
+`/etc/pve/priv/cephx-key-migration.json`. It uses this information to continue
+recorded work after an interruption. For example, it can recover a daemon that
+was left stopped after Ceph stopped listing it. It also clears only the `noout`
+flags that it set. If it finds a pending key that it cannot account for on an
+entity it would touch, it stops and explains how to commit or clear that key. A
+pending key on an unrelated client entity is only reported.
+
+That file is the only copy of the pre-rotation keys, so keep it until you are
+satisfied that the cluster is healthy, then delete it, as it holds them in plain
+text. A file left over from a different cluster makes the helper refuse to
+start.
+
+Rotate the Service Keys by Hand
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you cannot use the helper, Ceph documents the whole procedure for a cluster
+that is not managed by cephadm
+footnote:[Upgrading and rotating cephx keys
+{cephdocs-url}/rados/configuration/auth-config-ref/#cephx-upgrade].
+Two of those steps need different handling on {pve}, and both fail silently if
+you miss them.
+
+Upstream's last steps cover the client keys as well. Read
+<<pveceph_cephx_migration_clients,Rotate the Client Keys>> below before you
+follow them, in particular the warning about `client.osd-lockbox` keys, which
+must never be rotated.
+
+The shared `mon.` key has to be merged into `/etc/pve/priv/ceph.mon.keyring` as
+well, because `pveceph mon create` feeds that file to `ceph-mon --mkfs`. Without
+it, every monitor created later cannot join the cluster:
+
+[source,bash]
+----
+ceph auth rotate --key-type=aes256k mon. -o /root/mon.keyring
+ceph-authtool /etc/pve/priv/ceph.mon.keyring --import-keyring /root/mon.keyring
+----
+
+An OSD keyring lives on a tmpfs that `ceph-volume` rebuilds on every boot,
+priming it from the `osd_key` entry in the bluestore label of the OSD's block
+device. Writing only the keyring file therefore works until the next reboot,
+after which the OSD comes back with its old key and can no longer authenticate.
+The upstream procedure covers the label as an optional step and locates the
+device with `ceph-volume lvm list`. On {pve} the `block` symlink in the OSD's
+data directory already points at it, and priming the data directory from the
+label afterwards makes the new key effective without writing it twice.
+
+Set the `noout` flag before you stop the first OSD, or the monitors start
+marking a stopped OSD out after at least ten minutes and the cluster begins to
+rebalance:
+
+[source,bash]
+----
+ceph osd set noout
+----
+
+Then, for the OSD with the ID 3, on its node:
+
+[source,bash]
+----
+systemctl stop ceph-osd@3
+ceph osd down 3
+ceph auth rotate --key-type=aes256k osd.3 -o /root/osd.3.keyring
+KEY=$(ceph-authtool /root/osd.3.keyring -n osd.3 --print-key)
+ceph-bluestore-tool set-label-key --dev /var/lib/ceph/osd/ceph-3/block \
+    --key osd_key --value "$KEY"
+----
+
+NOTE: A stopped OSD keeps its block device open for a moment longer, so
+`set-label-key` can fail with a device busy error right after `systemctl stop`.
+Wait a few seconds and run it again. Do not start the OSD before the label is
+written, as its key in the authentication database has already changed.
+
+Check the label before you rebuild the data directory from it. `whoami` has to
+be the ID of this OSD and `ceph_fsid` the FSID of this cluster. If they are not,
+the device belongs to another OSD, and priming it would overwrite that OSD's
+identity as well as its key:
+
+[source,bash]
+----
+ceph-bluestore-tool show-label --dev /var/lib/ceph/osd/ceph-3/block
+----
+
+Then rebuild the data directory and start the OSD again:
+
+[source,bash]
+----
+ceph-bluestore-tool prime-osd-dir --dev /var/lib/ceph/osd/ceph-3/block \
+    --path /var/lib/ceph/osd/ceph-3 --no-mon-config
+chown -R ceph:ceph /var/lib/ceph/osd/ceph-3
+systemctl start ceph-osd@3
+----
+
+Once every OSD is done, unset the flag again:
+
+[source,bash]
+----
+ceph osd unset noout
+----
+
+Remove the keyring files that the rotations leave in `/root` afterwards, as they
+hold the keys of your cluster in plain text.
+
+[[pveceph_cephx_migration_clients]]
+Rotate the Client Keys
+^^^^^^^^^^^^^^^^^^^^^^
+
+Migrate a client key only if every client that uses it supports `aes256k`. See
+xref:pveceph_cipher_support[Key Cipher Support] for the userspace and kernel
+requirements. If a client does not meet them, leave its key on the old cipher.
+`AUTH_INSECURE_CLIENT_KEY_TYPE` then remains as a warning, but the cluster
+returns to 'HEALTH_WARN' after the service keys are migrated.
+
+Rotating `client.admin` makes the command-line interface unavailable until the
+new key is imported. To recover from an interrupted helper run, use the
+independent `mon.` credential described above. For a manual rotation, create and
+test a temporary admin identity instead:
+
+[source,bash]
+----
+ceph auth get-or-create client.admin-backup mon 'allow *' -o /root/backup.keyring
+ceph -n client.admin-backup --keyring /root/backup.keyring -s
+----
+
+Then rotate `client.admin` and import the new key into both keyrings on the
+configuration file system that hold it:
+
+[source,bash]
+----
+ceph auth rotate --key-type=aes256k client.admin -o /root/admin.keyring
+ceph-authtool /etc/pve/priv/ceph.client.admin.keyring --import-keyring /root/admin.keyring
+ceph-authtool /etc/pve/priv/ceph.mon.keyring --import-keyring /root/admin.keyring
+----
+
+Every node where `pveceph init` ran also has a copy in
+`/etc/ceph/ceph.client.admin.keyring`. Nothing reads it, as `ceph.conf` points
+at the one on the configuration file system, but it holds the most privileged
+key in the cluster, so replace it there too, on each node that has one.
+
+Check that the cluster is still reachable, then remove the temporary key:
+
+[source,bash]
+----
+ceph auth rm client.admin-backup
+----
+
+Rotate the keys of all other clients the same way and import each new key into
+the keyring that the client uses. Do not forget `client.crash`, whose keyring is
+at `/etc/pve/ceph/ceph.client.crash.keyring`, as `AUTH_INSECURE_CLIENT_KEY_TYPE`
+does not clear while it is left out.
+
+Storages need care of their own. Every RBD and CephFS storage keeps its own copy
+of the key it uses, whether it points at an external cluster or at the
+hyper-converged one on the node. A storage created without an explicit key holds
+a copy of `client.admin`, so rotating `client.admin` alone already cuts that
+storage off. The two storage types keep the key in a different format. An RBD
+storage holds a full keyring:
+
+[source,bash]
+----
+ceph auth get client.<ID> > /etc/pve/priv/ceph/<STORAGE_ID>.keyring
+----
+
+A CephFS storage holds only the bare key, so write that one with
+`ceph auth get-key`:
+
+[source,bash]
+----
+ceph auth get-key client.<ID> > /etc/pve/priv/ceph/<STORAGE_ID>.secret
+----
+
+WARNING: Do not rotate a `client.osd-lockbox.<UUID>` key. Encrypted OSDs use it
+to fetch their LUKS passphrase, and its persistent copy lives in the
+`ceph.cephx_lockbox_secret` LVM tag on the OSD's device rather than in a
+keyring, so a rotation leaves the two out of sync and the OSD cannot be unlocked
+at the next boot. Ceph lists such a key under
+`AUTH_INSECURE_CLIENT_KEY_TYPE`, so neither that warning can be cleared nor the
+old cipher dropped for as long as an encrypted OSD created before the upgrade
+exists. Recreating such an OSD moves it over, as `ceph-volume` generates its
+keys locally and already uses the new cipher. Otherwise, mute the warning as
+described below.
+
+Finish the Migration
+^^^^^^^^^^^^^^^^^^^^
+
+Two warnings stay as long as the monitors still allow the old cipher,
+`AUTH_INSECURE_KEYS_ALLOWED` and `AUTH_INSECURE_KEYS_CREATABLE`. Once every
+service and client key is migrated, drop the old cipher to clear both:
+
+[source,bash]
+----
+ceph mon set auth_allowed_ciphers aes256k
+----
+
+WARNING: Only run this after `ceph -s` reports neither
+`AUTH_INSECURE_SERVICE_KEY_TYPE` nor `AUTH_INSECURE_CLIENT_KEY_TYPE`. Any key
+that still uses the old cipher can no longer authenticate afterwards, and that
+includes `client.admin`, which locks you out of the command line. To recover,
+add `mon_auth_emergency_allowed_ciphers = aes,aes256k` to the `[mon]` section of
+`/etc/pve/ceph.conf` and restart every monitor. The monitors read that setting
+only at startup, so `ceph config set` cannot help there. It raises the
+`AUTH_EMERGENCY_CIPHERS_SET` warning for as long as it is in place, so remove it
+again once the keys are sorted out.
+
+`AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE` needs no action. The monitors keep
+three rotating service keys and hand out fresh ones by themselves, so it clears
+about three hours after the service tickets were switched over, or three times
+`auth_service_ticket_ttl` if you raised it. To clear it at once instead, run
+`ceph auth wipe-rotating-service-keys`. Ceph does not recommend that, as every
+client then has to fetch a new ticket and only clients running 19.2.6 or newer
+can. Sessions that are already established are not affected.
+
+Finally, remove the keyring files that the rotations left in `/root`, they hold
+the keys of your cluster in plain text.
+
+Mute the Remaining Warnings
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If kernel clients keep you from migrating the client keys, you cannot drop the
+old cipher either, so `AUTH_INSECURE_CLIENT_KEY_TYPE`,
+`AUTH_INSECURE_KEYS_ALLOWED`, and `AUTH_INSECURE_KEYS_CREATABLE` all stay.
+
+You can clear the last one outright, by telling the monitors to stop creating
+keys with the old cipher. Only do this once `auth_preferred_cipher` is
+`aes256k`, as every command that creates a key without an explicit
+`--key-type` fails otherwise:
+
+[source,bash]
+----
+ceph config set mon mon_auth_allow_insecure_key false
+----
+
+WARNING: This rejects an explicit `--key-type=aes` as well, so you can no longer
+create a key for a kernel client that does not support the new cipher. If you
+still have to add such clients, leave `mon_auth_allow_insecure_key` unset and
+mute `AUTH_INSECURE_KEYS_CREATABLE` along with the other two.
+
+NOTE: `ceph config get mon mon_auth_allow_insecure_key` reports `false` even
+while the monitors do still create such keys. As long as the option is unset,
+the monitors follow the authentication list instead, and stop creating keys with
+the old cipher by themselves once you drop it from that list.
+
+Mute the two that remain, as
+xref:pveceph_mute_health_check[Mute a Health Check] describes. Use a sticky mute
+for both: neither clears until the clients are upgraded.
+
+[source,bash]
+----
+ceph health mute AUTH_INSECURE_CLIENT_KEY_TYPE --sticky
+ceph health mute AUTH_INSECURE_KEYS_ALLOWED --sticky
+----
+
+
 [[pveceph_shutdown]]
 Shutdown {pve} + Ceph HCI Cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
