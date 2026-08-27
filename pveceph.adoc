@@ -1429,7 +1429,12 @@ It also repairs a stale `mon.` key in `/etc/pve/priv/ceph.mon.keyring` on its
 own, without `--rotate-mon-key` and without restarting anything, since that
 copy only matters for monitors created later.
 
-Pass `--help` for the full list of options. Some are worth knowing about here:
+A run without further options clears both errors: it rotates the service keys
+and switches the service tickets over. The options below cover the warnings
+that remain and can be combined into a single run, which the helper carries
+out in the order Ceph needs: the monitor key, the service daemons, the client
+keys, the service tickets, and the rotating keys. Pass `--help` for the full
+list.
 
 `--only <SCOPE>`:: Restrict the run to `mon`, to one daemon type, such as
 `--only mgr`, or to a single daemon, such as `--only osd.3`. Several can be
@@ -1513,7 +1518,9 @@ loses access to every RBD image and CephFS mount that uses such a key.
 waiting for them to expire, which clears
 `AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE` immediately. Every client then has to
 fetch a new ticket, and only clients running Ceph 19.2.6 or newer can, so use
-this only if all of them are upgraded.
+this only if all of them are upgraded. The helper refuses this option in a run
+narrowed by `--only` while the service tickets are still on the old cipher, as
+the keys would only come back on it.
 
 `--timeout <SECONDS>`:: How long to wait for a daemon to come back up, 600 by
 default.
@@ -1534,6 +1541,12 @@ over from another cluster makes the helper refuse to start.
 
 Rotate the Service Keys by Hand
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+NOTE: This section is only for a cluster where the helper cannot be used. If
+the helper ran through, continue with
+<<pveceph_cephx_migration_clients,Rotate the Client Keys>> and
+<<pveceph_cephx_finish,Finish the Migration>>, which cover the warnings that
+remain.
 
 If you cannot use the helper, Ceph documents the whole procedure for a cluster
 that is not managed by cephadm
@@ -1625,6 +1638,12 @@ hold the keys of your cluster in plain text.
 Rotate the Client Keys
 ^^^^^^^^^^^^^^^^^^^^^^
 
+NOTE: The commands below are for a cluster where the helper cannot be used. If
+the helper ran, use `--rotate-client-keys`, `--rotate-admin-key`, and
+`--rotate-storage-key` instead, which rotate the same keys and rewrite the
+copies {pve} keeps of them. Any other key, such as one for a RADOS Gateway,
+still has to be rotated by hand. The requirements below apply either way.
+
 Migrate a client key only if every client that uses it supports `aes256k`. See
 xref:pveceph_cipher_support[Key Cipher Support] for the userspace and kernel
 requirements. If a client does not meet them, leave its key on the old cipher.
@@ -1696,6 +1715,7 @@ exists. Recreating such an OSD moves it over, as `ceph-volume` generates its
 keys locally and already uses the new cipher. Otherwise, mute the warning as
 described below.
 
+[[pveceph_cephx_finish]]
 Finish the Migration
 ^^^^^^^^^^^^^^^^^^^^
 
