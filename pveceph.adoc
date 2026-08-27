@@ -1366,9 +1366,8 @@ in the {pve} web interface. Finish the upgrade first, then migrate the keys.
 
 To see where a cluster stands, run `pveceph auth status`. It reports which keys
 still use the old cipher, whether the service and client keys can be migrated
-yet, and the kernel of every node. The local node's kernel comes from `uname`,
-the others from what their Ceph daemons reported when they started, which the
-report says per node. A node running no Ceph daemon is listed as unknown.
+yet, and the kernel of every node, as its Ceph daemons reported it at their last
+start. A node without Ceph daemons is listed as unknown.
 
 Ceph enforces the order of the migration. No key can use the new cipher before
 every monitor in the quorum runs the new binaries, so finish the rolling restart
@@ -1423,10 +1422,8 @@ advisory: Ceph's configuration store has no compare-and-swap operation, so two
 jobs started at the same time can both acquire it. Do not start another helper
 or a rolling restart until the current run finishes.
 
-A daemon that is stopped is migrated as well. Ceph does not list it, so the
-helper takes it from what each node reports about itself, writes the key where
-that daemon reads it, and leaves the daemon stopped. Otherwise a single stopped
-daemon would block the service ticket switch at the end of the migration.
+A stopped daemon is migrated as well, from what its node reports about itself,
+and left stopped. Otherwise it would block the service ticket switch at the end.
 
 It also repairs a stale `mon.` key in `/etc/pve/priv/ceph.mon.keyring` on its
 own, without `--rotate-mon-key` and without restarting anything, since that
@@ -1442,31 +1439,24 @@ behind. A restricted run does not switch the service tickets over, as it cannot
 know that the keys it skipped are migrated. This only scopes the daemon keys and
 the `mon.` key. A client key is rotated whenever its own option asks for it.
 
-`--rotate-mon-key`:: Also rotate the shared `mon.` key. Ceph does not report
-that key as insecure, because it lives in the monitor keyrings rather than in
-the authentication database, so rotating it is not needed to clear either error.
-It is the most privileged key in the cluster though, so you may still want it on
-the new cipher. This restarts every monitor, one at a time. Note that rotating
-it moves the key into the authentication database, after which Ceph does report
-it like any other service key, and then this option becomes required rather than
-optional.
+`--rotate-mon-key`:: Also rotate the shared `mon.` key, which restarts every
+monitor, one at a time. Ceph does not report that key, as it lives in the
+monitor keyrings rather than in the authentication database, so it is not needed
+to clear either error; it is the most privileged key in the cluster though. Once
+rotated, the key sits in the authentication database and Ceph reports it like
+any other, and from then on this option is required.
 
-`--restart-daemons`:: Stop, rotate and start each daemon instead of swapping its
-key while it runs. Normally the helper hands the new key to the running daemon,
-so nothing is stopped and clients stay connected. It falls back to this path on
-its own for a daemon that does not take the key that way, for a standby manager,
-which cannot take one while running, and for a daemon an earlier run already
-stopped. Because that can happen at any point, the `noout` flag is set for the
-run's OSDs either way. Monitors always use this path, as they have no
-`rotate-key` command.
+`--restart-daemons`:: Stop, rotate, and start each daemon instead of handing it
+the new key while it runs. The helper falls back to this on its own for a daemon
+that does not take the key that way, for a standby manager, and for a daemon an
+earlier run left stopped, so the `noout` flag is set for the run's OSDs either
+way. Monitors always restart, as they have no `rotate-key` command.
 
 `--rotate-client-keys`:: Also rotate the `client.bootstrap-*` keys and
-`client.crash`. {pve} does not use these keys for storage I/O, so the kernel
-version does not restrict their rotation. Ceph deployment tools can use their
-standard keyrings. The helper updates each standard
+`client.crash`. No kernel client reads them, so the kernel version does not
+matter. The helper rewrites each
 `/var/lib/ceph/bootstrap-<type>/<cluster>.keyring` that exists on a cluster
-node. It cannot find nonstandard or external copies, which remain on the old
-key.
+node; a copy elsewhere keeps the old key.
 
 `--rotate-admin-key`:: Also rotate `client.admin` and rewrite every copy that
 {pve} manages. This includes the authoritative keyring on the configuration
@@ -1512,16 +1502,12 @@ the command line and with every other storage.
 once before it starts, and declines outright when standard input is not a
 terminal, which is what happens from a script or a pipe. `-y` is a synonym.
 
-`--force`:: Continue when the cluster reports an unrelated health warning, such
-as a degraded placement group. Without this option, the helper refuses to start
-when it encounters a warning that it does not recognize. The helper never
-overrides a health error or a failed health query. It skips the health check
-when the run does not stop anything: no monitor needs a restart, the service
-cipher remains unchanged, and every daemon in the plan is already down. A
-daemon left down by an earlier run can itself cause the warning in that case.
-`--force` also overrides the kernel check for client keys. Rotating such a key
-can make every affected RBD image and CephFS mount unavailable on an unsupported
-node until it runs kernel 7.0 or newer.
+`--force`:: Continue past a health warning the helper does not recognize, such
+as a degraded placement group; a health error or a failed health query is never
+overridden. A run that stops nothing skips the health check, as a daemon an
+earlier run left down can itself be the cause. `--force` also passes the kernel
+check for client keys, after which a node whose kernel cannot use the new cipher
+loses access to every RBD image and CephFS mount that uses such a key.
 
 `--wipe-rotating-keys`:: Discard the rotating service keys at the end instead of
 waiting for them to expire, which clears
@@ -1535,18 +1521,16 @@ default.
 After a successful unrestricted run, `ceph -s` no longer reports
 `AUTH_INSECURE_SERVICE_KEY_TYPE` or `AUTH_INSECURE_SERVICE_TICKETS`.
 
-The helper records pre-rotation daemon keys and migration progress in
-`/etc/pve/priv/cephx-key-migration.json`. It uses this information to continue
-recorded work after an interruption. For example, it can recover a daemon that
-was left stopped after Ceph stopped listing it. It also clears only the `noout`
-flags that it set. If it finds a pending key that it cannot account for on an
-entity it would touch, it stops and explains how to commit or clear that key. A
-pending key on an unrelated client entity is only reported.
+The helper journals its progress and every key it replaces in
+`/etc/pve/priv/cephx-key-migration.json` and resumes from there after an
+interruption: a daemon left stopped, a staged key, a `noout` flag it set. A
+pending key it did not stage on an entity it would touch stops the run, with
+the choice to commit or clear that key; one on an unrelated entity is only
+reported.
 
-That file is the only copy of the pre-rotation keys, so keep it until you are
-satisfied that the cluster is healthy, then delete it, as it holds them in plain
-text. A file left over from a different cluster makes the helper refuse to
-start.
+That file is the only copy of the old keys, so keep it until the cluster is
+verified healthy, then delete it: it holds them in plain text. A file left
+over from another cluster makes the helper refuse to start.
 
 Rotate the Service Keys by Hand
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1577,10 +1561,9 @@ An OSD keyring lives on a tmpfs that `ceph-volume` rebuilds on every boot,
 priming it from the `osd_key` entry in the bluestore label of the OSD's block
 device. Writing only the keyring file therefore works until the next reboot,
 after which the OSD comes back with its old key and can no longer authenticate.
-The upstream procedure covers the label as an optional step and locates the
-device with `ceph-volume lvm list`. On {pve} the `block` symlink in the OSD's
-data directory already points at it, and priming the data directory from the
-label afterwards makes the new key effective without writing it twice.
+Upstream treats the label as optional. On {pve} the `block` symlink in the OSD's
+data directory points at the device, and priming the data directory from the
+label afterwards applies the key without writing it twice.
 
 Set the `noout` flag before you stop the first OSD, or the monitors start
 marking a stopped OSD out after at least ten minutes and the cluster begins to
@@ -1686,20 +1669,16 @@ the keyring that the client uses. Do not forget `client.crash`, whose keyring is
 at `/etc/pve/ceph/ceph.client.crash.keyring`, as `AUTH_INSECURE_CLIENT_KEY_TYPE`
 does not clear while it is left out.
 
-Storages need care of their own. Every RBD and CephFS storage keeps its own copy
-of the key it uses, whether it points at an external cluster or at the
-hyper-converged one on the node. A storage created without an explicit key holds
-a copy of `client.admin`, so rotating `client.admin` alone already cuts that
-storage off. The two storage types keep the key in a different format. An RBD
-storage holds a full keyring:
+Every RBD and CephFS storage keeps its own copy of the key it uses, and one
+created without an explicit key holds a copy of `client.admin`, so rotating
+`client.admin` alone cuts that storage off. An RBD storage holds a full keyring:
 
 [source,bash]
 ----
 ceph auth get client.<ID> > /etc/pve/priv/ceph/<STORAGE_ID>.keyring
 ----
 
-A CephFS storage holds only the bare key, so write that one with
-`ceph auth get-key`:
+A CephFS storage holds only the bare key:
 
 [source,bash]
 ----
