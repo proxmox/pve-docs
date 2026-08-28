@@ -1382,33 +1382,11 @@ new cipher.
 Rotate the Service Keys
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-First decide which cipher the monitors should use for newly created keys. This
-choice applies to client and service keys, so the helper does not change the
-long-term setting. During a live key swap, the helper temporarily sets
-`auth_preferred_cipher` to `aes256k`, because Ceph cannot select a cipher
-explicitly when it creates a pending key. The helper restores the previous
-value when it finishes. If a run leaves the temporary value in place, the next
-run with `--apply` attempts to restore it before continuing.
-
-[source,bash]
-----
-ceph mon set auth_preferred_cipher aes256k
-----
-
-Set it if every client of this cluster can already use the new cipher. A manager
-or metadata server created afterwards then gets the new cipher too, instead of
-raising the error again. Leave it at `aes` if you still have to create keys for
-kernel clients that do not support `aes256k` yet, and rotate any daemon that is
-added during the migration by hand. Either way you can pass `--key-type` on a
-single `ceph auth` command to override the default for that one key. OSDs are
-unaffected, as `ceph-volume` generates their keys locally and already uses the
-new cipher.
-
-Then use the helper that {pve} ships for the rotation itself. It checks that the
-monitors accept the new cipher, rotates the key of every MGR, MDS, and OSD one
-daemon at a time, writes the new key where that daemon reads it from, and
-switches the service tickets over at the end. It runs as a dry run and shows you
-the plan, unless you pass `--apply`:
+Use the helper that {pve} ships for this. It checks that the monitors accept
+the new cipher, rotates the key of every MGR, MDS, and OSD one daemon at a
+time, writes the new key where that daemon reads it from, and switches the
+service tickets over at the end. It runs as a dry run and shows you the plan,
+unless you pass `--apply`:
 
 [source,bash]
 ----
@@ -1428,6 +1406,25 @@ and left stopped. Otherwise it would block the service ticket switch at the end.
 It also repairs a stale `mon.` key in `/etc/pve/priv/ceph.mon.keyring` on its
 own, without `--rotate-mon-key` and without restarting anything, since that
 copy only matters for monitors created later.
+
+What the helper leaves to you is `auth_preferred_cipher`, the cipher the
+monitors use for every key created without an explicit `--key-type`. It
+applies to client and service keys alike, so set it once every client of this
+cluster can use the new cipher:
+
+[source,bash]
+----
+ceph mon set auth_preferred_cipher aes256k
+----
+
+A manager or metadata server created afterwards then gets the new cipher too,
+instead of raising the error again. Leave it at `aes` while you still have to
+create keys for kernel clients that do not support `aes256k`, and run the
+helper again for a daemon added later. OSDs are unaffected, as `ceph-volume`
+generates their keys locally and already uses the new cipher. The helper sets
+the option to `aes256k` itself while it stages pending keys, as Ceph cannot pick
+a cipher for those, and puts the previous value back when the run ends; after a
+hard kill, the next run with `--apply` does.
 
 A run without further options clears both errors: it rotates the service keys
 and switches the service tickets over. The options below cover the warnings
