@@ -1,3 +1,34 @@
+pve-docs (9.2.6) trixie; urgency=medium
+
+  * qm: clarify when the 'iothread' option takes effect and name the bus types
+    as the web interface does, as 'VirtIO' on its own does not distinguish
+    VirtIO Block from VirtIO SCSI
+
+  * qm: link the wiki article about the VirtIO drivers for Windows instead of
+    a fixed virtio-win release, as that pinned a version which can cause read
+    errors and performance issues on IO-heavy Windows Server 2025 guests
+
+  * pveceph: rework the cephx migration section:
+    - mark the by-hand rotation as the alternative for a cluster where the
+      helper cannot be used, and point at the helper options from the client
+      key section, whose commands miss the key copies the helper rewrites on
+      every node and storage
+    - note that a plain run clears both errors and that the helper options
+      can be combined into a single run
+    - document '--rotate-lockbox-keys', which migrates the key of an
+      encrypted OSD in the authentication database and in the LVM tag on
+      its block device. That key returns the LUKS passphrase of the OSD,
+      and recreating the OSD is no longer the only way to move it over
+    - lead the service key section with the helper itself and move the
+      choice of cipher for newly created keys behind it
+    - note that a second helper run is held back cluster-wide while one is in
+      progress, and that only the rolling restart stays advisory
+    - note that the helper checks the 'mon.' credential itself before rotating
+      'client.admin' and restores the admin keyring from it after an
+      interruption, so the manual check before that option is gone
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 28 Aug 2026 20:44:04 +0200
+
 pve-docs (9.2.5) trixie; urgency=medium
 
   * pveceph: document the Ceph keyrings that Proxmox VE manages and where
