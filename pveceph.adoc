@@ -1433,8 +1433,8 @@ A run without further options clears both errors: it rotates the service keys
 and switches the service tickets over. The options below cover the warnings
 that remain and can be combined into a single run, which the helper carries
 out in the order Ceph needs: the monitor key, the service daemons, the client
-keys, the service tickets, and the rotating keys. Pass `--help` for the full
-list.
+and lockbox keys, the service tickets, and the rotating keys. Pass `--help` for
+the full list.
 
 `--only <SCOPE>`:: Restrict the run to `mon`, to one daemon type, such as
 `--only mgr`, or to a single daemon, such as `--only osd.3`. Several can be
@@ -1503,6 +1503,14 @@ its own user, and rewrite that storage's keyring or secret. A storage that uses
 `client.admin` needs `--rotate-admin-key` instead, since that key is shared with
 the command line and with every other storage.
 
+`--rotate-lockbox-keys`:: Rotate the `client.osd-lockbox.<UUID>` key of every
+encrypted OSD, in the authentication database and in the LVM tag on the OSD's
+block device that `ceph-volume` rebuilds the lockbox keyring from at
+activation. No OSD is stopped, and an interrupted run is finished by running
+the helper again. See the
+<<pveceph_cephx_lockbox,warning about lockbox keys>> for what that key
+protects and why both copies have to agree.
+
 `--assume-yes`:: Do not ask for confirmation. Without it, `--apply` still asks
 once before it starts, and declines outright when standard input is not a
 terminal, which is what happens from a script or a pipe. `-y` is a synonym.
@@ -1558,7 +1566,7 @@ you miss them.
 Upstream's last steps cover the client keys as well. Read
 <<pveceph_cephx_migration_clients,Rotate the Client Keys>> below before you
 follow them, in particular the warning about `client.osd-lockbox` keys, which
-must never be rotated.
+must never be rotated by hand.
 
 The shared `mon.` key has to be merged into `/etc/pve/priv/ceph.mon.keyring` as
 well, because `pveceph mon create` feeds that file to `ceph-mon --mkfs`. Without
@@ -1704,16 +1712,32 @@ A CephFS storage holds only the bare key:
 ceph auth get-key client.<ID> > /etc/pve/priv/ceph/<STORAGE_ID>.secret
 ----
 
-WARNING: Do not rotate a `client.osd-lockbox.<UUID>` key. Encrypted OSDs use it
-to fetch their LUKS passphrase, and its persistent copy lives in the
-`ceph.cephx_lockbox_secret` LVM tag on the OSD's device rather than in a
-keyring, so a rotation leaves the two out of sync and the OSD cannot be unlocked
-at the next boot. Ceph lists such a key under
-`AUTH_INSECURE_CLIENT_KEY_TYPE`, so neither that warning can be cleared nor the
-old cipher dropped for as long as an encrypted OSD created before the upgrade
-exists. Recreating such an OSD moves it over, as `ceph-volume` generates its
-keys locally and already uses the new cipher. Otherwise, mute the warning as
-described below.
+[[pveceph_cephx_lockbox]]
+WARNING: Do not rotate a `client.osd-lockbox.<UUID>` key by hand. Such a key
+has two copies that have to agree: the entry in the authentication database,
+and the `ceph.cephx_lockbox_secret` LVM tag on the OSD's block device, which
+`ceph-volume` rebuilds the lockbox keyring from every time it activates the
+OSD. Rotating only the entry leaves that OSD unable to unlock at its next
+start.
+
+Migrate these keys with `--rotate-lockbox-keys`, which writes both copies:
+
+[source,bash]
+----
+/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys --apply \
+    --rotate-lockbox-keys
+----
+
+The OSDs keep running, as nothing reads the lockbox keyring while an OSD runs.
+The new key is staged first, so an interrupted run leaves the OSD able to
+unlock; run the helper again to finish it. A key that was already rotated by
+hand is brought back into agreement the same way. If the block volume of an
+OSD cannot be found, the helper names that OSD and refuses to start.
+
+Migrate rather than mute: the only capability of such a key returns the LUKS
+passphrase of its OSD, so anyone who can read cephx traffic could decrypt that
+disk with it. An existing OSD keeps the key it was created with, so every
+encrypted OSD from before the upgrade is affected.
 
 [[pveceph_cephx_finish]]
 Finish the Migration
