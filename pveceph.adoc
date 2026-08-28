@@ -1394,11 +1394,11 @@ unless you pass `--apply`:
 ----
 
 Run the helper on one node only. It reaches the other nodes over SSH and drives
-the whole cluster from that node. For each daemon type it touches, the helper
-takes the same lock as the rolling restart in the web interface. This lock is
-advisory: Ceph's configuration store has no compare-and-swap operation, so two
-jobs started at the same time can both acquire it. Do not start another helper
-or a rolling restart until the current run finishes.
+the whole cluster from that node. A second run with `--apply` on any node waits
+for one in progress, through a lock on the cluster file system, and gives up
+after a few minutes. The rolling restart in the web interface is only kept off
+by an advisory lock, as Ceph's configuration store has no compare-and-swap
+operation, so do not start one until the run finishes.
 
 A stopped daemon is migrated as well, from what its node reports about itself,
 and left stopped. Otherwise it would block the service ticket switch at the end.
