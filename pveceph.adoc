@@ -1469,19 +1469,12 @@ node. The helper excludes storages that use `monhost`, because they refer to an
 external cluster. It also cannot update copies in scripts, on external hosts,
 or in other nonstandard locations.
 +
-Before using this option, verify that the independent `mon.` credential can
-read the current admin entry. This credential provides recovery if an
-interruption leaves the authoritative admin keyring stale:
-+
-[source,bash]
-----
-ceph --name mon. --keyring /etc/pve/priv/ceph.mon.keyring \
-    auth get client.admin >/dev/null
-----
-+
-To recover, export the current entry with the `mon.` credential, import it into
-both keyrings on the configuration file system, and verify a fresh
-`client.admin` connection. Remove the temporary keyring afterwards:
+The helper first checks that the `mon.` credential in
+`/etc/pve/priv/ceph.mon.keyring` reads the same admin entry, and restores the
+admin keyring from it at the start of the next run with `--apply` if this one
+is interrupted in between. To recover by hand instead, export the entry with
+that credential, import it into both keyrings on the configuration file system,
+and verify a fresh `client.admin` connection:
 +
 [source,bash]
 ----
