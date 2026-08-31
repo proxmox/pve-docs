@@ -1263,7 +1263,7 @@ are executed.
 Mute a Health Check
 ~~~~~~~~~~~~~~~~~~~
 
-A health check that stays keeps the cluster out of 'HEALTH_OK' and buries the
+A health check that persists keeps the cluster out of 'HEALTH_OK' and buries
 checks that you can still act on. That applies to a condition you cannot resolve
 at all, such as one waiting on clients outside the cluster, as much as to one
 you have scheduled for a later maintenance window. Ceph can mute such a check:
