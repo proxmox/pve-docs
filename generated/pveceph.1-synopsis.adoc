@@ -4,7 +4,7 @@
 [[cli_pveceph_auth_status]]
 *pveceph auth status* `[FORMAT_OPTIONS]`
 
-Get the cephx key cipher status, for judging the aes256k key migration.
+Show cephx key ciphers and aes256k migration prerequisites.
 
 [[cli_pveceph_createmgr]]
 *pveceph createmgr*

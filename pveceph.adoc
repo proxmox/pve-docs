@@ -1358,8 +1358,8 @@ After an upgrade to Ceph Squid 19.2.6 or Ceph Tentacle 20.2.4, the cluster
 reports every key that still uses the old cipher as insecure, through six health
 checks. Two of them are errors, `AUTH_INSECURE_SERVICE_TICKETS` and
 `AUTH_INSECURE_SERVICE_KEY_TYPE`, so the cluster status changes to 'HEALTH_ERR'.
-Nothing breaks: all daemons keep running and the storage stays available.
-Migrate the keys to get the cluster back to a healthy state.
+The checks themselves do not stop IO or any daemon. Migrate the keys to restore
+a healthy cluster status.
 
 NOTE: These health checks do not block the rolling restart of the Ceph daemons
 in the {pve} web interface. Finish the upgrade first, then migrate the keys.
@@ -1465,9 +1465,9 @@ node; a copy elsewhere keeps the old key.
 file system, the keyring or secret of each managed Ceph storage that uses
 `client.admin`, the `client.admin` section of
 `/etc/pve/priv/ceph.mon.keyring`, and an existing copy in `/etc/ceph` on each
-node. The helper excludes storages that use `monhost`, because they refer to an
-external cluster. It also cannot update copies in scripts, on external hosts,
-or in other nonstandard locations.
+node. The helper treats storages that use `monhost` as external and excludes
+them. It also cannot update copies in scripts, on external hosts, or in other
+nonstandard locations.
 +
 The helper first checks that the `mon.` credential in
 `/etc/pve/priv/ceph.mon.keyring` reads the same admin entry, and restores the
