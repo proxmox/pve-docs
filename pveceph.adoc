@@ -1540,12 +1540,14 @@ client IO or lock out administration. It never overrides a health error or
 failed health query, so prefer the targeted `--ack-refreshed` confirmation.
 
 `--wipe-rotating-keys`:: Discard the rotating service keys at the end instead of
-waiting for them to expire, which clears
-`AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE` immediately. Every client then has to
-fetch a new ticket, and only clients running Ceph 19.2.6 or newer can, so use
-this only if all of them are upgraded. The helper refuses this option in a run
-narrowed by `--only` while the service tickets are still on the old cipher, as
-the keys would only come back on it.
+waiting for them to expire. This clears
+`AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE` immediately, but is not recommended.
+It invalidates every service ticket, so every client must fetch a new one. Use
+it only if every client and service daemon supports `aes256k`, as described in
+xref:pveceph_cipher_support[Key Cipher Support]. Monitor sessions do not report
+client versions, so verify client compatibility yourself. The helper refuses
+the wipe while the service tickets would be recreated with the old cipher, or
+while a recorded live client may still hold a replaced key.
 
 `--timeout <SECONDS>`:: How long to wait for a daemon to come back up, 600 by
 default.
@@ -1584,7 +1586,12 @@ must never be rotated by hand.
 
 The shared `mon.` key has to be merged into `/etc/pve/priv/ceph.mon.keyring` as
 well, because `pveceph mon create` feeds that file to `ceph-mon --mkfs`. Without
-it, every monitor created later cannot join the cluster:
+it, every monitor created later cannot join the cluster.
+
+WARNING: Rotate `mon.` only as part of upstream's full monitor step: the new
+key must reach the keyring of every monitor, each restarted in turn, before
+anything else changes. It is the most privileged key in the cluster, and a
+monitor left on the old key can no longer join the quorum.
 
 [source,bash]
 ----
@@ -1902,13 +1909,82 @@ remove the setting and restart every monitor again.
 `AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE` needs no action. The monitors keep
 three rotating service keys and hand out fresh ones by themselves, so it clears
 about three hours after the service tickets were switched over, or three times
-`auth_service_ticket_ttl` if you raised it. To clear it at once instead, run
-`ceph auth wipe-rotating-service-keys`. Ceph does not recommend that, as every
-client then has to fetch a new ticket and only clients running 19.2.6 or newer
-can. Sessions that are already established are not affected.
+`auth_service_ticket_ttl` if you raised it.
+
+WARNING: `ceph auth wipe-rotating-service-keys` clears it at once instead, but
+invalidates every service ticket. Do not run it unless every client and service
+daemon supports `aes256k`, and every client can still authenticate. A client
+that holds a replaced key cannot fetch a new ticket, so all of its IO can stop
+immediately. Ceph does not recommend the wipe. The helper blocks recorded
+consumers that may still hold replaced keys, but it cannot determine client
+versions from monitor sessions.
 
 Finally, remove the keyring files that the rotations left in `/root`, they hold
 the keys of your cluster in plain text.
+
+Recover a Stale Client Key
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If client IO stopped because a client key was rotated while its consumers kept
+running and the old cipher was then disabled, allow the old cipher again. Then
+put the previous key back. The helper's journal holds it as JSON rather than a
+keyring, so rebuild one; the `mon.` identity works even while `client.admin`
+is locked out.
+
+WARNING: Run this recovery only while client IO is actually stopped by such a
+rotation: it puts the previous key back, so anything already using the new
+key is cut off instead. Rewrite the file copies right after the import,
+or every tool that reads them, the command line, `pvestatd`, and this helper
+included, is locked out the same way. For `client.admin`, use the following
+procedure. Before running it, add every CephFS secret file that uses
+`client.admin` to `CEPHFS_SECRETS`. Leave the array empty if there is none.
+
+[source,bash]
+----
+(
+    set -eu
+    STATE=/etc/pve/priv/cephx-key-migration.json
+    ENTITY=client.admin
+    CEPHFS_SECRETS=()
+
+    CURRENT_FSID=$(ceph -n mon. --keyring /etc/pve/priv/ceph.mon.keyring fsid)
+    STATE_FSID=$(perl -MJSON -0777 -ne 'print decode_json($_)->{fsid} // ""' "$STATE")
+    test -n "$STATE_FSID" && test "$STATE_FSID" = "$CURRENT_FSID"
+    K=$(perl -MJSON -0777 -ne \
+        'print decode_json($_)->{previous_keys}{"client.admin"}{key} // ""' "$STATE")
+    test -n "$K"
+
+    RECOVER=$(mktemp /root/recover.keyring.XXXXXX)
+    trap 'rm -f "$RECOVER"' EXIT
+    ceph -n mon. --keyring /etc/pve/priv/ceph.mon.keyring auth export "$ENTITY" \
+        -o "$RECOVER"
+    if grep -q '^[[:space:]]*pending key = ' "$RECOVER"; then
+        echo "refusing to discard a pending client.admin key" >&2
+        exit 1
+    fi
+    K="$K" perl -i -pe 's/^(\s*key = ).*/$1$ENV{K}/' "$RECOVER"
+    test "$(ceph-authtool "$RECOVER" -n "$ENTITY" --print-key)" = "$K"
+
+    ceph -n mon. --keyring /etc/pve/priv/ceph.mon.keyring \
+        mon set auth_allowed_ciphers aes256k,aes
+    ceph -n mon. --keyring /etc/pve/priv/ceph.mon.keyring auth import -i "$RECOVER"
+    grep -l '^\[client.admin\]' /etc/pve/priv/ceph.client.admin.keyring \
+        /etc/pve/priv/ceph.mon.keyring /etc/pve/priv/ceph/*.keyring 2>/dev/null \
+        | K="$K" xargs -r perl -i -pe \
+        '$s = /^\[/ ? /^\[client\.admin\]/ : $s; s/^(\s*key = ).*/$1$ENV{K}/ if $s'
+    for SECRET in "${CEPHFS_SECRETS[@]}"; do
+        printf '%s\n' "$K" > "$SECRET"
+    done
+    ceph -s
+)
+----
+
+The subshell verifies the journal belongs to the current cluster, refuses an
+empty or malformed recovery key, and stops if the auth entry has a pending key.
+Resolve a pending key separately instead of discarding it. The key travels in
+the environment rather than in command arguments, which any user could read
+from the process list. The stuck clients recover on their next retry. Redo the
+migration and refresh the consumers before finishing it.
 
 Mute the Remaining Warnings
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
