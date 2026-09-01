@@ -98,8 +98,8 @@ to the xref:sysboot_edit_kernel_cmdline[kernel commandline].
 
 .Kernel Modules
 
-You have to make sure the following modules are loaded. This can be achieved by
-adding them to `'/etc/modules''.
+Make sure the following modules are loaded by adding them to a file under
+`'/etc/modules-load.d/'`, for example `'/etc/modules-load.d/vfio.conf'`:
 
 .Mediated devices passthrough
 [NOTE]
@@ -467,8 +467,8 @@ with 5th, 6th and 7th generation Intel Core Processors, as well as E3 v4, E3
 v5 and E3 v6 Xeon Processors.
 
 To enable it for Intel Graphics, you have to make sure to load the module
-'kvmgt' (for example via `/etc/modules`) and to enable it on the
-xref:sysboot_edit_kernel_cmdline[Kernel commandline] and add the following parameter:
+'kvmgt' (for example via `/etc/modules-load.d/`) and to enable it on the
+xref:sysboot_edit_kernel_cmdline[kernel commandline] and add the following parameter:
 
 ----
  i915.enable_gvt=1
