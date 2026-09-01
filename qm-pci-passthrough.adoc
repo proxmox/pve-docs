@@ -509,6 +509,7 @@ Example configuration with an `Intel GVT-g vGPU` (`Intel Skylake 6700k`):
 With this set, {pve} automatically creates such a device on VM start, and
 cleans it up again when the VM stops.
 
+[[_use_in_clusters]]
 Usage in Clusters
 ~~~~~~~~~~~~~~~~~
 
