@@ -49,8 +49,8 @@ The local mount point. Optional, defaults to `/mnt/pve/<STORAGE_ID>/`.
 
 username::
 
-Ceph user id. Optional, only needed if Ceph is not running on the {pve} cluster,
-where it defaults to `admin`.
+Ceph client ID. Optional, defaults to `admin`. Use only the ID without the
+`client.` prefix.
 
 subdir::
 
@@ -67,7 +67,7 @@ cephfs: cephfs-external
         monhost 10.1.1.20 10.1.1.21 10.1.1.22
         path /mnt/pve/cephfs-external
         content backup
-        username admin
+        username pve-cephfs
         fs-name cephfs
 ----
 NOTE: Don't forget to set up the client's secret key file, if cephx was not
@@ -79,31 +79,33 @@ Authentication
 NOTE: If Ceph is installed locally on the {pve} cluster, the following is done
 automatically when adding the storage.
 
-If you use `cephx` authentication, which is enabled by default, you need to
-provide the secret from the external Ceph cluster.
+If you use `cephx` authentication, which is enabled by default, provide the
+secret of a dedicated identity with only the capabilities required for this
+storage. The example below uses `client.pve-cephfs`; do not use
+`client.admin` for a storage client.
 
-To configure the storage via the CLI, you first need to make the file
-containing the secret available. One way is to copy the file from the external
-Ceph cluster directly to one of the {pve} nodes. The following example will
-copy it to the `/root` directory of the node on which we run it:
-
-----
-# scp <external cephserver>:/etc/ceph/cephfs.secret /root/cephfs.secret
-----
-
-Then use the `pvesm` CLI tool to configure the external CephFS storage, use
-the `--keyring` parameter, which needs to be a path to the secret file that
-you copied.  For example:
+Export the bare key through SSH to one {pve} node:
 
 ----
-# pvesm add cephfs <name> --monhost "10.1.1.20 10.1.1.21 10.1.1.22" --content backup --keyring /root/cephfs.secret
+# ssh root@<external-ceph-server> \
+    'ceph auth get-key client.pve-cephfs' > /root/cephfs.secret
 ----
+
+Then pass that file and the identity without its `client.` prefix to `pvesm`:
+
+----
+# pvesm add cephfs <name> --monhost "10.1.1.20 10.1.1.21 10.1.1.22" \
+    --content backup --username pve-cephfs --keyring /root/cephfs.secret
+----
+
+After `pvesm` succeeds, remove `/root/cephfs.secret` because it contains the key
+in plain text.
 
 When configuring an external CephFS storage via the GUI, you can copy and
 paste the secret into the appropriate field.
 
 The secret is only the key itself, as opposed to the `rbd` backend which also
-contains a `[client.userid]` section.
+contains a `[client.<USER>]` section.
 
 The secret will be stored at
 
@@ -111,14 +113,12 @@ The secret will be stored at
 # /etc/pve/priv/ceph/<STORAGE_ID>.secret
 ----
 
-A secret can be received from the Ceph cluster (as Ceph admin) by issuing the
-command below, where `userid` is the client ID that has been configured to
-access the cluster. For further information on Ceph user management, see the
-Ceph docs.footnoteref:[cephusermgmt]
+If the external cluster rotates this identity, replace the stored secret before
+remounting the storage. The local cephx migration helper never rotates keys of
+external clusters.
 
-----
-# ceph auth get-key client.userid > cephfs.secret
-----
+For information about creating the identity and limiting its capabilities, see
+Ceph User Management.footnoteref:[cephusermgmt]
 
 Storage Features
 ~~~~~~~~~~~~~~~~

@@ -46,9 +46,8 @@ Ceph pool name.
 
 username::
 
-RBD user ID. Optional, only needed if Ceph is not running on the {pve} cluster.
-Note that only the user ID should be used. The "client." type prefix must be
-left out.
+Ceph client ID. Optional, defaults to `admin`. Use only the ID without the
+`client.` prefix.
 
 krbd::
 
@@ -56,13 +55,13 @@ Enforce access to rados block devices through the krbd kernel module. Optional.
 
 NOTE: Containers will use `krbd` independent of the option value.
 
-.Configuration Example for a external Ceph cluster (`/etc/pve/storage.cfg`)
+.Configuration Example for an external Ceph cluster (`/etc/pve/storage.cfg`)
 ----
 rbd: ceph-external
         monhost 10.1.1.20 10.1.1.21 10.1.1.22
         pool ceph-external
         content images
-        username admin
+        username pve-rbd
 ----
 
 TIP: You can use the `rbd` utility to do low-level management tasks.
@@ -73,25 +72,27 @@ Authentication
 NOTE: If Ceph is installed locally on the {pve} cluster, the following is done
 automatically when adding the storage.
 
-If you use `cephx` authentication, which is enabled by default, you need to
-provide the keyring from the external Ceph cluster.
+If you use `cephx` authentication, which is enabled by default, provide a
+keyring from the external Ceph cluster. Use a dedicated identity with only the
+capabilities required for this storage. The example below uses
+`client.pve-rbd`; do not copy `client.admin` to a storage client.
 
-To configure the storage via the CLI, you first need to make the file
-containing the keyring available. One way is to copy the file from the external
-Ceph cluster directly to one of the {pve} nodes. The following example will
-copy it to the `/root` directory of the node on which we run it:
-
-----
-# scp <external cephserver>:/etc/ceph/ceph.client.admin.keyring /root/rbd.keyring
-----
-
-Then use the `pvesm` CLI tool to configure the external RBD storage, use the
-`--keyring` parameter, which needs to be a path to the keyring file that you
-copied.  For example:
+Copy the keyring to one {pve} node:
 
 ----
-# pvesm add rbd <name> --monhost "10.1.1.20 10.1.1.21 10.1.1.22" --content images --keyring /root/rbd.keyring
+# scp <external-ceph-server>:/etc/ceph/ceph.client.pve-rbd.keyring /root/rbd.keyring
 ----
+
+Then pass that file and the identity without its `client.` prefix to `pvesm`:
+
+----
+# pvesm add rbd <name> --monhost "10.1.1.20 10.1.1.21 10.1.1.22" \
+    --pool ceph-external --content images --username pve-rbd \
+    --keyring /root/rbd.keyring
+----
+
+After `pvesm` succeeds, remove `/root/rbd.keyring` because it contains the key
+in plain text.
 
 When configuring an external RBD storage via the GUI, you can copy and paste
 the keyring into the appropriate field.
@@ -102,9 +103,12 @@ The keyring will be stored at
 # /etc/pve/priv/ceph/<STORAGE_ID>.keyring
 ----
 
-TIP: Creating a keyring with only the needed capabilities is recommended when
-connecting to an external cluster. For further information on Ceph user
-management, see the Ceph docs.footnoteref:[cephusermgmt,{cephdocs-url}/rados/operations/user-management/[Ceph User Management]]
+If the external cluster rotates this identity, replace the stored keyring before
+refreshing its consumers. The local cephx migration helper never rotates keys
+of external clusters.
+
+For information about creating the identity and limiting its capabilities, see
+Ceph User Management.footnoteref:[cephusermgmt,{cephdocs-url}/rados/operations/user-management/[Ceph User Management]]
 
 Ceph client configuration (optional)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
