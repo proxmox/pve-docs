@@ -1385,13 +1385,14 @@ this step as `--restrict-ciphers` and refuses it while anything still depends
 on the old cipher.
 
 [[pveceph_cephx_migration_helper]]
-Rotate the Service Keys
-^^^^^^^^^^^^^^^^^^^^^^^
+Use the Cephx Migration Helper
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use the helper that {pve} ships for this. It checks that the monitors accept
-the new cipher, rotates the key of every MGR, MDS, and OSD one daemon at a
-time, writes the new key where that daemon reads it from, and switches the
-service tickets over at the end. It runs as a dry run and shows you the plan,
+Use the helper that {pve} ships for the whole migration. It checks that the
+monitors accept the new cipher, rotates the key of every MGR, MDS, and OSD
+one daemon at a time, writes the new key where that daemon reads it from, and
+switches the service tickets over at the end. It runs as a dry run and shows
+you the plan,
 unless you pass `--apply`:
 
 [source,bash]
@@ -1400,11 +1401,13 @@ unless you pass `--apply`:
 ----
 
 Run the helper on one node only. It reaches the other nodes over SSH and drives
-the whole cluster from that node. A second run with `--apply` on any node waits
-for one in progress, through a lock on the cluster file system, and gives up
-after a few minutes. The rolling restart in the web interface is only kept off
-by an advisory lock, as Ceph's configuration store has no compare-and-swap
-operation, so do not start one until the run finishes.
+the whole cluster from that node. The cluster file-system lock serializes dry
+runs and apply runs. A dry run or a cross-node apply waits for an active run and
+gives up after a few minutes. A same-node apply also takes a local lock and
+refuses immediately if another migration or bulk restart holds it. The rolling
+restart in the web interface is only kept off by an advisory lock, as Ceph's
+configuration store has no compare-and-swap operation, so do not start one
+until the run finishes.
 
 A stopped daemon is migrated as well, from what its node reports about itself,
 and left stopped. Otherwise it would block the service ticket switch at the end.
@@ -1413,52 +1416,58 @@ It also repairs a stale `mon.` key in `/etc/pve/priv/ceph.mon.keyring` on its
 own, without `--rotate-mon-key` and without restarting anything, since that
 copy only matters for monitors created later.
 
-What the helper leaves to you is `auth_preferred_cipher`, the cipher the
-monitors use for every key created without an explicit `--key-type`. It
-applies to client and service keys alike, so set it once every client of this
-cluster can use the new cipher:
+The helper leaves `auth_preferred_cipher` at the value it finds until the final
+restriction, so keys created during a staged migration stay as compatible as
+they were. It temporarily selects `aes256k` when Ceph requires that for a
+rotation, then restores the previous value. Run the helper again after adding a
+daemon.
 
-[source,bash]
-----
-ceph mon set auth_preferred_cipher aes256k
-----
+WARNING: Do not set `auth_preferred_cipher` to `aes256k` early unless every
+client, including every kernel client, supports it. Afterwards, any key created
+without an explicit `--key-type` is unusable by an older client.
 
-A manager or metadata server created afterwards then gets the new cipher too,
-instead of raising the error again. Leave it at `aes` while you still have to
-create keys for kernel clients that do not support `aes256k`, and run the
-helper again for a daemon added later. OSDs are unaffected, as `ceph-volume`
-generates their keys locally and already uses the new cipher. The helper sets
-the option to `aes256k` itself while it stages pending keys, as Ceph cannot pick
-a cipher for those, and puts the previous value back when the run ends; after a
-hard kill, the next run with `--apply` does.
+A successful unrestricted run without optional rotations clears both errors by
+rotating the service keys and switching the service tickets. Optional rotations
+address the remaining warnings. The helper always applies everything in Ceph's
+required order. An apply run performs mandatory journal recovery first and
+resumes daemon, started monitor, admin-keyring, lockbox, cipher-setting, and
+`noout` work. It names an unfinished optional client rotation together with the
+option that must be repeated instead of resuming it silently. At the end, it
+lists what remains and combines options that need no decision into one command.
+Pass `--help` for the full option list.
 
-A run without further options clears both errors: it rotates the service keys
-and switches the service tickets over. The options below cover the warnings
-that remain and can be combined into a single run, which the helper carries
-out in the order Ceph needs: the monitor key, the service daemons, the client
-and lockbox keys, the service tickets, and the rotating keys. Pass `--help` for
-the full list.
+Use this sequence:
 
-`--only <SCOPE>`:: Restrict the run to `mon`, to one daemon type, such as
-`--only mgr`, or to a single daemon, such as `--only osd.3`. Several can be
-given at once, either comma-separated or by repeating the option. Use this to
-try the migration on a few daemons first, or to repair a daemon that was left
-behind. A restricted run does not switch the service tickets over, as it cannot
-know that the keys it skipped are migrated. This only scopes the daemon keys and
-the `mon.` key. A client key is rotated whenever its own option asks for it.
+. Decide which optional client, monitor, and lockbox rotations are safe.
+`pveceph auth status` reports the kernel of every node and which keys are still
+on the old cipher; the consumers of a key are named by the helper's own runs.
+. Run the helper once with all selected rotation options and review the combined
+plan. Leave out every option that still needs a decision.
+. Repeat that same command with `--apply`. The helper performs the service-key
+migration and all selected rotations in one ordered run. Split this across runs
+only when client compatibility or separate maintenance windows require it.
+. xref:pveceph_cephx_refresh_consumers[Refresh every affected consumer].
+. After verifying every consumer, run the helper without `--apply` again. Once
+no recorded consumer that may still hold a replaced key remains, copy the exact
+finishing command it prints for this cluster. Do not reuse an acknowledgment
+command from another run or cluster.
 
-`--rotate-mon-key`:: Also rotate the shared `mon.` key, which restarts every
-monitor, one at a time. Ceph does not report that key, as it lives in the
-monitor keyrings rather than in the authentication database, so it is not needed
-to clear either error; it is the most privileged key in the cluster though. Once
-rotated, the key sits in the authentication database and Ceph reports it like
-any other, and from then on this option is required.
+To clear only the two errors first, select no optional rotations. An interrupted
+migration can need extra runs, but the helper remembers the order and completed
+work in its journal.
 
-`--restart-daemons`:: Stop, rotate, and start each daemon instead of handing it
-the new key while it runs. The helper falls back to this on its own for a daemon
-that does not take the key that way, for a standby manager, and for a daemon an
-earlier run left stopped, so the `noout` flag is set for the run's OSDs either
-way. Monitors always restart, as they have no `rotate-key` command.
+`--only <SCOPE>`:: Limit daemon rotations to `mon`, one daemon type, or one
+daemon, such as `osd.3`. Repeat the option or use commas for several scopes. A
+limited run does not switch service tickets and does not limit client-key
+options.
+
+`--rotate-mon-key`:: Also rotate the highly privileged shared `mon.` key. This
+restarts every monitor, one at a time. Ceph does not normally report this key
+because it lives in the monitor keyrings, and rotating it is not required to
+clear the initial errors.
+
+`--restart-daemons`:: Stop, rotate, and start each daemon instead of swapping
+its key live. The helper selects this automatically when necessary.
 
 `--rotate-client-keys`:: Also rotate the `client.bootstrap-*` keys and
 `client.crash`. No kernel client reads them, so the kernel version does not
@@ -1540,8 +1549,10 @@ the keys would only come back on it.
 `--timeout <SECONDS>`:: How long to wait for a daemon to come back up, 600 by
 default.
 
-After a successful unrestricted run, `ceph -s` no longer reports
-`AUTH_INSECURE_SERVICE_KEY_TYPE` or `AUTH_INSECURE_SERVICE_TICKETS`.
+A successful unrestricted run clears the causes of
+`AUTH_INSECURE_SERVICE_KEY_TYPE` and `AUTH_INSECURE_SERVICE_TICKETS`. `ceph -s`
+can still list either check until the monitors recompute health; check again
+after a few minutes.
 
 The helper resumes interrupted work from
 `/etc/pve/priv/cephx-key-migration.json`. Keep this file until the migration is
@@ -1549,8 +1560,8 @@ finished and the cluster is verified healthy. It contains old keys in plain
 text and the records that protect consumers which may still hold replaced keys.
 Delete it only afterwards.
 
-Rotate the Service Keys by Hand
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Manual Fallback for Service Keys
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 NOTE: This section is only for a cluster where the helper cannot be used. If
 the helper ran through, continue with
@@ -1826,22 +1837,49 @@ Finish the Migration
 
 Two warnings stay as long as the monitors still allow the old cipher,
 `AUTH_INSECURE_KEYS_ALLOWED` and `AUTH_INSECURE_KEYS_CREATABLE`. Once every
-service and client key is migrated, drop the old cipher to clear both:
+service and client key is migrated and every running consumer was refreshed,
+drop the old cipher to clear both. Prefer the helper for this: it verifies
+both conditions and names anything still in the way, see
+xref:pveceph_cephx_migration_helper[its options]. Run the helper without
+options. Once no blocker remains, copy the exact finishing command it prints:
 
 [source,bash]
 ----
+/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys
+----
+
+An entity with a staged pending key needs care of its own: the monitors judge
+a connection by the cipher of the active key, so once the old cipher is gone,
+such an entity can no longer authenticate at all, and its pending key is out
+of reach. Commit or clear every pending key before restricting the ciphers.
+The helper refuses a pending key for an entity in its migration scope and warns
+about an unrelated client entity, which must be resolved separately. This
+mostly concerns the by-hand path.
+
+WARNING: Run the bare commands below only after `pveceph auth status` reports
+no key on the old cipher, the shared `mon.` key was rotated as described above,
+and every running consumer was refreshed following the last client-key
+rotation. Remove `mon_auth_emergency_allowed_ciphers` from `ceph.conf`, and
+verify that `AUTH_EMERGENCY_CIPHERS_SET` is absent from `ceph health detail`.
+Once you disable the old cipher, its keys can no longer
+authenticate. This includes `client.admin`, which can lock you out of the
+command line. A stale client can fail later, on a reconnect or ticket expiry,
+while existing data connections still look healthy.
+
+On a cluster where the helper cannot be used, the bare commands are:
+
+[source,bash]
+----
+ceph mon set auth_preferred_cipher aes256k
 ceph mon set auth_allowed_ciphers aes256k
 ----
 
-WARNING: Only run this after `ceph -s` reports neither
-`AUTH_INSECURE_SERVICE_KEY_TYPE` nor `AUTH_INSECURE_CLIENT_KEY_TYPE`. Any key
-that still uses the old cipher can no longer authenticate afterwards, and that
-includes `client.admin`, which locks you out of the command line. To recover,
+To recover from a lockout,
 add `mon_auth_emergency_allowed_ciphers = aes,aes256k` to the `[mon]` section of
 `/etc/pve/ceph.conf` and restart every monitor. The monitors read that setting
 only at startup, so `ceph config set` cannot help there. It raises the
-`AUTH_EMERGENCY_CIPHERS_SET` warning for as long as it is in place, so remove it
-again once the keys are sorted out.
+`AUTH_EMERGENCY_CIPHERS_SET` warning while active. Once the keys are fixed,
+remove the setting and restart every monitor again.
 
 `AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE` needs no action. The monitors keep
 three rotating service keys and hand out fresh ones by themselves, so it clears
