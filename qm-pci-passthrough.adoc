@@ -404,7 +404,7 @@ devices.
 
 Currently, the most common use case for this is with NICs (**N**etwork
 **I**nterface **C**ard) with SR-IOV support, which can provide multiple VFs per
-physical port. This allows features such as checksum offloading to be used 
+physical port. This allows features such as checksum offloading to be used
 inside a VM, reducing the (host) CPU overhead.
 
 Host Configuration
