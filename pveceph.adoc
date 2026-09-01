@@ -1409,8 +1409,9 @@ restart in the web interface is only kept off by an advisory lock, as Ceph's
 configuration store has no compare-and-swap operation, so do not start one
 until the run finishes.
 
-A stopped daemon is migrated as well, from what its node reports about itself,
-and left stopped. Otherwise it would block the service ticket switch at the end.
+A stopped daemon is migrated as well and left stopped. The helper refuses an
+ambiguous location. Before writing an OSD, it also verifies that the BlueStore
+label contains the current OSD ID, cluster FSID, and per-OSD UUID.
 
 It also repairs a stale `mon.` key in `/etc/pve/priv/ceph.mon.keyring` on its
 own, without `--rotate-mon-key` and without restarting anything, since that
@@ -1599,6 +1600,11 @@ Upstream treats the label as optional. On {pve} the `block` symlink in the OSD's
 data directory points at the device, and priming the data directory from the
 label afterwards applies the key without writing it twice.
 
+WARNING: Rotate OSDs only while the cluster is healthy, one OSD at a time,
+and wait until every placement group is `active+clean` before the next one.
+Each rotation stops the OSD, and stopping a second one while the first still
+recovers can take placement groups offline.
+
 Set the `noout` flag before you stop the first OSD, or the monitors start
 marking a stopped OSD out after at least ten minutes and the cluster begins to
 rebalance:
@@ -1608,32 +1614,36 @@ rebalance:
 ceph osd set noout
 ----
 
-Then, for the OSD with the ID 3, on its node:
+Then, for the OSD with the ID 3, on its node, stop it and inspect its identity:
 
 [source,bash]
 ----
 systemctl stop ceph-osd@3
 ceph osd down 3
+ceph osd find 3
+ceph-bluestore-tool show-label --dev /var/lib/ceph/osd/ceph-3/block
+----
+
+WARNING: Do not rotate the key until all three label fields match the current
+cluster: `whoami` must be `3`, `ceph_fsid` must equal the output of `ceph fsid`,
+and `osd_uuid` must equal `osd_fsid` from `ceph osd find` above.
+An old device can retain the same OSD ID and cluster FSID after ID reuse.
+Writing it would leave the current OSD unable to start.
+
+After verifying the identity, rotate and write the key:
+
+[source,bash]
+----
 ceph auth rotate --key-type=aes256k osd.3 -o /root/osd.3.keyring
 KEY=$(ceph-authtool /root/osd.3.keyring -n osd.3 --print-key)
 ceph-bluestore-tool set-label-key --dev /var/lib/ceph/osd/ceph-3/block \
     --key osd_key --value "$KEY"
 ----
 
-NOTE: A stopped OSD keeps its block device open for a moment longer, so
-`set-label-key` can fail with a device busy error right after `systemctl stop`.
-Wait a few seconds and run it again. Do not start the OSD before the label is
-written, as its key in the authentication database has already changed.
-
-Check the label before you rebuild the data directory from it. `whoami` has to
-be the ID of this OSD and `ceph_fsid` the FSID of this cluster. If they are not,
-the device belongs to another OSD, and priming it would overwrite that OSD's
-identity as well as its key:
-
-[source,bash]
-----
-ceph-bluestore-tool show-label --dev /var/lib/ceph/osd/ceph-3/block
-----
+NOTE: A stopped OSD can keep its block device open for a few seconds. If
+`set-label-key` reports that the device is busy, wait and retry it. Do not start
+the OSD before the label is written because its authentication key has already
+changed.
 
 Then rebuild the data directory and start the OSD again:
 
@@ -1812,11 +1822,12 @@ and the `ceph.cephx_lockbox_secret` LVM tag on the OSD's block device, which
 OSD. Rotating only the entry leaves that OSD unable to unlock at its next
 start.
 
-Migrate these keys with `--rotate-lockbox-keys`, which writes both copies:
+Migrate these keys with `--rotate-lockbox-keys`, which writes both copies. Run
+a dry run first, then repeat it with `--apply` after reviewing the plan:
 
 [source,bash]
 ----
-/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys --apply \
+/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys \
     --rotate-lockbox-keys
 ----
 
@@ -1825,6 +1836,13 @@ The new key is staged first, so an interrupted run leaves the OSD able to
 unlock; run the helper again to finish it. A key that was already rotated by
 hand is brought back into agreement the same way. If the block volume of an
 OSD cannot be found, the helper names that OSD and refuses to start.
+
+The helper leaves a lockbox entry alone when no OSD in the current map has its
+UUID. Do not remove the entry based on that fact alone. Stop OSD provisioning,
+confirm from a fresh map that the UUID is absent, and check every node for an
+LVM or raw `ceph-volume` device with that UUID. Save the auth entry before you
+remove it. If any node is unavailable or the device might return, keep the
+entry; it does not affect current OSDs.
 
 Migrate rather than mute: the only capability of such a key returns the LUKS
 passphrase of its OSD, so anyone who can read cephx traffic could decrypt that
