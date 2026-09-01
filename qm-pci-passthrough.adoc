@@ -15,7 +15,7 @@ device anymore on the host or in any other VM.
 
 Note that, while PCI passthrough is available for i440fx and q35 machines, PCIe
 passthrough is only available on q35 machines. This does not mean that
-PCIe capable devices that are passed through as PCI devices will only run at
+PCIe-capable devices that are passed through as PCI devices will only run at
 PCI speeds. Passing through devices as PCIe just sets a flag for the guest to
 tell it that the device is a  PCIe device instead of a "really fast legacy PCI
 device". Some guest applications benefit from this.
@@ -35,12 +35,12 @@ Your hardware needs to support `IOMMU` (*I*/*O* **M**emory **M**anagement
 
 Generally, Intel systems with VT-d and AMD systems with AMD-Vi support this. On
 arm64, the equivalent is the System Memory Management Unit (SMMU), provided by
-the supported platforms. But it is not guaranteed that everything will work out
+supported platforms. It is not guaranteed that everything will work out
 of the box, due to bad hardware implementation and missing or low quality
 drivers.
 
 Further, server grade hardware has often better support than consumer grade
-hardware, but even then, many modern system can support this.
+hardware, but even then, many modern systems can support this.
 
 Please refer to your hardware vendor to check if they support this feature
 under Linux for your specific setup.
@@ -87,7 +87,7 @@ needed.
 If your hardware supports IOMMU passthrough mode, enabling this mode might
 increase performance.
 This is because VMs then bypass the (default) DMA translation normally
-performed by the hyper-visor and instead pass DMA requests directly to the
+performed by the hypervisor and instead pass DMA requests directly to the
 hardware IOMMU. To enable these options, add:
 
 ----
@@ -105,7 +105,7 @@ Make sure the following modules are loaded by adding them to a file under
 [NOTE]
 ====
 If passing through mediated devices (e.g. vGPUs), the following is not needed.
-In these cases, the device will be owned by the appropriate host-driver
+In these cases, the device will be owned by the appropriate host driver
 directly.
 ====
 
@@ -129,11 +129,11 @@ To check if the modules are being loaded, the output of
 # lsmod | grep vfio
 ----
 
-should include the four modules from above.
+should include the three modules from above.
 
 .Finish Configuration
 
-Finally reboot to bring the changes into effect and check that it is indeed
+Finally, reboot to bring the changes into effect and check that IOMMU is indeed
 enabled.
 
 ----
@@ -161,8 +161,8 @@ It is okay if the device is in an `IOMMU` group together with its functions
 .PCI(e) slots
 [NOTE]
 ====
-Some platforms handle their physical PCI(e) slots differently. So, sometimes
-it can help to put the card in a another PCI(e) slot, if you do not get the
+Some platforms handle their physical PCI(e) slots differently. Sometimes
+it can help to put the card in another PCI(e) slot, if you do not get the
 desired `IOMMU` group separation.
 ====
 
@@ -170,7 +170,7 @@ desired `IOMMU` group separation.
 [NOTE]
 ====
 For some platforms, it may be necessary to allow unsafe interrupts.
-For this add  the following line in a file ending with `.conf' file in
+To do so, add the following line to a file ending in `.conf` under
 */etc/modprobe.d/*:
 
 ----
@@ -190,8 +190,8 @@ When passing through a whole GPU or a vGPU and graphic output is wanted, one
 has to either physically connect a monitor to the card, or configure a remote
 desktop software (for example, VNC or RDP) inside the guest.
 
-If you want to use the GPU as a hardware accelerator, for example, for
-programs using OpenCL or CUDA, this is not required.
+If you only want to use the GPU as a hardware accelerator - for example,
+with programs using OpenCL or CUDA - this isn't necessary.
 
 Host Device Passthrough
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -212,23 +212,23 @@ However, if this doesn't work, there are two things that can be done:
  options vfio-pci ids=1234:5678,4321:8765
 ----
 +
-to a .conf file in */etc/modprobe.d/* where `1234:5678` and `4321:8765` are
+to a `.conf` file in */etc/modprobe.d/* where `1234:5678` and `4321:8765` are
 the vendor and device IDs obtained by:
 +
 ----
 # lspci -nn
 ----
 
-* blacklist the driver on the host completely, ensuring that it is free to bind
-for passthrough, with
+* blacklist the driver on the host completely, ensuring it is free to bind
+for passthrough instead, by adding
 +
 ----
  blacklist DRIVERNAME
 ----
 +
-in a .conf file in */etc/modprobe.d/*.
+to a `.conf` file in */etc/modprobe.d/*.
 +
-To find the drivername, execute
+To find the driver name, execute
 +
 ----
 # lspci -k
@@ -249,14 +249,14 @@ will output something similar to
 	Kernel modules: <some-module>
 ----
 +
-Now we can blacklist the drivers by writing them into a .conf file:
+Now we can blacklist the drivers by writing them into a `.conf` file:
 +
 ----
 echo "blacklist <some-module>" >> /etc/modprobe.d/blacklist.conf
 ----
 
 For both methods you need to
-xref:qm_pci_passthrough_update_initramfs[update the `initramfs`] again and
+xref:qm_pci_passthrough_update_initramfs[update the `initramfs`] and
 reboot after that.
 
 Should this not work, you might need to set a soft dependency to load 'vfio-pci'
@@ -290,7 +290,7 @@ passthrough.
 .Mediated devices
 [NOTE]
 ====
-For mediated devices this line will differ as the device will be owned as the
+For mediated devices this line will differ as the device will be owned by the
 host driver directly, not 'vfio-pci'.
 ====
 
@@ -300,13 +300,14 @@ VM Configuration
 When passing through a GPU, the best compatibility is reached when using
 'q35' as machine type, 'OVMF' ('UEFI' for VMs) instead of SeaBIOS and PCIe
 instead of PCI. Note that if you want to use 'OVMF' for GPU passthrough, the
-GPU needs to have an UEFI capable ROM, otherwise use SeaBIOS instead. To check if
+GPU needs to have a UEFI-capable ROM, otherwise use SeaBIOS instead. To check if
 the ROM is UEFI capable, see the
 https://pve.proxmox.com/wiki/PCI_Passthrough#How_to_know_if_a_graphics_card_is_UEFI_.28OVMF.29_compatible[PCI Passthrough Examples]
 wiki.
 
-Furthermore, using OVMF, disabling vga arbitration may be possible, reducing the
-amount of legacy code needed to be run during boot. To disable vga arbitration:
+Furthermore, when using OVMF, VGA arbitration can potentially be
+disabled, which reduces the amount of legacy code that needs to run at
+boot. To disable VGA arbitration:
 
 ----
  echo "options vfio-pci ids=<vendor-id>,<device-id> disable_vga=1" > /etc/modprobe.d/vfio.conf
@@ -335,17 +336,17 @@ or by adding a line to the VM configuration file:
 
 If your device has multiple functions (e.g., ``00:02.0`' and ``00:02.1`' ),
 you can pass them through all together with the shortened syntax ``00:02`'.
-This is equivalent with checking the ``All Functions`' checkbox in the
+This is equivalent to checking the ``All Functions`' checkbox in the
 web interface.
 
-There are some options to which may be necessary, depending on the device
-and guest OS:
+There are some options which may be necessary, depending on the device and
+guest OS:
 
 * *x-vga=on|off* marks the PCI(e) device as the primary GPU of the VM.
 With this enabled the *vga* configuration option will be ignored.
 
 * *pcie=on|off* tells {pve} to use a PCIe or PCI port. Some guests/device
-combination require PCIe rather than PCI. PCIe is only available for 'q35'
+combinations require PCIe rather than PCI. PCIe is only available for 'q35'
 machine types.
 
 * *rombar=on|off* makes the firmware ROM visible for the guest. Default is on.
@@ -391,20 +392,20 @@ virtualization features of your devices, if available.
 ====
 To use SR-IOV, platform support is especially important. It may be necessary
 to enable this feature in the BIOS/UEFI first, or to use a specific PCI(e) port
-for it to work. In doubt, consult the manual of the platform or contact its
+for it to work. If in doubt, consult the manual of the platform or contact its
 vendor.
 ====
 
 'SR-IOV' (**S**ingle-**R**oot **I**nput/**O**utput **V**irtualization) enables
-a single device to provide multiple 'VF' (**V**irtual **F**unctions) to the
-system. Each of those 'VF' can be used in a different VM, with full hardware
-features and also better performance and lower latency than software
-virtualized devices.
+a single device to provide multiple 'VFs' (**V**irtual **F**unctions) to the
+system. Each of those 'VFs' can be used in a different VM, with full hardware
+features and also better performance and lower latency than software-virtualized
+devices.
 
-Currently, the most common use case for this are NICs (**N**etwork
+Currently, the most common use case for this is with NICs (**N**etwork
 **I**nterface **C**ard) with SR-IOV support, which can provide multiple VFs per
-physical port. This allows using features such as checksum offloading, etc. to
-be used inside a VM, reducing the (host) CPU overhead.
+physical port. This allows features such as checksum offloading to be used 
+inside a VM, reducing the (host) CPU overhead.
 
 Host Configuration
 ^^^^^^^^^^^^^^^^^^
@@ -418,22 +419,22 @@ Intel drivers
  max_vfs=4
 ----
 +
-which could be put file with '.conf' ending under */etc/modprobe.d/*.
+which can be placed in a file with a '.conf' ending under */etc/modprobe.d/*.
 (Do not forget to update your initramfs after that)
 +
 Please refer to your driver module documentation for the exact
 parameters and options.
 
 * The second, more generic, approach is using the `sysfs`.
-If a device and driver supports this you can change the number of VFs on
-the fly. For example, to setup 4 VFs on device 0000:01:00.0 execute:
+If a device and driver support this, you can change the number of VFs on
+the fly. For example, to set up 4 VFs on device 0000:01:00.0 execute:
 +
 ----
 # echo 4 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
 ----
 +
-To make this change persistent you can use the `sysfsutils` Debian package.
-After installation configure it via */etc/sysfs.conf* or a `FILE.conf' in
+To make this change persistent, you can use the `sysfsutils` Debian package.
+After installation, configure it via */etc/sysfs.conf* or a `FILE.conf' in
 */etc/sysfs.d/*.
 
 VM Configuration
@@ -447,22 +448,22 @@ Mediated Devices (vGPU, GVT-g)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Mediated devices are another method to reuse features and performance from
-physical hardware for virtualized hardware. These are found most common in
+physical hardware for virtualized hardware. These are most commonly found in
 virtualized GPU setups such as Intel's GVT-g and NVIDIA's vGPUs used in their
 GRID technology.
 
-With this, a physical Card is able to create virtual cards, similar to SR-IOV.
-The difference is that mediated devices do not appear as PCI(e) devices in the
-host, and are such only suited for using in virtual machines.
+With this, a physical card is able to create virtual cards, similar to SR-IOV.
+The difference is that mediated devices do not appear as PCI(e) devices on the
+host, and are thus only suited for use in virtual machines.
 
 Host Configuration
 ^^^^^^^^^^^^^^^^^^
 
-In general your card's driver must support that feature, otherwise it will
+In general, your card's driver must support that feature, otherwise it will
 not work. So please refer to your vendor for compatible drivers and how to
 configure them.
 
-Intel's drivers for GVT-g are integrated in the Kernel and should work
+Intel's drivers for GVT-g are integrated in the kernel and should work
 with 5th, 6th and 7th generation Intel Core Processors, as well as E3 v4, E3
 v5 and E3 v6 Xeon Processors.
 
@@ -494,10 +495,10 @@ supported types for the device '0000:00:02.0' you would simply execute:
 Each entry is a directory which contains the following important files:
 
 * 'available_instances' contains the amount of still available instances of
-this type, each 'mdev' use in a VM reduces this.
+this type; each 'mdev' used in a VM reduces this.
 * 'description' contains a short description about the capabilities of the type
-* 'create' is the endpoint to create such a device, {pve} does this
-automatically for you, if a 'hostpciX' option with `mdev` is configured.
+* 'create' is the endpoint to create such a device -- {pve} does this
+automatically for you if a 'hostpciX' option with `mdev` is configured.
 
 Example configuration with an `Intel GVT-g vGPU` (`Intel Skylake 6700k`):
 
@@ -508,11 +509,11 @@ Example configuration with an `Intel GVT-g vGPU` (`Intel Skylake 6700k`):
 With this set, {pve} automatically creates such a device on VM start, and
 cleans it up again when the VM stops.
 
-Use in Clusters
-~~~~~~~~~~~~~~~
+Usage in Clusters
+~~~~~~~~~~~~~~~~~
 
-It is also possible to map devices on a cluster level, so that they can be
-properly used with HA and hardware changes are detected and non root users
+It is also possible to map devices at a cluster level, so that they can be
+properly used with HA and hardware changes are detected and non-root users
 can configure them. See xref:resource_mapping[Resource Mapping]
 for details on that.
 
@@ -533,10 +534,10 @@ There are currently two vIOMMU implementations available: Intel and VirtIO.
 Intel vIOMMU
 ^^^^^^^^^^^^
 
-Intel vIOMMU specific VM requirements:
+Intel vIOMMU-specific VM requirements:
 
 * Whether you are using an Intel or AMD CPU on your host, it is important to set
-`intel_iommu=on` in the VMs kernel parameters.
+`intel_iommu=on` in the VM's kernel parameters.
 
 * To use Intel vIOMMU you need to set *q35* as the machine type.
 
@@ -553,7 +554,7 @@ VirtIO vIOMMU
 ^^^^^^^^^^^^^
 
 This vIOMMU implementation is more recent and does not have as many limitations
-as Intel vIOMMU but is currently less used in production and less documentated.
+as Intel vIOMMU but is currently less used in production and less documented.
 
 With VirtIO vIOMMU there is *no* need to set any kernel parameters. It is also
 *not* necessary to use q35 as the machine type, but it is advisable if you want
