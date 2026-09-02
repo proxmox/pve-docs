@@ -1,3 +1,31 @@
+pve-docs (9.2.7) trixie; urgency=medium
+
+  * pveceph: cephx key migration:
+    - make the helper the primary workflow: one reviewed apply run, followed
+      by the finishing command the helper prints for that cluster, with the
+      by-hand rotation kept as an explicit fallback
+    - explain that a running client keeps a replaced key in memory and fails
+      on its next reconnect, which consumers to refresh on each node, what
+      the helper tracks and confirms before the final step, and how to rotate
+      in place or through a second identity
+    - describe how the helper redoes the CephFS storage mounts, and what a
+      mount that stopped answering means for the processes blocked in it
+    - require the per-OSD UUID and on-node checks before the credentials of
+      an encrypted OSD are changed or removed, as an OSD ID and the cluster
+      FSID do not identify one incarnation of it
+    - put compatibility and sequencing checks before the monitor key change
+      and the rotating-key wipe, which can stop quorum or client IO without
+      warning, and recover locked-out clients through the independent monitor
+      credential
+    - state only what the health checks show instead of implying that the
+      warning state guarantees storage availability
+
+  * ceph storage: use dedicated least-privilege users in the examples for an
+    external Ceph cluster instead of copying client.admin to every node, and
+    remove the temporary credential once pvesm stored its private copy
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 02 Sep 2026 14:44:40 +0200
+
 pve-docs (9.2.6) trixie; urgency=medium
 
   * qm: clarify when the 'iothread' option takes effect and name the bus types
