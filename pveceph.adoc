@@ -1028,6 +1028,61 @@ use CRUSH rules of the same kind, either all specifying a device class,
 or none. Otherwise the autoscaler will skip the affected
 pools and their `pg_num` will not be adjusted.
 
+[[pveceph_cephx_how_it_works]]
+Cephx Authentication
+--------------------
+
+Cephx footnote:[Cephx authorization and authentication protocol
+{cephdocs-url}/dev/cephx_protocol/] protects access to a Ceph cluster.
+
+Every Ceph service and client, including storage consumers and tools,
+authenticates to a monitor as a Ceph user, such as `client.admin` or `osd.3`,
+with that user's long-term secret key. The monitor then issues temporary
+credentials called tickets:
+
+[cols="2,5",options="header"]
+|===
+|Term |Purpose
+|User key |Long-term secret used by a client or Ceph service to authenticate to a monitor.
+|Monitor ticket |Lets an authenticated Ceph user request tickets for Ceph services.
+|Service ticket |Grants temporary access to an OSD, manager, or metadata server.
+|Rotating service key |Lets Ceph services validate service tickets. Monitors
+replace these keys automatically.
+|===
+
+A running client usually reads its user key only when it starts. Updating a
+saved key or keyring file does not update that process. Existing tickets and
+connections can also remain usable for some time. A key rotation must
+therefore account for running and temporarily disconnected clients.
+
+[[pveceph_keyrings]]
+Keyring Locations
+~~~~~~~~~~~~~~~~~
+
+The authoritative `client.admin` keyring in a {pve} Ceph cluster is
+`/etc/pve/priv/ceph.client.admin.keyring`, not the copy in `/etc/ceph`. The
+xref:chapter_pmxcfs[Proxmox cluster file system (pmxcfs)] synchronizes it to
+every node. Credentials for managed Ceph storages are below
+`/etc/pve/priv/ceph/`.
+
+Keyrings below `/var/lib/ceph` belong to one Ceph service and are local to its
+node. `/etc/pve/priv/ceph.mon.keyring` contains both the shared `mon.` key and
+`client.admin`. Always merge updates into this file instead of overwriting it.
+`pveceph mon create` uses its `mon.` entry when it initializes a monitor.
+
+[[pveceph_cephx_lockbox]]
+Encrypted OSD Lockbox Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each encrypted OSD uses a dedicated Ceph user named
+`client.osd-lockbox.<UUID>`. Its authentication key is called the lockbox key.
+It is not the disk-encryption key itself: it lets the OSD retrieve that key
+from Ceph and unlock its storage when it starts. Ceph and the OSD's block
+device must contain matching copies of the lockbox key.
+
+WARNING: Never rotate a lockbox key with `ceph auth` alone. Use the migration
+helper, which verifies the OSD identity and updates both copies together.
+
 Ceph Client
 -----------
 
@@ -1293,30 +1348,6 @@ for a condition that stays until something outside the cluster changes.
 NOTE: Muting a check means that you accept the risk it describes for as long as
 the mute lasts, so mute deliberately.
 
-
-[[pveceph_keyrings]]
-Ceph Keyrings
-~~~~~~~~~~~~~
-
-Ceph authenticates its daemons and clients with cephx keys, which are stored in
-keyring files. {pve} keeps the keyrings of a managed cluster in two places, and
-the difference matters whenever a key changes.
-
-The authoritative `client.admin` keyring is
-`/etc/pve/priv/ceph.client.admin.keyring`, not the one in `/etc/ceph`. {pve}
-stores it on the xref:chapter_pmxcfs[configuration file system (pmxcfs)], which
-syncs to every node in real time. Write it once on any node, no copying is
-needed. Keyrings for external Ceph clusters are stored in
-`/etc/pve/priv/ceph/<STORAGE_ID>.keyring`.
-
-The per-daemon keyrings below `/var/lib/ceph` are local to their node and are
-not synced. Update them on the node the daemon runs on.
-
-WARNING: The file `/etc/pve/priv/ceph.mon.keyring` holds the `mon.` key as well,
-and `pveceph mon create` passes that file to `ceph-mon --mkfs`. If you change
-the `mon.` key without updating that file, every monitor created later boots
-with a stale key and can never join the cluster. Always merge a new key into
-that file, never overwrite it, as it also holds the `client.admin` key.
 
 [[pveceph_cipher_support]]
 Key Cipher Support
@@ -1820,41 +1851,6 @@ the temporary keyring files:
 ceph auth rm client.admin-backup
 rm /root/backup.keyring /root/admin.keyring
 ----
-
-[[pveceph_cephx_lockbox]]
-WARNING: Do not rotate a `client.osd-lockbox.<UUID>` key by hand. Such a key
-has two copies that have to agree: the entry in the authentication database,
-and the `ceph.cephx_lockbox_secret` LVM tag on the OSD's block device, which
-`ceph-volume` rebuilds the lockbox keyring from every time it activates the
-OSD. Rotating only the entry leaves that OSD unable to unlock at its next
-start.
-
-Migrate these keys with `--rotate-lockbox-keys`, which writes both copies. Run
-a dry run first, then repeat it with `--apply` after reviewing the plan:
-
-[source,bash]
-----
-/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys \
-    --rotate-lockbox-keys
-----
-
-The OSDs keep running, as nothing reads the lockbox keyring while an OSD runs.
-The new key is staged first, so an interrupted run leaves the OSD able to
-unlock; run the helper again to finish it. A key that was already rotated by
-hand is brought back into agreement the same way. If the block volume of an
-OSD cannot be found, the helper names that OSD and refuses to start.
-
-The helper leaves a lockbox entry alone when no OSD in the current map has its
-UUID. Do not remove the entry based on that fact alone. Stop OSD provisioning,
-confirm from a fresh map that the UUID is absent, and check every node for an
-LVM or raw `ceph-volume` device with that UUID. Save the auth entry before you
-remove it. If any node is unavailable or the device might return, keep the
-entry; it does not affect current OSDs.
-
-Migrate rather than mute: the only capability of such a key returns the LUKS
-passphrase of its OSD, so anyone who can read cephx traffic could decrypt that
-disk with it. An existing OSD keeps the key it was created with, so every
-encrypted OSD from before the upgrade is affected.
 
 [[pveceph_cephx_finish]]
 Finish the Migration
