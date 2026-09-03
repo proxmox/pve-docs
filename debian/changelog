@@ -1,3 +1,19 @@
+pve-docs (9.2.8) trixie; urgency=medium
+
+  * pveceph: update and streamline the Cephx migration guide:
+    - add a concise authentication and key-storage reference for Ceph users,
+      tickets, keyrings, and encrypted OSD lockbox keys
+    - describe the three-step pve-manager 9.2.16 helper workflow, including
+      staged Ceph user key rotation, explicit consumer refresh confirmation,
+      and cipher restriction that is refused while any key or consumer still
+      needs the old cipher
+    - keep compatibility rules and safety warnings in the main workflow while
+      moving implementation details to the 'Additional Migration Details'
+      section and directing rare recovery cases through the helper or Proxmox
+      support
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 04 Sep 2026 00:05:16 +0200
+
 pve-docs (9.2.7) trixie; urgency=medium
 
   * pveceph: cephx key migration:
