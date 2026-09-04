@@ -1354,27 +1354,26 @@ to `aes256k` and, when all clients support it, disable the vulnerable method.
 Migration Steps
 ^^^^^^^^^^^^^^^
 
-These three steps are the complete workflow for a normal {pve} cluster. The
-helper performs the rotations, safety checks, service restarts, and recovery
-after an interruption. Dry runs show a concise plan; add `--verbose` for full
+The migration helper checks the cluster, rotates keys, and resumes interrupted
+work. Review each dry run before applying its plan; add `--verbose` for full
 node, keyring, and device inventories.
 
 .Before You Begin
-* Upgrade `pve-manager` to 9.2.16 or newer and install the latest Ceph
+* Upgrade `pve-manager` to 9.2.17 or newer and install the latest Ceph
   packages on every node. Staged client-key rotation requires Ceph
   19.2.6-pve3, 20.2.4-pve3, or newer on every monitor. Then complete the
   rolling restart of all Ceph services.
 * Resolve health warnings and errors not listed in
   xref:pveceph_cephx_health_check_reference[Health Check Reference]. Ensure
   every node is reachable over SSH.
-* Run the helper as `root` on one node only. Do not start another migration or
-  a rolling restart from the web interface while it runs.
+* Run the helper as `root` on one node only. Do not start another migration,
+  a rolling restart, or change Ceph keys with other tools while it runs. The
+  helper's lock does not block direct Ceph authentication commands.
 
 1. Migrate the Cluster-Owned Keys
 +++++++++++++++++++++++++++++++++
 
-First review the plan by running the migration script in the default dry-run
-mode:
+Review the cluster-owned migration in the default dry-run mode:
 
 [source,bash]
 ----
@@ -1388,14 +1387,12 @@ If the plan reports no blocker, apply the same selection:
 /usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys --rotate-cluster-keys --apply
 ----
 
-This migrates the cluster keys the helper manages: the manager, metadata
-server, and OSD keys, the monitor key, the bootstrap and crash keys, and the
-xref:pveceph_cephx_lockbox[encrypted OSD lockbox keys]. A daemon that cannot
-take its new key while running is restarted, one at a time, monitors included.
-It does not change the keys of storage users or of
-xref:pveceph_keyrings[client.admin], remove existing tickets early, or disable
-the old encryption method. If the run stops, repeat the dry run and apply
-command. The helper resumes its recorded work.
+The helper rotates the manager, metadata server, OSD, monitor, bootstrap, crash,
+and xref:pveceph_cephx_lockbox[encrypted OSD lockbox keys]. It restarts services
+one at a time when needed, including monitors. Storage-user keys and
+`client.admin` stay unchanged, existing tickets remain valid, and the old
+cipher stays enabled. If the run stops, repeat the dry run and apply command
+to resume.
 
 After Ceph updates its health status, the two error-severity checks clear. The
 warning about rotating service keys can remain for a few hours and clears
@@ -1406,94 +1403,80 @@ automatically.
 ++++++++++++++++++++++++++++++++++++++++++++
 
 [[pveceph_cipher_support]]
-.Compatibility
-A Ceph user such as `client.admin` or the user of a storage is used by one or
-more consumers. A consumer is a workload or process, such as a virtual machine
-with RBD disks, a container on RBD, a CephFS mount, a {pve} service, or an
-external Ceph client.
+.Check compatibility
+Several workloads can share one Ceph user. Migrate its key only when every
+consumer supports `aes256k`, including disconnected and external clients.
+Ceph programs from the updated {pve} packages support it; kernel clients
+require a *running* kernel version 7.0 or newer.
 
-Migrate a user's key only if every consumer of it supports `aes256k`. Ceph
-programs from the updated {pve} packages support it. Kernel RBD and CephFS
-clients require a running kernel version 7.0 or newer. Containers on RBD always
-use the kernel client. Virtual machines use it when `krbd` is enabled, and
-CephFS uses it unless `fuse` is enabled. Check external systems too. If any
-consumer is incompatible or unknown, leave that user's key unchanged.
+[cols="2,3",options="header"]
+|===
+|Consumer |Client implementation
+|Virtual machine with RBD disks |Userspace, unless `krbd` is enabled.
+|Container on RBD |Always the kernel client.
+|CephFS mount |Kernel, unless `fuse` is enabled.
+|===
 
-Run the helper without options. It lists the remaining users and the options
-that rotate their keys. Users managed outside {pve} are listed separately;
-follow that client's supported key-rotation procedure or leave its key
-unchanged.
+Check external systems too. If any affected consumer is incompatible or
+unknown, leave its user's key unchanged and postpone this step.
 
-[source,bash]
-----
-/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys
-----
+.Stage the keys
+Use `--rotate-all-storage-keys` for the dedicated users of managed local RBD
+and CephFS storages, together with `--rotate-admin-key` for `client.admin`,
+which the command line and storages without their own user share. Every
+consumer of these users is affected; storages of external clusters are
+excluded.
 
-Rotate the keys of compatible storage users together with `client.admin`,
-which the command line and every storage without its own user share. The
-example assumes that the storage IDs `rbd-vm` and `cephfs-backup` have the
-**User name** values `rbd-vm` and `cephfs-backup`, respectively, in
-**Datacenter -> Storage**. Replace the option values with your storage IDs; the
-helper maps each ID to its configured Ceph user.
+The helper stages each new key and writes it to the managed keyring and secret
+files. Both keys remain valid until confirmation, allowing consumers to refresh
+before the old key is retired. If a monitor cannot keep both keys valid, the
+helper refuses staging and names the monitor to update or restart.
 
-First review the plan:
-
-[source,bash]
-----
-/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys \
-    --rotate-storage-key rbd-vm --rotate-storage-key cephfs-backup \
-    --rotate-admin-key
-----
-
-Normally, every selected key is `staged next to the current key`. Both keys
-then work until you confirm the rotation, so consumers can be refreshed at
-their own pace. While a key is staged, do not add or downgrade monitors and do
-not run `ceph auth` commands for that user.
-
-WARNING: If the plan says `replaced at once` for any selected user, stop all of
-that user's consumers before applying the plan, or leave its key unchanged.
-The old key stops authenticating as soon as it is replaced. Existing monitor
-tickets expire within three days by default, a reconnect can fail earlier, and
-existing data connections can work longer and then fail.
-
-After handling any `replaced at once` warning as described above, apply the
-same selection:
+Review the combined plan:
 
 [source,bash]
 ----
 /usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys \
-    --rotate-storage-key rbd-vm --rotate-storage-key cephfs-backup \
-    --rotate-admin-key --apply
+    --rotate-all-storage-keys --rotate-admin-key
 ----
+
+If the plan reports no blocker, apply it:
+
+[source,bash]
+----
+/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys \
+    --rotate-all-storage-keys --rotate-admin-key --apply
+----
+
+While a key is staged, do not add or downgrade monitors or change that user's
+keys with other tools. Its `AUTH_INSECURE_CLIENT_KEY_TYPE` warning remains
+until confirmation makes the new key current and invalidates the old one.
 
 [[pveceph_cephx_refresh_consumers]]
-.Refresh Consumers
-After applying a client-key rotation, refresh its consumers:
-
+.Refresh consumers
 * Live-migrate affected virtual machines in the web interface, or stop and
   start them. A guest reboot is not enough.
 * Stop and start affected containers and other RBD clients.
-* The helper remounts the CephFS storages itself. Unmount a mount it reports
-  as busy once nothing uses it; it comes back by itself.
-* Update saved keys outside {pve}, then restart or remount external clients.
+* Let backups, restores, disk imports, and clones on Ceph storage finish
+  before confirmation; these operations can retain the key they started with.
+* The helper refreshes idle CephFS mounts and leaves busy or unresponsive
+  mounts alone. Once nothing uses them, rerun the helper with `--apply` to
+  retry the outstanding mounts.
+* For clients outside {pve}, distribute the staged credential from the
+  xref:pveceph_cephx_external_copies[managed key files], then restart or remount
+  those clients.
 
-The helper reports recorded clients that might still hold an old key, but it
-cannot tell which key they loaded or see disconnected clients. Check the
-complete environment yourself. Then run another dry run and copy the exact
-confirmation command it prints. For a staged key, confirmation commits the new
-key and drops the old one. For a key replaced at once, it only records that
-every consumer was refreshed.
+The helper reports sessions that may still hold an old key. Consumer names
+are hints, not a complete workload inventory; check disconnected consumers
+and external key copies yourself.
 
 [[pveceph_cephx_finish]]
 3. Finish or Pause the Migration
 ++++++++++++++++++++++++++++++++
 
-After refreshing all consumers, run another dry run. It names any recorded
-client that might still hold an old key. Once none is left and you have checked
-disconnected and external consumers yourself, it prints the finishing command
-for your cluster. If every open rotation is ready, one option confirms all of
-them. The command also restricts the ciphers if no key still depends on the old
-cipher.
+Run a final dry run to check for remaining old-key sessions. It offers a
+confirmation command when its observed checks pass, but cannot verify
+disconnected consumers or external key copies for you.
 
 [source,bash]
 ----
@@ -1504,8 +1487,9 @@ WARNING: Clients that still need an old key or cipher cannot authenticate
 after this step. Existing IO can appear to work until a reconnect and then
 fail. Do not use `--force` to bypass a blocker.
 
-Run the exact command the dry run prints. For the example above, when every
-open rotation is ready and no key needs the old cipher, it is:
+After checking disconnected consumers and external copies, run the exact
+command the dry run prints. When every rotation is ready and no key needs the
+old cipher, it is:
 
 [source,bash]
 ----
@@ -1513,26 +1497,21 @@ open rotation is ready and no key needs the old cipher, it is:
     --confirm-all-clients-refreshed --restrict-ciphers
 ----
 
-For an intentional partial batch, the helper instead prints
-`--confirm-clients-refreshed <USER>` for each ready user. The aggregate option
-refuses the whole request if any open rotation is not ready.
+If any client remains incompatible, keep its key unchanged and the old cipher
+enabled rather than restricting it. You can
+xref:pveceph_mute_health_check[mute the remaining warnings] while waiting for
+those clients to upgrade.
 
-If any client remains incompatible, do not restrict the ciphers. Leave its key
-unchanged and keep the old cipher enabled. The cluster-owned migration has
-still removed the 'HEALTH_ERR' condition. You can mute the remaining warnings
-as described in xref:pveceph_mute_health_check[Mute a Health Check].
+Use `pveceph auth status` for current and pending key ciphers, as
+`ceph auth ls` does not list pending keys.
 
 NOTE: `/etc/pve/priv/cephx-key-migration.json` records progress and contains
-secret old keys. Protect it, and delete it only after the migration is finished
-and access and health are verified: deleting it earlier loses the rotation
-records.
+secret old keys. Protect it and keep it until the migration is complete and
+every consumer has been refreshed. Deleting it earlier loses the records
+needed to resume.
 
 Additional Migration Details
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The migration steps above contain the complete normal workflow. The following
-sections explain individual health checks, provide more examples, and cover
-uncommon recovery cases.
 
 [[pveceph_cephx_health_check_reference]]
 Health Check Reference
@@ -1545,35 +1524,75 @@ Health Check Reference
 |Run the cluster-owned migration. This check has error severity.
 |`AUTH_INSECURE_SERVICE_TICKETS` |Monitors issue service tickets with the old
 cipher. |Run the cluster-owned migration. This check has error severity.
-|`AUTH_INSECURE_CLIENT_KEY_TYPE` |The key of a Ceph user uses the old cipher.
-|Rotate the keys of compatible users, or mute the warning.
+|`AUTH_INSECURE_CLIENT_KEY_TYPE` |The active key of a Ceph user uses the old
+cipher. A staged user stays listed until its rotation is confirmed.
+|Rotate the keys of compatible users and confirm them, or mute the warning.
 |`AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE` |A rotating service key uses the old
-cipher. |Wait a few hours. It clears automatically.
+cipher. |Wait a few hours after migrating the cluster-owned keys. This warning
+does not prevent final cipher restriction.
 |`AUTH_INSECURE_KEYS_ALLOWED` |Monitors accept the old cipher. |Finish the
 migration, or mute the warning while old clients remain.
 |`AUTH_INSECURE_KEYS_CREATABLE` |Monitors can create old-cipher keys. |Finish
 the migration, or mute the warning while old clients remain.
 |===
 
-Staged Keys
-+++++++++++
+[[pveceph_cephx_staged_keys]]
+Staged Keys and Confirmation
+++++++++++++++++++++++++++++
 
-The monitors keep a staged key next to the current one and stop promoting
-pending Ceph user keys automatically. An older monitor would promote a staged
-key on its first use and end the grace period for the whole cluster. The helper
-therefore stages only when every monitor supports the feature and checks this
-again on every run.
+The helper disables automatic promotion of pending client keys so that the
+monitors keep both credentials valid. An older monitor would promote a staged
+key on its first use and end the grace period for the whole cluster. The
+helper therefore stages only when every monitor supports the feature and
+checks this again on every run.
 
-`--confirm-clients-refreshed <USER>`:: With `--apply`, commit one staged key
-and drop the previous one after its consumers were refreshed.
+With `--apply`, `--confirm-all-clients-refreshed` makes every staged key current
+and invalidates its previous key. The initial check refuses the entire batch
+if any open rotation is not ready. The helper then rechecks each key before
+retiring its old credential. If a consumer returns during the batch, completed
+rotations stay committed and the blocked key stays staged. To confirm ready
+users separately, use `--confirm-clients-refreshed <USER>` with `--apply`.
 
-`--confirm-all-clients-refreshed`:: With `--apply`, do the same for every open
-rotation. This fails before committing any key unless all open rotations are
-ready.
+[[pveceph_cephx_external_copies]]
+Key Copies for External Consumers
++++++++++++++++++++++++++++++++++
 
-`--abort-staged-key <USER>`:: With `--apply`, drop the key the helper staged
-for that user and put its current key back into every copy {pve} keeps. A
-consumer that already switched to the staged key loses its access.
+For an external consumer of the local cluster, copy the staged credential from
+the managed file for its Ceph user:
+
+* RBD keyring: `/etc/pve/priv/ceph/<STORAGE_ID>.keyring`
+* CephFS bare secret: `/etc/pve/priv/ceph/<STORAGE_ID>.secret`
+* Administrative keyring: `/etc/pve/priv/ceph.client.admin.keyring`
+
+Use the credential for that user, not `client.admin` as a substitute. Transfer
+it securely and update every saved copy before refreshing the consumer.
+Storage backed by an external cluster is different: the helper never rotates
+that cluster's keys. Follow its administrator's key-rotation procedure.
+
+The helper lists local users not managed by {pve} separately. Follow their
+client's supported rotation procedure, or leave their keys unchanged and keep
+the old cipher enabled.
+
+[[pveceph_cephx_rollback]]
+Roll Back a Staged Client Key
++++++++++++++++++++++++++++++
+
+To return a staged user to its current key:
+
+. Run the helper with `--abort-staged-key <USER> --apply`. It restores the
+  current key to every managed copy while both credentials remain valid.
+. Refresh all consumers back to that key, including disconnected clients and
+  external key copies. The helper retries managed CephFS mounts as during
+  forward migration.
+. Run the helper with `--confirm-abort-clients-refreshed <USER> --apply` to
+  retire the staged key. The helper refuses if monitor session collection is
+  incomplete, a visible session uses the staged key, or its key is unknown.
+
+Ceph 19.2.6-pve4 and 20.2.4-pve4 or newer monitors can identify each session's
+key, allowing consumers on the restored key to stay connected during rollback
+confirmation. Upgrade and restart older monitors to use this feature. Without
+key identification, every visible consumer of that user must disconnect before
+confirmation; upgrading is preferable for a shared user such as `client.admin`.
 
 Emergency Cipher Override
 +++++++++++++++++++++++++
