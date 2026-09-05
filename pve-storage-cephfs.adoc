@@ -73,6 +73,7 @@ cephfs: cephfs-external
 NOTE: Don't forget to set up the client's secret key file, if cephx was not
 disabled.
 
+[[storage_cephfs_auth]]
 Authentication
 ~~~~~~~~~~~~~~
 
@@ -81,8 +82,10 @@ automatically when adding the storage.
 
 If you use `cephx` authentication, which is enabled by default, provide the
 secret of a dedicated identity with only the capabilities required for this
-storage. The example below uses `client.pve-cephfs`; do not use
-`client.admin` for a storage client.
+storage. Obtain or create the identity as described in
+Ceph User Management.footnoteref:[cephusermgmt]
+The example below uses `client.pve-cephfs`; do not use `client.admin` for a
+storage client.
 
 Export the bare key through SSH to one {pve} node:
 
@@ -95,30 +98,21 @@ Then pass that file and the identity without its `client.` prefix to `pvesm`:
 
 ----
 # pvesm add cephfs <name> --monhost "10.1.1.20 10.1.1.21 10.1.1.22" \
-    --content backup --username pve-cephfs --keyring /root/cephfs.secret
+    --fs-name cephfs --content backup --username pve-cephfs \
+    --keyring /root/cephfs.secret
 ----
 
 After `pvesm` succeeds, remove `/root/cephfs.secret` because it contains the key
 in plain text.
 
-When configuring an external CephFS storage via the GUI, you can copy and
-paste the secret into the appropriate field.
-
-The secret is only the key itself, as opposed to the `rbd` backend which also
-contains a `[client.<USER>]` section.
-
-The secret will be stored at
-
-----
-# /etc/pve/priv/ceph/<STORAGE_ID>.secret
-----
+When configuring an external CephFS storage in the web interface, paste the
+secret into the appropriate field. CephFS uses the bare key, not the RBD keyring
+format with a `[client.<USER>]` section. {pve} stores the secret at
+`/etc/pve/priv/ceph/<STORAGE_ID>.secret`.
 
 If the external cluster rotates this identity, replace the stored secret before
 remounting the storage. The local cephx migration helper never rotates keys of
 external clusters.
-
-For information about creating the identity and limiting its capabilities, see
-Ceph User Management.footnoteref:[cephusermgmt]
 
 Storage Features
 ~~~~~~~~~~~~~~~~

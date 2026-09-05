@@ -1088,24 +1088,10 @@ Ceph Client
 
 [thumbnail="screenshot/gui-ceph-log.png"]
 
-Following the setup from the previous sections, you can configure {pve} to use
-such pools to store VM and Container images. Simply use the GUI to add a new
-`RBD` storage (see section
-xref:ceph_rados_block_devices[Ceph RADOS Block Devices (RBD)]).
-
-You also need to copy the keyring to a predefined location for an external Ceph
-cluster. If Ceph is installed on the Proxmox nodes itself, then this will be
-done automatically.
-
-NOTE: The filename needs to be `<storage_id> + `.keyring`, where `<storage_id>` is
-the expression after 'rbd:' in `/etc/pve/storage.cfg`. In the following example,
-`my-ceph-storage` is the `<storage_id>`:
-
-[source,bash]
-----
-mkdir /etc/pve/priv/ceph
-cp /etc/ceph/ceph.client.admin.keyring /etc/pve/priv/ceph/my-ceph-storage.keyring
-----
+Add an xref:ceph_rados_block_devices[RBD storage] in the web interface to use
+a Ceph pool for virtual machine and container disks. For an external cluster,
+follow the xref:storage_rbd_auth[authentication instructions] to configure a
+dedicated Ceph user and its keyring.
 
 [[pveceph_fs]]
 CephFS
