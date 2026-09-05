@@ -1,3 +1,16 @@
+pve-docs (9.2.9) trixie; urgency=medium
+
+  * ceph storage: use consistent dedicated-user authentication examples for
+    external clusters
+
+  * pveceph: clarify that sticky health-check mutes still expire when a
+    duration is set
+
+  * pveceph: update the Cephx migration guide for bulk storage-key rotation,
+    consumer refresh, and rollback with pve-manager 9.2.17
+
+ -- Proxmox Support Team <support@proxmox.com>  Sat, 05 Sep 2026 16:24:10 +0200
+
 pve-docs (9.2.8) trixie; urgency=medium
 
   * pveceph: update and streamline the Cephx migration guide:
