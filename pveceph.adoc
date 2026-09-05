@@ -1304,35 +1304,26 @@ are executed.
 Mute a Health Check
 ~~~~~~~~~~~~~~~~~~~
 
-A health check that persists keeps the cluster out of 'HEALTH_OK' and buries
-checks that you can still act on. That applies to a condition you cannot resolve
-at all, such as one waiting on clients outside the cluster, as much as to one
-you have scheduled for a later maintenance window. Ceph can mute such a check:
-it keeps evaluating it and keeps it visible, but stops it from counting towards
-the cluster status, so a new problem stands out again.
+Muting a health check keeps it visible but excludes it from the overall health
+status, making new problems easier to notice. Ceph continues evaluating the
+check. Use a duration so that a deferred warning returns automatically, for
+example after two weeks:
 
 [source,bash]
 ----
 ceph health mute <CHECK> 2w
-ceph health mute <CHECK> --sticky
 ----
 
-Give the mute a duration for anything you mean to come back to. It expires on
-its own and the check returns, which puts it in front of you again instead of
-leaving it silenced indefinitely.
+In the web interface, expand the check under **Datacenter -> Ceph**, click
+'Mute', and set a duration. The check stays in the list, marked as muted; use
+'Unmute' in the same place to restore it earlier.
 
-The {pve} web interface offers the same in the health panel of
-**Datacenter -> Ceph**: expand the row of the check, and its detail offers to
-mute it, with an optional duration. A muted check stays in the list, marked as
-muted, and the same place offers to unmute it again.
+By default, a mute clears when more items become affected. Enable 'Keep Mute',
+or add `--sticky` to the command, only if the check should stay muted in that
+case. This does not change the duration: a timed sticky mute still expires.
 
-Tick 'Keep Mute' there, which corresponds to `--sticky` above. Without it, the
-mute clears itself as soon as more items become affected, which brings the check
-back to attention. That is useful for silencing something temporarily, but not
-for a condition that stays until something outside the cluster changes.
-
-NOTE: Muting a check means that you accept the risk it describes for as long as
-the mute lasts, so mute deliberately.
+NOTE: Muting does not resolve the condition. You accept its risk for as long
+as the mute lasts.
 
 
 [[pveceph_cephx_migration]]
