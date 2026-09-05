@@ -465,8 +465,8 @@ xref:pvesdn_install_frrouting[install FRRouting].
 
 EVPN controller configuration options:
 
-ASN #:: A unique BGP ASN number. It's highly recommended to use a private ASN
-  number (64512 – 65534, 4200000000 – 4294967294), as otherwise you could end up
+ASN:: A unique BGP ASN. It's highly recommended to use a private ASN
+  (64512 – 65534, 4200000000 – 4294967294), as otherwise you could end up
   breaking global routing by mistake. Every EVPN controller configured on a node
   must have the same ASN configured.
 
@@ -516,7 +516,7 @@ Otherwise, if an EVPN controller is configured, then the ASN from the EVPN
 controller is used - otherwise the ASN from the BGP controller.
 
 The SDN stack utilizes the local-as directive together with the `no-prepend
-replace-as` option in the FRR configuration for handling multiple ASN numbers in
+replace-as` option in the FRR configuration for handling multiple ASNs in
 the configuration. This is the case when the BGP and EVPN controller have
 different ASNs configured and auto mode is disabled.
 
@@ -557,8 +557,8 @@ BGP controller configuration options:
 
 Node:: The node of this BGP controller
 
-ASN #:: A unique BGP ASN number. It's highly recommended to use a private ASN
-  number in the range (64512 - 65534) or (4200000000 - 4294967294), as otherwise
+ASN:: A unique BGP ASN. It's highly recommended to use a private ASN
+  in the range (64512 - 65534) or (4200000000 - 4294967294), as otherwise
   you could break global routing by mistake.
 
 Peer:: A list of peer IP addresses you want to communicate with using the
@@ -1192,8 +1192,8 @@ Options that are available on every node that is part of a fabric:
 Node:: Select the node which will be added to the fabric. Only nodes that are
 currently in the cluster will be shown.
 
-ASN:: BGP Autonomous System Number for this node. It is recommended to use
-private ASN numbers (64512-65534 for 16-bit, 4200000000-4294967294 for 32-bit).
+ASN:: BGP Autonomous System Number for this node. It is recommended to use a
+private ASN (64512-65534 for 16-bit, 4200000000-4294967294 for 32-bit).
 
 IPv4:: A unique IPv4 address for this node, also used as the BGP router-id.
 Required when the fabric has an IPv4 prefix configured; each node in the same
@@ -1772,12 +1772,12 @@ EVPN Setup Example
 The example assumes a cluster with three nodes (node1, node2, node3) with IP
 addresses 192.168.0.1, 192.168.0.2 and 192.168.0.3.
 
-Create an EVPN controller, using a private ASN number and the above node
+Create an EVPN controller, using a private ASN and the above node
 addresses as peers.
 
 ----
 ID: myevpnctl
-ASN#: 65000
+ASN: 65000
 Peers: 192.168.0.1,192.168.0.2,192.168.0.3
 ----
 
