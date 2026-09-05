@@ -1358,6 +1358,9 @@ The migration helper checks the cluster, rotates keys, and resumes interrupted
 work. Review each dry run before applying its plan; add `--verbose` for full
 node, keyring, and device inventories.
 
+Reruns do not rotate completed keys again. After each run, invoke the helper
+without options to check the current state and follow the next steps it prints.
+
 .Before You Begin
 * Upgrade `pve-manager` to 9.2.17 or newer and install the latest Ceph
   packages on every node. Staged client-key rotation requires Ceph
@@ -1391,8 +1394,7 @@ The helper rotates the manager, metadata server, OSD, monitor, bootstrap, crash,
 and xref:pveceph_cephx_lockbox[encrypted OSD lockbox keys]. It restarts services
 one at a time when needed, including monitors. Storage-user keys and
 `client.admin` stay unchanged, existing tickets remain valid, and the old
-cipher stays enabled. If the run stops, repeat the dry run and apply command
-to resume.
+cipher stays enabled.
 
 After Ceph updates its health status, the two error-severity checks clear. The
 warning about rotating service keys can remain for a few hours and clears
@@ -1614,10 +1616,9 @@ before the final dry run.
 Interrupted Runs and Manual Fallback
 ++++++++++++++++++++++++++++++++++++
 
-An interrupted helper run is normally resumable. Run the helper again without
-`--apply` first. It reads its journal, checks the current cluster state, and
-prints the next command. Keep the journal unchanged and use that command rather
-than starting a manual rotation.
+After an interruption, run the helper without options to check what remains.
+Keep the journal unchanged and follow the printed next steps rather than
+starting a manual rotation.
 
 If the helper still cannot proceed, install the latest `pve-manager` and retry.
 Contact Proxmox support before editing the journal or keyrings, or before using
