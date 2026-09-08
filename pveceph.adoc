@@ -1341,7 +1341,8 @@ Why the Health Checks Appear
 Ceph Squid 19.2.6 and Ceph Tentacle 20.2.4 add health checks for keys and
 temporary access credentials that use the older `aes` encryption method. The
 checks can therefore appear directly after an upgrade even if the cluster
-worked without warnings before. The older method is affected by CVE-2025-30156.
+worked without warnings before. The older method is affected by
+https://docs.ceph.com/en/latest/security/CVE-2025-30156['CVE-2025-30156'].
 See the upstream release announcement for background footnote:[Ceph: Squid
 v19.2.6 and Tentacle v20.2.4 released
 https://ceph.io/en/news/blog/2026/v20-2-4-v19-2-6-combo-released/].
