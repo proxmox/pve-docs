@@ -1,3 +1,11 @@
+pve-docs (9.2.10) trixie; urgency=medium
+
+  * pveceph: update the Cephx migration guide:
+    - direct users to the helper's current next steps when resuming
+    - align client terminology and link the CVE-2025-30156 advisory
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 08 Sep 2026 21:32:09 +0200
+
 pve-docs (9.2.9) trixie; urgency=medium
 
   * ceph storage: use consistent dedicated-user authentication examples for
