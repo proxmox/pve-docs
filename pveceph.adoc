@@ -1365,8 +1365,8 @@ without options to check the current state and follow the next steps it prints.
 .Before You Begin
 * Upgrade `pve-manager` to 9.2.17 or newer and install the latest Ceph
   packages on every node. Staged client-key rotation requires Ceph
-  19.2.6-pve3, 20.2.4-pve3, or newer on every monitor. Then complete the
-  rolling restart of all Ceph services.
+  19.2.6-pve3, 20.2.4-pve3, or newer on every monitor.
+* Then complete the rolling restart of all Ceph services.
 * Resolve health warnings and errors not listed in
   xref:pveceph_cephx_health_check_reference[Health Check Reference]. Ensure
   every node is reachable over SSH.
@@ -1464,6 +1464,9 @@ until confirmation makes the new key current and invalidates the old one.
 * The helper refreshes idle CephFS mounts and leaves busy or unresponsive
   mounts alone. Once nothing uses them, rerun the helper with `--apply` to
   retry the outstanding mounts.
+  If your virtual machines have ISOs from a CephFS mount attached, you may have
+  to detach the ISOs or migrate affected virtual machines to a different node
+  to be able to refresh the CephFS mount on that node.
 * For clients outside {pve}, distribute the staged credential from the
   xref:pveceph_cephx_external_copies[managed key files], then restart or remount
   those clients.
@@ -1491,13 +1494,8 @@ fail. Do not use `--force` to bypass a blocker.
 
 After checking disconnected clients and external copies, run the exact
 command the dry run prints. When every rotation is ready and no key needs the
-old cipher, it is:
-
-[source,bash]
-----
-/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys --apply \
-    --confirm-all-clients-refreshed --restrict-ciphers
-----
+old cipher, it will print the options `--apply --confirm-all-clients-refreshed
+--restrict-ciphers`.
 
 If any client remains incompatible, keep its key unchanged and the old cipher
 enabled rather than restricting it. You can
