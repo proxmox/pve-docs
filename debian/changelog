@@ -1,3 +1,10 @@
+pve-docs (9.2.11) trixie; urgency=medium
+
+  * pveceph: update the Cephx migration guide:
+    - rephrase and extend for clarity
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 15 Sep 2026 15:17:55 +0200
+
 pve-docs (9.2.10) trixie; urgency=medium
 
   * pveceph: update the Cephx migration guide:
