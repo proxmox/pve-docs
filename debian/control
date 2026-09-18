@@ -12,7 +12,7 @@ Build-Depends: asciidoc-dblatex,
                libjson-perl,
                librsvg2-bin,
                lintian,
-               proxmox-widget-toolkit-dev,
+               proxmox-widget-toolkit-dev (>= 5.2.10),
                rsync,
                source-highlight,
 Standards-Version: 4.6.2
