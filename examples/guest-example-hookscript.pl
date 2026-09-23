@@ -31,6 +31,35 @@ if ($phase eq 'pre-start') {
     # print "preparations failed, aborting."
     # exit(1);
 
+} elsif ($phase eq 'post-pci-prepare') {
+
+    # Only called for virtual machines, not containers.
+    #
+    # This phase will be called for each pci device that is passed through,
+    # after it was prepared by the Proxmox VE stack. In other words when either
+    # * the mdev/vGPU was created
+    # * the driver was changed to vfio-pci and the device was reset
+    #
+    # This phase can be useful to do additional preparation that the Proxmox VE
+    # stack does not do, like setting vgpu_params for NVIDIA vGPU.
+    #
+    # This phase has 3 additional parameters (one optional) given via the environment:
+
+    # the id from the config, e.g. 'hostpci0'
+    my $hostpci_id = $ENV{PVE_HOOK_ID};
+
+    # the pciid of the passed through device or the underlying device in case of an mdev/vGPU
+    # e.g. '0000:01:00.0'
+    my $pciid = $ENV{PVE_HOOK_PCIID};
+
+    # the uuid of the mediated device if it was one,
+    # e.g. '00000001-0000-0000-0000-000000008006'
+    # This is not set if the pci device is not an mdev.
+    my $mdev_uuid = $ENV{PVE_HOOK_MDEV_UUID};
+
+    print "Prepared PCI device for $hostpci_id with pciid: $pciid.\n";
+    print "It is a mediated device with UUID: $mdev_uuid\n" if $mdev_uuid;
+
 } elsif ($phase eq 'post-start') {
 
     # Second phase 'post-start' will be executed after the guest
