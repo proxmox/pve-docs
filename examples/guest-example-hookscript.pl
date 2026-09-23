@@ -84,7 +84,7 @@ if ($phase eq 'pre-start') {
     print "$vmid stopped. Doing cleanup.\n";
 
 } else {
-    die "got unknown phase '$phase'\n";
+    warn "got unknown phase '$phase'\n";
 }
 
 exit(0);
