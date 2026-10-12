@@ -1566,8 +1566,37 @@ To accommodate this use case one can set either lower, upper or both boundaries
 via the `datacenter.cfg` configuration file, which can be edited in the web
 interface under 'Datacenter' -> 'Options'.
 
-NOTE: The range is only used for the next-id API call, so it isn't a hard
-limit.
+By default, the lowest free VMID in the range is suggested, so the VMIDs of
+destroyed guests get reused. This can be undesirable, for example, if external
+backup or monitoring systems identify guests by their VMID. With the `unique`
+option set, only VMIDs that have never been in use are suggested. For this,
+{pve} records the VMID of every guest on creation and destruction in
+`/etc/pve/virtual-guest/used-guest-ids`, independent of whether `unique` is
+set. VMIDs of guests that were removed before {pve} started recording them are
+not known and may still be suggested.
+
+The range and the `unique` option only affect which VMID is suggested. Any
+other free VMID can still be chosen manually. With the `enforce` option set,
+they become a hard limit instead. New guests can then only use VMIDs from the
+range and, if `unique` is set as well, only VMIDs that have never been in use.
+Operations on existing guests, like destroying them or restoring a backup over
+them, are not restricted.
+
+----
+next-id: lower=10000,upper=20000,unique=1,enforce=1
+----
+
+NOTE: Consecutive VMIDs are stored as a single range, so the list of used VMIDs
+usually stays small. It only grows large if many VMIDs with gaps between them
+are used. If the list reaches 512 KiB, a warning is logged whenever it is
+updated. The list shrinks again as gaps get filled, since the ranges on both
+sides of a gap are merged into a single entry once all VMIDs in it have been
+used. With `unique` set, auto-selection suggests the lowest VMID that has never
+been used and thereby fills the gaps from the bottom up. To stay within the file
+size limit of the cluster file system, the smallest gaps between recorded VMIDs
+are marked as used once the list would exceed 768 KiB. As a result, they are no
+longer suggested with `unique` set and cannot be used for new guests anymore
+with `enforce` set as well.
 
 Guest Migration
 ---------------
