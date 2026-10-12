@@ -130,6 +130,7 @@ Files
 |`storage.cfg`                          | {pve} storage configuration
 |`user.cfg`                             | {pve} access control configuration (users/groups/...)
 |`virtual-guest/cpu-models.conf`        | For storing custom CPU models
+|`virtual-guest/used-guest-ids`         | Guest IDs that have been in use, for optionally avoiding their reuse
 |`vzdump.cron`                          | Cluster-wide vzdump backup-job schedule
 |=======
 
