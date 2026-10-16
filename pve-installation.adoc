@@ -352,8 +352,8 @@ details.
 
 Defines the total hard disk size to be used. This is useful to save free space
 on the hard disk(s) for further partitioning (for example to create a
-swap-partition). `hdsize` is only honored for bootable disks, that is only the
-first disk or mirror for RAID0, RAID1 or RAID10, and all disks in RAID-Z[123].
+swap-partition). `hdsize` applies to every disk of the pool, as the installer
+sets up all of them as bootable disks.
 
 [[advanced_btrfs_options]]
 Advanced BTRFS Configuration Options
