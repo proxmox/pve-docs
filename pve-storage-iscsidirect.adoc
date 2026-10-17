@@ -21,7 +21,7 @@ Configuration
 ~~~~~~~~~~~~~
 
 The user mode iSCSI backend uses the same configuration options as the
-Open-iSCSI backend.
+Open-iSCSI backend, except for `managed-multipath`.
 
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----

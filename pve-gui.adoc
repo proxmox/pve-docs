@@ -232,7 +232,9 @@ On the datacenter level, you can access cluster-wide settings and information.
 
 * *Options:* view and manage cluster-wide default settings.
 
-* *Storage:* provides an interface for managing cluster storage.
+* *Storage:* provides an interface for managing cluster storage. *SAN* below it
+   shows the state of the SAN LUNs on all nodes, manages the multipath
+   configuration and offers a guided setup for shared LVM.
 
 * *Backup:* schedule backup jobs. This operates cluster wide, so it doesn't
    matter where the VMs/containers are on your cluster when scheduling.
@@ -283,6 +285,9 @@ The top header has useful buttons such as 'Reboot', 'Shutdown', 'Shell',
 * *Firewall:* manage the Proxmox Firewall for a specific node.
 
 * *Disks:* get an overview of the attached disks, and manage how they are used.
+
+* *SAN:* get an overview of the SAN LUNs of the node, with their paths and
+  usage. Below it, *iSCSI* shows the iSCSI targets and sessions.
 
 * *Ceph:* is only used if you have installed a Ceph server on your
    host. In this case, you can manage your Ceph cluster and see the status

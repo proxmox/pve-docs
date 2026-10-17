@@ -1,0 +1,288 @@
+[[storage_multipath]]
+Multipath
+---------
+ifdef::wiki[]
+:pve-toplevel:
+:title: Storage: Multipath
+endif::wiki[]
+
+Multipath lets a node reach a SAN LUN over several connections, called paths,
+so that I/O continues when one of them fails. Device-mapper multipath combines
+the paths of a LUN into one block device, a map, which every node identifies by
+the World Wide Identifier (WWID) of the LUN. Use it for shared LVM on iSCSI or
+Fibre Channel.
+
+{pve} sets up the maps on all nodes and shows their state under *Datacenter ->
+Storage -> SAN*. An iSCSI storage with *Multipath* enabled requests the maps of
+its LUNs, a Fibre Channel LUN needs a multipath entry. NVMe namespaces use the
+multipath support of the kernel instead and are not covered here.
+
+Prerequisites
+~~~~~~~~~~~~~
+
+* All nodes run pve-manager 9.2.34 or later. Older nodes do not apply the
+  multipath configuration, and drop the *Multipath* option of iSCSI storages
+  when they save the storage configuration.
+* `multipath-tools` is installed on all nodes; it is only a recommended
+  package.
+* For iSCSI, the array allows the initiator name of each node, which
+  *Datacenter -> Storage -> SAN* shows.
+* For Fibre Channel, zoning and LUN masking allow the HBA ports of each node,
+  whose WWPNs `cat /sys/class/fc_host/host*/port_name` lists.
+* The same empty LUN is presented to the nodes that use it over redundant
+  paths. For Fibre Channel, rescan the hosts on each node after mapping a LUN:
++
+----
+# for host in /sys/class/fc_host/host*; do echo '- - -' > /sys/class/scsi_host/${host##*/}/scan; done
+----
++
+If the LUN does not show up, check that the target ports of the array are
+`Online`:
++
+----
+# for port in /sys/class/fc_remote_ports/rport-*; do echo $(cat $port/{port_name,port_state,roles}); done
+----
+
+[[storage_multipath_setup]]
+Setting Up Shared LVM
+~~~~~~~~~~~~~~~~~~~~
+
+. Under *Datacenter -> Storage -> SAN* on a node that can access the LUN,
+  select *Guided Setup -> LVM on iSCSI* or *LVM on Fibre Channel*.
+. For iSCSI, enter a portal, select the target and name the connection storage,
+  which logs the nodes in to the target. *Nodes* under *Advanced* limits it to
+  some nodes.
+. Select the LUN and name the storage and the volume group. For Fibre Channel,
+  *Nodes* under *Advanced* limits the storage to some nodes. If virtual
+  machines need snapshots, enable *Allow Snapshots as Volume-Chain* before
+  creating their disks, see xref:pvesm_lvm_config[LVM configuration].
+. Check the *Active Paths* of every node in the result before placing guests on
+  the storage, as the setup only checked the LUN on the node serving the web
+  UI. Nodes show *Pending* while they set up the LUN, for up to a minute. A
+  node that stays *Missing* cannot reach the LUN or has no map for it.
+  *OK (1 path)* means that the node has no redundancy.
+
+For Fibre Channel, the setup uses an existing map as it is, so check that a map
+set up by hand exists on all nodes. Otherwise, it adds a multipath entry if
+there is none, with *Expected Paths* set to the paths of the node serving the
+web UI if it has at least two. Check that number, as a fabric may have been
+down during the setup.
+
+If the setup fails, check the error and the task log before retrying. Closing
+the dialog does not undo what was already created.
+
+The setup refuses a LUN on which it finds data. To keep a volume group that a
+LUN already holds, add it under *Datacenter -> Storage -> Add -> LVM* with
+*Shared* enabled. To reuse a LUN whose data is no longer needed, stop its users
+on all hosts, remove its storage references and use *Wipe* under *Node -> SAN*
+as `root@pam`. The wipe removes partition tables and file system and LVM
+signatures, and zeroes the start of the LUN; it is not a secure erase. It
+refuses a LUN that a process on the node has open, but cannot detect every user,
+nor any on other hosts. Other nodes can still show the old usage afterwards.
+
+Without the guided setup, add an *iSCSI* storage with *Multipath* enabled and
+*Use LUNs directly* cleared under *Datacenter -> Storage -> Add*, then an *LVM*
+storage with it as *Base storage*, the LUN as *Base volume* and *Shared*
+enabled. On the command line:
+
+----
+# pvesm add iscsi <connection> --portal <portal> --target <iqn> \
+    --content none --managed-multipath 1
+# pvesm list <connection> --content images
+# pvesm add lvm <storage> --vgname <vg> --base <volume-id> --shared 1
+----
+
+Use the full volume ID from the listing, which ends in `dm-uuid-mpath-<wwid>`.
+Adding the LVM storage creates the volume group.
+
+For Fibre Channel, look up the WWID of the LUN with `pvesm scan san-luns` and
+add an entry for it. Once the scan shows a by-id path with
+`dm-uuid-mpath-<wwid>`, create the volume group and storage on that node:
+
+----
+# pvesm scan san-luns --output-format json
+# pvesh create /cluster/multipath/wwid --wwid <wwid> --paths-expected <paths>
+# pvesh create /nodes/localhost/disks/lvm --name <storage> \
+    --device /dev/disk/by-id/dm-uuid-mpath-<wwid> --add_storage 1
+----
+
+To limit a storage to some nodes, set `--nodes <nodes>` on the entry or iSCSI
+storage and on the LVM storage. For Fibre Channel, leave out `--add_storage 1`
+and add the storage with `pvesm add lvm <storage> --vgname <storage> --shared 1
+--nodes <nodes>`. Then check under *Datacenter -> Storage -> SAN* that every
+node has the LUN with all its paths.
+
+Adding Another LUN
+~~~~~~~~~~~~~~~~~~
+
+Present the new LUN to the same nodes. iSCSI storages detect it by themselves,
+for Fibre Channel rescan the hosts as shown in the prerequisites. Then run the
+guided setup again. For iSCSI, select the same target to reuse its connection
+storage, after enabling *Multipath* on it if needed, see
+xref:storage_multipath_config[Existing Configurations].
+
+[[storage_multipath_grow]]
+Growing a LUN
+~~~~~~~~~~~~~
+
+. Grow the LUN on the array. Never shrink a LUN in use.
+. On Fibre Channel nodes, rescan each path of the LUN with
+  `echo 1 > /sys/block/<path>/device/rescan`, for example for `sdc`. iSCSI
+  storages rescan by themselves.
+. Wait until `multipath -ll <wwid>` or *Node -> SAN* shows the new size on every
+  node. A map grows once all its paths have grown; if it does not, run
+  `multipathd resize map <map>`.
+. Run `pvresize /dev/disk/by-id/dm-uuid-mpath-<wwid>` on one node.
+
+[[storage_multipath_remove]]
+Removing a LUN
+~~~~~~~~~~~~~~
+
+These steps retire a LUN together with its LVM storage. {pve} never flushes a
+map or removes a WWID by itself. A map that queues I/O without paths can hang
+guests and LVM commands, so switch it to fail I/O before unmapping the LUN:
+
+. Stop all users of the LUN on all hosts. Remove the storage with
+  `pvesm remove <storage>` and run `vgchange -an <vg>` on every node. Both keep
+  the data.
+. Make the map fail I/O without paths with
+  `pvesh set /cluster/multipath/wwid/<wwid> --no-path-retry fail`. Without an
+  entry, create one with
+  `pvesh create /cluster/multipath/wwid --wwid <wwid> --no-path-retry fail`,
+  adding `--nodes <nodes>` if only some nodes see the LUN.
+. Wait until `multipath -ll <wwid>` no longer shows `queue_if_no_path` on any
+  node. Note the paths of the map, such as `sdc`, with the WWID of each from
+  `/sys/block/<path>/device/wwid`.
+. Unmap the LUN on the array.
+. On every node, flush the map with `multipath -f <map>`. If it stays busy,
+  stop its remaining users instead of forcing it. Then remove each noted path
+  whose WWID is unchanged with `echo 1 > /sys/block/<path>/device/delete`.
+. Remove the entry with `pvesh delete /cluster/multipath/wwid/<wwid>`. Removed
+  earlier, the default retry policy of the array would apply to the map again.
+. On every node, wait until the WWID is gone from
+  `/etc/multipath/conf.d/pve-aliases.conf`, about ten seconds, then run
+  `multipath -w <wwid>`. Check that `grep -c '^/<wwid>/$' /etc/multipath/wwids`
+  prints 0, also after the next status update.
+
+If I/O already hangs because the LUN was unmapped first, run
+`multipathd disablequeueing map <map>` on the affected nodes and continue.
+
+[[storage_multipath_disconnect]]
+Removing an iSCSI connection storage does not log out its sessions; use
+`iscsiadm` for that once no LUN of the target is in use.
+
+Checking Path Failures
+~~~~~~~~~~~~~~~~~~~~~
+
+*Datacenter -> Storage -> SAN* shows configuration errors of the nodes, and the
+LUNs that {pve} manages or that a storage uses with their state on each node.
+Other maps, for example those of a third-party storage plugin, are only counted
+under *Other Maps*. *Node -> SAN* lists all LUNs of a node with their paths.
+
+The *State* of a LUN is its worst known state, followed by the nodes in that
+state if not all are. Hover over it for the state and paths of each node.
+*Multipath* shows how the map is managed: by an explicit entry, by a storage, or
+*Unmanaged* if {pve} did not set it up.
+
+*Optimal*:: All paths are usable and no expected path is missing.
+*OK (1 path)*:: The only path is usable; there is no redundancy.
+*Degraded*:: Some paths are unusable or missing.
+*Failed*:: No path is usable; I/O queues or fails depending on the retry policy.
+*Missing*:: The node should have a map for the LUN but has none. Check the LUN
+under *Node -> SAN* on that node, the *Message* of the node and its access on
+the array.
+*Unknown*:: The node has no current report or cannot tell whether it has the
+map. Check the node under *Nodes*.
+
+{pve} does not notify about a lost path. During a path failure, expand the LUN
+under *Node -> SAN* on the affected node to see which paths failed. For iSCSI,
+*Node -> SAN -> iSCSI* shows the sessions. After restoring the connection,
+check that every node has all its paths again. Scripts can read the states with
+`pvesh get /cluster/multipath/status`.
+
+An iSCSI storage expects one path per portal, so the array should report to
+each node only the portals it can reach. For Fibre Channel, set *Expected
+Paths* in the multipath entry, as the guided setup does. Otherwise, a path that
+the kernel removed after a failure no longer counts as missing.
+
+A node reports up to about 700 LUNs. With more, it reports `too many LUNs to
+report`, and its LUNs are only shown under *Node -> SAN*.
+
+[[storage_multipath_entries]]
+Multipath Entries
+~~~~~~~~~~~~~~~~~
+
+An entry in `/etc/pve/multipath.cfg` makes the nodes set up the map of a LUN
+and holds its settings. Fibre Channel and SAS LUNs need one. For a LUN of an
+iSCSI storage with *Multipath* enabled, an entry is only needed for its
+settings. Manage the entries under *Datacenter -> Storage -> SAN* or with
+`pvesh` under `/cluster/multipath/wwid`.
+
+alias::
+
+The name of the map.
+
+nodes::
+
+The nodes that should have the map. All nodes if unset.
+
+no-path-retry::
+
+What happens to I/O while all paths are down: `queue` holds it until a path
+returns, `fail` fails it at once, and a number holds it for that many path
+checks. If unset, the settings for the array apply.
+
+paths-expected::
+
+The number of paths each node should have. Fewer usable paths make the LUN
+*Degraded* on that node.
+
+.Configuration Example (`/etc/pve/multipath.cfg`)
+----
+wwid: 36001405a1b2c3d4e5f60718293a4b5c6
+     alias db-lun
+     no-path-retry 12
+     nodes node1,node2
+     paths-expected 4
+----
+
+[[storage_multipath_config]]
+Array Settings and Existing Configurations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use the built-in device profiles unless the array vendor requires changes.
+*Edit Overrides* under *Datacenter -> Storage -> SAN* edits
+`/etc/pve/multipath-overrides.conf` for all nodes, for example to set a retry
+count for one array model:
+
+----
+devices {
+    device {
+        vendor "<vendor>"
+        product "<product>"
+        no_path_retry 12
+    }
+}
+----
+
+{pve} sets `auto_resize grow_only`, so a map grows once all its paths have
+grown. This applies to all maps of a node, also to those of third-party storage
+plugins. To resize them by hand instead, add this to the overrides:
+
+----
+defaults {
+    auto_resize never
+}
+----
+
+To move from a hand-made `/etc/multipath.conf`:
+
+. Back up the configuration of every node. Move array settings to the
+  overrides, and per-LUN settings and Fibre Channel WWIDs to multipath entries.
+. Enable *Multipath* on the existing iSCSI storages and keep their LVM base
+  volumes. Check `multipathd show config` on every node before removing local
+  settings. Do not edit the generated `/etc/multipath/conf.d/pve-*.conf` files.
+. Once *Datacenter -> Storage -> SAN* shows the LUNs on every node, check with
+  `lsblk` for active volumes that still use a single path, and stop and start
+  or migrate their guests. See also the
+  xref:storage_lvm[shared LVM autoactivation guidance].

@@ -25,6 +25,12 @@ endif::manvolnum[]
 This daemon queries the status of VMs, storages and containers at
 regular intervals. The result is sent to all nodes in the cluster.
 
+The daemon also reports the multipath status of the node to the cluster. On
+nodes with `multipath-tools` installed, it first applies the cluster-wide
+multipath configuration: it writes the `/etc/multipath/conf.d/pve-*.conf`
+files, adds the WWIDs of managed LUNs to `/etc/multipath/wwids`, and reloads
+`multipathd` after a change.
+
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
 endif::manvolnum[]

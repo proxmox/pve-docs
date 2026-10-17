@@ -96,11 +96,11 @@ TiB sized), these operations may take several minutes, or in extreme cases, even
 hours. If your setup is affected, create and remove snapshots while the VM is
 shut down, expecting a long task duration.
 
-^3^: With iSCSI, FibreChannel (FC), or SAS block storage as shared storage in a
-cluster, LVM is used to split the LUN into virtual disks. The
-https://pve.proxmox.com/wiki/Multipath[Multipath Guide] explains how to
-configure it in a cluster, including multipathing which is usually a
-requirement in these scenarios.
+^3^: With iSCSI, Fibre Channel (FC), or SAS block storage as shared storage in
+a cluster, LVM is used to split the LUN into virtual disks. A LUN is usually
+reachable over several paths; xref:storage_multipath[Multipath] describes how
+{pve} manages them in a cluster. FC and SAS LUNs need a
+xref:storage_multipath_entries[multipath entry].
 
 ^4^: Since {pve} 9, snapshots as a volume chain have been available for VMs.
 These snapshots use separate volumes for the snapshot data and layer them.  For
@@ -152,6 +152,11 @@ because the same ``shared'' storage is accessible from all nodes. But it is
 also useful for local storage types. In this case such local storage
 is available on all nodes, but it is physically different and can have
 totally different content.
+
+Add storage under *Datacenter -> Storage -> Add* in the web UI. For shared LVM
+on a xref:storage_multipath_setup[SAN LUN], use *Guided Setup* under
+*Datacenter -> Storage -> SAN* instead. It creates the storages that are needed
+and enables multipath for the LUN.
 
 
 Storage Pools
@@ -500,6 +505,8 @@ See Also
 
 * link:/wiki/Storage:_iSCSI[Storage: iSCSI]
 
+* link:/wiki/Storage:_Multipath[Storage: Multipath]
+
 * link:/wiki/Storage:_LVM[Storage: LVM]
 
 * link:/wiki/Storage:_LVM_Thin[Storage: LVM Thin]
@@ -541,6 +548,8 @@ include::pve-storage-lvmthin.adoc[]
 include::pve-storage-iscsi.adoc[]
 
 include::pve-storage-iscsidirect.adoc[]
+
+include::pve-storage-multipath.adoc[]
 
 include::pve-storage-rbd.adoc[]
 
