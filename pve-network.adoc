@@ -327,8 +327,8 @@ All virtual guests can share a single bridge, or you can create multiple
 bridges to separate network domains. Each host can have up to 4094 bridges.
 
 The installation program creates a single bridge named `vmbr0`, which
-is connected to the first Ethernet card. The corresponding
-configuration in `/etc/network/interfaces` might look like this:
+is connected to the management interface selected during the installation. The
+corresponding configuration in `/etc/network/interfaces` might look like this:
 
 ----
 auto lo
@@ -344,6 +344,11 @@ iface vmbr0 inet static
         bridge-stp off
         bridge-fd 0
 ----
+
+If you set up a bond during the installation, the bridge is connected to the
+bond `bond0` instead. With a VLAN tag for the management network, the bridge is
+VLAN-aware and the host address is configured on a VLAN interface on top of it.
+See xref:advanced_network_options[Advanced Network Configuration Options].
 
 Virtual machines behave as if they were directly connected to the
 physical network. The network, in turn, sees each virtual machine as

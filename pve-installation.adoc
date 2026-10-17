@@ -207,6 +207,10 @@ that during installation you can either specify an IPv4 or IPv6 address, but not
 both. To configure a dual-stack node, add additional IP addresses after the
 installation.
 
+The `Advanced Options` button lets you pin the names of the network interfaces,
+set up a bond for the management network, and tag the management network with a
+VLAN, see xref:advanced_network_options[Advanced Network Configuration Options].
+
 [thumbnail="screenshot/pve-install-summary.png", float="left"]
 
 The next step shows a summary of the previously selected options. Please
@@ -375,6 +379,55 @@ and 'zstd'. Defaults to 'off'.
 Defines the total hard disk size to be used. This is useful to save free space
 on the hard disk(s) for further partitioning (for example, to create a
 swap partition).
+
+[[advanced_network_options]]
+Advanced Network Configuration Options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `Advanced Options` dialog of the network configuration step provides the
+following settings for the management network.
+
+`Interface Name Pinning`::
+
+Assigns fixed names to the network interfaces, based on their MAC addresses, so
+that the names do not change after kernel or firmware updates, or hardware
+changes that keep the MAC addresses. By default, the interfaces are named
+`nic0`, `nic1`, and so on, but you can enter other names. To pin the names after
+the installation, for example for a replacement interface with a different MAC
+address, see
+xref:network_override_device_names[Overriding Network Device Names].
+
+`Management Bond`::
+
+Combines two or more of the `Bond Interfaces` into the bond `bond0`, which then
+connects the bridge `vmbr0` to the network instead of a single interface. This
+keeps the host reachable if one of the interfaces or its link fails. The
+`Bond Mode` defaults to 'active-backup', which works without any configuration
+on the switch, while the '802.3ad' mode requires switch ports configured for
+LACP. The `Hash Policy` applies to the '802.3ad' and 'balance-xor' modes, and
+the optional `Primary Interface` to the 'active-backup' mode, where it is
+preferred as the active interface. See xref:sysadmin_network_bond[Linux Bond]
+for a description of the modes.
++
+NOTE: The 'balance-alb' and 'balance-tlb' modes are not suitable if guests use
+the bridge on top of the bond, as they overwrite the source MAC address of
+frames sent over an interface other than the active one.
+
+`Management VLAN`::
+
+Tags the management network with the given `VLAN Tag`, for networks that are
+only reachable tagged. The bridge `vmbr0` then becomes VLAN-aware and the host
+address is configured on the interface `vlan<tag>` on top of it, so that guests
+can still use other VLANs on the bridge. Valid tags are 2 to 4094, as the
+VLAN-aware bridge sends VLAN 1 untagged. Leave the VLAN setup disabled for an
+untagged management network.
++
+TIP: The installer proposes the network settings it obtained via DHCP on the
+untagged network. If the management network is only reachable tagged, boot the
+installer with the `proxmox-vlan=<tag>` kernel parameter, so that it obtains
+them on that VLAN and preselects its tag. See
+xref:nomodeset_kernel_param[adding the `nomodeset` kernel parameter] for how to
+add a kernel parameter.
 
 ZFS Performance Tips
 ~~~~~~~~~~~~~~~~~~~~
