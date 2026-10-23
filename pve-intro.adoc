@@ -103,9 +103,10 @@ the cluster have direct access to VM disk images.
 
 The following network storage types are supported:
 
-* LVM group (network backing with iSCSI targets)
+* LVM group (network backing with iSCSI targets or NVMe over Fabrics)
 * iSCSI target
 * iSCSI LUNs (direct use)
+* NVMe over Fabrics subsystem
 * NFS share
 * CIFS share
 * Ceph RBD

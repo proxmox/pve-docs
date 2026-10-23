@@ -79,6 +79,7 @@ nodes that can be accessed as RBD (RADOS Block Device).
 |LVM-thin       |lvmthin     |block  |no    |yes      |yes
 |iSCSI/kernel   |iscsi       |block  |yes^3^|yes^4^   |yes
 |iSCSI/libiscsi |iscsidirect |block  |yes^3^|yes^4^   |yes
+|NVMe-oF        |nvmeof      |block  |yes^3^|yes^4^   |yes
 |FC/SAS         |native^6^   |block  |yes^3^|yes^4^   |yes
 |Ceph/RBD       |rbd         |block  |yes   |yes      |yes
 |ZFS over iSCSI |zfs         |block  |yes   |yes      |yes
@@ -96,11 +97,13 @@ TiB sized), these operations may take several minutes, or in extreme cases, even
 hours. If your setup is affected, create and remove snapshots while the VM is
 shut down, expecting a long task duration.
 
-^3^: With iSCSI, Fibre Channel (FC), or SAS block storage as shared storage in
-a cluster, LVM is used to split the LUN into virtual disks. A LUN is usually
-reachable over several paths; xref:storage_multipath[Multipath] describes how
-{pve} manages them in a cluster. FC and SAS LUNs need a
-xref:storage_multipath_entries[multipath entry].
+^3^: With iSCSI, NVMe over Fabrics (NVMe-oF), Fibre Channel (FC), or SAS block
+storage as shared storage in a cluster, LVM is used to split the LUN or
+namespace into virtual disks. A LUN is usually reachable over several paths;
+xref:storage_multipath[Multipath] describes how {pve} manages them in a cluster.
+FC and SAS LUNs need a xref:storage_multipath_entries[multipath entry].
+NVMe-oF namespaces use the kernel's native multipath instead, see
+xref:storage_nvmeof[NVMe over Fabrics].
 
 ^4^: Since {pve} 9, snapshots as a volume chain have been available for VMs.
 These snapshots use separate volumes for the snapshot data and layer them.  For
@@ -154,9 +157,10 @@ is available on all nodes, but it is physically different and can have
 totally different content.
 
 Add storage under *Datacenter -> Storage -> Add* in the web UI. For shared LVM
-on a xref:storage_multipath_setup[SAN LUN], use *Shared LVM on iSCSI* or
-*Shared LVM on Fibre Channel* there instead. It creates the storages that are
-needed and enables multipath for the LUN.
+on a xref:storage_multipath_setup[SAN LUN] or an
+xref:storage_nvmeof_setup[NVMe namespace], use *Shared LVM on iSCSI*, *Shared
+LVM on Fibre Channel* or *Shared LVM on NVMe over Fabrics* there instead. It
+creates the storages that are needed and enables multipath for a LUN.
 
 
 Storage Pools
@@ -507,6 +511,8 @@ See Also
 
 * link:/wiki/Storage:_Multipath[Storage: Multipath]
 
+* link:/wiki/Storage:_NVMe_over_Fabrics[Storage: NVMe over Fabrics]
+
 * link:/wiki/Storage:_LVM[Storage: LVM]
 
 * link:/wiki/Storage:_LVM_Thin[Storage: LVM Thin]
@@ -550,6 +556,8 @@ include::pve-storage-iscsi.adoc[]
 include::pve-storage-iscsidirect.adoc[]
 
 include::pve-storage-multipath.adoc[]
+
+include::pve-storage-nvmeof.adoc[]
 
 include::pve-storage-rbd.adoc[]
 

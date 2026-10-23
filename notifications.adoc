@@ -495,8 +495,9 @@ Notification Events
 | `job-id`          | Job ID
 |=======================================================================
 
-A `multipath` notification groups affected LUNs on the same node. If any LUN
-in a problem notification is *Failed*, the severity is `error`.
+A `multipath` notification groups the affected LUNs and NVMe namespaces of a
+node. If any of them in a problem notification is *Failed*, the severity is
+`error`.
 
 NOTE: Backup job notifications only have `job-id` set if the backup job
   was executed automatically based on its schedule, but not if it was triggered

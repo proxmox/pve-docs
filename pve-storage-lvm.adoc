@@ -34,7 +34,8 @@ LVM volume group name. This must point to an existing volume group.
 
 Base volume. This volume is automatically activated before accessing
 the storage. This is mostly useful when the LVM volume group resides
-on a remote iSCSI server.
+on a remote iSCSI server or on an xref:storage_nvmeof[NVMe over Fabrics]
+namespace.
 
 `saferemove`::
 
@@ -143,9 +144,10 @@ A benefit of LVM is that it can be used with shared storage.
 For example, an iSCSI LUN. The backend implements proper cluster-wide locking if
 the storage is marked as shared in the configuration.
 
-TIP: *Shared LVM on iSCSI* or *Shared LVM on Fibre Channel* in *Datacenter ->
-Storage -> Add* in the web UI creates a shared LVM storage on a SAN LUN, see
-xref:storage_multipath_setup[Multipath].
+TIP: *Shared LVM on iSCSI*, *Shared LVM on Fibre Channel* or *Shared LVM on NVMe
+over Fabrics* in *Datacenter -> Storage -> Add* in the web UI creates a shared
+LVM storage on a xref:storage_multipath_setup[SAN LUN] or an
+xref:storage_nvmeof_setup[NVMe namespace].
 
 NOTE: If you extend a shared volume group onto another device on one node, the
 other nodes may only see the added physical volume after LVM has scanned their

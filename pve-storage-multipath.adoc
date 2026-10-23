@@ -15,7 +15,8 @@ Fibre Channel.
 {pve} sets up the maps on all nodes and shows their state under *Datacenter ->
 SAN*. An iSCSI storage with *Multipath* enabled requests the maps of its LUNs, a
 Fibre Channel LUN needs a multipath entry. NVMe namespaces use the multipath
-support of the kernel instead and are not covered here.
+support of the kernel instead, see xref:storage_nvmeof[NVMe over Fabrics], and
+are not covered here.
 
 Prerequisites
 ~~~~~~~~~~~~~

@@ -1,0 +1,207 @@
+[[storage_nvmeof]]
+NVMe over Fabrics Backend
+-------------------------
+ifdef::wiki[]
+:pve-toplevel:
+:title: Storage: NVMe over Fabrics
+endif::wiki[]
+
+Storage pool type: `nvmeof`
+
+NVMe over Fabrics (NVMe-oF) gives a node access to the namespaces of an NVMe
+subsystem on a storage array over TCP. Namespaces are the NVMe counterpart of
+LUNs. Use one as the base volume of a shared LVM storage, or use the namespaces
+directly as disk images.
+
+Each node connects one controller per portal of the storage. The kernel
+combines these paths into one device per namespace with its native NVMe
+multipath and reconnects lost paths on its own. `multipath-tools` is not
+involved.
+
+Prerequisites
+~~~~~~~~~~~~~
+
+. Upgrade all nodes to `pve-manager` 9.2.38 or newer before adding the first
+  NVMe over Fabrics storage, also nodes that will not use it. A node without
+  support for this storage type removes such storages from the cluster-wide
+  storage configuration when it writes that configuration, for example when a
+  storage is added or edited on that node. Adding the first such storage is
+  refused while a node is offline or runs an older version.
+. Install `nvme-cli` on every participating node. The `libpve-storage-perl`
+  package recommends it, but installations without recommended packages need it
+  added separately. Its installation creates the node's host NQN in
+  `/etc/nvme/hostnqn` and host ID in `/etc/nvme/hostid`. Nodes cloned from one
+  image share them. Give each a new identity before it connects, with
+  `nvme gen-hostnqn > /etc/nvme/hostnqn` and `uuidgen > /etc/nvme/hostid`.
+. Allow each node's host NQN on the array. The names are shown under
+  *Datacenter -> SAN* and in the guided setup.
+. Present the same namespace to all intended nodes. Portals are IP addresses
+  that every node of the storage can reach; host names are not accepted.
+. Use a storage network that only trusted hosts can reach. The connections use
+  neither authentication nor TLS.
+. Keep native NVMe multipath enabled, which is the kernel default
+  (`nvme_core.multipath=Y`). It joins the paths of a namespace only if the
+  target declares that the subsystem may have several controllers, which most
+  targets do, also with a single portal. A namespace that it does not join is
+  refused as volume.
+
+[[storage_nvmeof_setup]]
+Setting Up Shared LVM
+~~~~~~~~~~~~~~~~~~~~~
+
+. On a node that can reach the array, select *Shared LVM on NVMe over Fabrics*
+  under *Datacenter -> Storage -> Add*. The *Add Shared LVM* menu of
+  *Datacenter -> SAN* has the same setup.
+. Enter the *ID* of the new LVM storage, a discovery portal and the subsystem,
+  and check the portals. If no NVMe over Fabrics storage connects the nodes to
+  that subsystem yet, the setup adds one named after the ID with a `-base`
+  suffix, or as set under *Advanced*. This storage connects to the subsystem
+  with `content none`, while the LVM storage manages guest disks. Clear the
+  nodes in the list of host NQNs that should not use the storages. Continuing
+  creates or reuses the NVMe over Fabrics storage before you select a namespace.
+. Select the namespace after checking that no host uses it and that no data on
+  it must be kept. The volume group is named after the ID unless set under
+  *Advanced*.
+. Check the state of the namespace on each node of the storage, which the
+  setup shows once the storage is added, as described for LUNs in
+  xref:storage_multipath_setup[Multipath]. For a node that stays *Missing*,
+  check its access to the namespace on the array before placing guests on the
+  storage.
+
+The discovery fills in *Portals*. A discovery portal without a port is asked at
+port 8009, or at 4420 if that fails. Some targets, such as the Linux kernel
+target, report only the portal that was asked: add the others to the list.
+With a single portal, the state of the namespace shows `1/1`, which has no path
+redundancy.
+Portals can also be changed later in the edit dialog of the NVMe over Fabrics
+storage; each node then connects new ones on its own. The guided setup needs
+the discovery service of the target, also to reuse an existing connection;
+without one, add the storages as described next.
+
+*Datacenter -> Storage -> Add -> NVMe over Fabrics* adds only the NVMe over
+Fabrics storage. Without a discovery portal, enter the subsystem NQN and its
+portals as they are. Enable *Use namespaces directly* there to use whole
+namespaces as guest disks, or add an *LVM* storage on a namespace later, with
+the NVMe over Fabrics storage as *Base storage*. Both at once are refused, as
+with direct use every namespace of the subsystem counts as in use by the
+storage. Before disabling direct use, check that no guest on any node has a
+namespace of the subsystem configured as disk: disabling it does not detach such
+disks.
+
+To set it up by hand, run these commands on a node that can reach the array:
+
+----
+# pvesm scan nvmeof <portal>
+# pvesm add nvmeof <nvmeof-storage> --subsysnqn <nqn> --portals <portals> \
+    --content none
+# pvesm list <nvmeof-storage>
+# pvesm add lvm <storage> --vgname <vg> --base <volume-id> --shared 1
+----
+
+Use the complete volume ID from the listing, `<nvmeof-storage>:nvme-<wwid>`.
+Adding the LVM storage creates the volume group if it does not exist yet.
+Creating it is refused if the namespace holds data that {pve} recognizes, such
+as partitions, a file system or a volume group, or if another storage references
+it. To keep an existing volume group, add the LVM storage with its name. To
+discard the data of a namespace instead, stop its users on all hosts and wipe it
+as described for LUNs in xref:storage_multipath_setup[Multipath].
+
+Configuration
+~~~~~~~~~~~~~
+
+The backend supports the common storage properties `content`, `nodes`,
+`disable`, and the following NVMe over Fabrics specific properties:
+
+subsysnqn::
+
+The NQN of the NVMe subsystem. It cannot be changed later, and only one storage
+can use a subsystem.
+
+portals::
+
+Comma-separated list of the subsystem's TCP portals, one per path. Each is an
+IPv4 address or an IPv6 address in brackets, with an optional port (default
+4420).
+
+fast-io-fail-tmo::
+
+Seconds a path may be reconnecting before I/O sent to it fails. The default is
+120 seconds. If no usable path of a namespace remains, its I/O can fail once its
+paths have been reconnecting that long. With `-1`, I/O waits until a path
+returns. A change applies to newly connected controllers only.
+
+.Configuration Example (`/etc/pve/storage.cfg`)
+----
+nvmeof: fabric
+     subsysnqn nqn.2010-06.com.example:array1
+     portals 192.0.2.10,192.0.2.11
+     content none
+----
+
+.Storage features for backend `nvmeof`
+[width="100%",cols="m,m,3*d",options="header"]
+|==============================================================================
+|Content types  |Image formats  |Shared |Snapshots |Clones
+|images none    |raw            |yes    |no        |no
+|==============================================================================
+
+{pve} does not create or delete namespaces; manage them on the array. A volume
+is named `nvme-<wwid>` after its namespace, like its link in `/dev/disk/by-id/`.
+
+Checking and Disconnecting Paths
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*Datacenter -> SAN* lists the namespaces of NVMe over Fabrics storages among the
+LUNs, with their state on each node of the storage and *Multipath* shown as
+*Native*, as does *Node -> SAN* for the namespaces of a node. Expand a namespace
+under *Node -> SAN* to inspect its paths. Its *State* counts the usable paths
+out of the portals of the storage, or out of the connected paths if more are
+connected, for example `1/2` while one of two paths is unusable, and shows
+*Failed* without a usable path. *Node -> SAN -> NVMe over Fabrics* lists the
+node's controllers, one per connected portal, with their *State*: *Connected*,
+or *Reconnecting* while the kernel retries a lost path. A node sends a
+xref:notification_events[multipath notification] when the paths of a namespace
+stay degraded or failed in two consecutive checks, and when they recover, under
+the same rules as for a LUN. This does not need `multipathd`.
+
+Each node of an enabled storage connects to the portals that it is not yet
+connected to. A portal that failed is retried after a minute. Removing a portal,
+or disabling or removing the storage, does not disconnect anything. To remove
+such a path, select its controller under *Node -> SAN -> NVMe over Fabrics* on
+each node and press *Disconnect*, or run
+`pvesh delete /nodes/<node>/san/nvmeof/controller/<controller>`. This is refused
+if a namespace that is mounted, in use by another device or as swap, open in a
+process such as a running guest, or referenced by a storage would lose its last
+usable path. If the controller is no usable path itself, such as one that keeps
+reconnecting to a deleted subsystem, the local uses are still checked, but not
+the storage references, as that check reads the namespace. While a namespace has
+no usable path, its I/O waits until a path is usable again, or until
+`fast-io-fail-tmo` has passed for reconnecting controllers. An LVM command of
+the status checks can keep the namespace open meanwhile, and Disconnect refuses
+while it does. The process check does not find a process that opened the
+namespace through another device node, for example one in a container. A
+controller with namespaces that do not use native NVMe multipath is refused as
+well. A storage that still lists the portal connects to it again. Namespaces of
+a subsystem that no storage uses then show fewer paths, but none as missing, as
+nothing tells how many paths they should have.
+
+Limits
+~~~~~~
+
+* Only the TCP transport is supported, without authentication or TLS.
+* The disk lists under *Node -> Disks* and for Ceph OSDs leave out namespaces
+  attached over TCP or RDMA, like iSCSI LUNs, as other nodes use them too.
+  *Node -> SAN* lists them.
+* NVMe/FC namespaces need no storage of this type, and the guided setups and
+  the cluster-wide status do not cover them. *Node -> SAN* lists them. Create
+  their volume group on the whole namespace under *Node -> Disks -> LVM*; with
+  *Add Storage* enabled, this adds a shared LVM storage.
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/wiki/Storage[Storage]
+
+endif::wiki[]
