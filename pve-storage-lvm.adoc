@@ -121,6 +121,15 @@ A benefit of LVM is that it can be used with shared storage.
 For example, an iSCSI LUN. The backend implements proper cluster-wide locking if
 the storage is marked as shared in the configuration.
 
+NOTE: If you extend a shared volume group onto another device on one node, the
+other nodes may only see the added physical volume after LVM has scanned their
+devices again, for example with `pvscan --cache`. This command also resets the
+autoactivation records of LVM, which can let LVM activate logical volumes on its
+own later. {pve} disables autoactivation for the logical volumes it creates.
+Before you run the command, make sure that autoactivation is also disabled for
+all other logical volumes of the volume group, for example with
+`lvchange --setautoactivation n <vg>/<lv>`.
+
 TIP: You can use the LVM-thin backend for non-shared local storage. It supports
 snapshots and linked clones.
 
