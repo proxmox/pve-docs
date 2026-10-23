@@ -147,11 +147,18 @@ these users to log in via their system username and password.
 {pve} Authentication Server::
 
 This is a Unix-like password store, which stores hashed passwords in
-`/etc/pve/priv/shadow.cfg`. Passwords are hashed using the SHA-256 hashing
-algorithm. This is the most convenient realm for small-scale (or even
-mid-scale) installations, where users do not need access to anything outside of
-{pve}. In this case, users are fully managed by {pve} and are able to change
-their own passwords via the GUI.
+`/etc/pve/priv/shadow.cfg`. Passwords are hashed and salted using the yescrypt
+algorithm footnote:[yescrypt https://www.openwall.com/yescrypt/]. It provides
+strong protections against offline password cracking attempts. This realm is the
+most convenient realm for small-scale (or even mid-scale) installations, where
+users do not need access to anything outside of {pve}. In this case, users are
+fully managed by {pve} and are able to change their own passwords via the GUI.
+
+NOTE: Passwords created with older versions of {pve} used a hashing scheme based
+on SHA-256 that is now considered insecure. If the file
+`/etc/pve/priv/shadow.cfg` shows a password hash starting with `$5$` for an
+account, that account still uses such a password. The hash will be updated on the
+next login of that user or when a new password is set.
 
 LDAP::
 
