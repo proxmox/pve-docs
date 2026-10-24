@@ -146,6 +146,14 @@ regular encryption keys. Without a copy of the private key recovery is not
 possible! The `paperkey` command supports generating paper copies of private
 master keys for storage in a safe, physical location.
 
+For disaster recovery at another site, for example from a copy of the backups
+that a sync job made to a second Proxmox Backup Server at that site, the
+restoring cluster needs the key as well. Add the datastore of the copy as
+storage there with the same key, for example with `pvesm add pbs <storage-id>
+... --encryption-key <key-file>`, or add the key to an existing storage with
+`pvesm set <storage-id> --encryption-key <key-file>`. Keep the key outside the
+site it protects: removing a storage also deletes its key file.
+
 Because the encryption is managed on the client side, you can use the same
 datastore on the server for unencrypted backups and encrypted backups, even
 if they are encrypted with different keys. However, deduplication between
