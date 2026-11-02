@@ -642,6 +642,54 @@ completely done inside the guest and can not be influenced from the
 outside. The benefit is that you can use more than one VLAN on a
 single virtual NIC.
 
+* *SDN configured VLAN:*
+It is also possible to xref:pvesdn_config_vnet[configure VLANs in SDN] by
+creating a VLAN zone on the bridge and then creating VNets for every VLAN tag.
+In this case, it is also recommended to use a VLAN-aware bridge.
+
+[[vlan_example_vlan_through_sdn]]
+.Example: SDN VLAN Zones with VLAN-aware bridges
+
+This is the preferred solution if users have a small number of VLANs inside
+their cluster. On every node, users should configure a VLAN-aware bridge with
+the respective carrier for their VLANs:
+
+----
+auto vmbr0
+iface vmbr0 inet manual
+        bridge-ports nic0
+        bridge-stp off
+        bridge-fd 0
+        bridge-vlan-aware yes
+        bridge-vids 2-4094
+----
+
+Then create an SDN zone on top of that bridge:
+
+----
+vlan: vlanz
+        bridge vmbr0
+        ipam pve
+----
+
+Then, for each VLAN they want to use, create a VNet:
+
+----
+vnet: vnet1234
+        zone vlanz
+        tag 1234
+----
+
+After applying the SDN configuration, users can then select vnet1234 in the
+network device configuration of their guests. This method does not allow to
+configure an IP for the host directly on a VNet - but it can be done manually
+by adding an entry for the VNet to /etc/network/interfaces:
+
+----
+auto vnet1234
+iface vnet1234 inet static
+        address 192.0.2.1/24
+----
 
 VLAN on the Host
 ^^^^^^^^^^^^^^^^
@@ -649,49 +697,20 @@ VLAN on the Host
 To allow host communication with an isolated network. It is possible
 to apply VLAN tags to any network device (NIC, Bond, Bridge). In
 general, you should configure the VLAN on the interface with the least
-abstraction layers between itself and the physical NIC.
+abstraction layers between itself and the physical NIC. But it would still
+be best to configure the VLAN on a bridge instead of a bond or the NIC
+directly to avoid some of the issues mentioned xref:vlan_common_issues[here].
 
 For example, in a default configuration where you want to place
 the host management address on a separate VLAN.
 
-
-.Example: Use VLAN 5 for the {pve} management IP with traditional Linux bridge
+[[vlan_example_management_ip_and_vlan_aware_bridge]]
+.Example: Use VLAN 5 for the {pve} management IP with VLAN-aware Linux bridge
 ----
 auto lo
 iface lo inet loopback
 
 iface eno1 inet manual
-
-iface eno1.5 inet manual
-
-auto vmbr0v5
-iface vmbr0v5 inet static
-        address  10.10.10.2/24
-        gateway  10.10.10.1
-        bridge-ports eno1.5
-        bridge-stp off
-        bridge-fd 0
-
-auto vmbr0
-iface vmbr0 inet manual
-        bridge-ports eno1
-        bridge-stp off
-        bridge-fd 0
-
-----
-
-.Example: Use VLAN 5 for the {pve} management IP with VLAN aware Linux bridge
-----
-auto lo
-iface lo inet loopback
-
-iface eno1 inet manual
-
-
-auto vmbr0.5
-iface vmbr0.5 inet static
-        address  10.10.10.2/24
-        gateway  10.10.10.1
 
 auto vmbr0
 iface vmbr0 inet manual
@@ -700,12 +719,27 @@ iface vmbr0 inet manual
         bridge-fd 0
         bridge-vlan-aware yes
         bridge-vids 2-4094
+
+auto vmbr0.5
+iface vmbr0.5 inet static
+        address  10.10.10.2/24
+        gateway  10.10.10.1
+----
+
+Guests can then reference the VLAN tag directly in their network
+configuration. Compared to an SDN-configured solution, this has the
+disadvantage that specific VLANs cannot be named, but the advantage that
+each VLAN does not have to be configured individually.
+
+----
+net0: bridge=vmbr0,tag=5,...
 ----
 
 The next example is the same setup but a bond is used to
 make this network fail-safe.
 
-.Example: Use VLAN 5 with bond0 for the {pve} management IP with traditional Linux bridge
+[[vlan_example_bond_with_management_ip_and_vlan_aware_bridge]]
+.Example: Use VLAN 5 with bond0 for the {pve} management IP with VLAN-aware Linux bridge
 ----
 auto lo
 iface lo inet loopback
@@ -721,23 +755,107 @@ iface bond0 inet manual
       bond-mode 802.3ad
       bond-xmit-hash-policy layer2+3
 
-iface bond0.5 inet manual
-
-auto vmbr0v5
-iface vmbr0v5 inet static
-        address  10.10.10.2/24
-        gateway  10.10.10.1
-        bridge-ports bond0.5
-        bridge-stp off
-        bridge-fd 0
-
 auto vmbr0
 iface vmbr0 inet manual
         bridge-ports bond0
+        bridge-vlan-aware yes
+        bridge-vids 2-4094
         bridge-stp off
         bridge-fd 0
 
+auto vmbr0.5
+iface vmbr0.5 inet static
+        address 10.10.10.2/24
+        gateway 10.10.10.1
+
 ----
+
+[[vlan_common_issues]]
+Common Issues
+^^^^^^^^^^^^^
+
+.Issue: Host not reachable on VLAN interface after guest start
+
+A management IP can be configured in a VLAN interface whose underlying
+interface is a bridge port, for example on nic0.5 or bond0.5. If the bridge
+the underlying interface is on is not VLAN-aware, the IP stops working as
+soon as a guest on that bridge and VLAN is started. Stopping the guest will
+not rectify this problem, the host has to be rebooted. To fix this, the VLAN
+interface must be removed, and the management IP configured on the bridge
+VLAN interface, as well as making the bridge VLAN-aware.
+xref:vlan_example_management_ip_and_vlan_aware_bridge[This example] shows how to
+do this.
+
+.Issue: ifupdown2 fails after configuring gateway on NIC
+
+When configuring a default gateway on the VLAN interface, where the underlying
+interface is part of a VLAN-aware bridge, ifupdown2 will not be able to
+configure the default gateway and fail with a similar error:
+
+----
+error: nic0.1337: cmd '/bin/ip route replace default via 192.0.2.1 proto kernel
+dev nic0.1337 onlink' failed: returned 2 (Error: Nexthop device is not up.)
+----
+
+To avoid this issue, configure the address and default gateway on a VLAN
+interface of the bridge, for example `vmbr0.5`, as shown in
+xref:vlan_example_management_ip_and_vlan_aware_bridge[this example].
+
+.Issue: Limited number of tags when VLAN offloading to NIC
+
+Certain NICs only support VLAN filter offloading for a reduced number of tags.
+In these cases it's best to either reduce the tag range on the VLAN-aware
+bridge or disable offloading altogether. To determine if offloading is enabled,
+use `ethtool`, replacing `nic0` with the name of your interface:
+
+----
+ethtool -k nic0 | grep rx-vlan-filter
+----
+
+If the output contains "[fixed]", the value cannot be changed. Otherwise, use a
+`post-up` command to disable offloading, so that the setting persists across
+reboots:
+
+----
+iface nic0 inet manual
+        post-up ethtool -K nic0 rx-vlan-filter off
+----
+
+Troubleshooting
+^^^^^^^^^^^^^^^
+
+There are some helpful commands that can be utilized when debugging such issues:
+
+----
+$ bridge -compressvlans vlan show
+----
+
+This prints a list of bridges and their ports, as well as the VLANs that are
+currently configured for them:
+
+----
+port              vlan-id
+nic0              1 PVID Egress Untagged
+                  2-4094
+vmbr0             1 PVID Egress Untagged
+veth100i0         1234 PVID Egress Untagged
+----
+
+----
+$ bridge fdb show
+----
+
+This prints a list of the current forwarding database entries of all bridges.
+The bridge decides how to forward a given packet based on this table. An entry
+of the fdb generally looks like this:
+
+----
+aa:aa:aa:d8:36:7c dev nic0 vlan 49 master vmbr0 permanent
+----
+
+This means that packets arriving on vmbr0, that have VLAN Tag 49 set and
+destination MAC address aa:aa:aa:d8:36:7c will not be forwarded, but be
+terminated locally.
 
 Disabling IPv6 on the Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

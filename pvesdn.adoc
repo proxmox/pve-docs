@@ -251,7 +251,8 @@ the network segments.  This allows connectivity of VMs between different nodes.
 VLAN zone configuration options:
 
 Bridge:: The local bridge or OVS switch, already configured on *each* node that
-  allows node-to-node connection.
+  allows node-to-node connection. It is recommended to make a Linux bridge
+  VLAN-aware.
 
 
 [[pvesdn_zone_plugin_qinq]]
