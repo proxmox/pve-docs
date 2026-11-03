@@ -274,113 +274,198 @@ Notification Matchers
 
 [thumbnail="screenshot/gui-datacenter-notification-matcher.png"]
 
-Notification matchers route notifications to notification targets based on their
-matching rules. These rules can match certain properties of a notification, such
-as the timestamp (`match-calendar`), the severity of the notification
-(`match-severity`) or metadata fields (`match-field`).
-If a notification is matched by a matcher, all targets configured for the
-matcher will receive the notification.
+Notification matchers route notifications to notification targets based on
+their matching rules. These rules can match certain properties of a
+notification, such as the timestamp, the severity of the notification or
+metadata fields, as well as arbitrary combinations of these. If a notification
+is matched by a matcher, all targets configured for the matcher will receive
+the notification.
 
-An arbitrary number of matchers can be created, each with with their own
-matching rules and targets to notify.
-Every target is notified at most once for every notification, even if the target
-is used in multiple matchers.
+An arbitrary number of matchers can be created, each with their own match
+rules and targets to notify. Every target is notified at most once for every
+notification, even if the target is used in multiple matchers.
 
-A matcher without any matching rules is always true; the configured targets will
-always be notified.
-----
-matcher: always-matches
-        target admin
-        comment This matcher always matches
-----
+Match Rules
+~~~~~~~~~~~
 
-Matcher Options
-~~~~~~~~~~~~~~~
+Notification matchers can be configured in the {pve} Web UI under Datacenter →
+Notifications. Matchers can be created, modified and deleted from this view.
+
+When editing a matcher, match rules can be edited under the 'Match Rules' tab.
+Rules are represented as a tree. Each tree node can either match on properties
+of a notification (fields, severity or timestamp) or combine the results of
+child nodes (e.g. 'All sub-rules match'). Combinator nodes can be nested, which
+makes it possible to compose arbitrarily complex matching behavior.
+
+The following node types are available:
+
+* *Always match*: Match any notification.
+
+* *All sub-rules match*: All direct children of this node must match.
+
+* *At least one sub-rule matches*: At least one direct child of this node must
+  match.
+
+* *Exactly one sub-rule matches*: Exactly one direct child of this node must
+  match.
+
+* *Match Field*: Match a metadata field of a notification. This node can either
+  match if the field value matches one of the values provided, or,
+  alternatively, if it matches a regular expression. Available fields
+  are listed in xref:notification_events[Notification Events].
+
+* *Match Calendar*: Check if the timestamp of a notification is within a
+  configured time range, based on a selection of weekdays and one contiguous
+  time range within each day (e.g. Monday to Friday, 09:00 to 17:00). If
+  multiple time ranges within a day must be matched, use an *At least one
+  sub-rule matches* node with one *Match Calendar* child per time range.
+
+* *Match Severity*: Match the severity of a notification. The following
+  severity levels are available: `info`, `notice`, `warning`, `error` and
+  `unknown`. Each *Match Severity* node can specify multiple severity levels
+  it matches on, for instance `info` and `notice`.
+
+Each node in the tree can be inverted by checking *Invert Rule*. For instance,
+for a *Match Severity* node matching on `info`, checking *Invert Rule* lets the
+node match on `notice`, `warning`, `error` and `unknown`.
+
+Under the 'Targets to Notify' tab, one or more notification targets can be
+selected. All selected targets are notified if a notification is matched.
+
+Matcher Configuration Options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This section gives an overview of the options used by matchers in the
+configuration file and in the API.
+
+The following options are used in configuration entries for matchers:
 
 * `target`: Determine which target should be notified if the matcher matches.
-  can be used multiple times to notify multiple targets.
-* `invert-match`: Inverts the result of the whole matcher
-* `mode`: Determines how the individual match rules are evaluated to compute
-  the result for the whole matcher.
-  If set to `all`, all matching rules must match.
-  If set to `any`, at least one rule must match.
-  Defaults to `all`.
-* `match-calendar`: Match the notification's timestamp against a schedule.
-* `match-field`: Match the notification's metadata fields.
-* `match-severity`: Match the notification's severity.
+  Can be used multiple times to notify multiple targets.
+* `disable`: Don't evaluate this matcher.
 * `comment`: Comment for this matcher.
+* The matching behavior is defined either by the `expression` option or by the
+  deprecated options below; the two cannot be combined.
+** Expression-based matchers (preferred):
 
-[[notification_matchers_calendar]]
-Calendar Matching Rules
-~~~~~~~~~~~~~~~~~~~~~~~
+*** `expression`: Ruleset for this matcher as a single JSON-serialized object
+    (xref:notification_match_expression_reference[Match Expression Reference]).
 
-A calendar matcher matches the time when a notification is sent against a
-configurable schedule.
+** Deprecated matcher options:
 
-* `match-calendar 8-12`
-* `match-calendar 8:00-15:30`
-* `match-calendar mon..fri 9:00-17:00`
-* `match-calendar sun,tue..wed,fri 9-17`
+*** `invert-match`: Inverts the result of the whole matcher.
+*** `mode`: Determines how the individual match rules are evaluated to compute
+    the result for the whole matcher. If set to `all`, all matching rules must
+    match. If set to `any`, at least one rule must match. Defaults to `all`.
 
-[[notification_matchers_field]]
-Field Matching Rules
-~~~~~~~~~~~~~~~~~~~~
+*** `match-calendar`: Match the notification's timestamp against a schedule.
+    Days can be specified as an inclusive range (e.g. `mon..wed`) or enumerated
+    (e.g. `mon,wed,sat`). If no days are specified, the time range applies to
+    every day of the week (e.g. `08:00-12:00`). +
+    Examples: +
+    `match-calendar mon..wed 9-12` +
+    `match-calendar mon,wed,sat 08:15-12:35` +
+    `match-calendar 04:15-16:35`
 
-Notifications have a selection of metadata fields that can be matched.  When
-using `exact` as a matching mode, a `,` can be used as a separator.  The
-matching rule then matches if the metadata field has *any* of the specified
-values.
+*** `match-field`: Match a notification's metadata field, either against a list
+    of matched values, or as a regular expression. If the field does not exist,
+    the notification will not be matched. +
+    Examples: +
+    `match-field exact:type=vzdump` +
+    `match-field exact:type=replication,fencing` +
+    `match-field regex:hostname=^pve[0-9]+$`
 
-* `match-field exact:type=vzdump` Only match notifications about backups.
-* `match-field exact:type=replication,fencing` Match `replication` and `fencing` notifications.
-* `match-field regex:hostname=^.+\.example\.com$` Match the hostname of
-the node.
+*** `match-severity`: Match the notification's severity. +
+    Examples: +
+    `match-severity error` +
+    `match-severity warning,error,unknown`
 
+A matcher without any matching rules always matches; the configured targets will
+always be notified.
 
-If a matched metadata field does not exist, the notification will not be
-matched.
-For instance, a `match-field regex:hostname=.*` directive will only match
-notifications that have an arbitrary `hostname` metadata field, but will
-not match if the field does not exist.
+Starting with {pve} 9.3, match rules created and edited via the UI are stored
+as a single option `expression` in the respective matcher configuration entry.
+The previously used options (`match-field`, `match-calendar`, `match-severity`,
+`mode` and `invert-match`) will continue to be supported at least until the
+next major release.
 
-[[notification_matchers_severity]]
-Severity Matching Rules
-~~~~~~~~~~~~~~~~~~~~~~~
-A notification has a associated severity that can be matched.
+NOTE: Any existing matcher will be migrated to use the newer `expression` option
+  when edited through the UI.
 
-* `match-severity error`: Only match errors
-* `match-severity warning,error`: Match warnings and error
+[[notification_match_expression_reference]]
+Match Expression Reference
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following severities are in use:
-`info`, `notice`, `warning`, `error`, `unknown`.
+This section describes the representation used to encode rules in the
+`expression` parameter.
 
+The `expression` option contains a JSON-formatted tree structure of rules, with
+leaf nodes matching on the properties of a notification (`field`, `severity`,
+`calendar`) or representing constants (`constant`). Intermediate nodes and the
+root node encode the relationship between them (`all-of`, `any-of`, `one-of`,
+`not`).
 
-Examples
-~~~~~~~~
+[width="100%",options="header",cols="1,2,1,4"]
+|======================================================================================================================
+| Node Type    | Description                                              | Leaf Node | Example
+| `all-of`     | Match if all child nodes match                           | No        | `{"all-of": [<expr>]}`
+| `any-of`     | Match if any child node matches                          | No        | `{"any-of": [<expr>]}`
+| `one-of`     | Match if exactly one child node matches                  | No        | `{"one-of": [<expr>]}`
+| `not`        | Invert the result of a single child node                 | No        | `{"not": <expr>}`
+| `constant`   | Always or never matches, depending on the boolean value  | Yes       | `{"constant": true\|false}`
+| `match`      | Match on a property of a notification                    | Yes       | `{"match": <match-expr>}`
+|======================================================================================================================
+
+`match` leaf nodes can have the following variants (`<match-expr>`):
+
+[width="100%",options="header",cols="1,3,4"]
+|======================================================================================================================
+| Match Type   | Description                                                                    | Example
+| `calendar`   | Check if the notification's timestamp is within a configured time range       | `{"type": "calendar", "schedule": "mon..fri 9-17"}`
+| `field`      | Check a notification's fields against a regex or a list of permitted values    | `{"type": "field", "field": "job-id", "values": ["a", "b"]}` or `{"type": "field", "field": "hostname", "regex": "^pve[0-9]+$"}`
+| `severity`   | Check a notification's severity against a list of permitted values             | `{"type": "severity", "severities": ["info", "notice"]}`
+|======================================================================================================================
+
+A pretty-printed, full example of a non-trivial expression is shown below. It
+encodes an expression matching on backup jobs (`vzdump`), but only within a
+given time range (`mon..fri 09:00-17:00`) or if it has a severity of `warning`
+or `error`. In the API and configuration file, the JSON is expected to be
+stored as a single line, as the value of the `expression` option; the line
+breaks and indentation are only for demonstration purposes.
+
 ----
-matcher: workday
-        match-calendar mon..fri 9-17
-        target admin
-        comment Notify admins during working hours
-
-matcher: night-and-weekend
-        match-calendar mon..fri 9-17
-        invert-match true
-        target on-call-admins
-        comment Separate target for non-working hours
-----
-
-----
-matcher: backup-failures
-        match-field exact:type=vzdump
-        match-severity error
-        target backup-admins
-        comment Send notifications about backup failures to one group of admins
-
-matcher: cluster-failures
-        match-field exact:type=replication,fencing
-        target cluster-admins
-        comment Send cluster-related notifications to other group of admins
+{
+  "all-of": [
+    {
+      "any-of": [
+        {
+          "match": {
+            "type": "calendar",
+            "schedule": "mon..fri 09:00-17:00"
+          }
+        },
+        {
+          "match": {
+            "type": "severity",
+            "severities": [
+              "warning",
+              "error"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "match": {
+        "type": "field",
+        "field": "type",
+        "values": [
+          "vzdump"
+        ]
+      }
+    }
+  ]
+}
 ----
 
 [[notification_events]]
