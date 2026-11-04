@@ -71,7 +71,7 @@ Renew existing certificate from CA.
 
 `--force` `<boolean>` ('default =' `0`)::
 
-Force renewal even if expiry is more than 30 days away.
+Force renewal even if the certificate is not yet due for renewal.
 
 [[cli_pvenode_acme_cert_revoke]]
 *pvenode acme cert revoke*

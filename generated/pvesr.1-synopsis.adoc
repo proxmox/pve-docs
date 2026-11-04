@@ -34,6 +34,10 @@ Mark the replication job for removal. The job will remove all local replication 
 
 Storage replication schedule. The format is a subset of `systemd` calendar events.
 
+`--skip-freeze-fs` `<boolean>` ('default =' `0`)::
+
+Whether to skip freezing and thawing the guest's filesystems for consistency during replication.
+
 `--source` `<string>` ::
 
 For internal use, to detect if the guest was stolen.
@@ -240,6 +244,10 @@ Mark the replication job for removal. The job will remove all local replication 
 `--schedule` `<string>` ('default =' `*/15`)::
 
 Storage replication schedule. The format is a subset of `systemd` calendar events.
+
+`--skip-freeze-fs` `<boolean>` ('default =' `0`)::
+
+Whether to skip freezing and thawing the guest's filesystems for consistency during replication.
 
 `--source` `<string>` ::
 

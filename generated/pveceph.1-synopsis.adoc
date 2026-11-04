@@ -4,7 +4,8 @@
 [[cli_pveceph_auth_status]]
 *pveceph auth status* `[FORMAT_OPTIONS]`
 
-Show cephx key ciphers and aes256k migration prerequisites.
+Show current and pending cephx key ciphers and aes256k migration
+prerequisites.
 
 [[cli_pveceph_createmgr]]
 *pveceph createmgr*
@@ -128,7 +129,7 @@ Use specific network for all ceph related traffic
 
 Placement group bits, used to specify the default number of placement groups.
 +
-Depreacted. This setting was deprecated in recent Ceph versions.
+Deprecated. This setting has been ignored since Ceph Nautilus.
 
 `--size` `<integer> (1 - 7)` ('default =' `3`)::
 
@@ -147,7 +148,7 @@ Allow experimental versions. Use with care!
 
 Ceph repository to use. The 'manual' option will not configure any repositories. Use it if the host cannot access the public repositories, for example if Proxmox Offline Mirror is used. A repository that contains the Ceph packages for the version needs to be manually configured before starting the installation!
 
-`--version` `<squid | tentacle>` ('default =' `tentacle`)::
+`--version` `<squid | tentacle | umbrella>` ('default =' `tentacle`)::
 
 Ceph version to install.
 

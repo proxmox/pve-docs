@@ -152,6 +152,10 @@ List of nodes for which the storage configuration applies.
 
 disable write caching on the target
 
+`--on-volume-remove` `[discard=<1|0>]` ::
+
+Optional actions when removing LVs.
+
 `--options` `<string>` ::
 
 NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')
@@ -192,9 +196,9 @@ Zero-out data when removing LVs.
 
 Wipe step size in MiB. It will be capped to the maximum supported by the storage.
 
-`--saferemove_throughput` `<string>` ::
+`--saferemove_throughput` `-?\d+[kmgKMG]?` ::
 
-Wipe throughput (cstream -t parameter value).
+Wipe throughput in bytes per second (optional suffix: k, m, or g).
 
 `--server` `<string>` ::
 
@@ -722,6 +726,10 @@ List of nodes for which the storage configuration applies.
 
 disable write caching on the target
 
+`--on-volume-remove` `[discard=<1|0>]` ::
+
+Optional actions when removing LVs.
+
 `--options` `<string>` ::
 
 NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')
@@ -754,9 +762,9 @@ Zero-out data when removing LVs.
 
 Wipe step size in MiB. It will be capped to the maximum supported by the storage.
 
-`--saferemove_throughput` `<string>` ::
+`--saferemove_throughput` `-?\d+[kmgKMG]?` ::
 
-Wipe throughput (cstream -t parameter value).
+Wipe throughput in bytes per second (optional suffix: k, m, or g).
 
 `--server` `<string>` ::
 

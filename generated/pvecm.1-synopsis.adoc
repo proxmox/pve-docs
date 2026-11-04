@@ -72,6 +72,12 @@ Number of votes for this node
 
 Return the version of the cluster join API available on this node.
 
+[[cli_pvecm_ca_rotate]]
+*pvecm ca rotate*
+
+Replace the cluster CA with a new key and certificate, for example after
+the key got exposed, and issue new node certificates on all online nodes.
+
 [[cli_pvecm_create]]
 *pvecm create* `<clustername>` `[OPTIONS]`
 

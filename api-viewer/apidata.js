@@ -120,6 +120,13 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string"
                               },
+                              "skip-freeze-fs" : {
+                                 "default" : 0,
+                                 "description" : "Whether to skip freezing and thawing the guest's filesystems for consistency during replication.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "verbose_description" : "Whether to skip freezing and thawing the guest's filesystems for consistency during replication. Disabling this setting does not enforce that a freeze happens for VMs. For VMs, that also depends on the VM's 'agent' configuration setting and the availability of the QEMU guest agent in the VM."
+                              },
                               "source" : {
                                  "description" : "For internal use, to detect if the guest was stolen.",
                                  "format" : "pve-node",
@@ -210,6 +217,14 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "skip-freeze-fs" : {
+                                 "default" : 0,
+                                 "description" : "Whether to skip freezing and thawing the guest's filesystems for consistency during replication.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>",
+                                 "verbose_description" : "Whether to skip freezing and thawing the guest's filesystems for consistency during replication. Disabling this setting does not enforce that a freeze happens for VMs. For VMs, that also depends on the VM's 'agent' configuration setting and the availability of the QEMU guest agent in the VM."
+                              },
                               "source" : {
                                  "description" : "For internal use, to detect if the guest was stolen.",
                                  "format" : "pve-node",
@@ -299,6 +314,13 @@ const apiSchema = [
                               "optional" : 1,
                               "type" : "string"
                            },
+                           "skip-freeze-fs" : {
+                              "default" : 0,
+                              "description" : "Whether to skip freezing and thawing the guest's filesystems for consistency during replication.",
+                              "optional" : 1,
+                              "type" : "boolean",
+                              "verbose_description" : "Whether to skip freezing and thawing the guest's filesystems for consistency during replication. Disabling this setting does not enforce that a freeze happens for VMs. For VMs, that also depends on the VM's 'agent' configuration setting and the availability of the QEMU guest agent in the VM."
+                           },
                            "source" : {
                               "description" : "For internal use, to detect if the guest was stolen.",
                               "format" : "pve-node",
@@ -381,6 +403,14 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "skip-freeze-fs" : {
+                           "default" : 0,
+                           "description" : "Whether to skip freezing and thawing the guest's filesystems for consistency during replication.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>",
+                           "verbose_description" : "Whether to skip freezing and thawing the guest's filesystems for consistency during replication. Disabling this setting does not enforce that a freeze happens for VMs. For VMs, that also depends on the VM's 'agent' configuration setting and the availability of the QEMU guest agent in the VM."
                         },
                         "source" : {
                            "description" : "For internal use, to detect if the guest was stolen.",
@@ -3235,6 +3265,13 @@ const apiSchema = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "migrate-to-expression" : {
+                                       "default" : 0,
+                                       "description" : "Automatically translate existing 'match-*', 'invert-match' and 'mode' to an equivalent matching 'expression'.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "name" : {
                                        "format" : "pve-configid",
                                        "type" : "string",
@@ -3280,6 +3317,11 @@ const apiSchema = [
                                        "description" : "Disable this matcher",
                                        "optional" : 1,
                                        "type" : "boolean"
+                                    },
+                                    "expression" : {
+                                       "description" : "Match expression as inline JSON. This option is mutually exclusive with the following options: match-field, match-calendar, match-severity, invert-match and mode. All of these can be represented as (sub)-expressions of this expression",
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "invert-match" : {
                                        "description" : "Invert match of the whole matcher",
@@ -3375,6 +3417,12 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
+                                    },
+                                    "expression" : {
+                                       "description" : "Match expression as inline JSON. This option is mutually exclusive with the following options: match-field, match-calendar, match-severity, invert-match and mode. All of these can be represented as (sub)-expressions of this expression",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     },
                                     "invert-match" : {
                                        "description" : "Invert match of the whole matcher",
@@ -3507,6 +3555,11 @@ const apiSchema = [
                                     "optional" : 1,
                                     "type" : "boolean"
                                  },
+                                 "expression" : {
+                                    "description" : "Match expression as inline JSON. This option is mutually exclusive with the following options: match-field, match-calendar, match-severity, invert-match and mode. All of these can be represented as (sub)-expressions of this expression",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
                                  "invert-match" : {
                                     "description" : "Invert match of the whole matcher",
                                     "optional" : 1,
@@ -3601,6 +3654,12 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
+                              },
+                              "expression" : {
+                                 "description" : "Match expression as inline JSON. This option is mutually exclusive with the following options: match-field, match-calendar, match-severity, invert-match and mode. All of these can be represented as (sub)-expressions of this expression",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "invert-match" : {
                                  "description" : "Invert match of the whole matcher",
@@ -3950,9 +4009,12 @@ const apiSchema = [
                                           "Cascadelake-Server-v2",
                                           "Cascadelake-Server-v4",
                                           "Cascadelake-Server-v5",
+                                          "Cascadelake-Server-v6",
+                                          "Cascadelake-Server-v7",
                                           "ClearwaterForest",
                                           "ClearwaterForest-v2",
                                           "ClearwaterForest-v3",
+                                          "ClearwaterForest-v4",
                                           "Conroe",
                                           "Cooperlake",
                                           "Cooperlake-v2",
@@ -3967,19 +4029,23 @@ const apiSchema = [
                                           "cortex-a76",
                                           "cortex-a78ae",
                                           "DiamondRapids",
+                                          "DiamondRapids-v2",
                                           "EPYC",
                                           "EPYC-Genoa",
                                           "EPYC-Genoa-v2",
+                                          "EPYC-Genoa-v3",
                                           "EPYC-IBPB",
                                           "EPYC-Milan",
                                           "EPYC-Milan-v2",
                                           "EPYC-Milan-v3",
+                                          "EPYC-Milan-v4",
                                           "EPYC-Rome",
                                           "EPYC-Rome-v2",
                                           "EPYC-Rome-v3",
                                           "EPYC-Rome-v4",
                                           "EPYC-Rome-v5",
                                           "EPYC-Turin",
+                                          "EPYC-Turin-v2",
                                           "EPYC-v3",
                                           "EPYC-v4",
                                           "EPYC-v5",
@@ -3988,6 +4054,8 @@ const apiSchema = [
                                           "GraniteRapids-v3",
                                           "GraniteRapids-v4",
                                           "GraniteRapids-v5",
+                                          "GraniteRapids-v6",
+                                          "GraniteRapids-v7",
                                           "Haswell",
                                           "Haswell-IBRS",
                                           "Haswell-noTSX",
@@ -4002,6 +4070,8 @@ const apiSchema = [
                                           "Icelake-Server-v5",
                                           "Icelake-Server-v6",
                                           "Icelake-Server-v7",
+                                          "Icelake-Server-v8",
+                                          "Icelake-Server-v9",
                                           "IvyBridge",
                                           "IvyBridge-IBRS",
                                           "KnightsMill",
@@ -4033,11 +4103,14 @@ const apiSchema = [
                                           "SapphireRapids-v4",
                                           "SapphireRapids-v5",
                                           "SapphireRapids-v6",
+                                          "SapphireRapids-v7",
+                                          "SapphireRapids-v8",
                                           "SierraForest",
                                           "SierraForest-v2",
                                           "SierraForest-v3",
                                           "SierraForest-v4",
                                           "SierraForest-v5",
+                                          "SierraForest-v6",
                                           "Skylake-Client",
                                           "Skylake-Client-IBRS",
                                           "Skylake-Client-noTSX-IBRS",
@@ -4047,6 +4120,7 @@ const apiSchema = [
                                           "Skylake-Server-noTSX-IBRS",
                                           "Skylake-Server-v4",
                                           "Skylake-Server-v5",
+                                          "Skylake-Server-v6",
                                           "Westmere",
                                           "Westmere-IBRS"
                                        ],
@@ -4147,9 +4221,12 @@ const apiSchema = [
                                           "Cascadelake-Server-v2",
                                           "Cascadelake-Server-v4",
                                           "Cascadelake-Server-v5",
+                                          "Cascadelake-Server-v6",
+                                          "Cascadelake-Server-v7",
                                           "ClearwaterForest",
                                           "ClearwaterForest-v2",
                                           "ClearwaterForest-v3",
+                                          "ClearwaterForest-v4",
                                           "Conroe",
                                           "Cooperlake",
                                           "Cooperlake-v2",
@@ -4164,19 +4241,23 @@ const apiSchema = [
                                           "cortex-a76",
                                           "cortex-a78ae",
                                           "DiamondRapids",
+                                          "DiamondRapids-v2",
                                           "EPYC",
                                           "EPYC-Genoa",
                                           "EPYC-Genoa-v2",
+                                          "EPYC-Genoa-v3",
                                           "EPYC-IBPB",
                                           "EPYC-Milan",
                                           "EPYC-Milan-v2",
                                           "EPYC-Milan-v3",
+                                          "EPYC-Milan-v4",
                                           "EPYC-Rome",
                                           "EPYC-Rome-v2",
                                           "EPYC-Rome-v3",
                                           "EPYC-Rome-v4",
                                           "EPYC-Rome-v5",
                                           "EPYC-Turin",
+                                          "EPYC-Turin-v2",
                                           "EPYC-v3",
                                           "EPYC-v4",
                                           "EPYC-v5",
@@ -4185,6 +4266,8 @@ const apiSchema = [
                                           "GraniteRapids-v3",
                                           "GraniteRapids-v4",
                                           "GraniteRapids-v5",
+                                          "GraniteRapids-v6",
+                                          "GraniteRapids-v7",
                                           "Haswell",
                                           "Haswell-IBRS",
                                           "Haswell-noTSX",
@@ -4199,6 +4282,8 @@ const apiSchema = [
                                           "Icelake-Server-v5",
                                           "Icelake-Server-v6",
                                           "Icelake-Server-v7",
+                                          "Icelake-Server-v8",
+                                          "Icelake-Server-v9",
                                           "IvyBridge",
                                           "IvyBridge-IBRS",
                                           "KnightsMill",
@@ -4230,11 +4315,14 @@ const apiSchema = [
                                           "SapphireRapids-v4",
                                           "SapphireRapids-v5",
                                           "SapphireRapids-v6",
+                                          "SapphireRapids-v7",
+                                          "SapphireRapids-v8",
                                           "SierraForest",
                                           "SierraForest-v2",
                                           "SierraForest-v3",
                                           "SierraForest-v4",
                                           "SierraForest-v5",
+                                          "SierraForest-v6",
                                           "Skylake-Client",
                                           "Skylake-Client-IBRS",
                                           "Skylake-Client-noTSX-IBRS",
@@ -4244,6 +4332,7 @@ const apiSchema = [
                                           "Skylake-Server-noTSX-IBRS",
                                           "Skylake-Server-v4",
                                           "Skylake-Server-v5",
+                                          "Skylake-Server-v6",
                                           "Westmere",
                                           "Westmere-IBRS"
                                        ],
@@ -4359,9 +4448,12 @@ const apiSchema = [
                                        "Cascadelake-Server-v2",
                                        "Cascadelake-Server-v4",
                                        "Cascadelake-Server-v5",
+                                       "Cascadelake-Server-v6",
+                                       "Cascadelake-Server-v7",
                                        "ClearwaterForest",
                                        "ClearwaterForest-v2",
                                        "ClearwaterForest-v3",
+                                       "ClearwaterForest-v4",
                                        "Conroe",
                                        "Cooperlake",
                                        "Cooperlake-v2",
@@ -4376,19 +4468,23 @@ const apiSchema = [
                                        "cortex-a76",
                                        "cortex-a78ae",
                                        "DiamondRapids",
+                                       "DiamondRapids-v2",
                                        "EPYC",
                                        "EPYC-Genoa",
                                        "EPYC-Genoa-v2",
+                                       "EPYC-Genoa-v3",
                                        "EPYC-IBPB",
                                        "EPYC-Milan",
                                        "EPYC-Milan-v2",
                                        "EPYC-Milan-v3",
+                                       "EPYC-Milan-v4",
                                        "EPYC-Rome",
                                        "EPYC-Rome-v2",
                                        "EPYC-Rome-v3",
                                        "EPYC-Rome-v4",
                                        "EPYC-Rome-v5",
                                        "EPYC-Turin",
+                                       "EPYC-Turin-v2",
                                        "EPYC-v3",
                                        "EPYC-v4",
                                        "EPYC-v5",
@@ -4397,6 +4493,8 @@ const apiSchema = [
                                        "GraniteRapids-v3",
                                        "GraniteRapids-v4",
                                        "GraniteRapids-v5",
+                                       "GraniteRapids-v6",
+                                       "GraniteRapids-v7",
                                        "Haswell",
                                        "Haswell-IBRS",
                                        "Haswell-noTSX",
@@ -4411,6 +4509,8 @@ const apiSchema = [
                                        "Icelake-Server-v5",
                                        "Icelake-Server-v6",
                                        "Icelake-Server-v7",
+                                       "Icelake-Server-v8",
+                                       "Icelake-Server-v9",
                                        "IvyBridge",
                                        "IvyBridge-IBRS",
                                        "KnightsMill",
@@ -4442,11 +4542,14 @@ const apiSchema = [
                                        "SapphireRapids-v4",
                                        "SapphireRapids-v5",
                                        "SapphireRapids-v6",
+                                       "SapphireRapids-v7",
+                                       "SapphireRapids-v8",
                                        "SierraForest",
                                        "SierraForest-v2",
                                        "SierraForest-v3",
                                        "SierraForest-v4",
                                        "SierraForest-v5",
+                                       "SierraForest-v6",
                                        "Skylake-Client",
                                        "Skylake-Client-IBRS",
                                        "Skylake-Client-noTSX-IBRS",
@@ -4456,6 +4559,7 @@ const apiSchema = [
                                        "Skylake-Server-noTSX-IBRS",
                                        "Skylake-Server-v4",
                                        "Skylake-Server-v5",
+                                       "Skylake-Server-v6",
                                        "Westmere",
                                        "Westmere-IBRS"
                                     ],
@@ -4550,9 +4654,12 @@ const apiSchema = [
                                     "Cascadelake-Server-v2",
                                     "Cascadelake-Server-v4",
                                     "Cascadelake-Server-v5",
+                                    "Cascadelake-Server-v6",
+                                    "Cascadelake-Server-v7",
                                     "ClearwaterForest",
                                     "ClearwaterForest-v2",
                                     "ClearwaterForest-v3",
+                                    "ClearwaterForest-v4",
                                     "Conroe",
                                     "Cooperlake",
                                     "Cooperlake-v2",
@@ -4567,19 +4674,23 @@ const apiSchema = [
                                     "cortex-a76",
                                     "cortex-a78ae",
                                     "DiamondRapids",
+                                    "DiamondRapids-v2",
                                     "EPYC",
                                     "EPYC-Genoa",
                                     "EPYC-Genoa-v2",
+                                    "EPYC-Genoa-v3",
                                     "EPYC-IBPB",
                                     "EPYC-Milan",
                                     "EPYC-Milan-v2",
                                     "EPYC-Milan-v3",
+                                    "EPYC-Milan-v4",
                                     "EPYC-Rome",
                                     "EPYC-Rome-v2",
                                     "EPYC-Rome-v3",
                                     "EPYC-Rome-v4",
                                     "EPYC-Rome-v5",
                                     "EPYC-Turin",
+                                    "EPYC-Turin-v2",
                                     "EPYC-v3",
                                     "EPYC-v4",
                                     "EPYC-v5",
@@ -4588,6 +4699,8 @@ const apiSchema = [
                                     "GraniteRapids-v3",
                                     "GraniteRapids-v4",
                                     "GraniteRapids-v5",
+                                    "GraniteRapids-v6",
+                                    "GraniteRapids-v7",
                                     "Haswell",
                                     "Haswell-IBRS",
                                     "Haswell-noTSX",
@@ -4602,6 +4715,8 @@ const apiSchema = [
                                     "Icelake-Server-v5",
                                     "Icelake-Server-v6",
                                     "Icelake-Server-v7",
+                                    "Icelake-Server-v8",
+                                    "Icelake-Server-v9",
                                     "IvyBridge",
                                     "IvyBridge-IBRS",
                                     "KnightsMill",
@@ -4633,11 +4748,14 @@ const apiSchema = [
                                     "SapphireRapids-v4",
                                     "SapphireRapids-v5",
                                     "SapphireRapids-v6",
+                                    "SapphireRapids-v7",
+                                    "SapphireRapids-v8",
                                     "SierraForest",
                                     "SierraForest-v2",
                                     "SierraForest-v3",
                                     "SierraForest-v4",
                                     "SierraForest-v5",
+                                    "SierraForest-v6",
                                     "Skylake-Client",
                                     "Skylake-Client-IBRS",
                                     "Skylake-Client-noTSX-IBRS",
@@ -4647,6 +4765,7 @@ const apiSchema = [
                                     "Skylake-Server-noTSX-IBRS",
                                     "Skylake-Server-v4",
                                     "Skylake-Server-v5",
+                                    "Skylake-Server-v6",
                                     "Westmere",
                                     "Westmere-IBRS"
                                  ],
@@ -7101,6 +7220,7 @@ const apiSchema = [
                                     "cidr" : {
                                        "description" : "Network/IP specification in CIDR format.",
                                        "format" : "IPorCIDR",
+                                       "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -12507,7 +12627,7 @@ const apiSchema = [
                               },
                               "force" : {
                                  "default" : 0,
-                                 "description" : "Proceed past a HEALTH_WARN with non-benign checks like PG_DEGRADED, SLOW_OPS, or MON_DOWN. A blocking HEALTH_ERR is fatal regardless of this flag. Checks that ceph reports as muted, and checks known to be harmless for a rolling restart, never block and are named in the task log. The cluster-wide OSD map flags are only ever evaluated for an OSD restart, since they govern nothing a mon, mgr or mds restart touches. The operator is responsible for confirming the cluster is stable enough to absorb a rolling restart.",
+                                 "description" : "Proceed past a HEALTH_WARN with non-benign checks like PG_DEGRADED, SLOW_OPS, or MON_DOWN. A blocking HEALTH_ERR is fatal regardless of this flag. Checks that ceph reports as muted, and checks known to be harmless for a rolling restart, never block and are named in the task log. The cluster-wide OSD map flags are only ever evaluated for an OSD restart, since they govern nothing a mon, mgr or mds restart touches. Likewise, a missing active manager (MGR_DOWN) only blocks an OSD restart, as only the OSD safety check needs a manager. The operator is responsible for confirming the cluster is stable enough to absorb a rolling restart.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -12574,6 +12694,7 @@ const apiSchema = [
                                     "flag" : {
                                        "description" : "The name of the flag name to get.",
                                        "enum" : [
+                                          "noautoscale",
                                           "nobackfill",
                                           "nodeep-scrub",
                                           "nodown",
@@ -12615,6 +12736,7 @@ const apiSchema = [
                                     "flag" : {
                                        "description" : "The ceph flag to update",
                                        "enum" : [
+                                          "noautoscale",
                                           "nobackfill",
                                           "nodeep-scrub",
                                           "nodown",
@@ -12686,6 +12808,7 @@ const apiSchema = [
                                  "name" : {
                                     "description" : "Flag name.",
                                     "enum" : [
+                                       "noautoscale",
                                        "nobackfill",
                                        "nodeep-scrub",
                                        "nodown",
@@ -12724,6 +12847,12 @@ const apiSchema = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "noautoscale" : {
+                                 "description" : "The PG autoscaler does not change the number of PGs of any pool.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "nobackfill" : {
                                  "description" : "Backfilling of PGs is suspended.",
                                  "optional" : 1,
@@ -15917,22 +16046,18 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "zone" : {
-                                             "description" : "The SDN zone object identifier.",
+                                             "description" : "DEPRECATED: value is ignored and parameter will be removed with PVE 10",
                                              "maxLength" : 8,
                                              "minLength" : 2,
+                                             "optional" : 1,
                                              "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
                                              "type" : "string"
                                           }
                                        }
                                     },
                                     "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/sdn/zones/{zone}/{vnet}",
-                                          [
-                                             "SDN.Allocate"
-                                          ]
-                                       ]
+                                       "description" : "Requires 'SDN.Allocate' on '/sdn/zones/<zone>/<vnet>'",
+                                       "user" : "all"
                                     },
                                     "protected" : 1,
                                     "returns" : {
@@ -15970,22 +16095,18 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "zone" : {
-                                             "description" : "The SDN zone object identifier.",
+                                             "description" : "DEPRECATED: value is ignored and parameter will be removed with PVE 10",
                                              "maxLength" : 8,
                                              "minLength" : 2,
+                                             "optional" : 1,
                                              "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
                                              "type" : "string"
                                           }
                                        }
                                     },
                                     "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/sdn/zones/{zone}/{vnet}",
-                                          [
-                                             "SDN.Allocate"
-                                          ]
-                                       ]
+                                       "description" : "Requires 'SDN.Allocate' on '/sdn/zones/<zone>/<vnet>'",
+                                       "user" : "all"
                                     },
                                     "protected" : 1,
                                     "returns" : {
@@ -16032,22 +16153,18 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "zone" : {
-                                             "description" : "The SDN zone object identifier.",
+                                             "description" : "DEPRECATED: value is ignored and parameter will be removed with PVE 10",
                                              "maxLength" : 8,
                                              "minLength" : 2,
+                                             "optional" : 1,
                                              "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
                                              "type" : "string"
                                           }
                                        }
                                     },
                                     "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/sdn/zones/{zone}/{vnet}",
-                                          [
-                                             "SDN.Allocate"
-                                          ]
-                                       ]
+                                       "description" : "Requires 'SDN.Allocate' on '/sdn/zones/<zone>/<vnet>'",
+                                       "user" : "all"
                                     },
                                     "protected" : 1,
                                     "returns" : {
@@ -16841,7 +16958,7 @@ const apiSchema = [
                                           "vxlan-port" : {
                                              "default" : 4789,
                                              "description" : "UDP port that should be used for the VXLAN tunnel (default 4789). VXLAN zone only.",
-                                             "maximum" : 65536,
+                                             "maximum" : 65535,
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer"
@@ -16920,7 +17037,7 @@ const apiSchema = [
                                     "vxlan-port" : {
                                        "default" : 4789,
                                        "description" : "UDP port that should be used for the VXLAN tunnel (default 4789). VXLAN zone only.",
-                                       "maximum" : 65536,
+                                       "maximum" : 65535,
                                        "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
@@ -16948,6 +17065,8 @@ const apiSchema = [
                                     },
                                     "bridge" : {
                                        "description" : "The bridge for which VLANs should be managed.",
+                                       "format" : "pve-iface",
+                                       "maxLength" : 15,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -17060,9 +17179,11 @@ const apiSchema = [
                                     },
                                     "mtu" : {
                                        "description" : "MTU of the zone, will be used for the created VNet bridges.",
+                                       "maximum" : 65535,
+                                       "minimum" : 68,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (68 - 65535)"
                                     },
                                     "nodes" : {
                                        "description" : "List of cluster node names.",
@@ -17106,10 +17227,11 @@ const apiSchema = [
                                     },
                                     "tag" : {
                                        "description" : "Service-VLAN Tag (outer VLAN)",
-                                       "minimum" : 0,
+                                       "maximum" : 4094,
+                                       "minimum" : 2,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer> (0 - N)"
+                                       "typetext" : "<integer> (2 - 4094)"
                                     },
                                     "vlan-protocol" : {
                                        "default" : "802.1q",
@@ -17132,11 +17254,11 @@ const apiSchema = [
                                     "vxlan-port" : {
                                        "default" : 4789,
                                        "description" : "UDP port that should be used for the VXLAN tunnel (default 4789).",
-                                       "maximum" : 65536,
+                                       "maximum" : 65535,
                                        "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer> (1 - 65536)"
+                                       "typetext" : "<integer> (1 - 65535)"
                                     },
                                     "zone" : {
                                        "description" : "The SDN zone object identifier.",
@@ -17441,7 +17563,7 @@ const apiSchema = [
                                        "vxlan-port" : {
                                           "default" : 4789,
                                           "description" : "UDP port that should be used for the VXLAN tunnel (default 4789). VXLAN zone only.",
-                                          "maximum" : 65536,
+                                          "maximum" : 65535,
                                           "minimum" : 1,
                                           "optional" : 1,
                                           "type" : "integer"
@@ -17520,7 +17642,7 @@ const apiSchema = [
                                  "vxlan-port" : {
                                     "default" : 4789,
                                     "description" : "UDP port that should be used for the VXLAN tunnel (default 4789). VXLAN zone only.",
-                                    "maximum" : 65536,
+                                    "maximum" : 65535,
                                     "minimum" : 1,
                                     "optional" : 1,
                                     "type" : "integer"
@@ -17557,6 +17679,8 @@ const apiSchema = [
                               },
                               "bridge" : {
                                  "description" : "The bridge for which VLANs should be managed.",
+                                 "format" : "pve-iface",
+                                 "maxLength" : 15,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -17654,9 +17778,11 @@ const apiSchema = [
                               },
                               "mtu" : {
                                  "description" : "MTU of the zone, will be used for the created VNet bridges.",
+                                 "maximum" : 65535,
+                                 "minimum" : 68,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer>"
+                                 "typetext" : "<integer> (68 - 65535)"
                               },
                               "nodes" : {
                                  "description" : "List of cluster node names.",
@@ -17700,10 +17826,11 @@ const apiSchema = [
                               },
                               "tag" : {
                                  "description" : "Service-VLAN Tag (outer VLAN)",
-                                 "minimum" : 0,
+                                 "maximum" : 4094,
+                                 "minimum" : 2,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (0 - N)"
+                                 "typetext" : "<integer> (2 - 4094)"
                               },
                               "type" : {
                                  "description" : "Plugin type.",
@@ -17739,11 +17866,11 @@ const apiSchema = [
                               "vxlan-port" : {
                                  "default" : 4789,
                                  "description" : "UDP port that should be used for the VXLAN tunnel (default 4789).",
-                                 "maximum" : 65536,
+                                 "maximum" : 65535,
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (1 - 65536)"
+                                 "typetext" : "<integer> (1 - 65535)"
                               },
                               "zone" : {
                                  "description" : "The SDN zone object identifier.",
@@ -18109,9 +18236,11 @@ const apiSchema = [
                                     },
                                     "ebgp-multihop" : {
                                        "description" : "Set maximum amount of hops for eBGP peers.",
+                                       "maximum" : 255,
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (1 - 255)"
                                     },
                                     "fabric" : {
                                        "description" : "SDN fabric to use as underlay for this EVPN controller.",
@@ -18123,8 +18252,8 @@ const apiSchema = [
                                     "isis-domain" : {
                                        "description" : "Name of the IS-IS domain.",
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "[a-zA-Z0-9][a-zA-Z0-9_.-]*",
+                                       "type" : "string"
                                     },
                                     "isis-ifaces" : {
                                        "description" : "Comma-separated list of interfaces where IS-IS should be active.",
@@ -18150,6 +18279,8 @@ const apiSchema = [
                                     },
                                     "loopback" : {
                                        "description" : "Name of the loopback/dummy interface that provides the Router-IP.",
+                                       "format" : "pve-iface",
+                                       "maxLength" : 15,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -18509,9 +18640,11 @@ const apiSchema = [
                               },
                               "ebgp-multihop" : {
                                  "description" : "Set maximum amount of hops for eBGP peers.",
+                                 "maximum" : 255,
+                                 "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer>"
+                                 "typetext" : "<integer> (1 - 255)"
                               },
                               "fabric" : {
                                  "description" : "SDN fabric to use as underlay for this EVPN controller.",
@@ -18523,8 +18656,8 @@ const apiSchema = [
                               "isis-domain" : {
                                  "description" : "Name of the IS-IS domain.",
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "[a-zA-Z0-9][a-zA-Z0-9_.-]*",
+                                 "type" : "string"
                               },
                               "isis-ifaces" : {
                                  "description" : "Comma-separated list of interfaces where IS-IS should be active.",
@@ -18550,6 +18683,8 @@ const apiSchema = [
                               },
                               "loopback" : {
                                  "description" : "Name of the loopback/dummy interface that provides the Router-IP.",
+                                 "format" : "pve-iface",
+                                 "maxLength" : 15,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -18781,13 +18916,13 @@ const apiSchema = [
                                     },
                                     "token" : {
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "\\S+",
+                                       "type" : "string"
                                     },
                                     "url" : {
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "\\S+",
+                                       "type" : "string"
                                     }
                                  },
                                  "type" : "object"
@@ -18891,8 +19026,8 @@ const apiSchema = [
                               },
                               "token" : {
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "\\S+",
+                                 "type" : "string"
                               },
                               "type" : {
                                  "description" : "Plugin type.",
@@ -18906,8 +19041,8 @@ const apiSchema = [
                               },
                               "url" : {
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "\\S+",
+                                 "type" : "string"
                               }
                            },
                            "type" : "object"
@@ -19037,8 +19172,8 @@ const apiSchema = [
                                     },
                                     "key" : {
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "\\S+",
+                                       "type" : "string"
                                     },
                                     "lock-token" : {
                                        "description" : "the token for unlocking the global SDN configuration",
@@ -19058,8 +19193,8 @@ const apiSchema = [
                                     },
                                     "url" : {
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "\\S+",
+                                       "type" : "string"
                                     }
                                  },
                                  "type" : "object"
@@ -19150,8 +19285,8 @@ const apiSchema = [
                               },
                               "key" : {
                                  "optional" : 0,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "\\S+",
+                                 "type" : "string"
                               },
                               "lock-token" : {
                                  "description" : "the token for unlocking the global SDN configuration",
@@ -19184,8 +19319,8 @@ const apiSchema = [
                               },
                               "url" : {
                                  "optional" : 0,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "\\S+",
+                                 "type" : "string"
                               }
                            },
                            "type" : "object"
@@ -19279,6 +19414,7 @@ const apiSchema = [
                                        "properties" : {
                                           "area" : {
                                              "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                             "format" : "pve-sdn-fabric-ospf-area",
                                              "instance-types" : [
                                                 "ospf"
                                              ],
@@ -19446,6 +19582,7 @@ const apiSchema = [
                                        "properties" : {
                                           "area" : {
                                              "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                             "format" : "pve-sdn-fabric-ospf-area",
                                              "instance-types" : [
                                                 "ospf"
                                              ],
@@ -19733,6 +19870,7 @@ const apiSchema = [
                                     "properties" : {
                                        "area" : {
                                           "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                          "format" : "pve-sdn-fabric-ospf-area",
                                           "instance-types" : [
                                              "ospf"
                                           ],
@@ -19908,6 +20046,7 @@ const apiSchema = [
                                  "properties" : {
                                     "area" : {
                                        "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                       "format" : "pve-sdn-fabric-ospf-area",
                                        "instance-types" : [
                                           "ospf"
                                        ],
@@ -20371,18 +20510,22 @@ const apiSchema = [
                                                          "endpoint" : {
                                                             "description" : "Override for the endpoint settings in the node section.",
                                                             "optional" : 1,
+                                                            "pattern" : "\\S+",
                                                             "type" : "string"
                                                          },
                                                          "iface" : {
                                                             "description" : "The interface of this node that uses this peer definition.",
+                                                            "format" : "pve-sdn-wireguard-iface-name",
                                                             "type" : "string"
                                                          },
                                                          "node" : {
                                                             "description" : "The name of the referenced node section (the external node or the internal peer node).",
+                                                            "format" : "pve-node",
                                                             "type" : "string"
                                                          },
                                                          "node_iface" : {
                                                             "description" : "The interface of the other node, if it is internal",
+                                                            "format" : "pve-sdn-wireguard-iface-name",
                                                             "optional" : 1,
                                                             "type" : "string"
                                                          },
@@ -20418,6 +20561,7 @@ const apiSchema = [
                                                 },
                                                 "public_key" : {
                                                    "description" : "The public key for the external node.",
+                                                   "format" : "pve-sdn-wireguard-key",
                                                    "instance-types" : [
                                                       "wireguard"
                                                    ],
@@ -20687,18 +20831,22 @@ const apiSchema = [
                                                          "endpoint" : {
                                                             "description" : "Override for the endpoint settings in the node section.",
                                                             "optional" : 1,
+                                                            "pattern" : "\\S+",
                                                             "type" : "string"
                                                          },
                                                          "iface" : {
                                                             "description" : "The interface of this node that uses this peer definition.",
+                                                            "format" : "pve-sdn-wireguard-iface-name",
                                                             "type" : "string"
                                                          },
                                                          "node" : {
                                                             "description" : "The name of the referenced node section (the external node or the internal peer node).",
+                                                            "format" : "pve-node",
                                                             "type" : "string"
                                                          },
                                                          "node_iface" : {
                                                             "description" : "The interface of the other node, if it is internal",
+                                                            "format" : "pve-sdn-wireguard-iface-name",
                                                             "optional" : 1,
                                                             "type" : "string"
                                                          },
@@ -20735,6 +20883,7 @@ const apiSchema = [
                                                 },
                                                 "public_key" : {
                                                    "description" : "The public key for the external node.",
+                                                   "format" : "pve-sdn-wireguard-key",
                                                    "instance-types" : [
                                                       "wireguard"
                                                    ],
@@ -21006,18 +21155,22 @@ const apiSchema = [
                                                       "endpoint" : {
                                                          "description" : "Override for the endpoint settings in the node section.",
                                                          "optional" : 1,
+                                                         "pattern" : "\\S+",
                                                          "type" : "string"
                                                       },
                                                       "iface" : {
                                                          "description" : "The interface of this node that uses this peer definition.",
+                                                         "format" : "pve-sdn-wireguard-iface-name",
                                                          "type" : "string"
                                                       },
                                                       "node" : {
                                                          "description" : "The name of the referenced node section (the external node or the internal peer node).",
+                                                         "format" : "pve-node",
                                                          "type" : "string"
                                                       },
                                                       "node_iface" : {
                                                          "description" : "The interface of the other node, if it is internal",
+                                                         "format" : "pve-sdn-wireguard-iface-name",
                                                          "optional" : 1,
                                                          "type" : "string"
                                                       },
@@ -21053,6 +21206,7 @@ const apiSchema = [
                                              },
                                              "public_key" : {
                                                 "description" : "The public key for the external node.",
+                                                "format" : "pve-sdn-wireguard-key",
                                                 "instance-types" : [
                                                    "wireguard"
                                                 ],
@@ -21275,18 +21429,22 @@ const apiSchema = [
                                                    "endpoint" : {
                                                       "description" : "Override for the endpoint settings in the node section.",
                                                       "optional" : 1,
+                                                      "pattern" : "\\S+",
                                                       "type" : "string"
                                                    },
                                                    "iface" : {
                                                       "description" : "The interface of this node that uses this peer definition.",
+                                                      "format" : "pve-sdn-wireguard-iface-name",
                                                       "type" : "string"
                                                    },
                                                    "node" : {
                                                       "description" : "The name of the referenced node section (the external node or the internal peer node).",
+                                                      "format" : "pve-node",
                                                       "type" : "string"
                                                    },
                                                    "node_iface" : {
                                                       "description" : "The interface of the other node, if it is internal",
+                                                      "format" : "pve-sdn-wireguard-iface-name",
                                                       "optional" : 1,
                                                       "type" : "string"
                                                    },
@@ -21323,6 +21481,7 @@ const apiSchema = [
                                           },
                                           "public_key" : {
                                              "description" : "The public key for the external node.",
+                                             "format" : "pve-sdn-wireguard-key",
                                              "instance-types" : [
                                                 "wireguard"
                                              ],
@@ -21580,18 +21739,22 @@ const apiSchema = [
                                                 "endpoint" : {
                                                    "description" : "Override for the endpoint settings in the node section.",
                                                    "optional" : 1,
+                                                   "pattern" : "\\S+",
                                                    "type" : "string"
                                                 },
                                                 "iface" : {
                                                    "description" : "The interface of this node that uses this peer definition.",
+                                                   "format" : "pve-sdn-wireguard-iface-name",
                                                    "type" : "string"
                                                 },
                                                 "node" : {
                                                    "description" : "The name of the referenced node section (the external node or the internal peer node).",
+                                                   "format" : "pve-node",
                                                    "type" : "string"
                                                 },
                                                 "node_iface" : {
                                                    "description" : "The interface of the other node, if it is internal",
+                                                   "format" : "pve-sdn-wireguard-iface-name",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -21627,6 +21790,7 @@ const apiSchema = [
                                        },
                                        "public_key" : {
                                           "description" : "The public key for the external node.",
+                                          "format" : "pve-sdn-wireguard-key",
                                           "instance-types" : [
                                              "wireguard"
                                           ],
@@ -21698,6 +21862,7 @@ const apiSchema = [
                                           "properties" : {
                                              "area" : {
                                                 "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                                "format" : "pve-sdn-fabric-ospf-area",
                                                 "instance-types" : [
                                                    "ospf"
                                                 ],
@@ -22035,18 +22200,22 @@ const apiSchema = [
                                                       "endpoint" : {
                                                          "description" : "Override for the endpoint settings in the node section.",
                                                          "optional" : 1,
+                                                         "pattern" : "\\S+",
                                                          "type" : "string"
                                                       },
                                                       "iface" : {
                                                          "description" : "The interface of this node that uses this peer definition.",
+                                                         "format" : "pve-sdn-wireguard-iface-name",
                                                          "type" : "string"
                                                       },
                                                       "node" : {
                                                          "description" : "The name of the referenced node section (the external node or the internal peer node).",
+                                                         "format" : "pve-node",
                                                          "type" : "string"
                                                       },
                                                       "node_iface" : {
                                                          "description" : "The interface of the other node, if it is internal",
+                                                         "format" : "pve-sdn-wireguard-iface-name",
                                                          "optional" : 1,
                                                          "type" : "string"
                                                       },
@@ -22082,6 +22251,7 @@ const apiSchema = [
                                              },
                                              "public_key" : {
                                                 "description" : "The public key for the external node.",
+                                                "format" : "pve-sdn-wireguard-key",
                                                 "instance-types" : [
                                                    "wireguard"
                                                 ],
@@ -22884,6 +23054,7 @@ const apiSchema = [
                                                                   "description" : "Value that the field <key> should be matched on.",
                                                                   "format_description" : "<key-dependent>",
                                                                   "optional" : 1,
+                                                                  "pattern" : "\\S+",
                                                                   "type" : "string"
                                                                }
                                                             },
@@ -22926,6 +23097,7 @@ const apiSchema = [
                                                                   "description" : "Value that the field <key> should be set to.",
                                                                   "format_description" : "<key-dependent>",
                                                                   "optional" : 1,
+                                                                  "pattern" : "\\S+",
                                                                   "type" : "string"
                                                                }
                                                             },
@@ -23034,6 +23206,7 @@ const apiSchema = [
                                                                   "description" : "Value that the field <key> should be matched on.",
                                                                   "format_description" : "<key-dependent>",
                                                                   "optional" : 1,
+                                                                  "pattern" : "\\S+",
                                                                   "type" : "string"
                                                                }
                                                             },
@@ -23079,6 +23252,7 @@ const apiSchema = [
                                                                   "description" : "Value that the field <key> should be set to.",
                                                                   "format_description" : "<key-dependent>",
                                                                   "optional" : 1,
+                                                                  "pattern" : "\\S+",
                                                                   "type" : "string"
                                                                }
                                                             },
@@ -23224,6 +23398,7 @@ const apiSchema = [
                                                          "description" : "Value that the field <key> should be matched on.",
                                                          "format_description" : "<key-dependent>",
                                                          "optional" : 1,
+                                                         "pattern" : "\\S+",
                                                          "type" : "string"
                                                       }
                                                    },
@@ -23266,6 +23441,7 @@ const apiSchema = [
                                                          "description" : "Value that the field <key> should be set to.",
                                                          "format_description" : "<key-dependent>",
                                                          "optional" : 1,
+                                                         "pattern" : "\\S+",
                                                          "type" : "string"
                                                       }
                                                    },
@@ -23387,6 +23563,7 @@ const apiSchema = [
                                                    "description" : "Value that the field <key> should be matched on.",
                                                    "format_description" : "<key-dependent>",
                                                    "optional" : 1,
+                                                   "pattern" : "\\S+",
                                                    "type" : "string"
                                                 }
                                              },
@@ -23429,6 +23606,7 @@ const apiSchema = [
                                                    "description" : "Value that the field <key> should be set to.",
                                                    "format_description" : "<key-dependent>",
                                                    "optional" : 1,
+                                                   "pattern" : "\\S+",
                                                    "type" : "string"
                                                 }
                                              },
@@ -23531,6 +23709,7 @@ const apiSchema = [
                                                 "description" : "Value that the field <key> should be matched on.",
                                                 "format_description" : "<key-dependent>",
                                                 "optional" : 1,
+                                                "pattern" : "\\S+",
                                                 "type" : "string"
                                              }
                                           },
@@ -23576,6 +23755,7 @@ const apiSchema = [
                                                 "description" : "Value that the field <key> should be set to.",
                                                 "format_description" : "<key-dependent>",
                                                 "optional" : 1,
+                                                "pattern" : "\\S+",
                                                 "type" : "string"
                                              }
                                           },
@@ -26291,6 +26471,7 @@ const apiSchema = [
                                                       "cidr" : {
                                                          "description" : "Network/IP specification in CIDR format.",
                                                          "format" : "IPorCIDR",
+                                                         "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
                                                       },
@@ -27700,6 +27881,156 @@ const apiSchema = [
                                     "info" : {
                                        "GET" : {
                                           "allowtoken" : 1,
+                                          "description" : "Execute get-cpustats.",
+                                          "method" : "GET",
+                                          "name" : "get-cpustats",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (100 - 999999999)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-cpustats",
+                                    "text" : "get-cpustats"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Execute get-disks.",
+                                          "method" : "GET",
+                                          "name" : "get-disks",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (100 - 999999999)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-disks",
+                                    "text" : "get-disks"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Execute get-diskstats.",
+                                          "method" : "GET",
+                                          "name" : "get-diskstats",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (100 - 999999999)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-diskstats",
+                                    "text" : "get-diskstats"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute get-fsinfo.",
                                           "method" : "GET",
                                           "name" : "get-fsinfo",
@@ -27795,6 +28126,56 @@ const apiSchema = [
                                     "leaf" : 1,
                                     "path" : "/nodes/{node}/qemu/{vmid}/agent/get-host-name",
                                     "text" : "get-host-name"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Execute get-load.",
+                                          "method" : "GET",
+                                          "name" : "get-load",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (100 - 999999999)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-load",
+                                    "text" : "get-load"
                                  },
                                  {
                                     "info" : {
@@ -28934,8 +29315,12 @@ const apiSchema = [
                                                 "fsfreeze-status",
                                                 "fsfreeze-thaw",
                                                 "fstrim",
+                                                "get-cpustats",
+                                                "get-disks",
+                                                "get-diskstats",
                                                 "get-fsinfo",
                                                 "get-host-name",
+                                                "get-load",
                                                 "get-memory-block-info",
                                                 "get-memory-blocks",
                                                 "get-osinfo",
@@ -30196,7 +30581,8 @@ const apiSchema = [
                                                       "interleave"
                                                    ],
                                                    "optional" : 1,
-                                                   "type" : "string"
+                                                   "type" : "string",
+                                                   "verbose_description" : "NUMA allocation policy. Possible values are:\n\n - preferred: prefer the given host node list for allocation\n - bind: restrict memory allocation to the given host node list\n - interleave: interleave memory allocations across the given host node list\n\nThe models are explained in more details in the kernel's documentation\nhttps://docs.kernel.org/admin-guide/mm/numa_memory_policy.html#components-of-memory-policies.\n"
                                                 }
                                              },
                                              "optional" : 1,
@@ -32660,7 +33046,8 @@ const apiSchema = [
                                                       "interleave"
                                                    ],
                                                    "optional" : 1,
-                                                   "type" : "string"
+                                                   "type" : "string",
+                                                   "verbose_description" : "NUMA allocation policy. Possible values are:\n\n - preferred: prefer the given host node list for allocation\n - bind: restrict memory allocation to the given host node list\n - interleave: interleave memory allocations across the given host node list\n\nThe models are explained in more details in the kernel's documentation\nhttps://docs.kernel.org/admin-guide/mm/numa_memory_policy.html#components-of-memory-policies.\n"
                                                 }
                                              },
                                              "optional" : 1,
@@ -35132,7 +35519,8 @@ const apiSchema = [
                                                       "interleave"
                                                    ],
                                                    "optional" : 1,
-                                                   "type" : "string"
+                                                   "type" : "string",
+                                                   "verbose_description" : "NUMA allocation policy. Possible values are:\n\n - preferred: prefer the given host node list for allocation\n - bind: restrict memory allocation to the given host node list\n - interleave: interleave memory allocations across the given host node list\n\nThe models are explained in more details in the kernel's documentation\nhttps://docs.kernel.org/admin-guide/mm/numa_memory_policy.html#components-of-memory-policies.\n"
                                                 }
                                              },
                                              "optional" : 1,
@@ -39312,9 +39700,12 @@ const apiSchema = [
                                           "perm",
                                           "/vms/{vmid}",
                                           [
+                                             "VM.Audit",
+                                             "VM.Config.Disk",
                                              "VM.Migrate"
                                           ]
-                                       ]
+                                       ],
+                                       "description" : "'VM.Migrate', 'VM.Audit', and 'VM.Config.Disk' on '/vms/{vmid}'. If using 'delete', additionally 'VM.Allocate' on '/vms/{vmid}'. If 'cicustom' or 'cipassword' is set, additionally 'VM.Config.Cloudinit' on '/vms/{vmid}'."
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -39370,7 +39761,7 @@ const apiSchema = [
                                           "any",
                                           1
                                        ],
-                                       "description" : "The following commands do not require any additional privilege: ?, help, info\n\nThe following commands require 'Sys.Modify': announce_self, backup_cancel, balloon, block_job_cancel, block_job_complete, block_job_pause, block_job_resume, block_job_set_speed, block_resize, block_set_io_throttle, boot_set, c, calc_dirty_rate, cancel_vcpu_dirty_limit, chardev-send-break, closefd, commit, cont, cpu, delvm, eject, exit_preconfig, expire_password, getfd, gpa2hpa, gpa2hva, gva2gpa, i, loadvm, log, migrate_cancel, migrate_continue, migrate_pause, migrate_set_capability, migrate_set_parameter, migrate_start_postcopy, mouse_button, mouse_move, mouse_set, one-insn-per-tb, p, print, q, qemu-io, qom-get, qom-list, quit, replay_break, replay_delete_break, replay_seek, ringbuf_read, ringbuf_write, s, savevm, sendkey, set_link, set_password, set_vcpu_dirty_limit, snapshot_blkdev_internal, snapshot_delete_blkdev_internal, stop, stopcapture, sum, sync-profile, system_powerdown, system_reset, system_wakeup, trace-event, x, x_colo_lost_heartbeat, xp\n\nThe following commands are root-only: backup, block_stream, change, chardev-add, chardev-change, chardev-remove, client_migrate_info, device_add, device_del, drive_add, drive_backup, drive_del, drive_mirror, dump-guest-memory, dumpdtb, gdbserver, hostfwd_add, hostfwd_remove, logfile, mce, memsave, migrate, migrate_incoming, migrate_recover, nbd_server_add, nbd_server_remove, nbd_server_start, nbd_server_stop, netdev_add, netdev_del, nmi, o, object_add, object_del, pcie_aer_inject_error, pmemsave, qom-set, savevm-end, savevm-start, screendump, snapshot_blkdev, watchdog_action, wavcapture, xen-event-inject, xen-event-list\n\nThe following commands are deprecated: stopcapture, wavcapture\n"
+                                       "description" : "The following commands do not require any additional privilege: ?, help, info\n\nThe following commands require 'Sys.Modify': announce_self, backup_cancel, balloon, block_job_cancel, block_job_complete, block_job_pause, block_job_resume, block_job_set_speed, block_resize, block_set_io_throttle, boot_set, c, calc_dirty_rate, cancel_vcpu_dirty_limit, chardev-send-break, closefd, commit, cont, cpu, delvm, eject, exit_preconfig, expire_password, getfd, gva2gpa, loadvm, log, migrate_cancel, migrate_continue, migrate_pause, migrate_set_capability, migrate_set_parameter, migrate_start_postcopy, mouse_button, mouse_move, mouse_set, one-insn-per-tb, p, print, q, qemu-io, qom-get, qom-list, quit, replay_break, replay_delete_break, replay_seek, ringbuf_read, ringbuf_write, s, savevm, sendkey, set_link, set_password, set_vcpu_dirty_limit, snapshot_blkdev_internal, snapshot_delete_blkdev_internal, stop, stopcapture, sum, sync-profile, system_powerdown, system_reset, system_wakeup, trace-event, x, x_colo_lost_heartbeat, xp\n\nThe following commands are root-only: backup, block_stream, change, chardev-add, chardev-change, chardev-remove, client_migrate_info, device_add, device_del, drive_add, drive_backup, drive_del, drive_mirror, dump-guest-memory, dumpdtb, gdbserver, gpa2hpa, gpa2hva, hostfwd_add, hostfwd_remove, i, logfile, mce, memsave, migrate, migrate_incoming, migrate_recover, nbd_server_add, nbd_server_remove, nbd_server_start, nbd_server_stop, netdev_add, netdev_del, nmi, o, object_add, object_del, pcie_aer_inject_error, pmemsave, qom-set, savevm-end, savevm-start, screendump, snapshot_blkdev, watchdog_action, wavcapture, xen-event-inject, xen-event-list\n\nThe following commands are deprecated: stopcapture, wavcapture\n"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -41647,7 +42038,8 @@ const apiSchema = [
                                           "interleave"
                                        ],
                                        "optional" : 1,
-                                       "type" : "string"
+                                       "type" : "string",
+                                       "verbose_description" : "NUMA allocation policy. Possible values are:\n\n - preferred: prefer the given host node list for allocation\n - bind: restrict memory allocation to the given host node list\n - interleave: interleave memory allocations across the given host node list\n\nThe models are explained in more details in the kernel's documentation\nhttps://docs.kernel.org/admin-guide/mm/numa_memory_policy.html#components-of-memory-policies.\n"
                                     }
                                  },
                                  "optional" : 1,
@@ -43229,13 +43621,13 @@ const apiSchema = [
                                              "default" : "/sbin/init",
                                              "description" : "Command to run as init, optionally with arguments; may start with an absolute path, relative path, or a binary in $PATH.",
                                              "optional" : 1,
-                                             "pattern" : "(?^:[^\\x00-\\x08\\x0a-\\x1F\\x7F]+)",
+                                             "pattern" : "(?^:[^\\x00-\\x08\\x0a-\\x1F\\x7F]+\\z)",
                                              "type" : "string"
                                           },
                                           "env" : {
                                              "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
                                              "optional" : 1,
-                                             "pattern" : "(?^:(?:\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)*)",
+                                             "pattern" : "(?^:(?:\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)*\\z)",
                                              "type" : "string"
                                           },
                                           "features" : {
@@ -43261,7 +43653,7 @@ const apiSchema = [
                                                 },
                                                 "mknod" : {
                                                    "default" : 0,
-                                                   "description" : "Allow unprivileged containers to use mknod() to add certain device nodes. This requires a kernel with seccomp trap to user space support (5.3 or newer). This is experimental.",
+                                                   "description" : "Allow unprivileged containers to use mknod() to add certain device nodes. This requires a kernel with seccomp trap to user space support (5.3 or newer).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -43831,13 +44223,13 @@ const apiSchema = [
                                              "default" : "/sbin/init",
                                              "description" : "Command to run as init, optionally with arguments; may start with an absolute path, relative path, or a binary in $PATH.",
                                              "optional" : 1,
-                                             "pattern" : "(?^:[^\\x00-\\x08\\x0a-\\x1F\\x7F]+)",
+                                             "pattern" : "(?^:[^\\x00-\\x08\\x0a-\\x1F\\x7F]+\\z)",
                                              "type" : "string"
                                           },
                                           "env" : {
                                              "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
                                              "optional" : 1,
-                                             "pattern" : "(?^:(?:\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)*)",
+                                             "pattern" : "(?^:(?:\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)*\\z)",
                                              "type" : "string"
                                           },
                                           "features" : {
@@ -43863,7 +44255,7 @@ const apiSchema = [
                                                 },
                                                 "mknod" : {
                                                    "default" : 0,
-                                                   "description" : "Allow unprivileged containers to use mknod() to add certain device nodes. This requires a kernel with seccomp trap to user space support (5.3 or newer). This is experimental.",
+                                                   "description" : "Allow unprivileged containers to use mknod() to add certain device nodes. This requires a kernel with seccomp trap to user space support (5.3 or newer).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -46103,6 +46495,7 @@ const apiSchema = [
                                                       "cidr" : {
                                                          "description" : "Network/IP specification in CIDR format.",
                                                          "format" : "IPorCIDR",
+                                                         "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
                                                       },
@@ -47825,9 +48218,12 @@ const apiSchema = [
                                           "perm",
                                           "/vms/{vmid}",
                                           [
+                                             "VM.Audit",
+                                             "VM.Config.Disk",
                                              "VM.Migrate"
                                           ]
-                                       ]
+                                       ],
+                                       "description" : "'VM.Migrate', 'VM.Audit', and 'VM.Config.Disk' on '/vms/{vmid}'. If using 'delete', additionally 'VM.Allocate' on '/vms/{vmid}'."
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -50463,13 +50859,13 @@ const apiSchema = [
                                  "default" : "/sbin/init",
                                  "description" : "Command to run as init, optionally with arguments; may start with an absolute path, relative path, or a binary in $PATH.",
                                  "optional" : 1,
-                                 "pattern" : "(?^:[^\\x00-\\x08\\x0a-\\x1F\\x7F]+)",
+                                 "pattern" : "(?^:[^\\x00-\\x08\\x0a-\\x1F\\x7F]+\\z)",
                                  "type" : "string"
                               },
                               "env" : {
                                  "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
                                  "optional" : 1,
-                                 "pattern" : "(?^:(?:\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)*)",
+                                 "pattern" : "(?^:(?:\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x08\\x0a-\\x1F\\x7F]*)*\\z)",
                                  "type" : "string"
                               },
                               "features" : {
@@ -50495,7 +50891,7 @@ const apiSchema = [
                                     },
                                     "mknod" : {
                                        "default" : 0,
-                                       "description" : "Allow unprivileged containers to use mknod() to add certain device nodes. This requires a kernel with seccomp trap to user space support (5.3 or newer). This is experimental.",
+                                       "description" : "Allow unprivileged containers to use mknod() to add certain device nodes. This requires a kernel with seccomp trap to user space support (5.3 or newer).",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -53451,7 +53847,7 @@ const apiSchema = [
                                     },
                                     "pg_bits" : {
                                        "default" : 6,
-                                       "description" : "Placement group bits, used to specify the default number of placement groups.\n\nDepreacted. This setting was deprecated in recent Ceph versions.",
+                                       "description" : "Placement group bits, used to specify the default number of placement groups.\n\nDeprecated. This setting has been ignored since Ceph Nautilus.",
                                        "maximum" : 14,
                                        "minimum" : 6,
                                        "optional" : 1,
@@ -54323,7 +54719,7 @@ const apiSchema = [
                                  }
                               },
                               "permissions" : {
-                                 "description" : "The user needs 'VM.Backup' permissions on the backed up guest ID, and 'Datastore.AllocateSpace' on the backup storage.",
+                                 "description" : "The user needs 'Datastore.Allocate' on the backup storage, or both 'VM.Backup' on the backed up guest ID and 'Datastore.AllocateSpace' on the backup storage.",
                                  "user" : "all"
                               },
                               "protected" : 1,
@@ -55735,8 +56131,8 @@ const apiSchema = [
                                        "description" : "OVS interface options.",
                                        "maxLength" : 1024,
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "[^\\n\\r]*",
+                                       "type" : "string"
                                     },
                                     "ovs_ports" : {
                                        "description" : "Specify the interfaces you want to add to your bridge.",
@@ -56135,6 +56531,7 @@ const apiSchema = [
                                     "description" : "OVS interface options.",
                                     "maxLength" : 1024,
                                     "optional" : 1,
+                                    "pattern" : "[^\\n\\r]*",
                                     "type" : "string"
                                  },
                                  "ovs_ports" : {
@@ -56419,8 +56816,8 @@ const apiSchema = [
                                  "description" : "OVS interface options.",
                                  "maxLength" : 1024,
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "[^\\n\\r]*",
+                                 "type" : "string"
                               },
                               "ovs_ports" : {
                                  "description" : "Specify the interfaces you want to add to your bridge.",
@@ -57418,16 +57815,8 @@ const apiSchema = [
                                              }
                                           },
                                           "permissions" : {
-                                             "check" : [
-                                                "perm",
-                                                "/",
-                                                [
-                                                   "Sys.Audit",
-                                                   "Sys.Modify"
-                                                ],
-                                                "any",
-                                                1
-                                             ]
+                                             "description" : "For a PCI ID, requires 'Sys.Audit' or 'Sys.Modify' on '/'. For a mapping, requires the same global permissions, or 'Mapping.Use', 'Mapping.Modify', or 'Mapping.Audit' on '/mapping/pci/<id>'.",
+                                             "user" : "all"
                                           },
                                           "protected" : 1,
                                           "proxyto" : "node",
@@ -61070,7 +61459,7 @@ const apiSchema = [
                                              "arm64",
                                              "amd64",
                                              "ppc64el",
-                                             "risc64",
+                                             "riscv64",
                                              "s390x",
                                              "all"
                                           ],
@@ -61572,7 +61961,7 @@ const apiSchema = [
                                              "arm64",
                                              "amd64",
                                              "ppc64el",
-                                             "risc64",
+                                             "riscv64",
                                              "s390x",
                                              "all"
                                           ],
@@ -62910,6 +63299,117 @@ const apiSchema = [
                                     "protected" : 1,
                                     "proxyto" : "node",
                                     "returns" : {
+                                       "properties" : {
+                                          "comment" : {
+                                             "description" : "Description.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "disable" : {
+                                             "description" : "Whether the job is disabled.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "duration" : {
+                                             "description" : "Duration of the last run in seconds.",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "error" : {
+                                             "description" : "Error of the last failed run.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "fail_count" : {
+                                             "description" : "Number of consecutive failed runs.",
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "guest" : {
+                                             "description" : "Guest ID.",
+                                             "format" : "pve-vmid",
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
+                                             "type" : "integer"
+                                          },
+                                          "id" : {
+                                             "description" : "Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.",
+                                             "format" : "pve-replication-job-id",
+                                             "pattern" : "[1-9][0-9]{2,8}-\\d{1,9}",
+                                             "type" : "string"
+                                          },
+                                          "jobnum" : {
+                                             "description" : "Unique, sequential ID assigned to each job.",
+                                             "type" : "integer"
+                                          },
+                                          "last_sync" : {
+                                             "description" : "Start of the last successful run (UNIX epoch), 0 if there was none.",
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "last_try" : {
+                                             "description" : "Start of the last run (UNIX epoch), 0 if there was none.",
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "next_sync" : {
+                                             "description" : "Scheduled start of the next run (UNIX epoch), 0 if none is due.",
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "pid" : {
+                                             "description" : "Process ID of the currently running job.",
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "rate" : {
+                                             "description" : "Rate limit in mbps (megabytes per second) as floating point number.",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "remove_job" : {
+                                             "description" : "Whether the job is marked for removal, and in which mode.",
+                                             "enum" : [
+                                                "local",
+                                                "full"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "schedule" : {
+                                             "description" : "Storage replication schedule.",
+                                             "format" : "pve-calendar-event",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "source" : {
+                                             "description" : "The node the guest was on when the job last ran.",
+                                             "format" : "pve-node",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "target" : {
+                                             "description" : "Target node.",
+                                             "format" : "pve-node",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "type" : {
+                                             "description" : "Section type.",
+                                             "enum" : [
+                                                "local"
+                                             ],
+                                             "type" : "string"
+                                          },
+                                          "vmtype" : {
+                                             "description" : "Guest type.",
+                                             "enum" : [
+                                                "qemu",
+                                                "lxc"
+                                             ],
+                                             "type" : "string"
+                                          }
+                                       },
                                        "type" : "object"
                                     }
                                  }
@@ -63103,7 +63603,113 @@ const apiSchema = [
                         "returns" : {
                            "items" : {
                               "properties" : {
+                                 "comment" : {
+                                    "description" : "Description.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "disable" : {
+                                    "description" : "Whether the job is disabled.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "duration" : {
+                                    "description" : "Duration of the last run in seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "error" : {
+                                    "description" : "Error of the last failed run.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "fail_count" : {
+                                    "description" : "Number of consecutive failed runs.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "guest" : {
+                                    "description" : "Guest ID.",
+                                    "format" : "pve-vmid",
+                                    "maximum" : 999999999,
+                                    "minimum" : 100,
+                                    "type" : "integer"
+                                 },
                                  "id" : {
+                                    "description" : "Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.",
+                                    "format" : "pve-replication-job-id",
+                                    "pattern" : "[1-9][0-9]{2,8}-\\d{1,9}",
+                                    "type" : "string"
+                                 },
+                                 "jobnum" : {
+                                    "description" : "Unique, sequential ID assigned to each job.",
+                                    "type" : "integer"
+                                 },
+                                 "last_sync" : {
+                                    "description" : "Start of the last successful run (UNIX epoch), 0 if there was none.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "last_try" : {
+                                    "description" : "Start of the last run (UNIX epoch), 0 if there was none.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "next_sync" : {
+                                    "description" : "Scheduled start of the next run (UNIX epoch), 0 if none is due.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "pid" : {
+                                    "description" : "Process ID of the currently running job.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "rate" : {
+                                    "description" : "Rate limit in mbps (megabytes per second) as floating point number.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "remove_job" : {
+                                    "description" : "Whether the job is marked for removal, and in which mode.",
+                                    "enum" : [
+                                       "local",
+                                       "full"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "schedule" : {
+                                    "description" : "Storage replication schedule.",
+                                    "format" : "pve-calendar-event",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "source" : {
+                                    "description" : "The node the guest was on when the job last ran.",
+                                    "format" : "pve-node",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "target" : {
+                                    "description" : "Target node.",
+                                    "format" : "pve-node",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "type" : {
+                                    "description" : "Section type.",
+                                    "enum" : [
+                                       "local"
+                                    ],
+                                    "type" : "string"
+                                 },
+                                 "vmtype" : {
+                                    "description" : "Guest type.",
+                                    "enum" : [
+                                       "qemu",
+                                       "lxc"
+                                    ],
                                     "type" : "string"
                                  }
                               },
@@ -63148,7 +63754,7 @@ const apiSchema = [
                                     "permissions" : {
                                        "check" : [
                                           "perm",
-                                          "/nodes/{node}",
+                                          "/nodes/{node}/certificates",
                                           [
                                              "Sys.Modify"
                                           ]
@@ -63186,7 +63792,7 @@ const apiSchema = [
                                     "permissions" : {
                                        "check" : [
                                           "perm",
-                                          "/nodes/{node}",
+                                          "/nodes/{node}/certificates",
                                           [
                                              "Sys.Modify"
                                           ]
@@ -63208,7 +63814,7 @@ const apiSchema = [
                                        "properties" : {
                                           "force" : {
                                              "default" : 0,
-                                             "description" : "Force renewal even if expiry is more than 30 days away.",
+                                             "description" : "Force renewal even if the certificate is not yet due for renewal.",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -63224,7 +63830,7 @@ const apiSchema = [
                                     "permissions" : {
                                        "check" : [
                                           "perm",
-                                          "/nodes/{node}",
+                                          "/nodes/{node}/certificates",
                                           [
                                              "Sys.Modify"
                                           ]
@@ -63402,7 +64008,7 @@ const apiSchema = [
                               "permissions" : {
                                  "check" : [
                                     "perm",
-                                    "/nodes/{node}",
+                                    "/nodes/{node}/certificates",
                                     [
                                        "Sys.Modify"
                                     ]
@@ -63460,7 +64066,7 @@ const apiSchema = [
                               "permissions" : {
                                  "check" : [
                                     "perm",
-                                    "/nodes/{node}",
+                                    "/nodes/{node}/certificates",
                                     [
                                        "Sys.Modify"
                                     ]
@@ -64830,6 +65436,11 @@ const apiSchema = [
                                  },
                                  "type" : "object"
                               },
+                              "idle" : {
+                                 "description" : "Sum of how much time each core has spent idle, in seconds.",
+                                 "minimum" : 0,
+                                 "type" : "integer"
+                              },
                               "loadavg" : {
                                  "description" : "An array of load avg for 1, 5 and 15 minutes respectively.",
                                  "items" : {
@@ -64883,6 +65494,11 @@ const apiSchema = [
                                     }
                                  },
                                  "type" : "object"
+                              },
+                              "uptime" : {
+                                 "description" : "The uptime of the system (including time spent in suspend), in seconds.",
+                                 "minimum" : 0,
+                                 "type" : "integer"
                               }
                            },
                            "type" : "object"
@@ -66920,6 +67536,14 @@ const apiSchema = [
                            "type" : "boolean",
                            "typetext" : "<boolean>"
                         },
+                        "on-volume-remove" : {
+                           "description" : "Optional actions when removing LVs.",
+                           "format" : "on-volume-remove",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[discard=<1|0>]",
+                           "verbose_description" : "Configure actions performed before removing an LV. Use 'discard=1' to issue discard (TRIM) requests before removal."
+                        },
                         "options" : {
                            "description" : "NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')",
                            "format" : "pve-storage-options",
@@ -66988,10 +67612,10 @@ const apiSchema = [
                            "type" : "integer"
                         },
                         "saferemove_throughput" : {
-                           "description" : "Wipe throughput (cstream -t parameter value).",
+                           "description" : "Wipe throughput in bytes per second (optional suffix: k, m, or g).",
                            "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
+                           "pattern" : "-?\\d+[kmgKMG]?",
+                           "type" : "string"
                         },
                         "server" : {
                            "description" : "Server IP or DNS name.",
@@ -67462,6 +68086,14 @@ const apiSchema = [
                      "type" : "boolean",
                      "typetext" : "<boolean>"
                   },
+                  "on-volume-remove" : {
+                     "description" : "Optional actions when removing LVs.",
+                     "format" : "on-volume-remove",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "[discard=<1|0>]",
+                     "verbose_description" : "Configure actions performed before removing an LV. Use 'discard=1' to issue discard (TRIM) requests before removal."
+                  },
                   "options" : {
                      "description" : "NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')",
                      "format" : "pve-storage-options",
@@ -67544,10 +68176,10 @@ const apiSchema = [
                      "type" : "integer"
                   },
                   "saferemove_throughput" : {
-                     "description" : "Wipe throughput (cstream -t parameter value).",
+                     "description" : "Wipe throughput in bytes per second (optional suffix: k, m, or g).",
                      "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
+                     "pattern" : "-?\\d+[kmgKMG]?",
+                     "type" : "string"
                   },
                   "server" : {
                      "description" : "Server IP or DNS name.",
@@ -71192,7 +71824,7 @@ const apiSchema = [
                         "userid" : {
                            "description" : "User ID or full API token ID",
                            "optional" : 1,
-                           "pattern" : "(?^:^(?^:[^\\s:/]+)\\@(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)(?:!(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+))?$)",
+                           "pattern" : "(?^:^(?^:[^\\s:/]+)\\@(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)(?:!(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+))?\\z)",
                            "type" : "string"
                         }
                      }
