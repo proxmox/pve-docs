@@ -773,10 +773,23 @@ FastEC (`allow_ec_optimizations`)
 Ceph Tentacle introduces a new erasure coding I/O path called FastEC,
 enabled per pool via the `allow_ec_optimizations` flag. FastEC adds partial
 reads and partial writes on EC pools, substantially improving small random
-I/O performance -- the dominant access pattern of virtual machine disk I/O.
-Upstream recommends it for RBD and CephFS backed storage
+I/O performance -- the dominant access pattern of virtual machine disk I/O
 footnote:[Ceph Erasure Code
 {cephdocs-url}/rados/operations/erasure-code/].
+
+WARNING: FastEC is a young feature and is still receiving fixes for data
+integrity and availability problems. Do not enable it on production pools,
+particularly not on pools that already hold data. If you want to try it, do
+so on a test cluster running the same Ceph version as production, with your
+typical workloads. Besides regular I/O, test at least upgrading an existing
+pool that holds data, discard and trim, resizing, scrubbing and repair, and
+recovery after an OSD failure. Pools without FastEC are not affected
+directly. However, they usually share OSDs with the FastEC pool and can
+become degraded or unavailable if a FastEC bug crashes these OSDs. A separate
+pool on a production cluster is therefore not a suitable test environment.
+
+{pve} never enables FastEC on its own, it is only active if you set the flag
+yourself.
 
 FastEC has four requirements that the Ceph monitor enforces:
 
@@ -833,14 +846,15 @@ If this reports a release older than `tentacle`, run
 IMPORTANT: `allow_ec_optimizations` is a one-way switch. Once enabled on a
 pool, the Ceph monitor refuses to clear the flag again, so rolling back
 requires draining and recreating the pool. Enable it only after validating
-that FastEC works for your workload on a test pool.
+that FastEC works for your workload on a test cluster.
 
 Enabling FastEC on a pool
 +++++++++++++++++++++++++
 
 FastEC is enabled per pool via the `ceph` CLI. It can be set on both new
-and existing (populated) pools. No data migration or re-encoding takes
-place; only pool metadata changes.
+and existing (populated) pools, but enabling it on a populated pool is
+discouraged. No data migration or re-encoding takes place; only pool metadata
+changes. Existing objects keep their old on-disk layout.
 
 To enable FastEC on a pool, run the following command against the data pool
 (typically named `<pool-name>-data`):
