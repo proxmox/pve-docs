@@ -1,3 +1,61 @@
+pve-docs (9.2.14) trixie; urgency=medium
+
+  * pveceph: update the Cephx migration guide:
+    - state that running without Cephx is only acceptable if solely hosts
+      trusted with full Ceph access can reach the public network, and that
+      disabling it does not repair a failed key migration
+    - spell out the client refresh loop: refresh clients after applying the
+      plan, then rerun the helper until it prints the confirmation command
+
+  * local-zfs: describe adding a hot spare to an existing pool.
+
+  * installation:
+    - document the advanced network options for pinning interface names,
+      bonding the management network, and tagging it with a VLAN, including
+      the 'proxmox-vlan' boot parameter for networks only reachable tagged
+    - correct that the ZFS 'hdsize' option applies to every disk of the pool,
+      not only to the first disk or mirror of RAID0, RAID1 or RAID10 setups
+
+  * network:
+    - correct that the default bridge uses the management interface selected
+      during installation, not always the first network card
+    - show the VLAN examples for the management IP with VLAN-aware bridges
+      only, and how guests then set the VLAN tag in their network configuration
+    - describe SDN VLAN zones as an option to configure VLANs for guests, with
+      an example, recommend a VLAN-aware bridge for them, and note that a host
+      address for a tag with a VNet belongs on the VNet, not on 'vmbr0.<tag>'
+    - add troubleshooting commands and common VLAN issues, such as a host
+      address on a VLAN interface of a bridge port, like 'nic0.5', that stops
+      working when a guest starts on that VLAN and the bridge is not VLAN-aware
+
+  * pbs storage: note that restoring encrypted backups at another site needs
+    the encryption key on that cluster, and that removing a storage also
+    deletes its key file, so keep a copy outside the site it protects.
+
+  * sdn: use 'ASN' consistently instead of the redundant 'ASN number' or
+    'ASN #'.
+
+  * pveum: document that the 'pve' realm now hashes passwords with yescrypt and
+    that older SHA-256 based hashes get upgraded on a password change, or on
+    login while the cluster is quorate.
+
+  * example hookscript:
+    - add the new 'post-pci-prepare' phase, which runs for each prepared PCI
+      passthrough device before the VM starts, for example to set NVIDIA vGPU
+      parameters
+    - only warn on unknown phases, so that adapted copies do not treat phases
+      added later as an error
+
+  * notifications: rework the matcher sections to lead with the concepts used
+    in the web interface, move the configuration file and API options to their
+    own subsection, and describe the 'expression' option, which stores match
+    rules edited in the web interface starting with Proxmox VE 9.3, and its
+    JSON format.
+
+  * update static/schema information for API viewer and generated synopsis.
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 06 Nov 2026 21:22:22 +0100
+
 pve-docs (9.2.13) trixie; urgency=medium
 
   * pveceph: update the Cephx migration guide:
