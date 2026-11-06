@@ -1643,9 +1643,54 @@ same user before confirming, or with the restored key before confirming a
 rollback. The helper refuses to retire a key it finds in a storage key copy;
 verify copies it cannot check yourself.
 
-The helper lists local users not managed by {pve} separately. Follow their
-client's supported rotation procedure, or leave their keys unchanged and keep
-the old cipher enabled.
+[[pveceph_cephx_other_users]]
+Ceph Users Not Managed by {pve}
++++++++++++++++++++++++++++++++
+
+The helper lists local users not managed by {pve} separately, as keys that
+need manual migration. Follow their client's supported rotation procedure, or
+leave their keys unchanged and keep the old cipher enabled.
+
+If every client of such a user supports `aes256k`, move the clients to a new
+user with an `aes256k` key. Both users work side by side, so each client can
+switch when convenient, for example one node of a Kubernetes cluster using
+Ceph CSI at a time. For a user `client.app` with RBD access to the pool
+`vm-pool`:
+
+. Show the capabilities of the current user:
++
+[source,bash]
+----
+ceph auth get client.app
+----
+. Create the new user with the same capabilities and an `aes256k` key:
++
+[source,bash]
+----
+ceph auth get-or-create client.app2 mon 'profile rbd' \
+    osd 'profile rbd pool=vm-pool' --key-type=aes256k
+----
+. Transfer the printed keyring securely and configure every client to use the
+  new user.
+. Once a dry run of the helper with `--restrict-ciphers` lists no client
+  connected as `client.app` any more, delete that user:
++
+[source,bash]
+----
+ceph auth del client.app
+----
+
+Alternatively, you can rotate the key in place with
+`ceph auth rotate --key-type=aes256k <USER>`
+footnote:[Ceph key rotation https://docs.ceph.com/en/latest/rados/configuration/auth-config-ref/#upgrading-and-rotating-cephx-keys].
+This replaces the key at once, without the grace period of a staged key.
+Transfer the printed keyring securely, update every saved copy and refresh the
+clients.
+
+If an earlier helper run with `--apply` recorded the previous key, the helper
+then asks you to confirm the refresh with
+`--confirm-clients-refreshed <USER> --apply`. The first confirmation may only
+record which clients are connected. In that case, repeat the command.
 
 [[pveceph_cephx_rollback]]
 Roll Back a Staged Client Key
