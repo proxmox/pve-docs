@@ -157,8 +157,9 @@ fully managed by {pve} and are able to change their own passwords via the GUI.
 NOTE: Passwords created with older versions of {pve} used a hashing scheme based
 on SHA-256 that is now considered insecure. If the file
 `/etc/pve/priv/shadow.cfg` shows a password hash starting with `$5$` for an
-account, that account still uses such a password. The hash will be updated on the
-next login of that user or when a new password is set.
+account, that account still uses such a password. The hash is updated when a new
+password is set, and on the next login of that user as long as the cluster is
+quorate.
 
 LDAP::
 
