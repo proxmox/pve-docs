@@ -691,6 +691,10 @@ iface vnet1234 inet static
         address 192.0.2.1/24
 ----
 
+NOTE: On a VLAN-aware bridge, a VNet uses `vmbr0.<tag>` as its bridge port. Do
+not configure a host address on that interface for a tag that has a VNet,
+configure it on the VNet instead.
+
 VLAN on the Host
 ^^^^^^^^^^^^^^^^
 
