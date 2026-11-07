@@ -47,9 +47,11 @@ iscsi: mynas
      content none
 ----
 
-TIP: If you want to use LVM on top of iSCSI, it make sense to set
-`content none`. That way it is not possible to create VMs using iSCSI
-LUNs directly.
+NOTE: To use LVM on top of iSCSI, set `content none`, in the web interface by
+clearing *Use LUNs directly*. That way it is not possible to create VMs using
+iSCSI LUNs directly. As a guest may use a LUN without data that could be
+detected, {pve} refuses to create a volume group on a LUN of a target that a
+storage offers as disk images.
 
 
 File naming conventions
