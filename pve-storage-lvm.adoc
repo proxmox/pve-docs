@@ -128,7 +128,9 @@ autoactivation records of LVM, which can let LVM activate logical volumes on its
 own later. {pve} disables autoactivation for the logical volumes it creates.
 Before you run the command, make sure that autoactivation is also disabled for
 all other logical volumes of the volume group, for example with
-`lvchange --setautoactivation n <vg>/<lv>`.
+`lvchange --setautoactivation n <vg>/<lv>`. {pve} runs the same rescan on its
+own when it does not find the volume group of a storage at all, so keep
+autoactivation disabled for all logical volumes of a shared volume group.
 
 TIP: You can use the LVM-thin backend for non-shared local storage. It supports
 snapshots and linked clones.
