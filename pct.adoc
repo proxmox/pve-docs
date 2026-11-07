@@ -593,9 +593,9 @@ Network
 
 [thumbnail="screenshot/gui-create-ct-network.png"]
 
-You can configure up to 10 network interfaces for a single container.
-The corresponding options are called `net0` to `net9`, and they can contain the
-following setting:
+You can configure up to 32 network interfaces for a single container.
+The corresponding options are called `net0` to `net31`, and they can contain the
+following settings:
 
 include::generated/pct-network-opts.adoc[]
 
