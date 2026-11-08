@@ -1023,10 +1023,13 @@ TIP: If the pool already contains objects, these must be moved accordingly.
 Depending on your setup, this may introduce a big performance impact on your
 cluster. As an alternative, you can create a new pool and move disks separately.
 
-WARNING: When using the PG autoscaler, all pools in the cluster are required to
-use CRUSH rules of the same kind, either all specifying a device class,
-or none. Otherwise the autoscaler will skip the affected
-pools and their `pg_num` will not be adjusted.
+WARNING: The PG autoscaler skips pools whose CRUSH rules use different roots
+that share OSDs, and does not adjust their `pg_num`. A rule with a device class
+uses the root of that class, such as `default~nvme` in the example above, which
+shares its OSDs with the `default` root. This typically affects setups where
+some pools use a rule with a device class while others, often including the
+`.mgr` pool, use a rule without one. To avoid this, use rules with a device
+class either for all pools or for none.
 
 [[pveceph_cephx_how_it_works]]
 Cephx Authentication
