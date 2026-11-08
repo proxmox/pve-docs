@@ -274,7 +274,8 @@ The top header has useful buttons such as 'Reboot', 'Shutdown', 'Shell',
 
 * *Shell:* access to a shell interface for the node.
 
-* *System:* configure network, DNS and time settings, and access the syslog.
+* *System:* configure network, DNS and time settings, and access the syslog and
+  the API access log.
 
 * *Updates:* upgrade the system and see the available new packages.
 
