@@ -156,8 +156,11 @@ recreated.
 
 NOTE: The policy also applies to tokens that other tools create through the
 API, for example when adding the cluster as a remote to Proxmox Datacenter
-Manager. If such a tool cannot create a compliant token, create one manually
-and use that in the tool instead.
+Manager. For tools that do not set an expiration date, set
+`default-to-max-lifetime` together with `max-lifetime`, so that their tokens
+get the maximum lifetime instead of being rejected. If a tool still cannot
+create a compliant token, for example because it disables privilege
+separation, create one manually and use that in the tool instead.
 
 [[pveum_resource_pools]]
 Resource Pools
