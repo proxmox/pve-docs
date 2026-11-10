@@ -154,6 +154,22 @@ keep working. A new expiration date must be within the limit. With
 only be shortened, or set if it has none. Tokens can always be deleted and
 recreated.
 
+With `allow-extension-on-regenerate`, an existing token can still be
+extended within the limit when its secret is regenerated in the same
+request. The old secret stops working, like it would when recreating the
+token, so tools can rotate their tokens in place without setting up the
+permissions again. In the web interface, enable *Regenerate Secret* in the
+token edit dialog and set the new expiration date. On the command line, pass
+the new expiration date in Unix epoch seconds:
+
+[source,bash]
+----
+pveum user token modify <userid> <tokenid> --expire <timestamp> --regenerate 1
+----
+
+Like on creation, the new secret is only displayed once, so update the tool
+to use it right away.
+
 NOTE: The policy also applies to tokens that other tools create through the
 API, for example when adding the cluster as a remote to Proxmox Datacenter
 Manager. For tools that do not set an expiration date, set
