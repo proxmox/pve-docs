@@ -2173,6 +2173,11 @@ chosen, the first of:
 3. The first non-shared storage from any VM disk.
 4. The storage `local` as a fallback.
 
+A storage of a VM disk is skipped if it allows the disks of VMs, but not their
+saved states, see the `content` property in the
+xref:chapter_storage[storage chapter]. Saving the state fails if such a storage
+is given as target or set as `vmstatestorage`.
+
 [[resource_mapping]]
 Resource Mapping
 ----------------

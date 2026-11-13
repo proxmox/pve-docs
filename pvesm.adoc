@@ -224,11 +224,29 @@ this property to select what this storage is used for.
 
 images:::
 
-QEMU/KVM VM images.
+QEMU/KVM VM images. This allows all volume types of VMs, that is `vm-vol` and
+`vm-state`.
 
 rootdir:::
 
-Allow to store container data.
+Allow to store container data. This allows all volume types of containers, which
+currently is only `ct-vol`.
+
+vm-vol:::
+
+The disks of VMs, including EFI disks, TPM states and cloud-init drives. Use
+this instead of `images` for a storage that should not hold the saved states of
+VMs.
+
+vm-state:::
+
+The saved states of VMs, as created by a snapshot that includes the RAM and by
+hibernation. Use this instead of `images` for a storage that should only hold
+these.
+
+ct-vol:::
+
+The volumes of containers.
 
 vztmpl:::
 
@@ -249,6 +267,10 @@ Snippet files, for example guest hook scripts
 import:::
 
 OVAs and VM disk images that can be imported from this storage
+
++
+See xref:storage_volume_types[Volume Types of Guests] for how `images` and
+`rootdir` relate to `vm-vol`, `vm-state` and `ct-vol`.
 
 shared::
 
@@ -281,6 +303,61 @@ WARNING: It is not advisable to use the same storage pool on different
 {pve} clusters. Some storage operation need exclusive access to the
 storage, so proper locking is required. While this is implemented
 within a cluster, it does not work between different clusters.
+
+[[storage_volume_types]]
+Volume Types of Guests
+~~~~~~~~~~~~~~~~~~~~~~
+
+The content types `images` and `rootdir` allow all volumes of VMs or of
+containers on a storage. To allow only some of them, set the specific volume
+types as content types instead.
+
+.Content types for the volumes of guests
+[width="100%",cols="<1m,<1d,<3d",options="header"]
+|===========================================================================
+|Content type |Web interface |Allows
+|images       |Disk image    |All volumes of VMs: `vm-vol` and `vm-state`
+|vm-vol       |VM Disk       |Disks of VMs, including EFI disks, TPM states and
+cloud-init drives
+|vm-state     |VM State      |Saved states of VMs, from snapshots that include
+the RAM and from hibernation
+|rootdir      |Container     |All volumes of containers, which currently is only
+`ct-vol`
+|ct-vol       |Container Volume |Root disks and mount points of containers
+|===========================================================================
+
+Existing storages do not need to be changed. Use the volume types if a storage
+should hold only some of the volumes of guests. For example, to keep the saved
+states of VMs off a storage that is used for VM disks and containers:
+
+----
+# pvesm set <STORAGE_ID> --content vm-vol,rootdir
+----
+
+Or to add a directory storage that only holds the saved states of VMs:
+
+----
+# pvesm add dir vmstate --path /mnt/vmstate --content vm-state
+----
+
+In the web interface, select 'VM Disk' or 'VM State' instead of 'Disk image' as
+'Content' of the storage. A volume type has no effect next to the content type
+that already allows it, for example `vm-vol` next to `images`, and is dropped
+from the configuration.
+
+Where the state of a VM is saved if the storages of its disks do not allow
+`vm-state` is described for the xref:qm_vmstatestorage[`vmstatestorage`]
+option.
+
+NOTE: A volume type can only be added to a storage if all nodes of the cluster
+are online and run `pve-manager` in version 9.2.29 or newer. Older versions
+cannot read a content list with these types and use the default content types
+of the storage type instead.
+
+Changing the content types of a storage does not move or remove the volumes
+that are already on it. A VM cannot be started while one of its disks is on a
+storage that does not allow VM disks, so move such disks to another storage
+first.
 
 
 Volumes
