@@ -62,6 +62,9 @@ Those settings are directly passed to the LXC low-level tools.
 Options
 -------
 
+The read-only `meta` property is described in
+xref:pct_meta_info[Meta Information].
+
 include::generated/pct.conf.5-opts.adoc[]
 
 

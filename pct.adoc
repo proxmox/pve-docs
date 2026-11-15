@@ -970,6 +970,10 @@ command line (see the `pct` manual page for details).
 NOTE: `pvesm extractconfig` can be used to view the backed up configuration
 contained in a vzdump archive.
 
+A restore from standard input over an existing container with a guest identity
+always needs the `allow-identity-mismatch` option, see
+xref:guest_identity_restore[Restore Over an Existing Guest].
+
 There are two basic restore modes, only differing by their handling of mount
 points:
 
@@ -1247,6 +1251,37 @@ snaptime: 1457170803
 There are a few snapshot related properties like `parent` and `snaptime`. The
 `parent` property is used to store the parent/child relationship between
 snapshots. `snaptime` is the snapshot creation time stamp (Unix epoch).
+
+
+[[pct_meta_info]]
+Meta Information
+~~~~~~~~~~~~~~~~
+
+The read-only `meta` property contains information that {pve} records
+automatically about the container:
+
+`ctime`::
+
+The time the container was created, in seconds since the UNIX epoch.
+
+`uid` and `rtime`::
+
+The guest identity of the container, available since {pve} 9.3, see
+xref:guest_identity[Guest Identity].
+
+.Example `meta` property of a container
+----
+meta: ctime=1772444467,rtime=1794320571482,uid=w5qczgiem26qnwzwsoil
+----
+
+A clone keeps its source container's `ctime`. A restored container uses the
+`ctime` from the backup. Containers created with {pve} versions older than 9.3
+have no `ctime`.
+
+{pve} versions older than 9.3 do not know the `meta` property of containers and
+drop it when they write the configuration. Therefore, migrating or cloning a
+container to a node running such a version is refused, see
+xref:guest_identity_mixed_versions[Mixed Versions in a Cluster].
 
 
 [[pct_options]]
