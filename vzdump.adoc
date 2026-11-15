@@ -464,6 +464,13 @@ following CLI tools:
 
 For details see the corresponding manual pages.
 
+When you restore a backup over an existing guest, {pve} compares the `uid` of
+the backup and of the guest. If they differ, the restore is refused, unless you
+set the `allow-identity-mismatch` option. The existing guest then keeps its
+identity. See
+xref:guest_identity_restore[Restore Over an Existing Guest] for details and
+exceptions.
+
 Bandwidth Limit
 ~~~~~~~~~~~~~~~
 
@@ -602,6 +609,311 @@ To clean up and retry:
   is left there. If the VMID is free by then, use another one if the
   xref:pvecm_next_id_range[`next-id`] setting of the datacenter has the
   `unique` and `enforce` options set, as the first VMID then counts as used.
+
+For how a retry handles the guest identity, see
+xref:guest_identity_failed_restore[Retrying a Failed Restore].
+
+[[guest_identity]]
+Guest Identity
+--------------
+
+Since {pve} 9.3, each virtual machine and container gets a guest identity: a
+random identifier, `uid`, and a registration time, `rtime`. Unlike a VMID,
+which can be reused after a guest is destroyed, the `uid` lets backup software
+and other tools recognize the same logical guest across restores and
+migrations, even under a different VMID.
+
+Backups are still grouped by guest type and VMID, also for retention. If a new
+guest reuses the VMID of a removed guest of the same type, pruning handles the
+backups of both guests together.
+
+[[guest_identity_values]]
+Identity Values
+~~~~~~~~~~~~~~~
+
+The guest identity is part of the `meta` property in the guest configuration.
+This property also contains the creation time `ctime` and, for VMs, the QEMU
+version that the VM was created with, `creation-qemu`:
+
+----
+meta: creation-qemu=10.1.2,ctime=1772444467,rtime=1794320571482,uid=w5qczgiem26qnwzwsoil
+----
+
+`uid`::
+
+A random identifier of 20 lowercase letters and digits that encode 100 random
+bits, so two guests practically never get the same `uid` by chance.
+
+`rtime`::
+
+The time at which the guest was registered in this cluster, in milliseconds
+since the UNIX epoch. It is set whenever the guest gets its `uid` in this
+cluster, so a guest restored to a free VMID gets a new `rtime`, even if it keeps
+the `uid` of the backup. The creation time `ctime`, in contrast, stays with the
+guest: a clone has the `ctime` of its source, and a restored guest or a guest
+migrated from another cluster has that of the backup or of the source guest. As
+a timestamp, the `rtime` is not guaranteed to be unique.
+
+{pve} manages the `meta` property automatically. It is read-only through the
+API, even for `root@pam`.
+
+IMPORTANT: The `uid` helps to correlate a guest with its backups and copies,
+but does not prove where a guest comes from. Whoever restores a backup or
+migrates a guest into the cluster supplies the `uid` of that guest, which {pve}
+adopts if no other guest in the cluster has it. {pve} keeps a `uid` unique
+within a cluster only for operations through its API. A configuration file
+copied by hand has the same `uid` as the original, and guests in different
+clusters can have the same `uid`.
+
+[[guest_identity_read]]
+Reading the Identity
+~~~~~~~~~~~~~~~~~~~~
+
+The following places show the guest identity. All of them require the
+`VM.Audit` privilege on the guest.
+
+* In the web interface, the 'Summary' panel of the guest shows the `uid` as
+  'Unique ID'. The 'Details' button next to it, which has an info icon, opens
+  the 'Guest Identity' window. This window additionally shows the `rtime` as
+  'Registered' and the creation information.
+* The guest configuration, for example with `qm config <vmid>` or
+  `pct config <vmid>`, and through the API paths
+  `/nodes/<node>/qemu/<vmid>/config` and `/nodes/<node>/lxc/<vmid>/config`.
+* The guest status at the API paths `/nodes/<node>/qemu/<vmid>/status/current`
+  and `/nodes/<node>/lxc/<vmid>/status/current`, which contains the `uid`.
+* The cluster resources at the API path `/cluster/resources`, which contain the
+  `uid` and `rtime` of each guest that has a guest identity, for example:
++
+----
+# pvesh get /cluster/resources --type vm --output-format json-pretty
+----
+
+The configuration in a backup contains the `meta` property as well. You can
+show it with `pvesm extractconfig <volume>`, for example.
+
+[[guest_identity_lifecycle]]
+Lifecycle
+~~~~~~~~~
+
+The following table shows how operations affect the identity of a guest.
+
+[width="100%",cols="3,4,2",options="header"]
+|===========================================================================
+|Operation |`uid` |`rtime`
+|Create, including import |new |current time
+|Clone, including linked clones and clones from snapshots |new |current time
+|Restore to a free VMID |the backup's `uid` if present and not used by another
+guest in the cluster; otherwise new |current time
+|Restore to a free VMID with `unique` set |new |current time
+|Restore over an existing guest that has a `uid`, with or without `unique` set
+|kept, see xref:guest_identity_restore[Restore Over an Existing Guest]; the
+retry of a failed restore can adopt the backup's `uid` instead, see
+xref:guest_identity_failed_restore[Retrying a Failed Restore] |kept; current
+time if the retry adopts the `uid`
+|Restore over an existing guest without a `uid` |as for a free VMID |current
+time
+|Migration to another cluster, on the target |the source guest's `uid`; new if
+another guest in the target cluster has it and `allow-new-uid` is set, or if the
+source node runs a {pve} version older than 9.3, see
+xref:guest_identity_remote_migration[Migration to Another Cluster] |current time
+|Migration to another cluster, on the source if the guest is kept |kept |kept
+|Snapshot rollback |kept, not taken from the snapshot |kept
+|Migration within the cluster, HA recovery, configuration change, backup,
+replication, conversion to a template |kept |kept
+|Destroy |removed |removed
+|===========================================================================
+
+Restores and migrations from another cluster report the outcome in their task
+log, in a line with `guest identity:`, for example:
+
+----
+guest identity: backup uid w5qczgiem26qnwzwsoil is in use by guest 100, keeping uid er3n3wqoqgcl362ep3da
+----
+
+Guests that existed before the upgrade to {pve} 9.3 get their identity the
+first time a node running {pve} 9.3 or later writes their configuration. This
+happens, for example, when their configuration changes, when they are backed
+up, or when they are migrated to such a node. Their `rtime` is the time of that
+write. Backups made before that have no `uid`.
+
+NOTE: For tools that track guests by their `uid`: a restore that adopts the
+`uid` of the backup first assigns a new `uid` to the guest and replaces it at
+its end, which can be after the guest got unlocked. A migration from another
+cluster adopts the `uid` of the source guest right at its start. A changed
+`uid`, for example in `/cluster/resources`, therefore does not mean that the
+task has finished. A guest that a tool restores by removing it and creating a
+new one through the API gets a new `uid`. To keep the identity, change the
+existing guest in place, or let {pve} restore the guest.
+
+[[guest_identity_restore]]
+Restore Over an Existing Guest
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the existing guest already has a guest identity, restoring a backup over it
+keeps the `uid` and `rtime` of that guest, unless the guest is left over from a
+failed restore of that backup, see
+xref:guest_identity_failed_restore[Retrying a Failed Restore]. When both the
+guest and the backup have a `uid` and the values differ, {pve} treats the backup
+as belonging to another guest. This can happen when a VMID was reused. {pve}
+refuses such a restore before it overwrites the guest:
+
+----
+backup belongs to another guest: its uid 'w5qczgiem26qnwzwsoil' differs from uid 'er3n3wqoqgcl362ep3da' of the existing VM 100 - use 'allow-identity-mismatch' to overwrite the VM anyway
+----
+
+To restore such a backup anyway, set the `allow-identity-mismatch` option. The
+existing guest then keeps its identity. In the web interface, select 'Allow
+restoring a backup of another guest' in the restore window, which you open from
+the 'Backup' panel of the guest. On the command line, use for example:
+
+----
+# qmrestore <archive> <vmid> --force 1 --allow-identity-mismatch 1
+# pct restore <vmid> <archive> --force 1 --allow-identity-mismatch 1
+----
+
+Backups without a `uid`, such as backups made with {pve} versions older than
+9.3, are not refused. Container restores from standard input
+(`pct restore <vmid> -`) are an exception: the `uid` of such a backup is only
+known once the container has been overwritten. A restore from standard input
+over a container with a `uid` therefore always requires
+`allow-identity-mismatch`.
+
+[[guest_identity_failed_restore]]
+Retrying a Failed Restore
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For locks and leftovers of a failed restore, see
+xref:vzdump_restore_failed[Failed Restores].
+
+If the failed restore was to a free VMID or over a guest without a `uid`, and it
+had already read a backup that has a `uid`, `qm pending <vmid>` or
+`pct pending <vmid>` lists an entry for `meta` with the `uid` of the backup. As
+long as this entry exists, retrying the same restore over the guest left behind
+is accepted. Starting the guest or changing its options removes the entry and
+logs a warning that names the `uid`. The retry is then refused like a restore of
+another guest's backup.
+
+A successful retry adopts the `uid` of the backup and sets a new `rtime`, as
+a restore to a free VMID does. The guest keeps its `uid` and `rtime` instead if
+another guest in the cluster has the `uid` of the backup, or if the retry sets
+`unique`.
+
+A guest that had a `uid` and no such entry before the failed restore keeps its
+`uid` and gets no entry. A retry is checked like the first attempt: a backup
+with the same `uid` is accepted, also after the guest was started or changed,
+and a backup with another `uid` requires `allow-identity-mismatch`.
+
+If a restore over an existing guest without a `uid` stopped before it read the
+backup, for example because the backup storage was unreachable, the guest now
+has a new `uid`. Retry with `allow-identity-mismatch`. The guest then keeps the
+new `uid`.
+
+A restore can also complete with a warning starting with
+`guest identity: unable to adopt backup uid`, for example if the cluster-wide
+lock for this step could not be taken in time. The guest is then restored
+completely, but keeps its new `uid`. To adopt the `uid` of the backup,
+repeat the restore over the guest before you start it or change its
+configuration.
+
+[[guest_identity_remote_migration]]
+Migration to Another Cluster
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A migration to another cluster (`qm remote-migrate`, `pct remote-migrate`) keeps
+the `uid` of the guest. The target adopts it at the start of the migration,
+before any data is transferred.
+
+If another guest in the target cluster already has that `uid`, the migration is
+refused at that point. Typical cases are:
+
+* the guest gets migrated back to a cluster that still has the source guest of
+  an earlier migration, which stays there unless `delete` was set,
+* a copy of the guest was restored in the target cluster from a backup,
+* an earlier migration of the guest broke off after it had transferred the
+  configuration and left a locked guest in the target cluster,
+* the target is the cluster that the guest is in.
+
+The error ends with:
+
+----
+guest 105 in the target cluster already has the uid 'w5qczgiem26qnwzwsoil' of this guest - use 'allow-new-uid' to migrate it with a new uid
+----
+
+If the reported guest is the source guest itself, do not remove it. To keep the
+`uid`, migrate the guest within the cluster instead, with `qm migrate` or
+`pct migrate`.
+
+Otherwise, to keep the `uid`, remove the other guest in the target cluster if
+you no longer need it, and migrate again. To migrate anyway, set the
+`allow-new-uid` option. The migrated guest then gets a new `uid`, and the other
+guest keeps the old one. In both cases, use another target VMID if the
+xref:pvecm_next_id_range[`next-id`] setting of the target cluster has the
+`unique` and `enforce` options set, as the refused migration already used the
+first one. For example:
+
+----
+# qm remote-migrate <vmid> <target-vmid> <target-endpoint> --target-bridge <bridge> --target-storage <storage> --allow-new-uid 1
+----
+
+A migration to another cluster is refused right after connecting to a target
+node with a version older than 9.3, before any data is transferred. The error is
+`Remote tunnel endpoint too old, upgrade required`.
+
+[[guest_identity_mixed_versions]]
+Mixed Versions in a Cluster
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} versions older than 9.3 ignore the whole `meta` property of a guest that
+has a guest identity, including the creation information. A VM started on a node
+running such a version can therefore get different virtual hardware, see
+xref:qm_machine_type[Machine Type]. When such a node writes the configuration,
+the property is lost.
+
+Therefore, while some nodes of a cluster still run such a version, migrating or
+cloning a guest to one of these nodes is refused. The guest keeps running on its
+current node. If the target node reports its version, the error message shows
+that version and the minimum required version. If the node does not report its
+version, the operation is refused because {pve} cannot verify that the node
+supports guest identities. The 'Migrate' window of the web interface shows the
+reason for the selected target node.
+
+Moves of HA-managed guests to such nodes are refused in the same way. A running
+VM that the HA stack migrates keeps running. The HA stack stops a container, and
+a VM that it relocates, before it migrates the guest, so such a guest is stopped
+although the move is then refused. The HA stack retries automatic moves as long
+as it selects such a node, and such a guest can stay stopped in the meantime.
+This includes moves for:
+
+* the maintenance mode,
+* a node shutdown with the `migrate` shutdown policy,
+* node affinity rules,
+* the CRS load balancer.
+
+Such moves complete only after the target nodes that the HA stack selects run
+{pve} 9.3 or later.
+
+To avoid refused moves while you upgrade a cluster, do one of the following:
+
+* Move all guests away from a node before you upgrade it.
+* Upgrade the packages on all nodes, one node at a time, before you reboot any
+  node or enable the maintenance mode.
+
+The check covers migrations and clones started on a node running {pve} 9.3 or
+later. It does not cover:
+
+* the HA recovery of guests from a fenced node,
+* configuration files moved by hand,
+* operations started on a node with an older version.
+
+If an older node writes the configuration of a guest in one of these cases, the
+guest loses its `meta` property. In an HA recovery, such a node can also be the
+node of the active HA manager (CRM), which writes the configuration when it
+removes a leftover lock, for example of a backup. The guest gets a new identity
+the next time a node running {pve} 9.3 or later writes its configuration.
+
+Backups made with {pve} 9.3 or later contain the guest identity. Restore them
+only on nodes running {pve} 9.3 or later, because older versions ignore the
+`meta` property of such backups in the same way.
 
 [[vzdump_configuration]]
 Configuration
