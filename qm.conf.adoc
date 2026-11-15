@@ -51,6 +51,9 @@ One can use the `qm` command to generate and modify those files.
 Options
 -------
 
+The read-only `meta` property is described in
+xref:qm_meta_info[Meta Information].
+
 include::generated/qm.conf.5-opts.adoc[]
 
 

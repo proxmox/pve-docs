@@ -2445,6 +2445,44 @@ For details about how the target storage gets chosen for the VM state, see
 xref:qm_vmstatestorage[State storage selection] in the chapter
 xref:qm_hibernate[Hibernation].
 
+[[qm_meta_info]]
+Meta Information
+~~~~~~~~~~~~~~~~
+
+The read-only `meta` property contains information that {pve} records
+automatically about the VM:
+
+`ctime`::
+
+The time the VM was created, in seconds since the UNIX epoch.
+
+`creation-qemu`::
+
+The QEMU version that the VM was created with. For VMs without a fixed machine
+version, {pve} uses it to keep parts of the virtual hardware as they were at
+creation, for example the machine version of Windows VMs, see
+xref:qm_machine_type[Machine Type].
+
+`uid` and `rtime`::
+
+The guest identity of the VM, available since {pve} 9.3, see
+xref:guest_identity[Guest Identity].
+
+.Example `meta` property of a VM
+----
+meta: creation-qemu=10.1.2,ctime=1772444467,rtime=1794320571482,uid=w5qczgiem26qnwzwsoil
+----
+
+A clone keeps its source VM's `ctime` and `creation-qemu` values. A restored VM
+uses the values from the backup. VMs created with older versions of {pve} can
+lack these values.
+
+{pve} versions older than 9.3 ignore the whole `meta` property of a VM with a
+guest identity, including `creation-qemu`, and drop it when they write the
+configuration. A VM started on a node running such a version can therefore get
+different virtual hardware. Migrating or cloning a VM to such a node is refused,
+see xref:guest_identity_mixed_versions[Mixed Versions in a Cluster].
+
 [[qm_options]]
 Options
 ~~~~~~~
