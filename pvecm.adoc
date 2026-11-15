@@ -529,6 +529,14 @@ rm /etc/pve/corosync.conf
 rm -r /etc/corosync/*
 ----
 
+Remove the xref:pvecm_cluster_id[cluster ID], if the cluster has one.
+Without this step, the node keeps the ID of its former cluster instead of
+generating its own when the file system starts again as a normal service:
+[source,bash]
+----
+rm /etc/pve/cluster-id
+----
+
 You can now start the file system again as a normal service:
 [source,bash]
 ----
@@ -570,6 +578,104 @@ CAUTION: The node's SSH keys will remain in the 'authorized_key' file. This
 means that the nodes can still connect to each other with public key
 authentication. You should fix this by removing the respective keys from the
 '/etc/pve/priv/authorized_keys' file.
+
+
+[[pvecm_cluster_id]]
+Cluster ID
+----------
+
+Since {pve} 9.3, each cluster has a random cluster ID in the same format as the
+`uid` of a xref:guest_identity[guest identity]. A node that is not part of a
+cluster has an ID of its own. Guests in different clusters can have the same
+`uid`, for example after a migration to another cluster that kept the source
+guest. The cluster ID tells tools to which cluster the `uid` of a guest belongs.
+
+The cluster ID is stored in `/etc/pve/cluster-id`:
+
+----
+# cat /etc/pve/cluster-id
+----
+
+Through the API, `/cluster/status` returns it in the `cluster-id` field of the
+entry of type `cluster`. On a node without a cluster, the field is on the node
+entry instead. Reading the cluster ID through the API requires the `Sys.Audit`
+privilege on `/`. Users with this privilege also see it in the web interface
+(__Datacenter -> Summary__).
+
+{pve} generates the cluster ID and keeps it unchanged. Creating, changing,
+moving or removing `/etc/pve/cluster-id` fails with `Permission denied`. The
+only exception is removing or moving it away in local mode (`pmxcfs -l`), as
+described below. Nodes running a {pve} version older than 9.3 do not protect the
+file.
+
+A node without a cluster generates its ID when its cluster file system starts.
+If it cannot store the ID, for example because the root file system is full, it
+starts without one and generates it at the next start of the `pve-cluster`
+service. In a cluster, the online node with the lowest node ID generates the ID
+once all of the following apply:
+
+* The cluster is quorate.
+* More than half of the configured nodes are online.
+* The cluster file systems of the online nodes are in sync.
+
+If the node that generates the ID loses the connection to the other nodes at
+that moment, it reports its ID while the other nodes generate and report another
+one. When that node joins again, it normally adopts the ID of the others.
+Its own ID replaces theirs only if nothing in `/etc/pve` changed meanwhile and
+its clock is a few seconds ahead of theirs.
+
+Until an ID exists, the API omits the field, and the file is missing or holds
+no valid ID. The API also omits the field if reading the file fails. An ID can
+be missing for the following reasons:
+
+* The online node with the lowest node ID runs a {pve} version older than 9.3.
+  The cluster gets no ID as long as that is the case.
+* The online node with the lowest node ID runs {pve} 9.3 or later, but cannot
+  generate the ID yet. Its `pve-cluster` service then logs the reason in a
+  message starting with `not generating a cluster ID yet`.
+* A directory takes up the path of the file, for example one created on a node
+  with an older version. {pve} then logs that
+  `'cluster-id' is not a regular file`. Move the contents of the directory away
+  and remove it with `rmdir /etc/pve/cluster-id`. A cluster then generates the
+  ID within a few seconds. A node without a cluster generates it the next time
+  the `pve-cluster` service starts, for example after
+  `systemctl restart pve-cluster`.
+
+Creating a cluster with `pvecm create` keeps the ID of the node, which then
+identifies the new cluster. A node that joins a cluster adopts the ID of the
+cluster, because joining replaces the configuration of the node in `/etc/pve`.
+A copy of an installation, such as a cloned disk or a copy of the cluster file
+system database, has the same ID as the original.
+
+To give a node that is not part of a cluster a new ID, for example after cloning
+an installation, follow the steps below. To separate a node from its cluster,
+follow xref:pvecm_separate_node_without_reinstall[Separate a Node Without Reinstalling]
+instead. That procedure includes the removal of the cluster ID.
+
+WARNING: Do not remove `/etc/pve/cluster-id` on a node that is still part of a
+cluster. When that node rejoins the cluster, the removal is either undone, or it
+reaches all nodes and the whole cluster gets a new ID.
+
+. Stop the cluster file system and start it again in local mode:
++
+----
+# systemctl stop pve-cluster
+# pmxcfs -l
+----
+
+. Remove the cluster ID file:
++
+----
+# rm /etc/pve/cluster-id
+----
+
+. Stop the cluster file system and start it again as a normal service, which
+  generates a new ID:
++
+----
+# killall pmxcfs
+# systemctl start pve-cluster
+----
 
 
 Quorum

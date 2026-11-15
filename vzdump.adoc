@@ -691,6 +691,9 @@ The following places show the guest identity. All of them require the
 The configuration in a backup contains the `meta` property as well. You can
 show it with `pvesm extractconfig <volume>`, for example.
 
+To tell apart guests with the same `uid` in different clusters, combine the
+`uid` with the xref:pvecm_cluster_id[cluster ID].
+
 [[guest_identity_lifecycle]]
 Lifecycle
 ~~~~~~~~~
