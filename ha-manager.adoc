@@ -1613,20 +1613,58 @@ option. Finally, if the selected migration reduces the current cluster
 imbalance by at least the percentage given by the _imbalance improvement_
 option, the load balancer issues the selected migration.
 
-The cluster imbalance is derived from the standard deviation and mean of the
-individual node loads and is normalized to a 0-100% range. Both the _imbalance
-threshold_ and the _imbalance improvement_ are configured in percent. The
-_imbalance threshold_ defaults to 30% and controls the sensitivity of the load
-balancer; with a value of `0` it will try to select a rebalancing migration
-every time the _hold duration_ is exceeded. The _imbalance improvement_
-defaults to 10% and filters what constitutes an acceptable rebalancing
-migration; with a value of `0` it will always commit to a migration even if
-the expected imbalance does not change at all. The value can never be
-negative, so the balancer will never commit to a migration with an expected
-imbalance worse than the current one.
+The xref:ha_manager_crs_imbalance[cluster imbalance] is derived from the
+standard deviation and mean of the individual node loads and is normalized to a
+0-100% range. Both the _imbalance threshold_ and the _imbalance improvement_
+are configured in percent. The _imbalance threshold_ defaults to 30% and
+controls the sensitivity of the load balancer; with a value of `0` it will try
+to select a rebalancing migration every time the _hold duration_ is exceeded.
+The _imbalance improvement_ defaults to 10% and filters what constitutes an
+acceptable rebalancing migration; with a value of `0` it will always commit to
+a migration even if the expected imbalance does not change at all. The value
+can never be negative, so the balancer will never commit to a migration with an
+expected imbalance worse than the current one.
 
 NOTE: It is planned that load balancing will also include non-HA resources in
 the future.
+
+[[ha_manager_crs_imbalance]]
+Cluster Imbalance
+^^^^^^^^^^^^^^^^^
+
+The cluster imbalance describes how unevenly the load is spread across the
+nodes. The load of a node is the mean of its CPU load and its memory usage,
+relative to the CPU cores and the memory of the node. Which usage is considered
+depends on the xref:ha_manager_crs_static_scheduler[static-load] or
+xref:ha_manager_crs_dynamic_scheduler[dynamic-load] scheduler mode.
+
+The cluster imbalance is the population standard deviation of the node loads
+divided by their mean, which is also known as the coefficient of variation. For
+`n` nodes, this value is at most `sqrt(n - 1)`, so it is divided by that to get
+a value between 0% and 100%.
+
+The cluster imbalance is 0% if all nodes have the same load, and 100% if a
+single node carries all the load while all other nodes are idle. If there are
+fewer than two nodes or no load at all, the cluster imbalance is 0%.
+
+As the standard deviation is divided by the mean, the cluster imbalance
+describes how unevenly the load is spread relative to the average node load,
+not how high the node loads are. For example, in a cluster with three nodes,
+node loads of 60%, 30% and 30% result in a cluster imbalance of 25%, just like
+node loads of 30%, 15% and 15%. So, a lightly loaded cluster can exceed the
+_imbalance threshold_ even if no node is close to its limits.
+
+As the load of a node combines its CPU load and its memory usage, the cluster
+imbalance can be low even if the CPU load or the memory usage alone is spread
+unevenly. For example, a node with a CPU load of 80% and a memory usage of 20%
+has the same load as a node with a CPU load of 20% and a memory usage of 80%.
+
+To select a rebalancing migration, the load balancer calculates the expected
+cluster imbalance as if the HA resource was already running on the target node.
+If automatic rebalancing is enabled, the current cluster imbalance is shown in
+the status of the HA manager's `master` entry, both in the `Status` panel under
+`Datacenter` -> `HA` in the web interface and in the output of `ha-manager
+status`.
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
