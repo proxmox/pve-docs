@@ -20,11 +20,11 @@ Authsupported.
 
 `--base` `<string>` ::
 
-Base volume. This volume is automatically activated.
+Volume ID of the base volume (automatically activated).
 
 `--blocksize` `<a power of 2 with optional k or m suffix>` ::
 
-ZFS block size
+ZFS block size.
 
 `--bwlimit` `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
 
@@ -32,17 +32,17 @@ Set I/O bandwidth limit for various operations (in KiB/s).
 
 `--comstar_hg` `<string>` ::
 
-host group for comstar views
+Host group for COMSTAR views.
 
 `--comstar_tg` `<string>` ::
 
-target group for comstar views
+Target group for COMSTAR views.
 
 `--content` `<string>` ::
 
 Allowed content types.
 +
-NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
+NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.
 
 `--content-dirs` `<string>` ::
 
@@ -54,11 +54,11 @@ Create the base directory if it doesn't exist.
 
 `--create-subdirs` `<boolean>` ('default =' `yes`)::
 
-Populate the directory with the default structure.
+Populate the base directory with the default structure.
 
 `--data-pool` `<string>` ::
 
-Data Pool (for erasure coding only)
+Data pool name for erasure-coded images.
 
 `--datastore` `<string>` ::
 
@@ -70,7 +70,7 @@ Flag to disable the storage.
 
 `--domain` `<string>` ::
 
-CIFS domain.
+The name of the user domain (workgroup) to use.
 
 `--encryption-key` `a file containing an encryption key, or the special value "autogen"` ::
 
@@ -78,7 +78,7 @@ Encryption key. Use 'autogen' to generate one automatically without passphrase.
 
 `--export` `<string>` ::
 
-NFS export path.
+Path exported by the NFS server (e.g., /srv/nfs).
 
 `--fingerprint` `([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}` ::
 
@@ -90,11 +90,11 @@ Default image format.
 
 `--fs-name` `<string>` ::
 
-The Ceph filesystem name.
+The name or identifier of the filesystem.
 
 `--fuse` `<boolean>` ::
 
-Mount CephFS through FUSE.
+Mount the filesystem through FUSE.
 
 `--is_mountpoint` `<string>` ('default =' `no`)::
 
@@ -102,7 +102,7 @@ Assume the given path is an externally managed mountpoint and consider the stora
 
 `--iscsiprovider` `<string>` ::
 
-iscsi provider
+The iSCSI target implementation used on the remote machine.
 
 `--keyring` `file containing the keyring to authenticate in the Ceph cluster` ::
 
@@ -114,7 +114,7 @@ Always access rbd through krbd kernel module.
 
 `--lio_tpg` `<string>` ::
 
-target portal group for Linux LIO targets
+Target portal group for Linux LIO targets.
 
 `--master-pubkey` `a file containing a PEM-formatted master public key` ::
 
@@ -134,11 +134,11 @@ IP addresses of monitors (for external clusters).
 
 `--mountpoint` `<string>` ::
 
-mount point
+Path to the directory where the storage is mounted.
 
 `--namespace` `<string>` ::
 
-Namespace.
+The namespace used for grouping, isolation, or partitioning purposes.
 
 `--nocow` `<boolean>` ('default =' `0`)::
 
@@ -150,7 +150,7 @@ List of nodes for which the storage configuration applies.
 
 `--nowritecache` `<boolean>` ::
 
-disable write caching on the target
+Disable write caching on the iSCSI target.
 
 `--on-volume-remove` `[discard=<1|0>]` ::
 
@@ -158,19 +158,19 @@ Optional actions when removing LVs.
 
 `--options` `<string>` ::
 
-NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')
+Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.
 
 `--password` `<password>` ::
 
-Password for accessing the share/datastore.
+The password used for authentication.
 
 `--path` `<string>` ::
 
-File system path.
+Path of the storage in the local file system, for example its base directory or mount point.
 
 `--pool` `<string>` ::
 
-Pool.
+Name of the pool that stores images.
 
 `--port` `<integer> (1 - 65535)` ::
 
@@ -178,7 +178,7 @@ Use this port to connect to the storage instead of the default one (for example,
 
 `--portal` `<string>` ::
 
-iSCSI portal (IP or DNS name with optional port).
+iSCSI portal (IP or hostname, optionally with port).
 
 `--preallocation` `<falloc | full | metadata | off>` ('default =' `metadata`)::
 
@@ -202,11 +202,11 @@ Wipe throughput in bytes per second (optional suffix: k, m, or g).
 
 `--server` `<string>` ::
 
-Server IP or DNS name.
+IP address or hostname of the server.
 
 `--share` `<string>` ::
 
-CIFS share.
+The name of the share to use.
 
 `--shared` `<boolean>` ::
 
@@ -226,7 +226,7 @@ Enable support for creating storage-vendor agnostic snapshot through volume back
 
 `--sparse` `<boolean>` ::
 
-use sparse volumes
+Use sparse (thin-provisioned) volumes.
 
 `--subdir` `<string>` ::
 
@@ -238,19 +238,19 @@ Only list logical volumes tagged with 'pve-vm-ID'.
 
 `--target` `<string>` ::
 
-iSCSI target.
+iSCSI target name (an iSCSI Qualified Name - IQN).
 
 `--thinpool` `<string>` ::
 
-LVM thin pool LV name.
+Name of the LVM thin pool logical volume.
 
 `--username` `<string>` ::
 
-RBD Id.
+The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.
 
 `--vgname` `<string>` ::
 
-Volume group name.
+LVM volume group name.
 
 `--zfs-base-path` `<string>` ::
 
@@ -469,11 +469,11 @@ Keep all backups. Conflicts with the other options when true.
 
 `--keep-daily` `<N>` ::
 
-Keep backups for the last <N> different days. If there is morethan one backup for a single day, only the latest one is kept.
+Keep backups for the last <N> different days. If there is more than one backup for a single day, only the latest one is kept.
 
 `--keep-hourly` `<N>` ::
 
-Keep backups for the last <N> different hours. If there is morethan one backup for a single hour, only the latest one is kept.
+Keep backups for the last <N> different hours. If there is more than one backup for a single hour, only the latest one is kept.
 
 `--keep-last` `<N>` ::
 
@@ -481,15 +481,15 @@ Keep the last <N> backups.
 
 `--keep-monthly` `<N>` ::
 
-Keep backups for the last <N> different months. If there is morethan one backup for a single month, only the latest one is kept.
+Keep backups for the last <N> different months. If there is more than one backup for a single month, only the latest one is kept.
 
 `--keep-weekly` `<N>` ::
 
-Keep backups for the last <N> different weeks. If there is morethan one backup for a single week, only the latest one is kept.
+Keep backups for the last <N> different weeks. If there is more than one backup for a single week, only the latest one is kept.
 
 `--keep-yearly` `<N>` ::
 
-Keep backups for the last <N> different years. If there is morethan one backup for a single year, only the latest one is kept.
+Keep backups for the last <N> different years. If there is more than one backup for a single year, only the latest one is kept.
 
 `--type` `<lxc | qemu>` ::
 
@@ -602,7 +602,7 @@ The storage identifier.
 
 `--blocksize` `<a power of 2 with optional k or m suffix>` ::
 
-ZFS block size
+ZFS block size.
 
 `--bwlimit` `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
 
@@ -610,17 +610,17 @@ Set I/O bandwidth limit for various operations (in KiB/s).
 
 `--comstar_hg` `<string>` ::
 
-host group for comstar views
+Host group for COMSTAR views.
 
 `--comstar_tg` `<string>` ::
 
-target group for comstar views
+Target group for COMSTAR views.
 
 `--content` `<string>` ::
 
 Allowed content types.
 +
-NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
+NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.
 
 `--content-dirs` `<string>` ::
 
@@ -632,11 +632,11 @@ Create the base directory if it doesn't exist.
 
 `--create-subdirs` `<boolean>` ('default =' `yes`)::
 
-Populate the directory with the default structure.
+Populate the base directory with the default structure.
 
 `--data-pool` `<string>` ::
 
-Data Pool (for erasure coding only)
+Data pool name for erasure-coded images.
 
 `--delete` `<string>` ::
 
@@ -652,7 +652,7 @@ Flag to disable the storage.
 
 `--domain` `<string>` ::
 
-CIFS domain.
+The name of the user domain (workgroup) to use.
 
 `--encryption-key` `a file containing an encryption key, or the special value "autogen"` ::
 
@@ -668,11 +668,11 @@ Default image format.
 
 `--fs-name` `<string>` ::
 
-The Ceph filesystem name.
+The name or identifier of the filesystem.
 
 `--fuse` `<boolean>` ::
 
-Mount CephFS through FUSE.
+Mount the filesystem through FUSE.
 
 `--is_mountpoint` `<string>` ('default =' `no`)::
 
@@ -688,7 +688,7 @@ Always access rbd through krbd kernel module.
 
 `--lio_tpg` `<string>` ::
 
-target portal group for Linux LIO targets
+Target portal group for Linux LIO targets.
 
 `--master-pubkey` `a file containing a PEM-formatted master public key` ::
 
@@ -708,11 +708,11 @@ IP addresses of monitors (for external clusters).
 
 `--mountpoint` `<string>` ::
 
-mount point
+Path to the directory where the storage is mounted.
 
 `--namespace` `<string>` ::
 
-Namespace.
+The namespace used for grouping, isolation, or partitioning purposes.
 
 `--nocow` `<boolean>` ('default =' `0`)::
 
@@ -724,7 +724,7 @@ List of nodes for which the storage configuration applies.
 
 `--nowritecache` `<boolean>` ::
 
-disable write caching on the target
+Disable write caching on the iSCSI target.
 
 `--on-volume-remove` `[discard=<1|0>]` ::
 
@@ -732,15 +732,15 @@ Optional actions when removing LVs.
 
 `--options` `<string>` ::
 
-NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')
+Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.
 
 `--password` `<password>` ::
 
-Password for accessing the share/datastore.
+The password used for authentication.
 
 `--pool` `<string>` ::
 
-Pool.
+Name of the pool that stores images.
 
 `--port` `<integer> (1 - 65535)` ::
 
@@ -768,7 +768,7 @@ Wipe throughput in bytes per second (optional suffix: k, m, or g).
 
 `--server` `<string>` ::
 
-Server IP or DNS name.
+IP address or hostname of the server.
 
 `--shared` `<boolean>` ::
 
@@ -788,7 +788,7 @@ Enable support for creating storage-vendor agnostic snapshot through volume back
 
 `--sparse` `<boolean>` ::
 
-use sparse volumes
+Use sparse (thin-provisioned) volumes.
 
 `--subdir` `<string>` ::
 
@@ -800,7 +800,7 @@ Only list logical volumes tagged with 'pve-vm-ID'.
 
 `--username` `<string>` ::
 
-RBD Id.
+The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.
 
 `--zfs-base-path` `<string>` ::
 

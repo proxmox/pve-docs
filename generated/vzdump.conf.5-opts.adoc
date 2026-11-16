@@ -52,9 +52,9 @@ Template string for generating notes for the backup(s). It can contain variables
 +
 NOTE: Requires option(s): `storage`
 
-`notification-mode`: `<auto | legacy-sendmail | notification-system>` ('default =' `auto`)::
+`notification-mode`: `<auto | legacy-sendmail | none | notification-system>` ('default =' `auto`)::
 
-Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.
+Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not. If set to 'none', no notification will be sent.
 
 `pbs-change-detection-mode`: `<data | legacy | metadata>` ::
 
@@ -96,11 +96,11 @@ Keep all backups. Conflicts with the other options when true.
 
 `keep-daily`=`<N>` ;;
 
-Keep backups for the last <N> different days. If there is morethan one backup for a single day, only the latest one is kept.
+Keep backups for the last <N> different days. If there is more than one backup for a single day, only the latest one is kept.
 
 `keep-hourly`=`<N>` ;;
 
-Keep backups for the last <N> different hours. If there is morethan one backup for a single hour, only the latest one is kept.
+Keep backups for the last <N> different hours. If there is more than one backup for a single hour, only the latest one is kept.
 
 `keep-last`=`<N>` ;;
 
@@ -108,15 +108,15 @@ Keep the last <N> backups.
 
 `keep-monthly`=`<N>` ;;
 
-Keep backups for the last <N> different months. If there is morethan one backup for a single month, only the latest one is kept.
+Keep backups for the last <N> different months. If there is more than one backup for a single month, only the latest one is kept.
 
 `keep-weekly`=`<N>` ;;
 
-Keep backups for the last <N> different weeks. If there is morethan one backup for a single week, only the latest one is kept.
+Keep backups for the last <N> different weeks. If there is more than one backup for a single week, only the latest one is kept.
 
 `keep-yearly`=`<N>` ;;
 
-Keep backups for the last <N> different years. If there is morethan one backup for a single year, only the latest one is kept.
+Keep backups for the last <N> different years. If there is more than one backup for a single year, only the latest one is kept.
 
 `remove`: `<boolean>` ('default =' `1`)::
 

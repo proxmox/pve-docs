@@ -4,6 +4,3519 @@ const apiSchema = [
          {
             "children" : [
                {
+                  "children" : [
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get user TFA types (Personal and Realm).",
+                              "method" : "GET",
+                              "name" : "read_user_tfa_type",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "multiple" : {
+                                       "default" : 0,
+                                       "description" : "Request all entries as an array.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "userid" : {
+                                       "description" : "Full User ID, in the `name@realm` format.",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "userid-param",
+                                       "self"
+                                    ],
+                                    [
+                                       "userid-group",
+                                       [
+                                          "User.Modify",
+                                          "Sys.Audit"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "realm" : {
+                                       "description" : "The type of TFA the users realm has set, if any.",
+                                       "enum" : [
+                                          "oath",
+                                          "yubico"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "types" : {
+                                       "description" : "Array of the user configured TFA types, if any. Only available if 'multiple' was not passed.",
+                                       "items" : {
+                                          "description" : "A TFA type.",
+                                          "enum" : [
+                                             "totp",
+                                             "u2f",
+                                             "yubico",
+                                             "webauthn",
+                                             "recovedry"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array"
+                                    },
+                                    "user" : {
+                                       "description" : "The type of TFA the user has set, if any. Only set if 'multiple' was not passed.",
+                                       "enum" : [
+                                          "oath",
+                                          "u2f"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/access/users/{userid}/tfa",
+                        "text" : "tfa"
+                     },
+                     {
+                        "info" : {
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Unlock a user's TFA authentication.",
+                              "method" : "PUT",
+                              "name" : "unlock_tfa",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "userid" : {
+                                       "description" : "Full User ID, in the `name@realm` format.",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "userid-group",
+                                    [
+                                       "User.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "boolean"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/access/users/{userid}/unlock-tfa",
+                        "text" : "unlock-tfa"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Remove API token for a specific user.",
+                                    "method" : "DELETE",
+                                    "name" : "remove_token",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "tokenid" : {
+                                             "description" : "User-specific token identifier.",
+                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                             "type" : "string"
+                                          },
+                                          "userid" : {
+                                             "description" : "Full User ID, in the `name@realm` format.",
+                                             "format" : "pve-userid",
+                                             "maxLength" : 64,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "userid-param",
+                                             "self"
+                                          ],
+                                          [
+                                             "userid-group",
+                                             [
+                                                "User.Modify"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 },
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get specific API token information.",
+                                    "method" : "GET",
+                                    "name" : "read_token",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "tokenid" : {
+                                             "description" : "User-specific token identifier.",
+                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                             "type" : "string"
+                                          },
+                                          "userid" : {
+                                             "description" : "Full User ID, in the `name@realm` format.",
+                                             "format" : "pve-userid",
+                                             "maxLength" : 64,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "userid-param",
+                                             "self"
+                                          ],
+                                          [
+                                             "userid-group",
+                                             [
+                                                "User.Modify"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "returns" : {
+                                       "properties" : {
+                                          "comment" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "expire" : {
+                                             "default" : "same as user",
+                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "privsep" : {
+                                             "default" : 1,
+                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Generate a new API token for a specific user. NOTE: returns API token value, which needs to be stored as it cannot be retrieved afterwards!",
+                                    "method" : "POST",
+                                    "name" : "generate_token",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "comment" : {
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "expire" : {
+                                             "default" : "same as user",
+                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (0 - N)"
+                                          },
+                                          "privsep" : {
+                                             "default" : 1,
+                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "tokenid" : {
+                                             "description" : "User-specific token identifier.",
+                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                             "type" : "string"
+                                          },
+                                          "userid" : {
+                                             "description" : "Full User ID, in the `name@realm` format.",
+                                             "format" : "pve-userid",
+                                             "maxLength" : 64,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "userid-param",
+                                             "self"
+                                          ],
+                                          [
+                                             "userid-group",
+                                             [
+                                                "User.Modify"
+                                             ]
+                                          ]
+                                       ],
+                                       "description" : "Creating a token without privilege separation for another user also requires 'Realm.AllocateUser' on '/access/realm/<realm>' of that user and 'Permissions.Modify' on '/'. An API token does not count as its owning user."
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "full-tokenid" : {
+                                             "description" : "The full token id.",
+                                             "format_description" : "<userid>!<tokenid>",
+                                             "type" : "string"
+                                          },
+                                          "info" : {
+                                             "properties" : {
+                                                "comment" : {
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "expire" : {
+                                                   "default" : "same as user",
+                                                   "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "privsep" : {
+                                                   "default" : 1,
+                                                   "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "value" : {
+                                             "description" : "API token value used for authentication.",
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Update API token for a specific user. NOTE: when 'regenerate' is set, the returned token value needs to be stored as it cannot be retrieved afterwards!",
+                                    "method" : "PUT",
+                                    "name" : "update_token_info",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "comment" : {
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "delete" : {
+                                             "description" : "A list of settings you want to delete.",
+                                             "format" : "pve-configid-list",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "expire" : {
+                                             "default" : "same as user",
+                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (0 - N)"
+                                          },
+                                          "privsep" : {
+                                             "default" : 1,
+                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "regenerate" : {
+                                             "default" : 0,
+                                             "description" : "Regenerate the token's secret value. All users of the previous secret will lose access after this operation.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "tokenid" : {
+                                             "description" : "User-specific token identifier.",
+                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                             "type" : "string"
+                                          },
+                                          "userid" : {
+                                             "description" : "Full User ID, in the `name@realm` format.",
+                                             "format" : "pve-userid",
+                                             "maxLength" : 64,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "userid-param",
+                                             "self"
+                                          ],
+                                          [
+                                             "userid-group",
+                                             [
+                                                "User.Modify"
+                                             ]
+                                          ]
+                                       ],
+                                       "description" : "For a token of another user, regenerating the secret, or any update that leaves privilege separation disabled, also requires 'Realm.AllocateUser' on '/access/realm/<realm>' of that user and 'Permissions.Modify' on '/'. An API token does not count as its owning user."
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "properties" : {
+                                          "comment" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "expire" : {
+                                             "default" : "same as user",
+                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "full-tokenid" : {
+                                             "description" : "The full token id. Only set when 'regenerate' was set.",
+                                             "format_description" : "<userid>!<tokenid>",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "privsep" : {
+                                             "default" : 1,
+                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "value" : {
+                                             "description" : "API token value used for authentication. Only set when 'regenerate' was set.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/access/users/{userid}/token/{tokenid}",
+                              "text" : "{tokenid}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get user API tokens.",
+                              "method" : "GET",
+                              "name" : "token_index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "userid" : {
+                                       "description" : "Full User ID, in the `name@realm` format.",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "userid-param",
+                                       "self"
+                                    ],
+                                    [
+                                       "userid-group",
+                                       [
+                                          "User.Modify"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "comment" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "expire" : {
+                                          "default" : "same as user",
+                                          "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                          "minimum" : 0,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "privsep" : {
+                                          "default" : 1,
+                                          "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "tokenid" : {
+                                          "description" : "User-specific token identifier.",
+                                          "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{tokenid}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/access/users/{userid}/token",
+                        "text" : "token"
+                     }
+                  ],
+                  "info" : {
+                     "DELETE" : {
+                        "allowtoken" : 1,
+                        "description" : "Delete user.",
+                        "method" : "DELETE",
+                        "name" : "delete_user",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "userid" : {
+                                 "description" : "Full User ID, in the `name@realm` format.",
+                                 "format" : "pve-userid",
+                                 "maxLength" : 64,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "and",
+                              [
+                                 "userid-param",
+                                 "Realm.AllocateUser"
+                              ],
+                              [
+                                 "userid-group",
+                                 [
+                                    "User.Modify"
+                                 ]
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     },
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Get user configuration.",
+                        "method" : "GET",
+                        "name" : "read_user",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "userid" : {
+                                 "description" : "Full User ID, in the `name@realm` format.",
+                                 "format" : "pve-userid",
+                                 "maxLength" : 64,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "userid-group",
+                              [
+                                 "User.Modify",
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "comment" : {
+                                 "maxLength" : 2048,
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "email" : {
+                                 "format" : "email-opt",
+                                 "maxLength" : 254,
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "enable" : {
+                                 "default" : 1,
+                                 "description" : "Enable the account (default). You can set this to '0' to disable the account",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "expire" : {
+                                 "description" : "Account expiration date (seconds since epoch). '0' means no expiration date.",
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              },
+                              "firstname" : {
+                                 "maxLength" : 1024,
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "groups" : {
+                                 "items" : {
+                                    "format" : "pve-groupid",
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "array"
+                              },
+                              "keys" : {
+                                 "description" : "Keys for two factor auth (yubico).",
+                                 "optional" : 1,
+                                 "pattern" : "[0-9a-zA-Z!=]{0,4096}",
+                                 "type" : "string"
+                              },
+                              "lastname" : {
+                                 "maxLength" : 1024,
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "tokens" : {
+                                 "additionalProperties" : {
+                                    "properties" : {
+                                       "comment" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "expire" : {
+                                          "default" : "same as user",
+                                          "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                          "minimum" : 0,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "privsep" : {
+                                          "default" : 1,
+                                          "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "object"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     },
+                     "PUT" : {
+                        "allowtoken" : 1,
+                        "description" : "Update user configuration.",
+                        "method" : "PUT",
+                        "name" : "update_user",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "append" : {
+                                 "optional" : 1,
+                                 "requires" : "groups",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "comment" : {
+                                 "maxLength" : 2048,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "email" : {
+                                 "format" : "email-opt",
+                                 "maxLength" : 254,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "enable" : {
+                                 "default" : 1,
+                                 "description" : "Enable the account (default). You can set this to '0' to disable the account",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "expire" : {
+                                 "description" : "Account expiration date (seconds since epoch). '0' means no expiration date.",
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - N)"
+                              },
+                              "firstname" : {
+                                 "maxLength" : 1024,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "groups" : {
+                                 "format" : "pve-groupid-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "keys" : {
+                                 "description" : "Keys for two factor auth (yubico).",
+                                 "optional" : 1,
+                                 "pattern" : "[0-9a-zA-Z!=]{0,4096}",
+                                 "type" : "string"
+                              },
+                              "lastname" : {
+                                 "maxLength" : 1024,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "userid" : {
+                                 "description" : "Full User ID, in the `name@realm` format.",
+                                 "format" : "pve-userid",
+                                 "maxLength" : 64,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "userid-group",
+                              [
+                                 "User.Modify"
+                              ],
+                              "groups_param",
+                              "update"
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/access/users/{userid}",
+                  "text" : "{userid}"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "User index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "enabled" : {
+                           "description" : "Optional filter for enable property.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "full" : {
+                           "default" : 0,
+                           "description" : "Include group and token information.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "description" : "The returned list is restricted to users where you have 'User.Modify' or 'Sys.Audit' permissions on '/access/groups' or on a group the user belongs too. But it always includes the current (authenticated) user.",
+                     "user" : "all"
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "items" : {
+                        "properties" : {
+                           "comment" : {
+                              "maxLength" : 2048,
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "email" : {
+                              "format" : "email-opt",
+                              "maxLength" : 254,
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "enable" : {
+                              "default" : 1,
+                              "description" : "Enable the account (default). You can set this to '0' to disable the account",
+                              "optional" : 1,
+                              "type" : "boolean"
+                           },
+                           "expire" : {
+                              "description" : "Account expiration date (seconds since epoch). '0' means no expiration date.",
+                              "minimum" : 0,
+                              "optional" : 1,
+                              "type" : "integer"
+                           },
+                           "firstname" : {
+                              "maxLength" : 1024,
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "groups" : {
+                              "format" : "pve-groupid-list",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "keys" : {
+                              "description" : "Keys for two factor auth (yubico).",
+                              "optional" : 1,
+                              "pattern" : "[0-9a-zA-Z!=]{0,4096}",
+                              "type" : "string"
+                           },
+                           "lastname" : {
+                              "maxLength" : 1024,
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "realm-type" : {
+                              "description" : "The type of the users realm",
+                              "format" : "pve-realm",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "tfa-locked-until" : {
+                              "description" : "Contains a timestamp until when a user is locked out of 2nd factors.",
+                              "optional" : 1,
+                              "type" : "integer"
+                           },
+                           "tokens" : {
+                              "items" : {
+                                 "properties" : {
+                                    "comment" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "expire" : {
+                                       "default" : "same as user",
+                                       "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "privsep" : {
+                                       "default" : 1,
+                                       "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "tokenid" : {
+                                       "description" : "User-specific token identifier.",
+                                       "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "optional" : 1,
+                              "type" : "array"
+                           },
+                           "totp-locked" : {
+                              "description" : "True if the user is currently locked out of TOTP factors.",
+                              "optional" : 1,
+                              "type" : "boolean"
+                           },
+                           "userid" : {
+                              "description" : "Full User ID, in the `name@realm` format.",
+                              "format" : "pve-userid",
+                              "maxLength" : 64,
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{userid}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               },
+               "POST" : {
+                  "allowtoken" : 1,
+                  "description" : "Create new user.",
+                  "method" : "POST",
+                  "name" : "create_user",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "comment" : {
+                           "maxLength" : 2048,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "email" : {
+                           "format" : "email-opt",
+                           "maxLength" : 254,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "enable" : {
+                           "default" : 1,
+                           "description" : "Enable the account (default). You can set this to '0' to disable the account",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "expire" : {
+                           "description" : "Account expiration date (seconds since epoch). '0' means no expiration date.",
+                           "minimum" : 0,
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer> (0 - N)"
+                        },
+                        "firstname" : {
+                           "maxLength" : 1024,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "groups" : {
+                           "format" : "pve-groupid-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "keys" : {
+                           "description" : "Keys for two factor auth (yubico).",
+                           "optional" : 1,
+                           "pattern" : "[0-9a-zA-Z!=]{0,4096}",
+                           "type" : "string"
+                        },
+                        "lastname" : {
+                           "maxLength" : 1024,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "password" : {
+                           "description" : "Initial password.",
+                           "maxLength" : 64,
+                           "minLength" : 8,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "userid" : {
+                           "description" : "Full User ID, in the `name@realm` format.",
+                           "format" : "pve-userid",
+                           "maxLength" : 64,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "and",
+                        [
+                           "userid-param",
+                           "Realm.AllocateUser"
+                        ],
+                        [
+                           "userid-group",
+                           [
+                              "User.Modify"
+                           ],
+                           "groups_param",
+                           "create"
+                        ]
+                     ],
+                     "description" : "You need 'Realm.AllocateUser' on '/access/realm/<realm>' on the realm of user <userid>, and 'User.Modify' permissions to '/access/groups/<group>' for any group specified (or 'User.Modify' on '/access/groups' if you pass no groups."
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/access/users",
+            "text" : "users"
+         },
+         {
+            "children" : [
+               {
+                  "info" : {
+                     "DELETE" : {
+                        "allowtoken" : 1,
+                        "description" : "Delete group.",
+                        "method" : "DELETE",
+                        "name" : "delete_group",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "groupid" : {
+                                 "format" : "pve-groupid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/access/groups",
+                              [
+                                 "Group.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     },
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Get group configuration.",
+                        "method" : "GET",
+                        "name" : "read_group",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "groupid" : {
+                                 "format" : "pve-groupid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/access/groups",
+                              [
+                                 "Sys.Audit",
+                                 "Group.Allocate"
+                              ],
+                              "any",
+                              1
+                           ]
+                        },
+                        "returns" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "comment" : {
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "members" : {
+                                 "items" : {
+                                    "description" : "Full User ID, in the `name@realm` format.",
+                                    "format" : "pve-userid",
+                                    "maxLength" : 64,
+                                    "type" : "string"
+                                 },
+                                 "type" : "array"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     },
+                     "PUT" : {
+                        "allowtoken" : 1,
+                        "description" : "Update group data.",
+                        "method" : "PUT",
+                        "name" : "update_group",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "comment" : {
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "groupid" : {
+                                 "format" : "pve-groupid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/access/groups",
+                              [
+                                 "Group.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/access/groups/{groupid}",
+                  "text" : "{groupid}"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Group index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "description" : "The returned list is restricted to groups where you have 'User.Modify', 'Sys.Audit'  or 'Group.Allocate' permissions on /access/groups/<group>.",
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {
+                           "comment" : {
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "groupid" : {
+                              "format" : "pve-groupid",
+                              "type" : "string"
+                           },
+                           "users" : {
+                              "description" : "list of users which form this group",
+                              "format" : "pve-userid-list",
+                              "optional" : 1,
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{groupid}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               },
+               "POST" : {
+                  "allowtoken" : 1,
+                  "description" : "Create new group.",
+                  "method" : "POST",
+                  "name" : "create_group",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "comment" : {
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "groupid" : {
+                           "format" : "pve-groupid",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm",
+                        "/access/groups",
+                        [
+                           "Group.Allocate"
+                        ]
+                     ]
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/access/groups",
+            "text" : "groups"
+         },
+         {
+            "children" : [
+               {
+                  "info" : {
+                     "DELETE" : {
+                        "allowtoken" : 1,
+                        "description" : "Delete role.",
+                        "method" : "DELETE",
+                        "name" : "delete_role",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "roleid" : {
+                                 "format" : "pve-roleid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/access",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     },
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Get role configuration.",
+                        "method" : "GET",
+                        "name" : "read_role",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "roleid" : {
+                                 "format" : "pve-roleid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "Datastore.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Datastore.AllocateSpace" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Datastore.AllocateTemplate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Datastore.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Group.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Mapping.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Mapping.Modify" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Mapping.Use" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Permissions.Modify" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Pool.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Pool.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Realm.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Realm.AllocateUser" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "SDN.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "SDN.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "SDN.Use" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.AccessNetwork" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.Console" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.Incoming" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.Modify" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.PowerMgmt" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.Syslog" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "User.Modify" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Backup" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Clone" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.CDROM" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.CPU" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.Cloudinit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.Disk" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.HWType" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.Memory" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.Network" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.Options" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Console" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.GuestAgent.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.GuestAgent.FileRead" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.GuestAgent.FileSystemMgmt" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.GuestAgent.FileWrite" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.GuestAgent.Unrestricted" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Migrate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.PowerMgmt" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Replicate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Snapshot" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Snapshot.Rollback" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     },
+                     "PUT" : {
+                        "allowtoken" : 1,
+                        "description" : "Update an existing role.",
+                        "method" : "PUT",
+                        "name" : "update_role",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "append" : {
+                                 "optional" : 1,
+                                 "requires" : "privs",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "privs" : {
+                                 "format" : "pve-priv-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "roleid" : {
+                                 "format" : "pve-roleid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/access",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/access/roles/{roleid}",
+                  "text" : "{roleid}"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Role index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {
+                           "privs" : {
+                              "format" : "pve-priv-list",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "roleid" : {
+                              "format" : "pve-roleid",
+                              "type" : "string"
+                           },
+                           "special" : {
+                              "default" : 0,
+                              "optional" : 1,
+                              "type" : "boolean"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{roleid}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               },
+               "POST" : {
+                  "allowtoken" : 1,
+                  "description" : "Create new role.",
+                  "method" : "POST",
+                  "name" : "create_role",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "privs" : {
+                           "format" : "pve-priv-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "roleid" : {
+                           "format" : "pve-roleid",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm",
+                        "/access",
+                        [
+                           "Sys.Modify"
+                        ]
+                     ]
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/access/roles",
+            "text" : "roles"
+         },
+         {
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Get Access Control List (ACLs).",
+                  "method" : "GET",
+                  "name" : "read_acl",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "description" : "The returned list is restricted to objects where you have rights to modify permissions.",
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "additionalProperties" : 0,
+                        "properties" : {
+                           "path" : {
+                              "description" : "Access control path",
+                              "type" : "string"
+                           },
+                           "propagate" : {
+                              "default" : 1,
+                              "description" : "Allow to propagate (inherit) permissions.",
+                              "optional" : 1,
+                              "type" : "boolean"
+                           },
+                           "roleid" : {
+                              "type" : "string"
+                           },
+                           "type" : {
+                              "enum" : [
+                                 "user",
+                                 "group",
+                                 "token"
+                              ],
+                              "type" : "string"
+                           },
+                           "ugid" : {
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "type" : "array"
+                  }
+               },
+               "PUT" : {
+                  "allowtoken" : 1,
+                  "description" : "Update Access Control List (add or remove permissions).",
+                  "method" : "PUT",
+                  "name" : "update_acl",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "delete" : {
+                           "description" : "Remove permissions (instead of adding it).",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "groups" : {
+                           "description" : "List of groups.",
+                           "format" : "pve-groupid-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "path" : {
+                           "description" : "Access control path",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "propagate" : {
+                           "default" : 1,
+                           "description" : "Allow to propagate (inherit) permissions.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "roles" : {
+                           "description" : "List of roles.",
+                           "format" : "pve-roleid-list",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "tokens" : {
+                           "description" : "List of API tokens.",
+                           "format" : "pve-tokenid-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "users" : {
+                           "description" : "List of users.",
+                           "format" : "pve-userid-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm-modify",
+                        "{path}"
+                     ]
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               }
+            },
+            "leaf" : 1,
+            "path" : "/access/acl",
+            "text" : "acl"
+         },
+         {
+            "children" : [
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Syncs users and/or groups from the configured LDAP to user.cfg. NOTE: Synced groups will have the name 'name-$realm', so make sure those groups do not exist to prevent overwriting.",
+                              "method" : "POST",
+                              "name" : "sync",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "dry-run" : {
+                                       "default" : 0,
+                                       "description" : "If set, does not write anything.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "enable-new" : {
+                                       "default" : "1",
+                                       "description" : "Enable newly synced users immediately.",
+                                       "optional" : "1",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "full" : {
+                                       "description" : "DEPRECATED: use 'remove-vanished' instead. If set, uses the LDAP Directory as source of truth, deleting users or groups not returned from the sync and removing all locally modified properties of synced users. If not set, only syncs information which is present in the synced data, and does not delete or modify anything else.",
+                                       "optional" : "1",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "purge" : {
+                                       "description" : "DEPRECATED: use 'remove-vanished' instead. Remove ACLs for users or groups which were removed from the config during a sync.",
+                                       "optional" : "1",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "realm" : {
+                                       "description" : "Authentication domain ID",
+                                       "format" : "pve-realm",
+                                       "maxLength" : 32,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "remove-vanished" : {
+                                       "default" : "none",
+                                       "description" : "A semicolon-separated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync. Instead of a list it also can be 'none' (the default).",
+                                       "optional" : "1",
+                                       "pattern" : "(?:(?:(?:acl|properties|entry);)*(?:acl|properties|entry))|none",
+                                       "type" : "string",
+                                       "typetext" : "([acl];[properties];[entry])|none"
+                                    },
+                                    "scope" : {
+                                       "description" : "Select what to sync.",
+                                       "enum" : [
+                                          "users",
+                                          "groups",
+                                          "both"
+                                       ],
+                                       "optional" : "1",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "and",
+                                    [
+                                       "perm",
+                                       "/access/realm/{realm}",
+                                       [
+                                          "Realm.AllocateUser"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/access/groups",
+                                       [
+                                          "User.Modify"
+                                       ]
+                                    ]
+                                 ],
+                                 "description" : "'Realm.AllocateUser' on '/access/realm/<realm>' and  'User.Modify' permissions to '/access/groups/'."
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "description" : "Worker Task-UPID",
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/access/domains/{realm}/sync",
+                        "text" : "sync"
+                     }
+                  ],
+                  "info" : {
+                     "DELETE" : {
+                        "allowtoken" : 1,
+                        "description" : "Delete an authentication server.",
+                        "method" : "DELETE",
+                        "name" : "delete",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "realm" : {
+                                 "description" : "Authentication domain ID",
+                                 "format" : "pve-realm",
+                                 "maxLength" : 32,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/access/realm",
+                              [
+                                 "Realm.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     },
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Get auth server configuration.",
+                        "method" : "GET",
+                        "name" : "read",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "realm" : {
+                                 "description" : "Authentication domain ID",
+                                 "format" : "pve-realm",
+                                 "maxLength" : 32,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/access/realm",
+                              [
+                                 "Realm.Allocate",
+                                 "Sys.Audit"
+                              ],
+                              "any",
+                              1
+                           ]
+                        },
+                        "returns" : {}
+                     },
+                     "PUT" : {
+                        "allowtoken" : 1,
+                        "description" : "Update authentication server settings.",
+                        "method" : "PUT",
+                        "name" : "update",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "acr-values" : {
+                                 "description" : "Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.",
+                                 "optional" : 1,
+                                 "pattern" : "^[^\\x00-\\x1F\\x7F <>#\"]*$",
+                                 "type" : "string"
+                              },
+                              "audiences" : {
+                                 "description" : "A list of audiences that the OpenID Issuer may include that are accepted in addition to 'client-id'.",
+                                 "optional" : 1,
+                                 "pattern" : "^[^\\x00-\\x1F\\x7F <>#\"]*$",
+                                 "type" : "string"
+                              },
+                              "autocreate" : {
+                                 "default" : 0,
+                                 "description" : "Automatically create users if they do not exist.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "base_dn" : {
+                                 "description" : "LDAP base domain name",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "bind_dn" : {
+                                 "description" : "LDAP bind domain name",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "capath" : {
+                                 "default" : "/etc/ssl/certs",
+                                 "description" : "Path to the CA certificate store",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "case-sensitive" : {
+                                 "default" : 1,
+                                 "description" : "username is case-sensitive",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "cert" : {
+                                 "description" : "Path to the client certificate",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "certkey" : {
+                                 "description" : "Path to the client certificate key",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "check-connection" : {
+                                 "default" : 0,
+                                 "description" : "Check bind connection to the server.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "client-id" : {
+                                 "description" : "OpenID Client ID",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "client-key" : {
+                                 "description" : "OpenID Client Key",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "comment" : {
+                                 "description" : "Description.",
+                                 "maxLength" : 4096,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "default" : {
+                                 "description" : "Use this as default realm",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "delete" : {
+                                 "description" : "A list of settings you want to delete.",
+                                 "format" : "pve-configid-list",
+                                 "maxLength" : 4096,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "domain" : {
+                                 "description" : "AD domain name",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "pattern" : "\\S+",
+                                 "type" : "string"
+                              },
+                              "filter" : {
+                                 "description" : "LDAP filter for user sync.",
+                                 "maxLength" : 2048,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "group_classes" : {
+                                 "default" : "groupOfNames, group, univentionGroup, ipausergroup",
+                                 "description" : "The objectclasses for groups.",
+                                 "format" : "ldap-simple-attr-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "group_dn" : {
+                                 "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "group_filter" : {
+                                 "description" : "LDAP filter for group sync.",
+                                 "maxLength" : 2048,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "group_name_attr" : {
+                                 "description" : "LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.",
+                                 "format" : "ldap-simple-attr",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "groups-autocreate" : {
+                                 "default" : 0,
+                                 "description" : "Automatically create groups if they do not exist.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "groups-claim" : {
+                                 "description" : "OpenID claim used to retrieve groups with.",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "pattern" : "(?^:[A-Za-z0-9\\.\\-_]+)",
+                                 "type" : "string"
+                              },
+                              "groups-overwrite" : {
+                                 "default" : 0,
+                                 "description" : "All groups will be overwritten for the user on login.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "issuer-url" : {
+                                 "description" : "OpenID Issuer Url",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "mode" : {
+                                 "default" : "ldap",
+                                 "description" : "LDAP protocol mode.",
+                                 "enum" : [
+                                    "ldap",
+                                    "ldaps",
+                                    "ldap+starttls"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "password" : {
+                                 "description" : "LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "port" : {
+                                 "description" : "Server port.",
+                                 "maximum" : 65535,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 65535)"
+                              },
+                              "prompt" : {
+                                 "description" : "Specifies whether the Authorization Server prompts the End-User for reauthentication and consent.",
+                                 "optional" : 1,
+                                 "pattern" : "(?:none|login|consent|select_account|\\S+)",
+                                 "type" : "string"
+                              },
+                              "query-userinfo" : {
+                                 "default" : 1,
+                                 "description" : "Enables querying the userinfo endpoint for claims values.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "realm" : {
+                                 "description" : "Authentication domain ID",
+                                 "format" : "pve-realm",
+                                 "maxLength" : 32,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "scopes" : {
+                                 "default" : "email profile",
+                                 "description" : "Specifies the scopes (user details) that should be authorized and returned, for example 'email' or 'profile'.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "secure" : {
+                                 "description" : "Use secure LDAPS protocol. DEPRECATED: use 'mode' instead.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "server1" : {
+                                 "description" : "Server IP address (or DNS name)",
+                                 "format" : "address",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "server2" : {
+                                 "description" : "Fallback Server IP address (or DNS name)",
+                                 "format" : "address",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "sslversion" : {
+                                 "description" : "LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!",
+                                 "enum" : [
+                                    "tlsv1",
+                                    "tlsv1_1",
+                                    "tlsv1_2",
+                                    "tlsv1_3"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "sync-defaults-options" : {
+                                 "description" : "The default options for behavior of synchronizations.",
+                                 "format" : "realm-sync-options",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=([acl];[properties];[entry])|none] [,scope=<users|groups|both>]"
+                              },
+                              "sync_attributes" : {
+                                 "description" : "Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.",
+                                 "optional" : 1,
+                                 "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                                 "type" : "string"
+                              },
+                              "tfa" : {
+                                 "description" : "Use Two-factor authentication.",
+                                 "format" : "pve-tfa-config",
+                                 "maxLength" : 128,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]"
+                              },
+                              "user_attr" : {
+                                 "description" : "LDAP user attribute name",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "pattern" : "\\S{2,}",
+                                 "type" : "string"
+                              },
+                              "user_classes" : {
+                                 "default" : "inetorgperson, posixaccount, person, user",
+                                 "description" : "The objectclasses for users.",
+                                 "format" : "ldap-simple-attr-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "verify" : {
+                                 "default" : 0,
+                                 "description" : "Verify the server's SSL certificate",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/access/realm",
+                              [
+                                 "Realm.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/access/domains/{realm}",
+                  "text" : "{realm}"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Authentication domain index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "description" : "Anyone can access that, because we need that list for the login box (before the user is authenticated).",
+                     "user" : "world"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {
+                           "comment" : {
+                              "description" : "A comment. The GUI use this text when you select a domain (Realm) on the login window.",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "realm" : {
+                              "type" : "string"
+                           },
+                           "tfa" : {
+                              "description" : "Two-factor authentication provider.",
+                              "enum" : [
+                                 "yubico",
+                                 "oath"
+                              ],
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "type" : {
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{realm}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               },
+               "POST" : {
+                  "allowtoken" : 1,
+                  "description" : "Add an authentication server.",
+                  "method" : "POST",
+                  "name" : "create",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "acr-values" : {
+                           "description" : "Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.",
+                           "optional" : 1,
+                           "pattern" : "^[^\\x00-\\x1F\\x7F <>#\"]*$",
+                           "type" : "string"
+                        },
+                        "audiences" : {
+                           "description" : "A list of audiences that the OpenID Issuer may include that are accepted in addition to 'client-id'.",
+                           "optional" : 1,
+                           "pattern" : "^[^\\x00-\\x1F\\x7F <>#\"]*$",
+                           "type" : "string"
+                        },
+                        "autocreate" : {
+                           "default" : 0,
+                           "description" : "Automatically create users if they do not exist.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "base_dn" : {
+                           "description" : "LDAP base domain name",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "bind_dn" : {
+                           "description" : "LDAP bind domain name",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "capath" : {
+                           "default" : "/etc/ssl/certs",
+                           "description" : "Path to the CA certificate store",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "case-sensitive" : {
+                           "default" : 1,
+                           "description" : "username is case-sensitive",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "cert" : {
+                           "description" : "Path to the client certificate",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "certkey" : {
+                           "description" : "Path to the client certificate key",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "check-connection" : {
+                           "default" : 0,
+                           "description" : "Check bind connection to the server.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "client-id" : {
+                           "description" : "OpenID Client ID",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "client-key" : {
+                           "description" : "OpenID Client Key",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "comment" : {
+                           "description" : "Description.",
+                           "maxLength" : 4096,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "default" : {
+                           "description" : "Use this as default realm",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "domain" : {
+                           "description" : "AD domain name",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "pattern" : "\\S+",
+                           "type" : "string"
+                        },
+                        "filter" : {
+                           "description" : "LDAP filter for user sync.",
+                           "maxLength" : 2048,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "group_classes" : {
+                           "default" : "groupOfNames, group, univentionGroup, ipausergroup",
+                           "description" : "The objectclasses for groups.",
+                           "format" : "ldap-simple-attr-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "group_dn" : {
+                           "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "group_filter" : {
+                           "description" : "LDAP filter for group sync.",
+                           "maxLength" : 2048,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "group_name_attr" : {
+                           "description" : "LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.",
+                           "format" : "ldap-simple-attr",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "groups-autocreate" : {
+                           "default" : 0,
+                           "description" : "Automatically create groups if they do not exist.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "groups-claim" : {
+                           "description" : "OpenID claim used to retrieve groups with.",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "pattern" : "(?^:[A-Za-z0-9\\.\\-_]+)",
+                           "type" : "string"
+                        },
+                        "groups-overwrite" : {
+                           "default" : 0,
+                           "description" : "All groups will be overwritten for the user on login.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "issuer-url" : {
+                           "description" : "OpenID Issuer Url",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "mode" : {
+                           "default" : "ldap",
+                           "description" : "LDAP protocol mode.",
+                           "enum" : [
+                              "ldap",
+                              "ldaps",
+                              "ldap+starttls"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "password" : {
+                           "description" : "LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "port" : {
+                           "description" : "Server port.",
+                           "maximum" : 65535,
+                           "minimum" : 1,
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer> (1 - 65535)"
+                        },
+                        "prompt" : {
+                           "description" : "Specifies whether the Authorization Server prompts the End-User for reauthentication and consent.",
+                           "optional" : 1,
+                           "pattern" : "(?:none|login|consent|select_account|\\S+)",
+                           "type" : "string"
+                        },
+                        "query-userinfo" : {
+                           "default" : 1,
+                           "description" : "Enables querying the userinfo endpoint for claims values.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "realm" : {
+                           "description" : "Authentication domain ID",
+                           "format" : "pve-realm",
+                           "maxLength" : 32,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "scopes" : {
+                           "default" : "email profile",
+                           "description" : "Specifies the scopes (user details) that should be authorized and returned, for example 'email' or 'profile'.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "secure" : {
+                           "description" : "Use secure LDAPS protocol. DEPRECATED: use 'mode' instead.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "server1" : {
+                           "description" : "Server IP address (or DNS name)",
+                           "format" : "address",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "server2" : {
+                           "description" : "Fallback Server IP address (or DNS name)",
+                           "format" : "address",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "sslversion" : {
+                           "description" : "LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!",
+                           "enum" : [
+                              "tlsv1",
+                              "tlsv1_1",
+                              "tlsv1_2",
+                              "tlsv1_3"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "sync-defaults-options" : {
+                           "description" : "The default options for behavior of synchronizations.",
+                           "format" : "realm-sync-options",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=([acl];[properties];[entry])|none] [,scope=<users|groups|both>]"
+                        },
+                        "sync_attributes" : {
+                           "description" : "Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.",
+                           "optional" : 1,
+                           "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                           "type" : "string"
+                        },
+                        "tfa" : {
+                           "description" : "Use Two-factor authentication.",
+                           "format" : "pve-tfa-config",
+                           "maxLength" : 128,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]"
+                        },
+                        "type" : {
+                           "description" : "Realm type.",
+                           "enum" : [
+                              "ad",
+                              "ldap",
+                              "openid",
+                              "pam",
+                              "pve"
+                           ],
+                           "type" : "string"
+                        },
+                        "user_attr" : {
+                           "description" : "LDAP user attribute name",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "pattern" : "\\S{2,}",
+                           "type" : "string"
+                        },
+                        "user_classes" : {
+                           "default" : "inetorgperson, posixaccount, person, user",
+                           "description" : "The objectclasses for users.",
+                           "format" : "ldap-simple-attr-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "username-claim" : {
+                           "description" : "OpenID claim used to generate the unique username.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "verify" : {
+                           "default" : 0,
+                           "description" : "Verify the server's SSL certificate",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        }
+                     },
+                     "type" : "object"
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm",
+                        "/access/realm",
+                        [
+                           "Realm.Allocate"
+                        ]
+                     ]
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/access/domains",
+            "text" : "domains"
+         },
+         {
+            "children" : [
+               {
+                  "info" : {
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Get the OpenId Authorization Url for the specified realm.",
+                        "method" : "POST",
+                        "name" : "auth_url",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "realm" : {
+                                 "description" : "Authentication domain ID",
+                                 "format" : "pve-realm",
+                                 "maxLength" : 32,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "redirect-url" : {
+                                 "description" : "Redirection Url. The client should set this to the used server url (location.origin).",
+                                 "maxLength" : 255,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "world"
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "description" : "Redirection URL.",
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/access/openid/auth-url",
+                  "text" : "auth-url"
+               },
+               {
+                  "info" : {
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : " Verify OpenID authorization code and create a ticket.",
+                        "method" : "POST",
+                        "name" : "login",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "code" : {
+                                 "description" : "OpenId authorization code.",
+                                 "maxLength" : 4096,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "redirect-url" : {
+                                 "description" : "Redirection Url. The client should set this to the used server url (location.origin).",
+                                 "maxLength" : 255,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "state" : {
+                                 "description" : "OpenId state.",
+                                 "maxLength" : 1024,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "world"
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "properties" : {
+                              "CSRFPreventionToken" : {
+                                 "type" : "string"
+                              },
+                              "cap" : {
+                                 "type" : "object"
+                              },
+                              "clustername" : {
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "ticket" : {
+                                 "type" : "string"
+                              },
+                              "username" : {
+                                 "type" : "string"
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/access/openid/login",
+                  "text" : "login"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Directory index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {
+                           "subdir" : {
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{subdir}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/access/openid",
+            "text" : "openid"
+         },
+         {
+            "children" : [
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 0,
+                              "description" : "Delete a TFA entry by ID.",
+                              "method" : "DELETE",
+                              "name" : "delete_tfa",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "description" : "A TFA entry id.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "password" : {
+                                       "description" : "The current password of the user performing the change.",
+                                       "maxLength" : 64,
+                                       "minLength" : 5,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "userid" : {
+                                       "description" : "Full User ID, in the `name@realm` format.",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "userid-param",
+                                       "self"
+                                    ],
+                                    [
+                                       "userid-group",
+                                       [
+                                          "User.Modify"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Fetch a requested TFA entry if present.",
+                              "method" : "GET",
+                              "name" : "get_tfa_entry",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "description" : "A TFA entry id.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "userid" : {
+                                       "description" : "Full User ID, in the `name@realm` format.",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "userid-param",
+                                       "self"
+                                    ],
+                                    [
+                                       "userid-group",
+                                       [
+                                          "User.Modify",
+                                          "Sys.Audit"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "description" : "TFA Entry.",
+                                 "properties" : {
+                                    "created" : {
+                                       "description" : "Creation time of this entry as unix epoch.",
+                                       "type" : "integer"
+                                    },
+                                    "description" : {
+                                       "description" : "User chosen description for this entry.",
+                                       "type" : "string"
+                                    },
+                                    "enable" : {
+                                       "default" : 1,
+                                       "description" : "Whether this TFA entry is currently enabled.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "id" : {
+                                       "description" : "The id used to reference this entry.",
+                                       "type" : "string"
+                                    },
+                                    "type" : {
+                                       "description" : "TFA Entry Type.",
+                                       "enum" : [
+                                          "totp",
+                                          "u2f",
+                                          "webauthn",
+                                          "recovery",
+                                          "yubico"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 0,
+                              "description" : "Add a TFA entry for a user.",
+                              "method" : "PUT",
+                              "name" : "update_tfa_entry",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "description" : {
+                                       "description" : "A description to distinguish multiple entries from one another",
+                                       "maxLength" : 255,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "enable" : {
+                                       "description" : "Whether the entry should be enabled for login.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "id" : {
+                                       "description" : "A TFA entry id.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "password" : {
+                                       "description" : "The current password of the user performing the change.",
+                                       "maxLength" : 64,
+                                       "minLength" : 5,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "userid" : {
+                                       "description" : "Full User ID, in the `name@realm` format.",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "userid-param",
+                                       "self"
+                                    ],
+                                    [
+                                       "userid-group",
+                                       [
+                                          "User.Modify"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/access/tfa/{userid}/{id}",
+                        "text" : "{id}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "List TFA configurations of users.",
+                        "method" : "GET",
+                        "name" : "list_user_tfa",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "userid" : {
+                                 "description" : "Full User ID, in the `name@realm` format.",
+                                 "format" : "pve-userid",
+                                 "maxLength" : 64,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "or",
+                              [
+                                 "userid-param",
+                                 "self"
+                              ],
+                              [
+                                 "userid-group",
+                                 [
+                                    "User.Modify",
+                                    "Sys.Audit"
+                                 ]
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "description" : "A list of the user's TFA entries.",
+                           "items" : {
+                              "description" : "TFA Entry.",
+                              "properties" : {
+                                 "created" : {
+                                    "description" : "Creation time of this entry as unix epoch.",
+                                    "type" : "integer"
+                                 },
+                                 "description" : {
+                                    "description" : "User chosen description for this entry.",
+                                    "type" : "string"
+                                 },
+                                 "enable" : {
+                                    "default" : 1,
+                                    "description" : "Whether this TFA entry is currently enabled.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "id" : {
+                                    "description" : "The id used to reference this entry.",
+                                    "type" : "string"
+                                 },
+                                 "type" : {
+                                    "description" : "TFA Entry Type.",
+                                    "enum" : [
+                                       "totp",
+                                       "u2f",
+                                       "webauthn",
+                                       "recovery",
+                                       "yubico"
+                                    ],
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{id}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 0,
+                        "description" : "Add a TFA entry for a user.",
+                        "method" : "POST",
+                        "name" : "add_tfa_entry",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "challenge" : {
+                                 "description" : "When responding to a u2f challenge: the original challenge string",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "description" : {
+                                 "description" : "A description to distinguish multiple entries from one another",
+                                 "maxLength" : 255,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "password" : {
+                                 "description" : "The current password of the user performing the change.",
+                                 "maxLength" : 64,
+                                 "minLength" : 5,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "totp" : {
+                                 "description" : "A totp URI.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "type" : {
+                                 "description" : "TFA Entry Type.",
+                                 "enum" : [
+                                    "totp",
+                                    "u2f",
+                                    "webauthn",
+                                    "recovery",
+                                    "yubico"
+                                 ],
+                                 "type" : "string"
+                              },
+                              "userid" : {
+                                 "description" : "Full User ID, in the `name@realm` format.",
+                                 "format" : "pve-userid",
+                                 "maxLength" : 64,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "value" : {
+                                 "description" : "The current value for the provided totp URI, or a Webauthn/U2F challenge response",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "or",
+                              [
+                                 "userid-param",
+                                 "self"
+                              ],
+                              [
+                                 "userid-group",
+                                 [
+                                    "User.Modify"
+                                 ]
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "properties" : {
+                              "challenge" : {
+                                 "description" : "When adding u2f entries, this contains a challenge the user must respond to in order to finish the registration.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "id" : {
+                                 "description" : "The id of a newly added TFA entry.",
+                                 "type" : "string"
+                              },
+                              "recovery" : {
+                                 "description" : "When adding recovery codes, this contains the list of codes to be displayed to the user",
+                                 "items" : {
+                                    "description" : "A recovery entry.",
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "array"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/access/tfa/{userid}",
+                  "text" : "{userid}"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "List TFA configurations of users.",
+                  "method" : "GET",
+                  "name" : "list_tfa",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "description" : "Returns all or just the logged-in user, depending on privileges.",
+                     "user" : "all"
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "description" : "The list tuples of user and TFA entries.",
+                     "items" : {
+                        "properties" : {
+                           "entries" : {
+                              "items" : {
+                                 "description" : "TFA Entry.",
+                                 "properties" : {
+                                    "created" : {
+                                       "description" : "Creation time of this entry as unix epoch.",
+                                       "type" : "integer"
+                                    },
+                                    "description" : {
+                                       "description" : "User chosen description for this entry.",
+                                       "type" : "string"
+                                    },
+                                    "enable" : {
+                                       "default" : 1,
+                                       "description" : "Whether this TFA entry is currently enabled.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "id" : {
+                                       "description" : "The id used to reference this entry.",
+                                       "type" : "string"
+                                    },
+                                    "type" : {
+                                       "description" : "TFA Entry Type.",
+                                       "enum" : [
+                                          "totp",
+                                          "u2f",
+                                          "webauthn",
+                                          "recovery",
+                                          "yubico"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "type" : "array"
+                           },
+                           "tfa-locked-until" : {
+                              "description" : "Contains a timestamp until when a user is locked out of 2nd factors.",
+                              "optional" : 1,
+                              "type" : "integer"
+                           },
+                           "totp-locked" : {
+                              "description" : "True if the user is currently locked out of TOTP factors.",
+                              "optional" : 1,
+                              "type" : "boolean"
+                           },
+                           "userid" : {
+                              "description" : "User this entry belongs to.",
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{userid}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/access/tfa",
+            "text" : "tfa"
+         },
+         {
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Dummy. Useful for formatters which want to provide a login page.",
+                  "method" : "GET",
+                  "name" : "get_ticket",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "world"
+                  },
+                  "returns" : {
+                     "type" : "null"
+                  }
+               },
+               "POST" : {
+                  "allowtoken" : 0,
+                  "description" : "Create or verify authentication ticket.",
+                  "method" : "POST",
+                  "name" : "create_ticket",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "new-format" : {
+                           "default" : 1,
+                           "description" : "This parameter is now ignored and assumed to be 1.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "otp" : {
+                           "description" : "One-time password for Two-factor authentication.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "password" : {
+                           "description" : "The secret password. This can also be a valid ticket.",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "path" : {
+                           "description" : "Verify ticket, and check if user have access 'privs' on 'path'",
+                           "maxLength" : 64,
+                           "optional" : 1,
+                           "requires" : "privs",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "privs" : {
+                           "description" : "Verify ticket, and check if user have access 'privs' on 'path'",
+                           "format" : "pve-priv-list",
+                           "maxLength" : 64,
+                           "optional" : 1,
+                           "requires" : "path",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "realm" : {
+                           "description" : "You can optionally pass the realm using this parameter. Normally the realm is simply added to the username <username>@<realm>.",
+                           "format" : "pve-realm",
+                           "maxLength" : 32,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "tfa-challenge" : {
+                           "description" : "The signed TFA challenge string the user wants to respond to.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "username" : {
+                           "description" : "User name",
+                           "maxLength" : 64,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "description" : "You need to pass valid credientials.",
+                     "user" : "world"
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "properties" : {
+                        "CSRFPreventionToken" : {
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "clustername" : {
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "ticket" : {
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "username" : {
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  }
+               }
+            },
+            "leaf" : 1,
+            "path" : "/access/ticket",
+            "text" : "ticket"
+         },
+         {
+            "info" : {
+               "POST" : {
+                  "allowtoken" : 1,
+                  "description" : "verify VNC authentication ticket.",
+                  "method" : "POST",
+                  "name" : "verify_vnc_ticket",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "authid" : {
+                           "description" : "UserId or token",
+                           "maxLength" : 64,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "path" : {
+                           "description" : "Verify ticket, and check if user have access 'privs' on 'path'",
+                           "maxLength" : 64,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "port" : {
+                           "description" : "Verify that the ticket is valid for this port.",
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer>"
+                        },
+                        "privs" : {
+                           "description" : "Verify ticket, and check if user have access 'privs' on 'path'",
+                           "format" : "pve-priv-list",
+                           "maxLength" : 64,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "vncticket" : {
+                           "description" : "The VNC ticket.",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "description" : "You need to pass valid credientials.",
+                     "user" : "world"
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               }
+            },
+            "leaf" : 1,
+            "path" : "/access/vncticket",
+            "text" : "vncticket"
+         },
+         {
+            "info" : {
+               "PUT" : {
+                  "allowtoken" : 0,
+                  "description" : "Change user password.",
+                  "method" : "PUT",
+                  "name" : "change_password",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "confirmation-password" : {
+                           "description" : "The current password of the user performing the change.",
+                           "maxLength" : 64,
+                           "minLength" : 5,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "password" : {
+                           "description" : "The new password.",
+                           "maxLength" : 64,
+                           "minLength" : 8,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "userid" : {
+                           "description" : "Full User ID, in the `name@realm` format.",
+                           "format" : "pve-userid",
+                           "maxLength" : 64,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "or",
+                        [
+                           "userid-param",
+                           "self"
+                        ],
+                        [
+                           "and",
+                           [
+                              "userid-param",
+                              "Realm.AllocateUser"
+                           ],
+                           [
+                              "userid-group",
+                              [
+                                 "User.Modify"
+                              ]
+                           ]
+                        ]
+                     ],
+                     "description" : "Each user is allowed to change their own password. A user can change the password of another user if they have 'Realm.AllocateUser' (on the realm of user <userid>) and 'User.Modify' permission on /access/groups/<group> on a group where user <userid> is member of. For the PAM realm, a password change does not take  effect cluster-wide, but only applies to the local node."
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               }
+            },
+            "leaf" : 1,
+            "path" : "/access/password",
+            "text" : "password"
+         },
+         {
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Retrieve effective permissions of given user/token.",
+                  "method" : "GET",
+                  "name" : "permissions",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "path" : {
+                           "description" : "Only dump this specific path, not the whole tree.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "userid" : {
+                           "description" : "User ID or full API token ID",
+                           "optional" : 1,
+                           "pattern" : "(?^:^(?^:[^\\s:/]+)\\@(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)(?:!(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+))?\\z)",
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "description" : "Each user/token is allowed to dump their own permissions (or that of owned tokens). A user can dump the permissions of another user or their tokens if they have 'Sys.Audit' permission on /access.",
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "description" : "Map of \"path\" => (Map of \"privilege\" => \"propagate boolean\").",
+                     "type" : "object"
+                  }
+               }
+            },
+            "leaf" : 1,
+            "path" : "/access/permissions",
+            "text" : "permissions"
+         }
+      ],
+      "info" : {
+         "GET" : {
+            "allowtoken" : 1,
+            "description" : "Directory index.",
+            "method" : "GET",
+            "name" : "index",
+            "parameters" : {
+               "additionalProperties" : 0
+            },
+            "permissions" : {
+               "user" : "all"
+            },
+            "returns" : {
+               "items" : {
+                  "properties" : {
+                     "subdir" : {
+                        "type" : "string"
+                     }
+                  },
+                  "type" : "object"
+               },
+               "links" : [
+                  {
+                     "href" : "{subdir}",
+                     "rel" : "child"
+                  }
+               ],
+               "type" : "array"
+            }
+         }
+      },
+      "leaf" : 0,
+      "path" : "/access",
+      "text" : "access"
+   },
+   {
+      "children" : [
+         {
+            "children" : [
+               {
                   "info" : {
                      "DELETE" : {
                         "allowtoken" : 1,
@@ -8019,11 +11532,12 @@ const apiSchema = [
                               },
                               "notification-mode" : {
                                  "default" : "auto",
-                                 "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.",
+                                 "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not. If set to 'none', no notification will be sent.",
                                  "enum" : [
                                     "auto",
                                     "legacy-sendmail",
-                                    "notification-system"
+                                    "notification-system",
+                                    "none"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -8084,20 +11598,23 @@ const apiSchema = [
                                     "keep-all" : {
                                        "description" : "Keep all backups. Conflicts with the other options when true.",
                                        "optional" : 1,
+                                       "title" : "Keep All Backups",
                                        "type" : "boolean"
                                     },
                                     "keep-daily" : {
-                                       "description" : "Keep backups for the last <N> different days. If there is morethan one backup for a single day, only the latest one is kept.",
+                                       "description" : "Keep backups for the last <N> different days. If there is more than one backup for a single day, only the latest one is kept.",
                                        "format_description" : "N",
                                        "minimum" : "0",
                                        "optional" : 1,
+                                       "title" : "Keep Daily",
                                        "type" : "integer"
                                     },
                                     "keep-hourly" : {
-                                       "description" : "Keep backups for the last <N> different hours. If there is morethan one backup for a single hour, only the latest one is kept.",
+                                       "description" : "Keep backups for the last <N> different hours. If there is more than one backup for a single hour, only the latest one is kept.",
                                        "format_description" : "N",
                                        "minimum" : "0",
                                        "optional" : 1,
+                                       "title" : "Keep Hourly",
                                        "type" : "integer"
                                     },
                                     "keep-last" : {
@@ -8105,27 +11622,31 @@ const apiSchema = [
                                        "format_description" : "N",
                                        "minimum" : "0",
                                        "optional" : 1,
+                                       "title" : "Keep Last",
                                        "type" : "integer"
                                     },
                                     "keep-monthly" : {
-                                       "description" : "Keep backups for the last <N> different months. If there is morethan one backup for a single month, only the latest one is kept.",
+                                       "description" : "Keep backups for the last <N> different months. If there is more than one backup for a single month, only the latest one is kept.",
                                        "format_description" : "N",
                                        "minimum" : "0",
                                        "optional" : 1,
+                                       "title" : "Keep Monthly",
                                        "type" : "integer"
                                     },
                                     "keep-weekly" : {
-                                       "description" : "Keep backups for the last <N> different weeks. If there is morethan one backup for a single week, only the latest one is kept.",
+                                       "description" : "Keep backups for the last <N> different weeks. If there is more than one backup for a single week, only the latest one is kept.",
                                        "format_description" : "N",
                                        "minimum" : "0",
                                        "optional" : 1,
+                                       "title" : "Keep Weekly",
                                        "type" : "integer"
                                     },
                                     "keep-yearly" : {
-                                       "description" : "Keep backups for the last <N> different years. If there is morethan one backup for a single year, only the latest one is kept.",
+                                       "description" : "Keep backups for the last <N> different years. If there is more than one backup for a single year, only the latest one is kept.",
                                        "format_description" : "N",
                                        "minimum" : "0",
                                        "optional" : 1,
+                                       "title" : "Keep Yearly",
                                        "type" : "integer"
                                     }
                                  },
@@ -8370,11 +11891,12 @@ const apiSchema = [
                               },
                               "notification-mode" : {
                                  "default" : "auto",
-                                 "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.",
+                                 "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not. If set to 'none', no notification will be sent.",
                                  "enum" : [
                                     "auto",
                                     "legacy-sendmail",
-                                    "notification-system"
+                                    "notification-system",
+                                    "none"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -8421,6 +11943,7 @@ const apiSchema = [
                                  "description" : "Use these retention options instead of those from the storage configuration.",
                                  "format" : "prune-backups",
                                  "optional" : 1,
+                                 "title" : "Backup Retention",
                                  "type" : "string",
                                  "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                               },
@@ -8706,11 +12229,12 @@ const apiSchema = [
                            },
                            "notification-mode" : {
                               "default" : "auto",
-                              "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.",
+                              "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not. If set to 'none', no notification will be sent.",
                               "enum" : [
                                  "auto",
                                  "legacy-sendmail",
-                                 "notification-system"
+                                 "notification-system",
+                                 "none"
                               ],
                               "optional" : 1,
                               "type" : "string"
@@ -8771,20 +12295,23 @@ const apiSchema = [
                                  "keep-all" : {
                                     "description" : "Keep all backups. Conflicts with the other options when true.",
                                     "optional" : 1,
+                                    "title" : "Keep All Backups",
                                     "type" : "boolean"
                                  },
                                  "keep-daily" : {
-                                    "description" : "Keep backups for the last <N> different days. If there is morethan one backup for a single day, only the latest one is kept.",
+                                    "description" : "Keep backups for the last <N> different days. If there is more than one backup for a single day, only the latest one is kept.",
                                     "format_description" : "N",
                                     "minimum" : "0",
                                     "optional" : 1,
+                                    "title" : "Keep Daily",
                                     "type" : "integer"
                                  },
                                  "keep-hourly" : {
-                                    "description" : "Keep backups for the last <N> different hours. If there is morethan one backup for a single hour, only the latest one is kept.",
+                                    "description" : "Keep backups for the last <N> different hours. If there is more than one backup for a single hour, only the latest one is kept.",
                                     "format_description" : "N",
                                     "minimum" : "0",
                                     "optional" : 1,
+                                    "title" : "Keep Hourly",
                                     "type" : "integer"
                                  },
                                  "keep-last" : {
@@ -8792,27 +12319,31 @@ const apiSchema = [
                                     "format_description" : "N",
                                     "minimum" : "0",
                                     "optional" : 1,
+                                    "title" : "Keep Last",
                                     "type" : "integer"
                                  },
                                  "keep-monthly" : {
-                                    "description" : "Keep backups for the last <N> different months. If there is morethan one backup for a single month, only the latest one is kept.",
+                                    "description" : "Keep backups for the last <N> different months. If there is more than one backup for a single month, only the latest one is kept.",
                                     "format_description" : "N",
                                     "minimum" : "0",
                                     "optional" : 1,
+                                    "title" : "Keep Monthly",
                                     "type" : "integer"
                                  },
                                  "keep-weekly" : {
-                                    "description" : "Keep backups for the last <N> different weeks. If there is morethan one backup for a single week, only the latest one is kept.",
+                                    "description" : "Keep backups for the last <N> different weeks. If there is more than one backup for a single week, only the latest one is kept.",
                                     "format_description" : "N",
                                     "minimum" : "0",
                                     "optional" : 1,
+                                    "title" : "Keep Weekly",
                                     "type" : "integer"
                                  },
                                  "keep-yearly" : {
-                                    "description" : "Keep backups for the last <N> different years. If there is morethan one backup for a single year, only the latest one is kept.",
+                                    "description" : "Keep backups for the last <N> different years. If there is more than one backup for a single year, only the latest one is kept.",
                                     "format_description" : "N",
                                     "minimum" : "0",
                                     "optional" : 1,
+                                    "title" : "Keep Yearly",
                                     "type" : "integer"
                                  }
                               },
@@ -9060,11 +12591,12 @@ const apiSchema = [
                         },
                         "notification-mode" : {
                            "default" : "auto",
-                           "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.",
+                           "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not. If set to 'none', no notification will be sent.",
                            "enum" : [
                               "auto",
                               "legacy-sendmail",
-                              "notification-system"
+                              "notification-system",
+                              "none"
                            ],
                            "optional" : 1,
                            "type" : "string"
@@ -9111,6 +12643,7 @@ const apiSchema = [
                            "description" : "Use these retention options instead of those from the storage configuration.",
                            "format" : "prune-backups",
                            "optional" : 1,
+                           "title" : "Backup Retention",
                            "type" : "string",
                            "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                         },
@@ -10942,24 +14475,34 @@ const apiSchema = [
                                           "alviy",
                                           "anx",
                                           "artfiles",
+                                          "arubabusiness",
                                           "arvan",
                                           "aurora",
                                           "autodns",
                                           "aws",
                                           "azion",
                                           "azure",
+                                          "baidu",
                                           "beget",
+                                          "bh",
+                                          "bhosted",
                                           "bookmyname",
                                           "bunny",
+                                          "calrissia",
+                                          "cdmon",
                                           "cf",
                                           "clouddns",
                                           "cloudns",
                                           "cn",
+                                          "comlaude",
                                           "conoha",
                                           "constellix",
                                           "cpanel",
+                                          "cpanel_uapi",
+                                          "creoline",
                                           "curanet",
                                           "cyon",
+                                          "czechia",
                                           "da",
                                           "ddnss",
                                           "desec",
@@ -10968,6 +14511,7 @@ const apiSchema = [
                                           "dnsexit",
                                           "dnshome",
                                           "dnsimple",
+                                          "dnsmint",
                                           "dnsservices",
                                           "doapi",
                                           "domeneshop",
@@ -10982,8 +14526,11 @@ const apiSchema = [
                                           "easydns",
                                           "edgecenter",
                                           "edgedns",
+                                          "efficientip",
+                                          "eurodns",
                                           "euserv",
                                           "exoscale",
+                                          "firestorm",
                                           "fornex",
                                           "freedns",
                                           "freemyip",
@@ -10992,20 +14539,27 @@ const apiSchema = [
                                           "gcore",
                                           "gd",
                                           "geoscaling",
+                                          "glesys",
+                                          "gname",
                                           "googledomains",
                                           "he",
                                           "he_ddns",
-                                          "hetzner",
+                                          "hestiacp",
                                           "hetznercloud",
                                           "hexonet",
                                           "hostingde",
+                                          "hostinger",
+                                          "hostup",
                                           "huaweicloud",
+                                          "hw",
                                           "infoblox",
+                                          "infoblox_uddi",
                                           "infomaniak",
                                           "internetbs",
                                           "inwx",
                                           "ionos",
                                           "ionos_cloud",
+                                          "ipprojects",
                                           "ipv64",
                                           "ispconfig",
                                           "jd",
@@ -11015,21 +14569,25 @@ const apiSchema = [
                                           "kinghost",
                                           "knot",
                                           "la",
+                                          "laodc",
                                           "leaseweb",
+                                          "level27",
                                           "lexicon",
                                           "limacity",
-                                          "linode",
                                           "linode_v4",
                                           "loopia",
                                           "lua",
                                           "maradns",
                                           "me",
+                                          "mgwm",
                                           "miab",
                                           "mijnhost",
                                           "misaka",
+                                          "muumuu",
                                           "myapi",
                                           "mydevil",
                                           "mydnsjp",
+                                          "myloc",
                                           "mythic_beasts",
                                           "namecheap",
                                           "namecom",
@@ -11039,6 +14597,7 @@ const apiSchema = [
                                           "neodigit",
                                           "netcup",
                                           "netlify",
+                                          "nexdns",
                                           "nic",
                                           "njalla",
                                           "nm",
@@ -11054,23 +14613,32 @@ const apiSchema = [
                                           "openprovider_rest",
                                           "openstack",
                                           "opnsense",
+                                          "opteamax",
+                                          "optidata",
+                                          "opusdns",
                                           "ovh",
                                           "pdns",
                                           "pleskxml",
                                           "pointhq",
                                           "porkbun",
+                                          "poweradmin",
+                                          "qc",
                                           "rackcorp",
                                           "rackspace",
                                           "rage4",
                                           "rcode0",
                                           "regru",
+                                          "rltx",
                                           "scaleway",
                                           "schlundtech",
                                           "selectel",
                                           "selfhost",
                                           "servercow",
                                           "simply",
+                                          "sitehost",
+                                          "sotoon",
                                           "spaceship",
+                                          "subreg",
                                           "technitium",
                                           "tele3",
                                           "tencent",
@@ -11082,9 +14650,12 @@ const apiSchema = [
                                           "variomedia",
                                           "veesp",
                                           "vercel",
+                                          "virakcloud",
+                                          "volcengine",
                                           "vscale",
                                           "vultr",
                                           "websupport",
+                                          "wedos",
                                           "west_cn",
                                           "world4you",
                                           "yandex360",
@@ -11164,24 +14735,34 @@ const apiSchema = [
                                           "alviy",
                                           "anx",
                                           "artfiles",
+                                          "arubabusiness",
                                           "arvan",
                                           "aurora",
                                           "autodns",
                                           "aws",
                                           "azion",
                                           "azure",
+                                          "baidu",
                                           "beget",
+                                          "bh",
+                                          "bhosted",
                                           "bookmyname",
                                           "bunny",
+                                          "calrissia",
+                                          "cdmon",
                                           "cf",
                                           "clouddns",
                                           "cloudns",
                                           "cn",
+                                          "comlaude",
                                           "conoha",
                                           "constellix",
                                           "cpanel",
+                                          "cpanel_uapi",
+                                          "creoline",
                                           "curanet",
                                           "cyon",
+                                          "czechia",
                                           "da",
                                           "ddnss",
                                           "desec",
@@ -11190,6 +14771,7 @@ const apiSchema = [
                                           "dnsexit",
                                           "dnshome",
                                           "dnsimple",
+                                          "dnsmint",
                                           "dnsservices",
                                           "doapi",
                                           "domeneshop",
@@ -11204,8 +14786,11 @@ const apiSchema = [
                                           "easydns",
                                           "edgecenter",
                                           "edgedns",
+                                          "efficientip",
+                                          "eurodns",
                                           "euserv",
                                           "exoscale",
+                                          "firestorm",
                                           "fornex",
                                           "freedns",
                                           "freemyip",
@@ -11214,20 +14799,27 @@ const apiSchema = [
                                           "gcore",
                                           "gd",
                                           "geoscaling",
+                                          "glesys",
+                                          "gname",
                                           "googledomains",
                                           "he",
                                           "he_ddns",
-                                          "hetzner",
+                                          "hestiacp",
                                           "hetznercloud",
                                           "hexonet",
                                           "hostingde",
+                                          "hostinger",
+                                          "hostup",
                                           "huaweicloud",
+                                          "hw",
                                           "infoblox",
+                                          "infoblox_uddi",
                                           "infomaniak",
                                           "internetbs",
                                           "inwx",
                                           "ionos",
                                           "ionos_cloud",
+                                          "ipprojects",
                                           "ipv64",
                                           "ispconfig",
                                           "jd",
@@ -11237,21 +14829,25 @@ const apiSchema = [
                                           "kinghost",
                                           "knot",
                                           "la",
+                                          "laodc",
                                           "leaseweb",
+                                          "level27",
                                           "lexicon",
                                           "limacity",
-                                          "linode",
                                           "linode_v4",
                                           "loopia",
                                           "lua",
                                           "maradns",
                                           "me",
+                                          "mgwm",
                                           "miab",
                                           "mijnhost",
                                           "misaka",
+                                          "muumuu",
                                           "myapi",
                                           "mydevil",
                                           "mydnsjp",
+                                          "myloc",
                                           "mythic_beasts",
                                           "namecheap",
                                           "namecom",
@@ -11261,6 +14857,7 @@ const apiSchema = [
                                           "neodigit",
                                           "netcup",
                                           "netlify",
+                                          "nexdns",
                                           "nic",
                                           "njalla",
                                           "nm",
@@ -11276,23 +14873,32 @@ const apiSchema = [
                                           "openprovider_rest",
                                           "openstack",
                                           "opnsense",
+                                          "opteamax",
+                                          "optidata",
+                                          "opusdns",
                                           "ovh",
                                           "pdns",
                                           "pleskxml",
                                           "pointhq",
                                           "porkbun",
+                                          "poweradmin",
+                                          "qc",
                                           "rackcorp",
                                           "rackspace",
                                           "rage4",
                                           "rcode0",
                                           "regru",
+                                          "rltx",
                                           "scaleway",
                                           "schlundtech",
                                           "selectel",
                                           "selfhost",
                                           "servercow",
                                           "simply",
+                                          "sitehost",
+                                          "sotoon",
                                           "spaceship",
+                                          "subreg",
                                           "technitium",
                                           "tele3",
                                           "tencent",
@@ -11304,9 +14910,12 @@ const apiSchema = [
                                           "variomedia",
                                           "veesp",
                                           "vercel",
+                                          "virakcloud",
+                                          "volcengine",
                                           "vscale",
                                           "vultr",
                                           "websupport",
+                                          "wedos",
                                           "west_cn",
                                           "world4you",
                                           "yandex360",
@@ -11436,24 +15045,34 @@ const apiSchema = [
                                        "alviy",
                                        "anx",
                                        "artfiles",
+                                       "arubabusiness",
                                        "arvan",
                                        "aurora",
                                        "autodns",
                                        "aws",
                                        "azion",
                                        "azure",
+                                       "baidu",
                                        "beget",
+                                       "bh",
+                                       "bhosted",
                                        "bookmyname",
                                        "bunny",
+                                       "calrissia",
+                                       "cdmon",
                                        "cf",
                                        "clouddns",
                                        "cloudns",
                                        "cn",
+                                       "comlaude",
                                        "conoha",
                                        "constellix",
                                        "cpanel",
+                                       "cpanel_uapi",
+                                       "creoline",
                                        "curanet",
                                        "cyon",
+                                       "czechia",
                                        "da",
                                        "ddnss",
                                        "desec",
@@ -11462,6 +15081,7 @@ const apiSchema = [
                                        "dnsexit",
                                        "dnshome",
                                        "dnsimple",
+                                       "dnsmint",
                                        "dnsservices",
                                        "doapi",
                                        "domeneshop",
@@ -11476,8 +15096,11 @@ const apiSchema = [
                                        "easydns",
                                        "edgecenter",
                                        "edgedns",
+                                       "efficientip",
+                                       "eurodns",
                                        "euserv",
                                        "exoscale",
+                                       "firestorm",
                                        "fornex",
                                        "freedns",
                                        "freemyip",
@@ -11486,20 +15109,27 @@ const apiSchema = [
                                        "gcore",
                                        "gd",
                                        "geoscaling",
+                                       "glesys",
+                                       "gname",
                                        "googledomains",
                                        "he",
                                        "he_ddns",
-                                       "hetzner",
+                                       "hestiacp",
                                        "hetznercloud",
                                        "hexonet",
                                        "hostingde",
+                                       "hostinger",
+                                       "hostup",
                                        "huaweicloud",
+                                       "hw",
                                        "infoblox",
+                                       "infoblox_uddi",
                                        "infomaniak",
                                        "internetbs",
                                        "inwx",
                                        "ionos",
                                        "ionos_cloud",
+                                       "ipprojects",
                                        "ipv64",
                                        "ispconfig",
                                        "jd",
@@ -11509,21 +15139,25 @@ const apiSchema = [
                                        "kinghost",
                                        "knot",
                                        "la",
+                                       "laodc",
                                        "leaseweb",
+                                       "level27",
                                        "lexicon",
                                        "limacity",
-                                       "linode",
                                        "linode_v4",
                                        "loopia",
                                        "lua",
                                        "maradns",
                                        "me",
+                                       "mgwm",
                                        "miab",
                                        "mijnhost",
                                        "misaka",
+                                       "muumuu",
                                        "myapi",
                                        "mydevil",
                                        "mydnsjp",
+                                       "myloc",
                                        "mythic_beasts",
                                        "namecheap",
                                        "namecom",
@@ -11533,6 +15167,7 @@ const apiSchema = [
                                        "neodigit",
                                        "netcup",
                                        "netlify",
+                                       "nexdns",
                                        "nic",
                                        "njalla",
                                        "nm",
@@ -11548,23 +15183,32 @@ const apiSchema = [
                                        "openprovider_rest",
                                        "openstack",
                                        "opnsense",
+                                       "opteamax",
+                                       "optidata",
+                                       "opusdns",
                                        "ovh",
                                        "pdns",
                                        "pleskxml",
                                        "pointhq",
                                        "porkbun",
+                                       "poweradmin",
+                                       "qc",
                                        "rackcorp",
                                        "rackspace",
                                        "rage4",
                                        "rcode0",
                                        "regru",
+                                       "rltx",
                                        "scaleway",
                                        "schlundtech",
                                        "selectel",
                                        "selfhost",
                                        "servercow",
                                        "simply",
+                                       "sitehost",
+                                       "sotoon",
                                        "spaceship",
+                                       "subreg",
                                        "technitium",
                                        "tele3",
                                        "tencent",
@@ -11576,9 +15220,12 @@ const apiSchema = [
                                        "variomedia",
                                        "veesp",
                                        "vercel",
+                                       "virakcloud",
+                                       "volcengine",
                                        "vscale",
                                        "vultr",
                                        "websupport",
+                                       "wedos",
                                        "west_cn",
                                        "world4you",
                                        "yandex360",
@@ -11666,24 +15313,34 @@ const apiSchema = [
                                     "alviy",
                                     "anx",
                                     "artfiles",
+                                    "arubabusiness",
                                     "arvan",
                                     "aurora",
                                     "autodns",
                                     "aws",
                                     "azion",
                                     "azure",
+                                    "baidu",
                                     "beget",
+                                    "bh",
+                                    "bhosted",
                                     "bookmyname",
                                     "bunny",
+                                    "calrissia",
+                                    "cdmon",
                                     "cf",
                                     "clouddns",
                                     "cloudns",
                                     "cn",
+                                    "comlaude",
                                     "conoha",
                                     "constellix",
                                     "cpanel",
+                                    "cpanel_uapi",
+                                    "creoline",
                                     "curanet",
                                     "cyon",
+                                    "czechia",
                                     "da",
                                     "ddnss",
                                     "desec",
@@ -11692,6 +15349,7 @@ const apiSchema = [
                                     "dnsexit",
                                     "dnshome",
                                     "dnsimple",
+                                    "dnsmint",
                                     "dnsservices",
                                     "doapi",
                                     "domeneshop",
@@ -11706,8 +15364,11 @@ const apiSchema = [
                                     "easydns",
                                     "edgecenter",
                                     "edgedns",
+                                    "efficientip",
+                                    "eurodns",
                                     "euserv",
                                     "exoscale",
+                                    "firestorm",
                                     "fornex",
                                     "freedns",
                                     "freemyip",
@@ -11716,20 +15377,27 @@ const apiSchema = [
                                     "gcore",
                                     "gd",
                                     "geoscaling",
+                                    "glesys",
+                                    "gname",
                                     "googledomains",
                                     "he",
                                     "he_ddns",
-                                    "hetzner",
+                                    "hestiacp",
                                     "hetznercloud",
                                     "hexonet",
                                     "hostingde",
+                                    "hostinger",
+                                    "hostup",
                                     "huaweicloud",
+                                    "hw",
                                     "infoblox",
+                                    "infoblox_uddi",
                                     "infomaniak",
                                     "internetbs",
                                     "inwx",
                                     "ionos",
                                     "ionos_cloud",
+                                    "ipprojects",
                                     "ipv64",
                                     "ispconfig",
                                     "jd",
@@ -11739,21 +15407,25 @@ const apiSchema = [
                                     "kinghost",
                                     "knot",
                                     "la",
+                                    "laodc",
                                     "leaseweb",
+                                    "level27",
                                     "lexicon",
                                     "limacity",
-                                    "linode",
                                     "linode_v4",
                                     "loopia",
                                     "lua",
                                     "maradns",
                                     "me",
+                                    "mgwm",
                                     "miab",
                                     "mijnhost",
                                     "misaka",
+                                    "muumuu",
                                     "myapi",
                                     "mydevil",
                                     "mydnsjp",
+                                    "myloc",
                                     "mythic_beasts",
                                     "namecheap",
                                     "namecom",
@@ -11763,6 +15435,7 @@ const apiSchema = [
                                     "neodigit",
                                     "netcup",
                                     "netlify",
+                                    "nexdns",
                                     "nic",
                                     "njalla",
                                     "nm",
@@ -11778,23 +15451,32 @@ const apiSchema = [
                                     "openprovider_rest",
                                     "openstack",
                                     "opnsense",
+                                    "opteamax",
+                                    "optidata",
+                                    "opusdns",
                                     "ovh",
                                     "pdns",
                                     "pleskxml",
                                     "pointhq",
                                     "porkbun",
+                                    "poweradmin",
+                                    "qc",
                                     "rackcorp",
                                     "rackspace",
                                     "rage4",
                                     "rcode0",
                                     "regru",
+                                    "rltx",
                                     "scaleway",
                                     "schlundtech",
                                     "selectel",
                                     "selfhost",
                                     "servercow",
                                     "simply",
+                                    "sitehost",
+                                    "sotoon",
                                     "spaceship",
+                                    "subreg",
                                     "technitium",
                                     "tele3",
                                     "tencent",
@@ -11806,9 +15488,12 @@ const apiSchema = [
                                     "variomedia",
                                     "veesp",
                                     "vercel",
+                                    "virakcloud",
+                                    "volcengine",
                                     "vscale",
                                     "vultr",
                                     "websupport",
+                                    "wedos",
                                     "west_cn",
                                     "world4you",
                                     "yandex360",
@@ -16249,7 +19934,7 @@ const apiSchema = [
                                        "description" : "Alias name of the VNet.",
                                        "maxLength" : 256,
                                        "optional" : 1,
-                                       "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                       "pattern" : "(?^i:[\\w ()*+,\\-./:;<=>?@\\[\\]^]{0,256})",
                                        "type" : "string"
                                     },
                                     "digest" : {
@@ -16270,7 +19955,7 @@ const apiSchema = [
                                              "description" : "Alias name of the VNet.",
                                              "maxLength" : 256,
                                              "optional" : 1,
-                                             "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                             "pattern" : "(?^i:[\\w ()*+,\\-./:;<=>?@\\[\\]^]{0,256})",
                                              "type" : "string"
                                           },
                                           "isolate-ports" : {
@@ -16353,7 +20038,7 @@ const apiSchema = [
                                        "description" : "Alias name of the VNet.",
                                        "maxLength" : 256,
                                        "optional" : 1,
-                                       "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                       "pattern" : "(?^i:[\\w ()*+,\\-./:;<=>?@\\[\\]^]{0,256})",
                                        "type" : "string"
                                     },
                                     "delete" : {
@@ -16462,7 +20147,7 @@ const apiSchema = [
                                     "description" : "Alias name of the VNet.",
                                     "maxLength" : 256,
                                     "optional" : 1,
-                                    "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                    "pattern" : "(?^i:[\\w ()*+,\\-./:;<=>?@\\[\\]^]{0,256})",
                                     "type" : "string"
                                  },
                                  "digest" : {
@@ -16483,7 +20168,7 @@ const apiSchema = [
                                           "description" : "Alias name of the VNet.",
                                           "maxLength" : 256,
                                           "optional" : 1,
-                                          "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                          "pattern" : "(?^i:[\\w ()*+,\\-./:;<=>?@\\[\\]^]{0,256})",
                                           "type" : "string"
                                        },
                                        "isolate-ports" : {
@@ -16575,7 +20260,7 @@ const apiSchema = [
                                  "description" : "Alias name of the VNet.",
                                  "maxLength" : 256,
                                  "optional" : 1,
-                                 "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                 "pattern" : "(?^i:[\\w ()*+,\\-./:;<=>?@\\[\\]^]{0,256})",
                                  "type" : "string"
                               },
                               "isolate-ports" : {
@@ -18917,6 +22602,7 @@ const apiSchema = [
                                     "token" : {
                                        "optional" : 1,
                                        "pattern" : "\\S+",
+                                       "sensitive" : 1,
                                        "type" : "string"
                                     },
                                     "url" : {
@@ -19027,6 +22713,7 @@ const apiSchema = [
                               "token" : {
                                  "optional" : 1,
                                  "pattern" : "\\S+",
+                                 "sensitive" : 1,
                                  "type" : "string"
                               },
                               "type" : {
@@ -19173,6 +22860,7 @@ const apiSchema = [
                                     "key" : {
                                        "optional" : 1,
                                        "pattern" : "\\S+",
+                                       "sensitive" : 1,
                                        "type" : "string"
                                     },
                                     "lock-token" : {
@@ -19286,6 +22974,7 @@ const apiSchema = [
                               "key" : {
                                  "optional" : 0,
                                  "pattern" : "\\S+",
+                                 "sensitive" : 1,
                                  "type" : "string"
                               },
                               "lock-token" : {
@@ -29735,6 +33424,7 @@ const apiSchema = [
                                           "cipassword" : {
                                              "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
                                              "optional" : 1,
+                                             "sensitive" : 1,
                                              "type" : "string"
                                           },
                                           "citype" : {
@@ -29918,7 +33608,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -29931,7 +33621,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -29947,7 +33637,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -30285,6 +33975,7 @@ const apiSchema = [
                                                 "backup",
                                                 "clone",
                                                 "create",
+                                                "import",
                                                 "migrate",
                                                 "rollback",
                                                 "snapshot",
@@ -30723,7 +34414,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -30736,7 +34427,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -30752,7 +34443,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -31014,7 +34705,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -31027,7 +34718,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -31043,7 +34734,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -31614,7 +35305,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -31627,7 +35318,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -31643,7 +35334,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -32146,6 +35837,7 @@ const apiSchema = [
                                           "cipassword" : {
                                              "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
                                              "optional" : 1,
+                                             "sensitive" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
@@ -32366,7 +36058,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -32379,7 +36071,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -32395,7 +36087,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -32667,7 +36359,7 @@ const apiSchema = [
                                              "format" : "pve-qemu-tdx-fmt",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[type=]<tdx-type> ,attestation=<1|0> [,vsock-cid=<integer>] [,vsock-port=<integer>]"
+                                             "typetext" : "[type=]<tdx-type> [,attestation=<1|0>] [,vsock-cid=<integer>] [,vsock-port=<integer>]"
                                           },
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
@@ -32755,6 +36447,7 @@ const apiSchema = [
                                                 "backup",
                                                 "clone",
                                                 "create",
+                                                "import",
                                                 "migrate",
                                                 "rollback",
                                                 "snapshot",
@@ -33137,7 +36830,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -33150,7 +36843,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -33166,7 +36859,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -33436,7 +37129,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -33449,7 +37142,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -33465,7 +37158,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -34067,7 +37760,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -34080,7 +37773,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -34096,7 +37789,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -34420,7 +38113,7 @@ const apiSchema = [
                                              "format" : "pve-qm-watchdog",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[[model=]<i6300esb|ib700>] [,action=<enum>]",
+                                             "typetext" : "[[model=]<i6300esb>] [,action=<enum>]",
                                              "verbose_description" : "Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)"
                                           }
                                        }
@@ -34627,6 +38320,7 @@ const apiSchema = [
                                           "cipassword" : {
                                              "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
                                              "optional" : 1,
+                                             "sensitive" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
@@ -34847,7 +38541,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -34860,7 +38554,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -34876,7 +38570,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -35140,7 +38834,7 @@ const apiSchema = [
                                              "format" : "pve-qemu-tdx-fmt",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[type=]<tdx-type> ,attestation=<1|0> [,vsock-cid=<integer>] [,vsock-port=<integer>]"
+                                             "typetext" : "[type=]<tdx-type> [,attestation=<1|0>] [,vsock-cid=<integer>] [,vsock-port=<integer>]"
                                           },
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
@@ -35228,6 +38922,7 @@ const apiSchema = [
                                                 "backup",
                                                 "clone",
                                                 "create",
+                                                "import",
                                                 "migrate",
                                                 "rollback",
                                                 "snapshot",
@@ -35610,7 +39305,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -35623,7 +39318,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -35639,7 +39334,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -35909,7 +39604,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -35922,7 +39617,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -35938,7 +39633,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -36540,7 +40235,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -36553,7 +40248,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -36569,7 +40264,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -36893,7 +40588,7 @@ const apiSchema = [
                                              "format" : "pve-qm-watchdog",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[[model=]<i6300esb|ib700>] [,action=<enum>]",
+                                             "typetext" : "[[model=]<i6300esb>] [,action=<enum>]",
                                              "verbose_description" : "Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)"
                                           }
                                        }
@@ -41139,6 +44834,7 @@ const apiSchema = [
                               "cipassword" : {
                                  "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
                                  "optional" : 1,
+                                 "sensitive" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -41352,7 +45048,7 @@ const apiSchema = [
                                        "type" : "boolean"
                                     },
                                     "bps" : {
-                                       "description" : "Maximum r/w speed in bytes per second.",
+                                       "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -41365,7 +45061,7 @@ const apiSchema = [
                                        "type" : "integer"
                                     },
                                     "bps_rd" : {
-                                       "description" : "Maximum read speed in bytes per second.",
+                                       "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -41381,7 +45077,7 @@ const apiSchema = [
                                        "type" : "integer"
                                     },
                                     "bps_wr" : {
-                                       "description" : "Maximum write speed in bytes per second.",
+                                       "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -41653,7 +45349,7 @@ const apiSchema = [
                                  "format" : "pve-qemu-tdx-fmt",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[type=]<tdx-type> ,attestation=<1|0> [,vsock-cid=<integer>] [,vsock-port=<integer>]"
+                                 "typetext" : "[type=]<tdx-type> [,attestation=<1|0>] [,vsock-cid=<integer>] [,vsock-port=<integer>]"
                               },
                               "ipconfig[n]" : {
                                  "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
@@ -41747,6 +45443,7 @@ const apiSchema = [
                                     "backup",
                                     "clone",
                                     "create",
+                                    "import",
                                     "migrate",
                                     "rollback",
                                     "snapshot",
@@ -42129,7 +45826,7 @@ const apiSchema = [
                                        "type" : "boolean"
                                     },
                                     "bps" : {
-                                       "description" : "Maximum r/w speed in bytes per second.",
+                                       "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -42142,7 +45839,7 @@ const apiSchema = [
                                        "type" : "integer"
                                     },
                                     "bps_rd" : {
-                                       "description" : "Maximum read speed in bytes per second.",
+                                       "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -42158,7 +45855,7 @@ const apiSchema = [
                                        "type" : "integer"
                                     },
                                     "bps_wr" : {
-                                       "description" : "Maximum write speed in bytes per second.",
+                                       "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -42428,7 +46125,7 @@ const apiSchema = [
                                        "type" : "boolean"
                                     },
                                     "bps" : {
-                                       "description" : "Maximum r/w speed in bytes per second.",
+                                       "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -42441,7 +46138,7 @@ const apiSchema = [
                                        "type" : "integer"
                                     },
                                     "bps_rd" : {
-                                       "description" : "Maximum read speed in bytes per second.",
+                                       "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -42457,7 +46154,7 @@ const apiSchema = [
                                        "type" : "integer"
                                     },
                                     "bps_wr" : {
-                                       "description" : "Maximum write speed in bytes per second.",
+                                       "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -43075,7 +46772,7 @@ const apiSchema = [
                                        "type" : "boolean"
                                     },
                                     "bps" : {
-                                       "description" : "Maximum r/w speed in bytes per second.",
+                                       "description" : "Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -43088,7 +46785,7 @@ const apiSchema = [
                                        "type" : "integer"
                                     },
                                     "bps_rd" : {
-                                       "description" : "Maximum read speed in bytes per second.",
+                                       "description" : "Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -43104,7 +46801,7 @@ const apiSchema = [
                                        "type" : "integer"
                                     },
                                     "bps_wr" : {
-                                       "description" : "Maximum write speed in bytes per second.",
+                                       "description" : "Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -43428,7 +47125,7 @@ const apiSchema = [
                                  "format" : "pve-qm-watchdog",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[[model=]<i6300esb|ib700>] [,action=<enum>]",
+                                 "typetext" : "[[model=]<i6300esb>] [,action=<enum>]",
                                  "verbose_description" : "Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)"
                               }
                            }
@@ -43807,7 +47504,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "nameserver" : {
-                                             "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
+                                             "description" : "Comma-separated list of IP addresses. Sets the addresses of the DNS servers of the container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
                                              "format" : "lxc-ip-with-ll-iface-list",
                                              "optional" : 1,
                                              "type" : "string"
@@ -44403,7 +48100,7 @@ const apiSchema = [
                                              "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,idmap=<type:container:disk:range-size[;type:container:disk:range-size;...]>] [,keepattrs=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "nameserver" : {
-                                             "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
+                                             "description" : "Comma-separated list of IP addresses. Sets the addresses of the DNS servers of the container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
                                              "format" : "lxc-ip-with-ll-iface-list",
                                              "optional" : 1,
                                              "type" : "string",
@@ -51058,7 +54755,7 @@ const apiSchema = [
                                  "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,idmap=<type:container:disk:range-size[;type:container:disk:range-size;...]>] [,keepattrs=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                               },
                               "nameserver" : {
-                                 "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
+                                 "description" : "Comma-separated list of IP addresses. Sets the addresses of the DNS servers of the container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
                                  "format" : "lxc-ip-with-ll-iface-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -54577,11 +58274,12 @@ const apiSchema = [
                                     },
                                     "notification-mode" : {
                                        "default" : "auto",
-                                       "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.",
+                                       "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not. If set to 'none', no notification will be sent.",
                                        "enum" : [
                                           "auto",
                                           "legacy-sendmail",
-                                          "notification-system"
+                                          "notification-system",
+                                          "none"
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
@@ -54624,6 +58322,7 @@ const apiSchema = [
                                        "description" : "Use these retention options instead of those from the storage configuration.",
                                        "format" : "prune-backups",
                                        "optional" : 1,
+                                       "title" : "Backup Retention",
                                        "type" : "string"
                                     },
                                     "quiet" : {
@@ -54869,11 +58568,12 @@ const apiSchema = [
                               },
                               "notification-mode" : {
                                  "default" : "auto",
-                                 "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.",
+                                 "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not. If set to 'none', no notification will be sent.",
                                  "enum" : [
                                     "auto",
                                     "legacy-sendmail",
-                                    "notification-system"
+                                    "notification-system",
+                                    "none"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -54920,6 +58620,7 @@ const apiSchema = [
                                  "description" : "Use these retention options instead of those from the storage configuration.",
                                  "format" : "prune-backups",
                                  "optional" : 1,
+                                 "title" : "Backup Retention",
                                  "type" : "string",
                                  "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                               },
@@ -56044,14 +59745,14 @@ const apiSchema = [
                                     "comments" : {
                                        "description" : "Comments",
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "(?s)(?!.*(?:<%|\\$\\{)).*",
+                                       "type" : "string"
                                     },
                                     "comments6" : {
                                        "description" : "Comments",
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "(?s)(?!.*(?:<%|\\$\\{)).*",
+                                       "type" : "string"
                                     },
                                     "delete" : {
                                        "description" : "A list of settings you want to delete.",
@@ -56402,11 +60103,13 @@ const apiSchema = [
                                  "comments" : {
                                     "description" : "Comments",
                                     "optional" : 1,
+                                    "pattern" : "(?s)(?!.*(?:<%|\\$\\{)).*",
                                     "type" : "string"
                                  },
                                  "comments6" : {
                                     "description" : "Comments",
                                     "optional" : 1,
+                                    "pattern" : "(?s)(?!.*(?:<%|\\$\\{)).*",
                                     "type" : "string"
                                  },
                                  "exists" : {
@@ -56736,14 +60439,14 @@ const apiSchema = [
                               "comments" : {
                                  "description" : "Comments",
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "(?s)(?!.*(?:<%|\\$\\{)).*",
+                                 "type" : "string"
                               },
                               "comments6" : {
                                  "description" : "Comments",
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "(?s)(?!.*(?:<%|\\$\\{)).*",
+                                 "type" : "string"
                               },
                               "gateway" : {
                                  "description" : "Default gateway address.",
@@ -57405,6 +61108,7 @@ const apiSchema = [
                                     "password" : {
                                        "description" : "User password.",
                                        "optional" : 1,
+                                       "sensitive" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -57479,6 +61183,7 @@ const apiSchema = [
                                     },
                                     "password" : {
                                        "description" : "User password or API token secret.",
+                                       "sensitive" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -58506,6 +62211,7 @@ const apiSchema = [
                                              "description" : "Use these retention options instead of those from the storage configuration.",
                                              "format" : "prune-backups",
                                              "optional" : 1,
+                                             "title" : "Backup Retention",
                                              "type" : "string",
                                              "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                                           },
@@ -58564,6 +62270,7 @@ const apiSchema = [
                                              "description" : "Use these retention options instead of those from the storage configuration.",
                                              "format" : "prune-backups",
                                              "optional" : 1,
+                                             "title" : "Backup Retention",
                                              "type" : "string",
                                              "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                                           },
@@ -58595,16 +62302,8 @@ const apiSchema = [
                                        }
                                     },
                                     "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/storage/{storage}",
-                                          [
-                                             "Datastore.Audit",
-                                             "Datastore.AllocateSpace"
-                                          ],
-                                          "any",
-                                          1
-                                       ]
+                                       "description" : "You need the 'Datastore.Allocate' privilege on the storage (or if a VM ID is specified, 'Datastore.AllocateSpace' and 'VM.Backup' for the VM).",
+                                       "user" : "all"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -59001,6 +62700,16 @@ const apiSchema = [
                                              },
                                              "volid" : {
                                                 "description" : "Volume identifier.",
+                                                "type" : "string"
+                                             },
+                                             "vtype" : {
+                                                "description" : "Volume type, for volumes of VMs and containers.",
+                                                "enum" : [
+                                                   "vm-vol",
+                                                   "vm-state",
+                                                   "ct-vol"
+                                                ],
+                                                "optional" : 1,
                                                 "type" : "string"
                                              }
                                           },
@@ -67218,1159 +70927,6 @@ const apiSchema = [
    {
       "children" : [
          {
-            "info" : {
-               "DELETE" : {
-                  "allowtoken" : 1,
-                  "description" : "Delete storage configuration.",
-                  "method" : "DELETE",
-                  "name" : "delete",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "storage" : {
-                           "description" : "The storage identifier.",
-                           "format" : "pve-storage-id",
-                           "format_description" : "storage ID",
-                           "type" : "string",
-                           "typetext" : "<storage ID>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "check" : [
-                        "perm",
-                        "/storage",
-                        [
-                           "Datastore.Allocate"
-                        ]
-                     ]
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               },
-               "GET" : {
-                  "allowtoken" : 1,
-                  "description" : "Read storage configuration.",
-                  "method" : "GET",
-                  "name" : "read",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "storage" : {
-                           "description" : "The storage identifier.",
-                           "format" : "pve-storage-id",
-                           "format_description" : "storage ID",
-                           "type" : "string",
-                           "typetext" : "<storage ID>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "check" : [
-                        "perm",
-                        "/storage/{storage}",
-                        [
-                           "Datastore.Allocate"
-                        ]
-                     ]
-                  },
-                  "returns" : {
-                     "type" : "object"
-                  }
-               },
-               "PUT" : {
-                  "allowtoken" : 1,
-                  "description" : "Update storage configuration.",
-                  "method" : "PUT",
-                  "name" : "update",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "blocksize" : {
-                           "description" : "ZFS block size",
-                           "format" : "pve-storage-zfs-blocksize",
-                           "format_description" : "a power of 2 with optional k or m suffix",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<a power of 2 with optional k or m suffix>"
-                        },
-                        "bwlimit" : {
-                           "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
-                           "format" : {
-                              "clone" : {
-                                 "description" : "bandwidth limit in KiB/s for cloning disks",
-                                 "format_description" : "LIMIT",
-                                 "minimum" : "0",
-                                 "optional" : 1,
-                                 "type" : "number"
-                              },
-                              "default" : {
-                                 "description" : "default bandwidth limit in KiB/s",
-                                 "format_description" : "LIMIT",
-                                 "minimum" : "0",
-                                 "optional" : 1,
-                                 "type" : "number"
-                              },
-                              "migration" : {
-                                 "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
-                                 "format_description" : "LIMIT",
-                                 "minimum" : "0",
-                                 "optional" : 1,
-                                 "type" : "number"
-                              },
-                              "move" : {
-                                 "description" : "bandwidth limit in KiB/s for moving disks",
-                                 "format_description" : "LIMIT",
-                                 "minimum" : "0",
-                                 "optional" : 1,
-                                 "type" : "number"
-                              },
-                              "restore" : {
-                                 "description" : "bandwidth limit in KiB/s for restoring guests from backups",
-                                 "format_description" : "LIMIT",
-                                 "minimum" : "0",
-                                 "optional" : 1,
-                                 "type" : "number"
-                              }
-                           },
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
-                        },
-                        "comstar_hg" : {
-                           "description" : "host group for comstar views",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "comstar_tg" : {
-                           "description" : "target group for comstar views",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "content" : {
-                           "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.\n",
-                           "format" : "pve-storage-content-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "content-dirs" : {
-                           "description" : "Overrides for default content type directories.",
-                           "format" : "pve-dir-override-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "create-base-path" : {
-                           "default" : "yes",
-                           "description" : "Create the base directory if it doesn't exist.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "create-subdirs" : {
-                           "default" : "yes",
-                           "description" : "Populate the directory with the default structure.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "data-pool" : {
-                           "description" : "Data Pool (for erasure coding only)",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "delete" : {
-                           "description" : "A list of settings you want to delete.",
-                           "format" : "pve-configid-list",
-                           "maxLength" : 4096,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "digest" : {
-                           "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
-                           "maxLength" : 64,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "disable" : {
-                           "description" : "Flag to disable the storage.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "domain" : {
-                           "description" : "CIFS domain.",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "encryption-key" : {
-                           "description" : "Encryption key. Use 'autogen' to generate one automatically without passphrase.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "fingerprint" : {
-                           "description" : "Certificate SHA 256 fingerprint.",
-                           "optional" : 1,
-                           "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
-                           "type" : "string"
-                        },
-                        "format" : {
-                           "description" : "Default image format.",
-                           "enum" : [
-                              "raw",
-                              "qcow2",
-                              "subvol",
-                              "vmdk"
-                           ],
-                           "optional" : 1,
-                           "type" : "string"
-                        },
-                        "fs-name" : {
-                           "description" : "The Ceph filesystem name.",
-                           "format" : "pve-configid",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "fuse" : {
-                           "description" : "Mount CephFS through FUSE.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "is_mountpoint" : {
-                           "default" : "no",
-                           "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "keyring" : {
-                           "description" : "Client keyring contents (for external clusters).",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "krbd" : {
-                           "default" : 0,
-                           "description" : "Always access rbd through krbd kernel module.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "lio_tpg" : {
-                           "description" : "target portal group for Linux LIO targets",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "master-pubkey" : {
-                           "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "max-protected-backups" : {
-                           "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
-                           "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
-                           "minimum" : -1,
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer> (-1 - N)"
-                        },
-                        "mkdir" : {
-                           "default" : "yes",
-                           "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "monhost" : {
-                           "description" : "IP addresses of monitors (for external clusters).",
-                           "format" : "pve-storage-portal-dns-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "mountpoint" : {
-                           "description" : "mount point",
-                           "format" : "pve-storage-path",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "namespace" : {
-                           "description" : "Namespace.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "nocow" : {
-                           "default" : 0,
-                           "description" : "Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "nodes" : {
-                           "description" : "List of nodes for which the storage configuration applies.",
-                           "format" : "pve-node-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "nowritecache" : {
-                           "description" : "disable write caching on the target",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "on-volume-remove" : {
-                           "description" : "Optional actions when removing LVs.",
-                           "format" : "on-volume-remove",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "[discard=<1|0>]",
-                           "verbose_description" : "Configure actions performed before removing an LV. Use 'discard=1' to issue discard (TRIM) requests before removal."
-                        },
-                        "options" : {
-                           "description" : "NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')",
-                           "format" : "pve-storage-options",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "password" : {
-                           "description" : "Password for accessing the share/datastore.",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "pool" : {
-                           "description" : "Pool.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "port" : {
-                           "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
-                           "maximum" : 65535,
-                           "minimum" : 1,
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer> (1 - 65535)"
-                        },
-                        "preallocation" : {
-                           "default" : "metadata",
-                           "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
-                           "enum" : [
-                              "off",
-                              "metadata",
-                              "falloc",
-                              "full"
-                           ],
-                           "optional" : 1,
-                           "type" : "string"
-                        },
-                        "prune-backups" : {
-                           "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
-                           "format" : "prune-backups",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
-                        },
-                        "saferemove" : {
-                           "description" : "Zero-out data when removing LVs.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "saferemove-stepsize" : {
-                           "default" : 32,
-                           "description" : "Wipe step size in MiB. It will be capped to the maximum supported by the storage.",
-                           "enum" : [
-                              "1",
-                              "2",
-                              "4",
-                              "8",
-                              "16",
-                              "32"
-                           ],
-                           "optional" : 1,
-                           "type" : "integer"
-                        },
-                        "saferemove_throughput" : {
-                           "description" : "Wipe throughput in bytes per second (optional suffix: k, m, or g).",
-                           "optional" : 1,
-                           "pattern" : "-?\\d+[kmgKMG]?",
-                           "type" : "string"
-                        },
-                        "server" : {
-                           "description" : "Server IP or DNS name.",
-                           "format" : "pve-storage-server",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "shared" : {
-                           "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "skip-cert-verification" : {
-                           "default" : "false",
-                           "description" : "Disable TLS certificate verification, only enable on fully trusted networks!",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "smbversion" : {
-                           "default" : "default",
-                           "description" : "SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.",
-                           "enum" : [
-                              "default",
-                              "2.0",
-                              "2.1",
-                              "3",
-                              "3.0",
-                              "3.11"
-                           ],
-                           "optional" : 1,
-                           "type" : "string"
-                        },
-                        "snapshot-as-volume-chain" : {
-                           "default" : 0,
-                           "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "sparse" : {
-                           "description" : "use sparse volumes",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "storage" : {
-                           "description" : "The storage identifier.",
-                           "format" : "pve-storage-id",
-                           "format_description" : "storage ID",
-                           "type" : "string",
-                           "typetext" : "<storage ID>"
-                        },
-                        "subdir" : {
-                           "description" : "Subdir to mount.",
-                           "format" : "pve-storage-path",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "tagged_only" : {
-                           "description" : "Only list logical volumes tagged with 'pve-vm-ID'.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "username" : {
-                           "description" : "RBD Id.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "zfs-base-path" : {
-                           "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
-                           "format" : "pve-storage-path",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     },
-                     "type" : "object"
-                  },
-                  "permissions" : {
-                     "check" : [
-                        "perm",
-                        "/storage",
-                        [
-                           "Datastore.Allocate"
-                        ]
-                     ]
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "properties" : {
-                        "config" : {
-                           "additionalProperties" : 1,
-                           "description" : "Partial, possibly server generated, configuration properties.",
-                           "optional" : 1,
-                           "properties" : {
-                              "encryption-key" : {
-                                 "description" : "The, possibly auto-generated, encryption-key.",
-                                 "optional" : 1,
-                                 "type" : "string"
-                              }
-                           },
-                           "type" : "object"
-                        },
-                        "storage" : {
-                           "description" : "The ID of the created storage.",
-                           "type" : "string"
-                        },
-                        "type" : {
-                           "description" : "The type of the created storage.",
-                           "enum" : [
-                              "btrfs",
-                              "cephfs",
-                              "cifs",
-                              "dir",
-                              "esxi",
-                              "iscsi",
-                              "iscsidirect",
-                              "lvm",
-                              "lvmthin",
-                              "nfs",
-                              "pbs",
-                              "rbd",
-                              "zfs",
-                              "zfspool"
-                           ],
-                           "type" : "string"
-                        }
-                     },
-                     "type" : "object"
-                  }
-               }
-            },
-            "leaf" : 1,
-            "path" : "/storage/{storage}",
-            "text" : "{storage}"
-         }
-      ],
-      "info" : {
-         "GET" : {
-            "allowtoken" : 1,
-            "description" : "Storage index.",
-            "method" : "GET",
-            "name" : "index",
-            "parameters" : {
-               "additionalProperties" : 0,
-               "properties" : {
-                  "type" : {
-                     "description" : "Only list storage of specific type",
-                     "enum" : [
-                        "btrfs",
-                        "cephfs",
-                        "cifs",
-                        "dir",
-                        "esxi",
-                        "iscsi",
-                        "iscsidirect",
-                        "lvm",
-                        "lvmthin",
-                        "nfs",
-                        "pbs",
-                        "rbd",
-                        "zfs",
-                        "zfspool"
-                     ],
-                     "optional" : 1,
-                     "type" : "string"
-                  }
-               }
-            },
-            "permissions" : {
-               "description" : "Only list entries where you have 'Datastore.Audit' or 'Datastore.AllocateSpace' permissions on '/storage/<storage>'",
-               "user" : "all"
-            },
-            "returns" : {
-               "items" : {
-                  "properties" : {
-                     "storage" : {
-                        "type" : "string"
-                     }
-                  },
-                  "type" : "object"
-               },
-               "links" : [
-                  {
-                     "href" : "{storage}",
-                     "rel" : "child"
-                  }
-               ],
-               "type" : "array"
-            }
-         },
-         "POST" : {
-            "allowtoken" : 1,
-            "description" : "Create a new storage.",
-            "method" : "POST",
-            "name" : "create",
-            "parameters" : {
-               "additionalProperties" : 0,
-               "properties" : {
-                  "authsupported" : {
-                     "description" : "Authsupported.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "base" : {
-                     "description" : "Base volume. This volume is automatically activated.",
-                     "format" : "pve-volume-id",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "blocksize" : {
-                     "description" : "ZFS block size",
-                     "format" : "pve-storage-zfs-blocksize",
-                     "format_description" : "a power of 2 with optional k or m suffix",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<a power of 2 with optional k or m suffix>"
-                  },
-                  "bwlimit" : {
-                     "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
-                     "format" : {
-                        "clone" : {
-                           "description" : "bandwidth limit in KiB/s for cloning disks",
-                           "format_description" : "LIMIT",
-                           "minimum" : "0",
-                           "optional" : 1,
-                           "type" : "number"
-                        },
-                        "default" : {
-                           "description" : "default bandwidth limit in KiB/s",
-                           "format_description" : "LIMIT",
-                           "minimum" : "0",
-                           "optional" : 1,
-                           "type" : "number"
-                        },
-                        "migration" : {
-                           "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
-                           "format_description" : "LIMIT",
-                           "minimum" : "0",
-                           "optional" : 1,
-                           "type" : "number"
-                        },
-                        "move" : {
-                           "description" : "bandwidth limit in KiB/s for moving disks",
-                           "format_description" : "LIMIT",
-                           "minimum" : "0",
-                           "optional" : 1,
-                           "type" : "number"
-                        },
-                        "restore" : {
-                           "description" : "bandwidth limit in KiB/s for restoring guests from backups",
-                           "format_description" : "LIMIT",
-                           "minimum" : "0",
-                           "optional" : 1,
-                           "type" : "number"
-                        }
-                     },
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
-                  },
-                  "comstar_hg" : {
-                     "description" : "host group for comstar views",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "comstar_tg" : {
-                     "description" : "target group for comstar views",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "content" : {
-                     "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.\n",
-                     "format" : "pve-storage-content-list",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "content-dirs" : {
-                     "description" : "Overrides for default content type directories.",
-                     "format" : "pve-dir-override-list",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "create-base-path" : {
-                     "default" : "yes",
-                     "description" : "Create the base directory if it doesn't exist.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "create-subdirs" : {
-                     "default" : "yes",
-                     "description" : "Populate the directory with the default structure.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "data-pool" : {
-                     "description" : "Data Pool (for erasure coding only)",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "datastore" : {
-                     "description" : "Proxmox Backup Server datastore name.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "disable" : {
-                     "description" : "Flag to disable the storage.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "domain" : {
-                     "description" : "CIFS domain.",
-                     "maxLength" : 256,
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "encryption-key" : {
-                     "description" : "Encryption key. Use 'autogen' to generate one automatically without passphrase.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "export" : {
-                     "description" : "NFS export path.",
-                     "format" : "pve-storage-path",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "fingerprint" : {
-                     "description" : "Certificate SHA 256 fingerprint.",
-                     "optional" : 1,
-                     "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
-                     "type" : "string"
-                  },
-                  "format" : {
-                     "description" : "Default image format.",
-                     "enum" : [
-                        "raw",
-                        "qcow2",
-                        "subvol",
-                        "vmdk"
-                     ],
-                     "optional" : 1,
-                     "type" : "string"
-                  },
-                  "fs-name" : {
-                     "description" : "The Ceph filesystem name.",
-                     "format" : "pve-configid",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "fuse" : {
-                     "description" : "Mount CephFS through FUSE.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "is_mountpoint" : {
-                     "default" : "no",
-                     "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "iscsiprovider" : {
-                     "description" : "iscsi provider",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "keyring" : {
-                     "description" : "Client keyring contents (for external clusters).",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "krbd" : {
-                     "default" : 0,
-                     "description" : "Always access rbd through krbd kernel module.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "lio_tpg" : {
-                     "description" : "target portal group for Linux LIO targets",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "master-pubkey" : {
-                     "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "max-protected-backups" : {
-                     "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
-                     "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
-                     "minimum" : -1,
-                     "optional" : 1,
-                     "type" : "integer",
-                     "typetext" : "<integer> (-1 - N)"
-                  },
-                  "mkdir" : {
-                     "default" : "yes",
-                     "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "monhost" : {
-                     "description" : "IP addresses of monitors (for external clusters).",
-                     "format" : "pve-storage-portal-dns-list",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "mountpoint" : {
-                     "description" : "mount point",
-                     "format" : "pve-storage-path",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "namespace" : {
-                     "description" : "Namespace.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "nocow" : {
-                     "default" : 0,
-                     "description" : "Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "nodes" : {
-                     "description" : "List of nodes for which the storage configuration applies.",
-                     "format" : "pve-node-list",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "nowritecache" : {
-                     "description" : "disable write caching on the target",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "on-volume-remove" : {
-                     "description" : "Optional actions when removing LVs.",
-                     "format" : "on-volume-remove",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "[discard=<1|0>]",
-                     "verbose_description" : "Configure actions performed before removing an LV. Use 'discard=1' to issue discard (TRIM) requests before removal."
-                  },
-                  "options" : {
-                     "description" : "NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')",
-                     "format" : "pve-storage-options",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "password" : {
-                     "description" : "Password for accessing the share/datastore.",
-                     "maxLength" : 256,
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "path" : {
-                     "description" : "File system path.",
-                     "format" : "pve-storage-path",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "pool" : {
-                     "description" : "Pool.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "port" : {
-                     "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
-                     "maximum" : 65535,
-                     "minimum" : 1,
-                     "optional" : 1,
-                     "type" : "integer",
-                     "typetext" : "<integer> (1 - 65535)"
-                  },
-                  "portal" : {
-                     "description" : "iSCSI portal (IP or DNS name with optional port).",
-                     "format" : "pve-storage-portal-dns",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "preallocation" : {
-                     "default" : "metadata",
-                     "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
-                     "enum" : [
-                        "off",
-                        "metadata",
-                        "falloc",
-                        "full"
-                     ],
-                     "optional" : 1,
-                     "type" : "string"
-                  },
-                  "prune-backups" : {
-                     "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
-                     "format" : "prune-backups",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
-                  },
-                  "saferemove" : {
-                     "description" : "Zero-out data when removing LVs.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "saferemove-stepsize" : {
-                     "default" : 32,
-                     "description" : "Wipe step size in MiB. It will be capped to the maximum supported by the storage.",
-                     "enum" : [
-                        "1",
-                        "2",
-                        "4",
-                        "8",
-                        "16",
-                        "32"
-                     ],
-                     "optional" : 1,
-                     "type" : "integer"
-                  },
-                  "saferemove_throughput" : {
-                     "description" : "Wipe throughput in bytes per second (optional suffix: k, m, or g).",
-                     "optional" : 1,
-                     "pattern" : "-?\\d+[kmgKMG]?",
-                     "type" : "string"
-                  },
-                  "server" : {
-                     "description" : "Server IP or DNS name.",
-                     "format" : "pve-storage-server",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "share" : {
-                     "description" : "CIFS share.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "shared" : {
-                     "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "skip-cert-verification" : {
-                     "default" : "false",
-                     "description" : "Disable TLS certificate verification, only enable on fully trusted networks!",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "smbversion" : {
-                     "default" : "default",
-                     "description" : "SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.",
-                     "enum" : [
-                        "default",
-                        "2.0",
-                        "2.1",
-                        "3",
-                        "3.0",
-                        "3.11"
-                     ],
-                     "optional" : 1,
-                     "type" : "string"
-                  },
-                  "snapshot-as-volume-chain" : {
-                     "default" : 0,
-                     "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "sparse" : {
-                     "description" : "use sparse volumes",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "storage" : {
-                     "description" : "The storage identifier.",
-                     "format" : "pve-storage-id",
-                     "format_description" : "storage ID",
-                     "type" : "string",
-                     "typetext" : "<storage ID>"
-                  },
-                  "subdir" : {
-                     "description" : "Subdir to mount.",
-                     "format" : "pve-storage-path",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "tagged_only" : {
-                     "description" : "Only list logical volumes tagged with 'pve-vm-ID'.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "target" : {
-                     "description" : "iSCSI target.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "thinpool" : {
-                     "description" : "LVM thin pool LV name.",
-                     "format" : "pve-storage-vgname",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "type" : {
-                     "description" : "Storage type.",
-                     "enum" : [
-                        "btrfs",
-                        "cephfs",
-                        "cifs",
-                        "dir",
-                        "esxi",
-                        "iscsi",
-                        "iscsidirect",
-                        "lvm",
-                        "lvmthin",
-                        "nfs",
-                        "pbs",
-                        "rbd",
-                        "zfs",
-                        "zfspool"
-                     ],
-                     "type" : "string"
-                  },
-                  "username" : {
-                     "description" : "RBD Id.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "vgname" : {
-                     "description" : "Volume group name.",
-                     "format" : "pve-storage-vgname",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "zfs-base-path" : {
-                     "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
-                     "format" : "pve-storage-path",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  }
-               },
-               "type" : "object"
-            },
-            "permissions" : {
-               "check" : [
-                  "perm",
-                  "/storage",
-                  [
-                     "Datastore.Allocate"
-                  ]
-               ]
-            },
-            "protected" : 1,
-            "returns" : {
-               "properties" : {
-                  "config" : {
-                     "additionalProperties" : 1,
-                     "description" : "Partial, possibly server generated, configuration properties.",
-                     "optional" : 1,
-                     "properties" : {
-                        "encryption-key" : {
-                           "description" : "The, possibly auto-generated, encryption-key.",
-                           "optional" : 1,
-                           "type" : "string"
-                        }
-                     },
-                     "type" : "object"
-                  },
-                  "storage" : {
-                     "description" : "The ID of the created storage.",
-                     "type" : "string"
-                  },
-                  "type" : {
-                     "description" : "The type of the created storage.",
-                     "enum" : [
-                        "btrfs",
-                        "cephfs",
-                        "cifs",
-                        "dir",
-                        "esxi",
-                        "iscsi",
-                        "iscsidirect",
-                        "lvm",
-                        "lvmthin",
-                        "nfs",
-                        "pbs",
-                        "rbd",
-                        "zfs",
-                        "zfspool"
-                     ],
-                     "type" : "string"
-                  }
-               },
-               "type" : "object"
-            }
-         }
-      },
-      "leaf" : 0,
-      "path" : "/storage",
-      "text" : "storage"
-   },
-   {
-      "children" : [
-         {
             "children" : [
                {
                   "children" : [
@@ -68378,80 +70934,100 @@ const apiSchema = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "Get user TFA types (Personal and Realm).",
+                              "description" : "Fetch metadata of a storage plugin.",
                               "method" : "GET",
-                              "name" : "read_user_tfa_type",
+                              "name" : "info",
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
-                                    "multiple" : {
-                                       "default" : 0,
-                                       "description" : "Request all entries as an array.",
-                                       "optional" : 1,
-                                       "type" : "boolean",
-                                       "typetext" : "<boolean>"
-                                    },
-                                    "userid" : {
-                                       "description" : "Full User ID, in the `name@realm` format.",
-                                       "format" : "pve-userid",
-                                       "maxLength" : 64,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                    "type" : {
+                                       "description" : "The type of the storage plugin.",
+                                       "enum" : [
+                                          "btrfs",
+                                          "cephfs",
+                                          "cifs",
+                                          "dir",
+                                          "esxi",
+                                          "iscsi",
+                                          "iscsidirect",
+                                          "lvm",
+                                          "lvmthin",
+                                          "nfs",
+                                          "pbs",
+                                          "rbd",
+                                          "zfs",
+                                          "zfspool"
+                                       ],
+                                       "type" : "string"
                                     }
                                  }
                               },
                               "permissions" : {
-                                 "check" : [
-                                    "or",
-                                    [
-                                       "userid-param",
-                                       "self"
-                                    ],
-                                    [
-                                       "userid-group",
-                                       [
-                                          "User.Modify",
-                                          "Sys.Audit"
-                                       ]
-                                    ]
-                                 ]
+                                 "user" : "all"
                               },
-                              "protected" : 1,
                               "returns" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
-                                    "realm" : {
-                                       "description" : "The type of TFA the users realm has set, if any.",
-                                       "enum" : [
-                                          "oath",
-                                          "yubico"
-                                       ],
+                                    "content" : {
+                                       "description" : "The content types of the plugin.",
+                                       "optional" : 0,
+                                       "properties" : {
+                                          "default" : {
+                                             "description" : "The content types enabled by default.",
+                                             "items" : {
+                                                "type" : "string"
+                                             },
+                                             "optional" : 0,
+                                             "type" : "array"
+                                          },
+                                          "supported" : {
+                                             "description" : "The content types the plugin supports.",
+                                             "items" : {
+                                                "type" : "string"
+                                             },
+                                             "optional" : 0,
+                                             "type" : "array"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "display-name" : {
+                                       "description" : "The name of the storage type, if the plugin provides one.",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
-                                    "types" : {
-                                       "description" : "Array of the user configured TFA types, if any. Only available if 'multiple' was not passed.",
-                                       "items" : {
-                                          "description" : "A TFA type.",
-                                          "enum" : [
-                                             "totp",
-                                             "u2f",
-                                             "yubico",
-                                             "webauthn",
-                                             "recovedry"
-                                          ],
-                                          "type" : "string"
-                                       },
-                                       "optional" : 1,
-                                       "type" : "array"
-                                    },
-                                    "user" : {
-                                       "description" : "The type of TFA the user has set, if any. Only set if 'multiple' was not passed.",
+                                    "origin" : {
+                                       "description" : "Whether the plugin is shipped with Proxmox VE ('builtin') or installed separately ('custom').",
                                        "enum" : [
-                                          "oath",
-                                          "u2f"
+                                          "builtin",
+                                          "custom"
                                        ],
-                                       "optional" : 1,
+                                       "optional" : 0,
+                                       "type" : "string"
+                                    },
+                                    "schema" : {
+                                       "optional" : 0,
+                                       "type" : "object"
+                                    },
+                                    "type" : {
+                                       "description" : "The storage type of the plugin.",
+                                       "enum" : [
+                                          "btrfs",
+                                          "cephfs",
+                                          "cifs",
+                                          "dir",
+                                          "esxi",
+                                          "iscsi",
+                                          "iscsidirect",
+                                          "lvm",
+                                          "lvmthin",
+                                          "nfs",
+                                          "pbs",
+                                          "rbd",
+                                          "zfs",
+                                          "zfspool"
+                                       ],
+                                       "optional" : 0,
                                        "type" : "string"
                                     }
                                  },
@@ -68460,1166 +71036,27 @@ const apiSchema = [
                            }
                         },
                         "leaf" : 1,
-                        "path" : "/access/users/{userid}/tfa",
-                        "text" : "tfa"
-                     },
-                     {
-                        "info" : {
-                           "PUT" : {
-                              "allowtoken" : 1,
-                              "description" : "Unlock a user's TFA authentication.",
-                              "method" : "PUT",
-                              "name" : "unlock_tfa",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "userid" : {
-                                       "description" : "Full User ID, in the `name@realm` format.",
-                                       "format" : "pve-userid",
-                                       "maxLength" : 64,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "userid-group",
-                                    [
-                                       "User.Modify"
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "returns" : {
-                                 "type" : "boolean"
-                              }
-                           }
-                        },
-                        "leaf" : 1,
-                        "path" : "/access/users/{userid}/unlock-tfa",
-                        "text" : "unlock-tfa"
-                     },
-                     {
-                        "children" : [
-                           {
-                              "info" : {
-                                 "DELETE" : {
-                                    "allowtoken" : 1,
-                                    "description" : "Remove API token for a specific user.",
-                                    "method" : "DELETE",
-                                    "name" : "remove_token",
-                                    "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "tokenid" : {
-                                             "description" : "User-specific token identifier.",
-                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
-                                             "type" : "string"
-                                          },
-                                          "userid" : {
-                                             "description" : "Full User ID, in the `name@realm` format.",
-                                             "format" : "pve-userid",
-                                             "maxLength" : 64,
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          }
-                                       }
-                                    },
-                                    "permissions" : {
-                                       "check" : [
-                                          "or",
-                                          [
-                                             "userid-param",
-                                             "self"
-                                          ],
-                                          [
-                                             "userid-group",
-                                             [
-                                                "User.Modify"
-                                             ]
-                                          ]
-                                       ]
-                                    },
-                                    "protected" : 1,
-                                    "returns" : {
-                                       "type" : "null"
-                                    }
-                                 },
-                                 "GET" : {
-                                    "allowtoken" : 1,
-                                    "description" : "Get specific API token information.",
-                                    "method" : "GET",
-                                    "name" : "read_token",
-                                    "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "tokenid" : {
-                                             "description" : "User-specific token identifier.",
-                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
-                                             "type" : "string"
-                                          },
-                                          "userid" : {
-                                             "description" : "Full User ID, in the `name@realm` format.",
-                                             "format" : "pve-userid",
-                                             "maxLength" : 64,
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          }
-                                       }
-                                    },
-                                    "permissions" : {
-                                       "check" : [
-                                          "or",
-                                          [
-                                             "userid-param",
-                                             "self"
-                                          ],
-                                          [
-                                             "userid-group",
-                                             [
-                                                "User.Modify"
-                                             ]
-                                          ]
-                                       ]
-                                    },
-                                    "returns" : {
-                                       "properties" : {
-                                          "comment" : {
-                                             "optional" : 1,
-                                             "type" : "string"
-                                          },
-                                          "expire" : {
-                                             "default" : "same as user",
-                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
-                                             "minimum" : 0,
-                                             "optional" : 1,
-                                             "type" : "integer"
-                                          },
-                                          "privsep" : {
-                                             "default" : 1,
-                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
-                                             "optional" : 1,
-                                             "type" : "boolean"
-                                          }
-                                       },
-                                       "type" : "object"
-                                    }
-                                 },
-                                 "POST" : {
-                                    "allowtoken" : 1,
-                                    "description" : "Generate a new API token for a specific user. NOTE: returns API token value, which needs to be stored as it cannot be retrieved afterwards!",
-                                    "method" : "POST",
-                                    "name" : "generate_token",
-                                    "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "comment" : {
-                                             "optional" : 1,
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          },
-                                          "expire" : {
-                                             "default" : "same as user",
-                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
-                                             "minimum" : 0,
-                                             "optional" : 1,
-                                             "type" : "integer",
-                                             "typetext" : "<integer> (0 - N)"
-                                          },
-                                          "privsep" : {
-                                             "default" : 1,
-                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
-                                             "optional" : 1,
-                                             "type" : "boolean",
-                                             "typetext" : "<boolean>"
-                                          },
-                                          "tokenid" : {
-                                             "description" : "User-specific token identifier.",
-                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
-                                             "type" : "string"
-                                          },
-                                          "userid" : {
-                                             "description" : "Full User ID, in the `name@realm` format.",
-                                             "format" : "pve-userid",
-                                             "maxLength" : 64,
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          }
-                                       }
-                                    },
-                                    "permissions" : {
-                                       "check" : [
-                                          "or",
-                                          [
-                                             "userid-param",
-                                             "self"
-                                          ],
-                                          [
-                                             "userid-group",
-                                             [
-                                                "User.Modify"
-                                             ]
-                                          ]
-                                       ]
-                                    },
-                                    "protected" : 1,
-                                    "returns" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "full-tokenid" : {
-                                             "description" : "The full token id.",
-                                             "format_description" : "<userid>!<tokenid>",
-                                             "type" : "string"
-                                          },
-                                          "info" : {
-                                             "properties" : {
-                                                "comment" : {
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
-                                                "expire" : {
-                                                   "default" : "same as user",
-                                                   "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
-                                                   "minimum" : 0,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
-                                                "privsep" : {
-                                                   "default" : 1,
-                                                   "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
-                                                   "optional" : 1,
-                                                   "type" : "boolean"
-                                                }
-                                             },
-                                             "type" : "object"
-                                          },
-                                          "value" : {
-                                             "description" : "API token value used for authentication.",
-                                             "type" : "string"
-                                          }
-                                       },
-                                       "type" : "object"
-                                    }
-                                 },
-                                 "PUT" : {
-                                    "allowtoken" : 1,
-                                    "description" : "Update API token for a specific user. NOTE: when 'regenerate' is set, the returned token value needs to be stored as it cannot be retrieved afterwards!",
-                                    "method" : "PUT",
-                                    "name" : "update_token_info",
-                                    "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "comment" : {
-                                             "optional" : 1,
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          },
-                                          "delete" : {
-                                             "description" : "A list of settings you want to delete.",
-                                             "format" : "pve-configid-list",
-                                             "optional" : 1,
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          },
-                                          "expire" : {
-                                             "default" : "same as user",
-                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
-                                             "minimum" : 0,
-                                             "optional" : 1,
-                                             "type" : "integer",
-                                             "typetext" : "<integer> (0 - N)"
-                                          },
-                                          "privsep" : {
-                                             "default" : 1,
-                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
-                                             "optional" : 1,
-                                             "type" : "boolean",
-                                             "typetext" : "<boolean>"
-                                          },
-                                          "regenerate" : {
-                                             "default" : 0,
-                                             "description" : "Regenerate the token's secret value. All users of the previous secret will lose access after this operation.",
-                                             "optional" : 1,
-                                             "type" : "boolean",
-                                             "typetext" : "<boolean>"
-                                          },
-                                          "tokenid" : {
-                                             "description" : "User-specific token identifier.",
-                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
-                                             "type" : "string"
-                                          },
-                                          "userid" : {
-                                             "description" : "Full User ID, in the `name@realm` format.",
-                                             "format" : "pve-userid",
-                                             "maxLength" : 64,
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          }
-                                       }
-                                    },
-                                    "permissions" : {
-                                       "check" : [
-                                          "or",
-                                          [
-                                             "userid-param",
-                                             "self"
-                                          ],
-                                          [
-                                             "userid-group",
-                                             [
-                                                "User.Modify"
-                                             ]
-                                          ]
-                                       ]
-                                    },
-                                    "protected" : 1,
-                                    "returns" : {
-                                       "properties" : {
-                                          "comment" : {
-                                             "optional" : 1,
-                                             "type" : "string"
-                                          },
-                                          "expire" : {
-                                             "default" : "same as user",
-                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
-                                             "minimum" : 0,
-                                             "optional" : 1,
-                                             "type" : "integer"
-                                          },
-                                          "full-tokenid" : {
-                                             "description" : "The full token id. Only set when 'regenerate' was set.",
-                                             "format_description" : "<userid>!<tokenid>",
-                                             "optional" : 1,
-                                             "type" : "string"
-                                          },
-                                          "privsep" : {
-                                             "default" : 1,
-                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
-                                             "optional" : 1,
-                                             "type" : "boolean"
-                                          },
-                                          "value" : {
-                                             "description" : "API token value used for authentication. Only set when 'regenerate' was set.",
-                                             "optional" : 1,
-                                             "type" : "string"
-                                          }
-                                       },
-                                       "type" : "object"
-                                    }
-                                 }
-                              },
-                              "leaf" : 1,
-                              "path" : "/access/users/{userid}/token/{tokenid}",
-                              "text" : "{tokenid}"
-                           }
-                        ],
-                        "info" : {
-                           "GET" : {
-                              "allowtoken" : 1,
-                              "description" : "Get user API tokens.",
-                              "method" : "GET",
-                              "name" : "token_index",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "userid" : {
-                                       "description" : "Full User ID, in the `name@realm` format.",
-                                       "format" : "pve-userid",
-                                       "maxLength" : 64,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "or",
-                                    [
-                                       "userid-param",
-                                       "self"
-                                    ],
-                                    [
-                                       "userid-group",
-                                       [
-                                          "User.Modify"
-                                       ]
-                                    ]
-                                 ]
-                              },
-                              "returns" : {
-                                 "items" : {
-                                    "properties" : {
-                                       "comment" : {
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "expire" : {
-                                          "default" : "same as user",
-                                          "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
-                                          "minimum" : 0,
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       },
-                                       "privsep" : {
-                                          "default" : 1,
-                                          "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
-                                          "optional" : 1,
-                                          "type" : "boolean"
-                                       },
-                                       "tokenid" : {
-                                          "description" : "User-specific token identifier.",
-                                          "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
-                                          "type" : "string"
-                                       }
-                                    },
-                                    "type" : "object"
-                                 },
-                                 "links" : [
-                                    {
-                                       "href" : "{tokenid}",
-                                       "rel" : "child"
-                                    }
-                                 ],
-                                 "type" : "array"
-                              }
-                           }
-                        },
-                        "leaf" : 0,
-                        "path" : "/access/users/{userid}/token",
-                        "text" : "token"
+                        "path" : "/plugins/storage/plugin/{type}",
+                        "text" : "{type}"
                      }
                   ],
                   "info" : {
-                     "DELETE" : {
-                        "allowtoken" : 1,
-                        "description" : "Delete user.",
-                        "method" : "DELETE",
-                        "name" : "delete_user",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "userid" : {
-                                 "description" : "Full User ID, in the `name@realm` format.",
-                                 "format" : "pve-userid",
-                                 "maxLength" : 64,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "and",
-                              [
-                                 "userid-param",
-                                 "Realm.AllocateUser"
-                              ],
-                              [
-                                 "userid-group",
-                                 [
-                                    "User.Modify"
-                                 ]
-                              ]
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
-                        }
-                     },
                      "GET" : {
                         "allowtoken" : 1,
-                        "description" : "Get user configuration.",
+                        "description" : "List all available storage plugins and their metadata.",
                         "method" : "GET",
-                        "name" : "read_user",
+                        "name" : "index",
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
-                              "userid" : {
-                                 "description" : "Full User ID, in the `name@realm` format.",
-                                 "format" : "pve-userid",
-                                 "maxLength" : 64,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "userid-group",
-                              [
-                                 "User.Modify",
-                                 "Sys.Audit"
-                              ]
-                           ]
-                        },
-                        "returns" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "comment" : {
-                                 "maxLength" : 2048,
+                              "origin" : {
+                                 "description" : "Only list plugins of this origin.",
+                                 "enum" : [
+                                    "builtin",
+                                    "custom"
+                                 ],
                                  "optional" : 1,
                                  "type" : "string"
-                              },
-                              "email" : {
-                                 "format" : "email-opt",
-                                 "maxLength" : 254,
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "enable" : {
-                                 "default" : 1,
-                                 "description" : "Enable the account (default). You can set this to '0' to disable the account",
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "expire" : {
-                                 "description" : "Account expiration date (seconds since epoch). '0' means no expiration date.",
-                                 "minimum" : 0,
-                                 "optional" : 1,
-                                 "type" : "integer"
-                              },
-                              "firstname" : {
-                                 "maxLength" : 1024,
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "groups" : {
-                                 "items" : {
-                                    "format" : "pve-groupid",
-                                    "type" : "string"
-                                 },
-                                 "optional" : 1,
-                                 "type" : "array"
-                              },
-                              "keys" : {
-                                 "description" : "Keys for two factor auth (yubico).",
-                                 "optional" : 1,
-                                 "pattern" : "[0-9a-zA-Z!=]{0,4096}",
-                                 "type" : "string"
-                              },
-                              "lastname" : {
-                                 "maxLength" : 1024,
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "tokens" : {
-                                 "additionalProperties" : {
-                                    "properties" : {
-                                       "comment" : {
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "expire" : {
-                                          "default" : "same as user",
-                                          "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
-                                          "minimum" : 0,
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       },
-                                       "privsep" : {
-                                          "default" : 1,
-                                          "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
-                                          "optional" : 1,
-                                          "type" : "boolean"
-                                       }
-                                    },
-                                    "type" : "object"
-                                 },
-                                 "optional" : 1,
-                                 "type" : "object"
-                              }
-                           },
-                           "type" : "object"
-                        }
-                     },
-                     "PUT" : {
-                        "allowtoken" : 1,
-                        "description" : "Update user configuration.",
-                        "method" : "PUT",
-                        "name" : "update_user",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "append" : {
-                                 "optional" : 1,
-                                 "requires" : "groups",
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "comment" : {
-                                 "maxLength" : 2048,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "email" : {
-                                 "format" : "email-opt",
-                                 "maxLength" : 254,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "enable" : {
-                                 "default" : 1,
-                                 "description" : "Enable the account (default). You can set this to '0' to disable the account",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "expire" : {
-                                 "description" : "Account expiration date (seconds since epoch). '0' means no expiration date.",
-                                 "minimum" : 0,
-                                 "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer> (0 - N)"
-                              },
-                              "firstname" : {
-                                 "maxLength" : 1024,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "groups" : {
-                                 "format" : "pve-groupid-list",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "keys" : {
-                                 "description" : "Keys for two factor auth (yubico).",
-                                 "optional" : 1,
-                                 "pattern" : "[0-9a-zA-Z!=]{0,4096}",
-                                 "type" : "string"
-                              },
-                              "lastname" : {
-                                 "maxLength" : 1024,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "userid" : {
-                                 "description" : "Full User ID, in the `name@realm` format.",
-                                 "format" : "pve-userid",
-                                 "maxLength" : 64,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "userid-group",
-                              [
-                                 "User.Modify"
-                              ],
-                              "groups_param",
-                              "update"
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
-                        }
-                     }
-                  },
-                  "leaf" : 0,
-                  "path" : "/access/users/{userid}",
-                  "text" : "{userid}"
-               }
-            ],
-            "info" : {
-               "GET" : {
-                  "allowtoken" : 1,
-                  "description" : "User index.",
-                  "method" : "GET",
-                  "name" : "index",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "enabled" : {
-                           "description" : "Optional filter for enable property.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "full" : {
-                           "default" : 0,
-                           "description" : "Include group and token information.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "description" : "The returned list is restricted to users where you have 'User.Modify' or 'Sys.Audit' permissions on '/access/groups' or on a group the user belongs too. But it always includes the current (authenticated) user.",
-                     "user" : "all"
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "items" : {
-                        "properties" : {
-                           "comment" : {
-                              "maxLength" : 2048,
-                              "optional" : 1,
-                              "type" : "string"
-                           },
-                           "email" : {
-                              "format" : "email-opt",
-                              "maxLength" : 254,
-                              "optional" : 1,
-                              "type" : "string"
-                           },
-                           "enable" : {
-                              "default" : 1,
-                              "description" : "Enable the account (default). You can set this to '0' to disable the account",
-                              "optional" : 1,
-                              "type" : "boolean"
-                           },
-                           "expire" : {
-                              "description" : "Account expiration date (seconds since epoch). '0' means no expiration date.",
-                              "minimum" : 0,
-                              "optional" : 1,
-                              "type" : "integer"
-                           },
-                           "firstname" : {
-                              "maxLength" : 1024,
-                              "optional" : 1,
-                              "type" : "string"
-                           },
-                           "groups" : {
-                              "format" : "pve-groupid-list",
-                              "optional" : 1,
-                              "type" : "string"
-                           },
-                           "keys" : {
-                              "description" : "Keys for two factor auth (yubico).",
-                              "optional" : 1,
-                              "pattern" : "[0-9a-zA-Z!=]{0,4096}",
-                              "type" : "string"
-                           },
-                           "lastname" : {
-                              "maxLength" : 1024,
-                              "optional" : 1,
-                              "type" : "string"
-                           },
-                           "realm-type" : {
-                              "description" : "The type of the users realm",
-                              "format" : "pve-realm",
-                              "optional" : 1,
-                              "type" : "string"
-                           },
-                           "tfa-locked-until" : {
-                              "description" : "Contains a timestamp until when a user is locked out of 2nd factors.",
-                              "optional" : 1,
-                              "type" : "integer"
-                           },
-                           "tokens" : {
-                              "items" : {
-                                 "properties" : {
-                                    "comment" : {
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
-                                    "expire" : {
-                                       "default" : "same as user",
-                                       "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
-                                       "minimum" : 0,
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
-                                    "privsep" : {
-                                       "default" : 1,
-                                       "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
-                                       "optional" : 1,
-                                       "type" : "boolean"
-                                    },
-                                    "tokenid" : {
-                                       "description" : "User-specific token identifier.",
-                                       "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
-                                       "type" : "string"
-                                    }
-                                 },
-                                 "type" : "object"
-                              },
-                              "optional" : 1,
-                              "type" : "array"
-                           },
-                           "totp-locked" : {
-                              "description" : "True if the user is currently locked out of TOTP factors.",
-                              "optional" : 1,
-                              "type" : "boolean"
-                           },
-                           "userid" : {
-                              "description" : "Full User ID, in the `name@realm` format.",
-                              "format" : "pve-userid",
-                              "maxLength" : 64,
-                              "type" : "string"
-                           }
-                        },
-                        "type" : "object"
-                     },
-                     "links" : [
-                        {
-                           "href" : "{userid}",
-                           "rel" : "child"
-                        }
-                     ],
-                     "type" : "array"
-                  }
-               },
-               "POST" : {
-                  "allowtoken" : 1,
-                  "description" : "Create new user.",
-                  "method" : "POST",
-                  "name" : "create_user",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "comment" : {
-                           "maxLength" : 2048,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "email" : {
-                           "format" : "email-opt",
-                           "maxLength" : 254,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "enable" : {
-                           "default" : 1,
-                           "description" : "Enable the account (default). You can set this to '0' to disable the account",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "expire" : {
-                           "description" : "Account expiration date (seconds since epoch). '0' means no expiration date.",
-                           "minimum" : 0,
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer> (0 - N)"
-                        },
-                        "firstname" : {
-                           "maxLength" : 1024,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "groups" : {
-                           "format" : "pve-groupid-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "keys" : {
-                           "description" : "Keys for two factor auth (yubico).",
-                           "optional" : 1,
-                           "pattern" : "[0-9a-zA-Z!=]{0,4096}",
-                           "type" : "string"
-                        },
-                        "lastname" : {
-                           "maxLength" : 1024,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "password" : {
-                           "description" : "Initial password.",
-                           "maxLength" : 64,
-                           "minLength" : 8,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "userid" : {
-                           "description" : "Full User ID, in the `name@realm` format.",
-                           "format" : "pve-userid",
-                           "maxLength" : 64,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "check" : [
-                        "and",
-                        [
-                           "userid-param",
-                           "Realm.AllocateUser"
-                        ],
-                        [
-                           "userid-group",
-                           [
-                              "User.Modify"
-                           ],
-                           "groups_param",
-                           "create"
-                        ]
-                     ],
-                     "description" : "You need 'Realm.AllocateUser' on '/access/realm/<realm>' on the realm of user <userid>, and 'User.Modify' permissions to '/access/groups/<group>' for any group specified (or 'User.Modify' on '/access/groups' if you pass no groups."
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               }
-            },
-            "leaf" : 0,
-            "path" : "/access/users",
-            "text" : "users"
-         },
-         {
-            "children" : [
-               {
-                  "info" : {
-                     "DELETE" : {
-                        "allowtoken" : 1,
-                        "description" : "Delete group.",
-                        "method" : "DELETE",
-                        "name" : "delete_group",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "groupid" : {
-                                 "format" : "pve-groupid",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/access/groups",
-                              [
-                                 "Group.Allocate"
-                              ]
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
-                        }
-                     },
-                     "GET" : {
-                        "allowtoken" : 1,
-                        "description" : "Get group configuration.",
-                        "method" : "GET",
-                        "name" : "read_group",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "groupid" : {
-                                 "format" : "pve-groupid",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/access/groups",
-                              [
-                                 "Sys.Audit",
-                                 "Group.Allocate"
-                              ],
-                              "any",
-                              1
-                           ]
-                        },
-                        "returns" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "comment" : {
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "members" : {
-                                 "items" : {
-                                    "description" : "Full User ID, in the `name@realm` format.",
-                                    "format" : "pve-userid",
-                                    "maxLength" : 64,
-                                    "type" : "string"
-                                 },
-                                 "type" : "array"
-                              }
-                           },
-                           "type" : "object"
-                        }
-                     },
-                     "PUT" : {
-                        "allowtoken" : 1,
-                        "description" : "Update group data.",
-                        "method" : "PUT",
-                        "name" : "update_group",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "comment" : {
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "groupid" : {
-                                 "format" : "pve-groupid",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/access/groups",
-                              [
-                                 "Group.Allocate"
-                              ]
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
-                        }
-                     }
-                  },
-                  "leaf" : 1,
-                  "path" : "/access/groups/{groupid}",
-                  "text" : "{groupid}"
-               }
-            ],
-            "info" : {
-               "GET" : {
-                  "allowtoken" : 1,
-                  "description" : "Group index.",
-                  "method" : "GET",
-                  "name" : "index",
-                  "parameters" : {
-                     "additionalProperties" : 0
-                  },
-                  "permissions" : {
-                     "description" : "The returned list is restricted to groups where you have 'User.Modify', 'Sys.Audit'  or 'Group.Allocate' permissions on /access/groups/<group>.",
-                     "user" : "all"
-                  },
-                  "returns" : {
-                     "items" : {
-                        "properties" : {
-                           "comment" : {
-                              "optional" : 1,
-                              "type" : "string"
-                           },
-                           "groupid" : {
-                              "format" : "pve-groupid",
-                              "type" : "string"
-                           },
-                           "users" : {
-                              "description" : "list of users which form this group",
-                              "format" : "pve-userid-list",
-                              "optional" : 1,
-                              "type" : "string"
-                           }
-                        },
-                        "type" : "object"
-                     },
-                     "links" : [
-                        {
-                           "href" : "{groupid}",
-                           "rel" : "child"
-                        }
-                     ],
-                     "type" : "array"
-                  }
-               },
-               "POST" : {
-                  "allowtoken" : 1,
-                  "description" : "Create new group.",
-                  "method" : "POST",
-                  "name" : "create_group",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "comment" : {
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "groupid" : {
-                           "format" : "pve-groupid",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "check" : [
-                        "perm",
-                        "/access/groups",
-                        [
-                           "Group.Allocate"
-                        ]
-                     ]
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               }
-            },
-            "leaf" : 0,
-            "path" : "/access/groups",
-            "text" : "groups"
-         },
-         {
-            "children" : [
-               {
-                  "info" : {
-                     "DELETE" : {
-                        "allowtoken" : 1,
-                        "description" : "Delete role.",
-                        "method" : "DELETE",
-                        "name" : "delete_role",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "roleid" : {
-                                 "format" : "pve-roleid",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/access",
-                              [
-                                 "Sys.Modify"
-                              ]
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
-                        }
-                     },
-                     "GET" : {
-                        "allowtoken" : 1,
-                        "description" : "Get role configuration.",
-                        "method" : "GET",
-                        "name" : "read_role",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "roleid" : {
-                                 "format" : "pve-roleid",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
                               }
                            }
                         },
@@ -69627,1436 +71064,87 @@ const apiSchema = [
                            "user" : "all"
                         },
                         "returns" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "Datastore.Allocate" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Datastore.AllocateSpace" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Datastore.AllocateTemplate" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Datastore.Audit" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Group.Allocate" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Mapping.Audit" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Mapping.Modify" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Mapping.Use" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Permissions.Modify" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Pool.Allocate" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Pool.Audit" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Realm.Allocate" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Realm.AllocateUser" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "SDN.Allocate" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "SDN.Audit" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "SDN.Use" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Sys.AccessNetwork" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Sys.Audit" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Sys.Console" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Sys.Incoming" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Sys.Modify" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Sys.PowerMgmt" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "Sys.Syslog" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "User.Modify" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Allocate" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Audit" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Backup" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Clone" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Config.CDROM" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Config.CPU" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Config.Cloudinit" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Config.Disk" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Config.HWType" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Config.Memory" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Config.Network" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Config.Options" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Console" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.GuestAgent.Audit" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.GuestAgent.FileRead" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.GuestAgent.FileSystemMgmt" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.GuestAgent.FileWrite" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.GuestAgent.Unrestricted" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Migrate" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.PowerMgmt" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Replicate" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Snapshot" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              },
-                              "VM.Snapshot.Rollback" : {
-                                 "optional" : 1,
-                                 "type" : "boolean"
-                              }
-                           },
-                           "type" : "object"
-                        }
-                     },
-                     "PUT" : {
-                        "allowtoken" : 1,
-                        "description" : "Update an existing role.",
-                        "method" : "PUT",
-                        "name" : "update_role",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "append" : {
-                                 "optional" : 1,
-                                 "requires" : "privs",
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "privs" : {
-                                 "format" : "pve-priv-list",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "roleid" : {
-                                 "format" : "pve-roleid",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/access",
-                              [
-                                 "Sys.Modify"
-                              ]
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
-                        }
-                     }
-                  },
-                  "leaf" : 1,
-                  "path" : "/access/roles/{roleid}",
-                  "text" : "{roleid}"
-               }
-            ],
-            "info" : {
-               "GET" : {
-                  "allowtoken" : 1,
-                  "description" : "Role index.",
-                  "method" : "GET",
-                  "name" : "index",
-                  "parameters" : {
-                     "additionalProperties" : 0
-                  },
-                  "permissions" : {
-                     "user" : "all"
-                  },
-                  "returns" : {
-                     "items" : {
-                        "properties" : {
-                           "privs" : {
-                              "format" : "pve-priv-list",
-                              "optional" : 1,
-                              "type" : "string"
-                           },
-                           "roleid" : {
-                              "format" : "pve-roleid",
-                              "type" : "string"
-                           },
-                           "special" : {
-                              "default" : 0,
-                              "optional" : 1,
-                              "type" : "boolean"
-                           }
-                        },
-                        "type" : "object"
-                     },
-                     "links" : [
-                        {
-                           "href" : "{roleid}",
-                           "rel" : "child"
-                        }
-                     ],
-                     "type" : "array"
-                  }
-               },
-               "POST" : {
-                  "allowtoken" : 1,
-                  "description" : "Create new role.",
-                  "method" : "POST",
-                  "name" : "create_role",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "privs" : {
-                           "format" : "pve-priv-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "roleid" : {
-                           "format" : "pve-roleid",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "check" : [
-                        "perm",
-                        "/access",
-                        [
-                           "Sys.Modify"
-                        ]
-                     ]
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               }
-            },
-            "leaf" : 0,
-            "path" : "/access/roles",
-            "text" : "roles"
-         },
-         {
-            "info" : {
-               "GET" : {
-                  "allowtoken" : 1,
-                  "description" : "Get Access Control List (ACLs).",
-                  "method" : "GET",
-                  "name" : "read_acl",
-                  "parameters" : {
-                     "additionalProperties" : 0
-                  },
-                  "permissions" : {
-                     "description" : "The returned list is restricted to objects where you have rights to modify permissions.",
-                     "user" : "all"
-                  },
-                  "returns" : {
-                     "items" : {
-                        "additionalProperties" : 0,
-                        "properties" : {
-                           "path" : {
-                              "description" : "Access control path",
-                              "type" : "string"
-                           },
-                           "propagate" : {
-                              "default" : 1,
-                              "description" : "Allow to propagate (inherit) permissions.",
-                              "optional" : 1,
-                              "type" : "boolean"
-                           },
-                           "roleid" : {
-                              "type" : "string"
-                           },
-                           "type" : {
-                              "enum" : [
-                                 "user",
-                                 "group",
-                                 "token"
-                              ],
-                              "type" : "string"
-                           },
-                           "ugid" : {
-                              "type" : "string"
-                           }
-                        },
-                        "type" : "object"
-                     },
-                     "type" : "array"
-                  }
-               },
-               "PUT" : {
-                  "allowtoken" : 1,
-                  "description" : "Update Access Control List (add or remove permissions).",
-                  "method" : "PUT",
-                  "name" : "update_acl",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "delete" : {
-                           "description" : "Remove permissions (instead of adding it).",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "groups" : {
-                           "description" : "List of groups.",
-                           "format" : "pve-groupid-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "path" : {
-                           "description" : "Access control path",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "propagate" : {
-                           "default" : 1,
-                           "description" : "Allow to propagate (inherit) permissions.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "roles" : {
-                           "description" : "List of roles.",
-                           "format" : "pve-roleid-list",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "tokens" : {
-                           "description" : "List of API tokens.",
-                           "format" : "pve-tokenid-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "users" : {
-                           "description" : "List of users.",
-                           "format" : "pve-userid-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "check" : [
-                        "perm-modify",
-                        "{path}"
-                     ]
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               }
-            },
-            "leaf" : 1,
-            "path" : "/access/acl",
-            "text" : "acl"
-         },
-         {
-            "children" : [
-               {
-                  "children" : [
-                     {
-                        "info" : {
-                           "POST" : {
-                              "allowtoken" : 1,
-                              "description" : "Syncs users and/or groups from the configured LDAP to user.cfg. NOTE: Synced groups will have the name 'name-$realm', so make sure those groups do not exist to prevent overwriting.",
-                              "method" : "POST",
-                              "name" : "sync",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "dry-run" : {
-                                       "default" : 0,
-                                       "description" : "If set, does not write anything.",
-                                       "optional" : 1,
-                                       "type" : "boolean",
-                                       "typetext" : "<boolean>"
+                           "items" : {
+                              "additionalProperties" : 0,
+                              "properties" : {
+                                 "content" : {
+                                    "description" : "The content types of the plugin.",
+                                    "optional" : 0,
+                                    "properties" : {
+                                       "default" : {
+                                          "description" : "The content types enabled by default.",
+                                          "items" : {
+                                             "type" : "string"
+                                          },
+                                          "optional" : 0,
+                                          "type" : "array"
+                                       },
+                                       "supported" : {
+                                          "description" : "The content types the plugin supports.",
+                                          "items" : {
+                                             "type" : "string"
+                                          },
+                                          "optional" : 0,
+                                          "type" : "array"
+                                       }
                                     },
-                                    "enable-new" : {
-                                       "default" : "1",
-                                       "description" : "Enable newly synced users immediately.",
-                                       "optional" : "1",
-                                       "type" : "boolean",
-                                       "typetext" : "<boolean>"
-                                    },
-                                    "full" : {
-                                       "description" : "DEPRECATED: use 'remove-vanished' instead. If set, uses the LDAP Directory as source of truth, deleting users or groups not returned from the sync and removing all locally modified properties of synced users. If not set, only syncs information which is present in the synced data, and does not delete or modify anything else.",
-                                       "optional" : "1",
-                                       "type" : "boolean",
-                                       "typetext" : "<boolean>"
-                                    },
-                                    "purge" : {
-                                       "description" : "DEPRECATED: use 'remove-vanished' instead. Remove ACLs for users or groups which were removed from the config during a sync.",
-                                       "optional" : "1",
-                                       "type" : "boolean",
-                                       "typetext" : "<boolean>"
-                                    },
-                                    "realm" : {
-                                       "description" : "Authentication domain ID",
-                                       "format" : "pve-realm",
-                                       "maxLength" : 32,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "remove-vanished" : {
-                                       "default" : "none",
-                                       "description" : "A semicolon-separated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync. Instead of a list it also can be 'none' (the default).",
-                                       "optional" : "1",
-                                       "pattern" : "(?:(?:(?:acl|properties|entry);)*(?:acl|properties|entry))|none",
-                                       "type" : "string",
-                                       "typetext" : "([acl];[properties];[entry])|none"
-                                    },
-                                    "scope" : {
-                                       "description" : "Select what to sync.",
-                                       "enum" : [
-                                          "users",
-                                          "groups",
-                                          "both"
-                                       ],
-                                       "optional" : "1",
-                                       "type" : "string"
-                                    }
+                                    "type" : "object"
+                                 },
+                                 "display-name" : {
+                                    "description" : "The name of the storage type, if the plugin provides one.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "origin" : {
+                                    "description" : "Whether the plugin is shipped with Proxmox VE ('builtin') or installed separately ('custom').",
+                                    "enum" : [
+                                       "builtin",
+                                       "custom"
+                                    ],
+                                    "optional" : 0,
+                                    "type" : "string"
+                                 },
+                                 "schema" : {
+                                    "optional" : 0,
+                                    "type" : "object"
+                                 },
+                                 "type" : {
+                                    "description" : "The storage type of the plugin.",
+                                    "enum" : [
+                                       "btrfs",
+                                       "cephfs",
+                                       "cifs",
+                                       "dir",
+                                       "esxi",
+                                       "iscsi",
+                                       "iscsidirect",
+                                       "lvm",
+                                       "lvmthin",
+                                       "nfs",
+                                       "pbs",
+                                       "rbd",
+                                       "zfs",
+                                       "zfspool"
+                                    ],
+                                    "optional" : 0,
+                                    "type" : "string"
                                  }
                               },
-                              "permissions" : {
-                                 "check" : [
-                                    "and",
-                                    [
-                                       "perm",
-                                       "/access/realm/{realm}",
-                                       [
-                                          "Realm.AllocateUser"
-                                       ]
-                                    ],
-                                    [
-                                       "perm",
-                                       "/access/groups",
-                                       [
-                                          "User.Modify"
-                                       ]
-                                    ]
-                                 ],
-                                 "description" : "'Realm.AllocateUser' on '/access/realm/<realm>' and  'User.Modify' permissions to '/access/groups/'."
-                              },
-                              "protected" : 1,
-                              "returns" : {
-                                 "description" : "Worker Task-UPID",
-                                 "type" : "string"
-                              }
-                           }
-                        },
-                        "leaf" : 1,
-                        "path" : "/access/domains/{realm}/sync",
-                        "text" : "sync"
-                     }
-                  ],
-                  "info" : {
-                     "DELETE" : {
-                        "allowtoken" : 1,
-                        "description" : "Delete an authentication server.",
-                        "method" : "DELETE",
-                        "name" : "delete",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "realm" : {
-                                 "description" : "Authentication domain ID",
-                                 "format" : "pve-realm",
-                                 "maxLength" : 32,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/access/realm",
-                              [
-                                 "Realm.Allocate"
-                              ]
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
-                        }
-                     },
-                     "GET" : {
-                        "allowtoken" : 1,
-                        "description" : "Get auth server configuration.",
-                        "method" : "GET",
-                        "name" : "read",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "realm" : {
-                                 "description" : "Authentication domain ID",
-                                 "format" : "pve-realm",
-                                 "maxLength" : 32,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/access/realm",
-                              [
-                                 "Realm.Allocate",
-                                 "Sys.Audit"
-                              ],
-                              "any",
-                              1
-                           ]
-                        },
-                        "returns" : {}
-                     },
-                     "PUT" : {
-                        "allowtoken" : 1,
-                        "description" : "Update authentication server settings.",
-                        "method" : "PUT",
-                        "name" : "update",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "acr-values" : {
-                                 "description" : "Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.",
-                                 "optional" : 1,
-                                 "pattern" : "^[^\\x00-\\x1F\\x7F <>#\"]*$",
-                                 "type" : "string"
-                              },
-                              "audiences" : {
-                                 "description" : "A list of audiences that the OpenID Issuer may include that are accepted in addition to 'client-id'.",
-                                 "optional" : 1,
-                                 "pattern" : "^[^\\x00-\\x1F\\x7F <>#\"]*$",
-                                 "type" : "string"
-                              },
-                              "autocreate" : {
-                                 "default" : 0,
-                                 "description" : "Automatically create users if they do not exist.",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "base_dn" : {
-                                 "description" : "LDAP base domain name",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "bind_dn" : {
-                                 "description" : "LDAP bind domain name",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "capath" : {
-                                 "default" : "/etc/ssl/certs",
-                                 "description" : "Path to the CA certificate store",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "case-sensitive" : {
-                                 "default" : 1,
-                                 "description" : "username is case-sensitive",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "cert" : {
-                                 "description" : "Path to the client certificate",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "certkey" : {
-                                 "description" : "Path to the client certificate key",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "check-connection" : {
-                                 "default" : 0,
-                                 "description" : "Check bind connection to the server.",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "client-id" : {
-                                 "description" : "OpenID Client ID",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "client-key" : {
-                                 "description" : "OpenID Client Key",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "comment" : {
-                                 "description" : "Description.",
-                                 "maxLength" : 4096,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "default" : {
-                                 "description" : "Use this as default realm",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "delete" : {
-                                 "description" : "A list of settings you want to delete.",
-                                 "format" : "pve-configid-list",
-                                 "maxLength" : 4096,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "digest" : {
-                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
-                                 "maxLength" : 64,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "domain" : {
-                                 "description" : "AD domain name",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "pattern" : "\\S+",
-                                 "type" : "string"
-                              },
-                              "filter" : {
-                                 "description" : "LDAP filter for user sync.",
-                                 "maxLength" : 2048,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "group_classes" : {
-                                 "default" : "groupOfNames, group, univentionGroup, ipausergroup",
-                                 "description" : "The objectclasses for groups.",
-                                 "format" : "ldap-simple-attr-list",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "group_dn" : {
-                                 "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "group_filter" : {
-                                 "description" : "LDAP filter for group sync.",
-                                 "maxLength" : 2048,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "group_name_attr" : {
-                                 "description" : "LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.",
-                                 "format" : "ldap-simple-attr",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "groups-autocreate" : {
-                                 "default" : 0,
-                                 "description" : "Automatically create groups if they do not exist.",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "groups-claim" : {
-                                 "description" : "OpenID claim used to retrieve groups with.",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "pattern" : "(?^:[A-Za-z0-9\\.\\-_]+)",
-                                 "type" : "string"
-                              },
-                              "groups-overwrite" : {
-                                 "default" : 0,
-                                 "description" : "All groups will be overwritten for the user on login.",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "issuer-url" : {
-                                 "description" : "OpenID Issuer Url",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "mode" : {
-                                 "default" : "ldap",
-                                 "description" : "LDAP protocol mode.",
-                                 "enum" : [
-                                    "ldap",
-                                    "ldaps",
-                                    "ldap+starttls"
-                                 ],
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "password" : {
-                                 "description" : "LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "port" : {
-                                 "description" : "Server port.",
-                                 "maximum" : 65535,
-                                 "minimum" : 1,
-                                 "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer> (1 - 65535)"
-                              },
-                              "prompt" : {
-                                 "description" : "Specifies whether the Authorization Server prompts the End-User for reauthentication and consent.",
-                                 "optional" : 1,
-                                 "pattern" : "(?:none|login|consent|select_account|\\S+)",
-                                 "type" : "string"
-                              },
-                              "query-userinfo" : {
-                                 "default" : 1,
-                                 "description" : "Enables querying the userinfo endpoint for claims values.",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "realm" : {
-                                 "description" : "Authentication domain ID",
-                                 "format" : "pve-realm",
-                                 "maxLength" : 32,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "scopes" : {
-                                 "default" : "email profile",
-                                 "description" : "Specifies the scopes (user details) that should be authorized and returned, for example 'email' or 'profile'.",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "secure" : {
-                                 "description" : "Use secure LDAPS protocol. DEPRECATED: use 'mode' instead.",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              },
-                              "server1" : {
-                                 "description" : "Server IP address (or DNS name)",
-                                 "format" : "address",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "server2" : {
-                                 "description" : "Fallback Server IP address (or DNS name)",
-                                 "format" : "address",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "sslversion" : {
-                                 "description" : "LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!",
-                                 "enum" : [
-                                    "tlsv1",
-                                    "tlsv1_1",
-                                    "tlsv1_2",
-                                    "tlsv1_3"
-                                 ],
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "sync-defaults-options" : {
-                                 "description" : "The default options for behavior of synchronizations.",
-                                 "format" : "realm-sync-options",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=([acl];[properties];[entry])|none] [,scope=<users|groups|both>]"
-                              },
-                              "sync_attributes" : {
-                                 "description" : "Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.",
-                                 "optional" : 1,
-                                 "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
-                                 "type" : "string"
-                              },
-                              "tfa" : {
-                                 "description" : "Use Two-factor authentication.",
-                                 "format" : "pve-tfa-config",
-                                 "maxLength" : 128,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]"
-                              },
-                              "user_attr" : {
-                                 "description" : "LDAP user attribute name",
-                                 "maxLength" : 256,
-                                 "optional" : 1,
-                                 "pattern" : "\\S{2,}",
-                                 "type" : "string"
-                              },
-                              "user_classes" : {
-                                 "default" : "inetorgperson, posixaccount, person, user",
-                                 "description" : "The objectclasses for users.",
-                                 "format" : "ldap-simple-attr-list",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "verify" : {
-                                 "default" : 0,
-                                 "description" : "Verify the server's SSL certificate",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
-                              }
+                              "type" : "object"
                            },
-                           "type" : "object"
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/access/realm",
-                              [
-                                 "Realm.Allocate"
-                              ]
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
+                           "links" : [
+                              {
+                                 "href" : "{type}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
                         }
                      }
                   },
                   "leaf" : 0,
-                  "path" : "/access/domains/{realm}",
-                  "text" : "{realm}"
-               }
-            ],
-            "info" : {
-               "GET" : {
-                  "allowtoken" : 1,
-                  "description" : "Authentication domain index.",
-                  "method" : "GET",
-                  "name" : "index",
-                  "parameters" : {
-                     "additionalProperties" : 0
-                  },
-                  "permissions" : {
-                     "description" : "Anyone can access that, because we need that list for the login box (before the user is authenticated).",
-                     "user" : "world"
-                  },
-                  "returns" : {
-                     "items" : {
-                        "properties" : {
-                           "comment" : {
-                              "description" : "A comment. The GUI use this text when you select a domain (Realm) on the login window.",
-                              "optional" : 1,
-                              "type" : "string"
-                           },
-                           "realm" : {
-                              "type" : "string"
-                           },
-                           "tfa" : {
-                              "description" : "Two-factor authentication provider.",
-                              "enum" : [
-                                 "yubico",
-                                 "oath"
-                              ],
-                              "optional" : 1,
-                              "type" : "string"
-                           },
-                           "type" : {
-                              "type" : "string"
-                           }
-                        },
-                        "type" : "object"
-                     },
-                     "links" : [
-                        {
-                           "href" : "{realm}",
-                           "rel" : "child"
-                        }
-                     ],
-                     "type" : "array"
-                  }
-               },
-               "POST" : {
-                  "allowtoken" : 1,
-                  "description" : "Add an authentication server.",
-                  "method" : "POST",
-                  "name" : "create",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "acr-values" : {
-                           "description" : "Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.",
-                           "optional" : 1,
-                           "pattern" : "^[^\\x00-\\x1F\\x7F <>#\"]*$",
-                           "type" : "string"
-                        },
-                        "audiences" : {
-                           "description" : "A list of audiences that the OpenID Issuer may include that are accepted in addition to 'client-id'.",
-                           "optional" : 1,
-                           "pattern" : "^[^\\x00-\\x1F\\x7F <>#\"]*$",
-                           "type" : "string"
-                        },
-                        "autocreate" : {
-                           "default" : 0,
-                           "description" : "Automatically create users if they do not exist.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "base_dn" : {
-                           "description" : "LDAP base domain name",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "bind_dn" : {
-                           "description" : "LDAP bind domain name",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "capath" : {
-                           "default" : "/etc/ssl/certs",
-                           "description" : "Path to the CA certificate store",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "case-sensitive" : {
-                           "default" : 1,
-                           "description" : "username is case-sensitive",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "cert" : {
-                           "description" : "Path to the client certificate",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "certkey" : {
-                           "description" : "Path to the client certificate key",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "check-connection" : {
-                           "default" : 0,
-                           "description" : "Check bind connection to the server.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "client-id" : {
-                           "description" : "OpenID Client ID",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "client-key" : {
-                           "description" : "OpenID Client Key",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "comment" : {
-                           "description" : "Description.",
-                           "maxLength" : 4096,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "default" : {
-                           "description" : "Use this as default realm",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "domain" : {
-                           "description" : "AD domain name",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "pattern" : "\\S+",
-                           "type" : "string"
-                        },
-                        "filter" : {
-                           "description" : "LDAP filter for user sync.",
-                           "maxLength" : 2048,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "group_classes" : {
-                           "default" : "groupOfNames, group, univentionGroup, ipausergroup",
-                           "description" : "The objectclasses for groups.",
-                           "format" : "ldap-simple-attr-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "group_dn" : {
-                           "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "group_filter" : {
-                           "description" : "LDAP filter for group sync.",
-                           "maxLength" : 2048,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "group_name_attr" : {
-                           "description" : "LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.",
-                           "format" : "ldap-simple-attr",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "groups-autocreate" : {
-                           "default" : 0,
-                           "description" : "Automatically create groups if they do not exist.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "groups-claim" : {
-                           "description" : "OpenID claim used to retrieve groups with.",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "pattern" : "(?^:[A-Za-z0-9\\.\\-_]+)",
-                           "type" : "string"
-                        },
-                        "groups-overwrite" : {
-                           "default" : 0,
-                           "description" : "All groups will be overwritten for the user on login.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "issuer-url" : {
-                           "description" : "OpenID Issuer Url",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "mode" : {
-                           "default" : "ldap",
-                           "description" : "LDAP protocol mode.",
-                           "enum" : [
-                              "ldap",
-                              "ldaps",
-                              "ldap+starttls"
-                           ],
-                           "optional" : 1,
-                           "type" : "string"
-                        },
-                        "password" : {
-                           "description" : "LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "port" : {
-                           "description" : "Server port.",
-                           "maximum" : 65535,
-                           "minimum" : 1,
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer> (1 - 65535)"
-                        },
-                        "prompt" : {
-                           "description" : "Specifies whether the Authorization Server prompts the End-User for reauthentication and consent.",
-                           "optional" : 1,
-                           "pattern" : "(?:none|login|consent|select_account|\\S+)",
-                           "type" : "string"
-                        },
-                        "query-userinfo" : {
-                           "default" : 1,
-                           "description" : "Enables querying the userinfo endpoint for claims values.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "realm" : {
-                           "description" : "Authentication domain ID",
-                           "format" : "pve-realm",
-                           "maxLength" : 32,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "scopes" : {
-                           "default" : "email profile",
-                           "description" : "Specifies the scopes (user details) that should be authorized and returned, for example 'email' or 'profile'.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "secure" : {
-                           "description" : "Use secure LDAPS protocol. DEPRECATED: use 'mode' instead.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "server1" : {
-                           "description" : "Server IP address (or DNS name)",
-                           "format" : "address",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "server2" : {
-                           "description" : "Fallback Server IP address (or DNS name)",
-                           "format" : "address",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "sslversion" : {
-                           "description" : "LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!",
-                           "enum" : [
-                              "tlsv1",
-                              "tlsv1_1",
-                              "tlsv1_2",
-                              "tlsv1_3"
-                           ],
-                           "optional" : 1,
-                           "type" : "string"
-                        },
-                        "sync-defaults-options" : {
-                           "description" : "The default options for behavior of synchronizations.",
-                           "format" : "realm-sync-options",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=([acl];[properties];[entry])|none] [,scope=<users|groups|both>]"
-                        },
-                        "sync_attributes" : {
-                           "description" : "Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.",
-                           "optional" : 1,
-                           "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
-                           "type" : "string"
-                        },
-                        "tfa" : {
-                           "description" : "Use Two-factor authentication.",
-                           "format" : "pve-tfa-config",
-                           "maxLength" : 128,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]"
-                        },
-                        "type" : {
-                           "description" : "Realm type.",
-                           "enum" : [
-                              "ad",
-                              "ldap",
-                              "openid",
-                              "pam",
-                              "pve"
-                           ],
-                           "type" : "string"
-                        },
-                        "user_attr" : {
-                           "description" : "LDAP user attribute name",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "pattern" : "\\S{2,}",
-                           "type" : "string"
-                        },
-                        "user_classes" : {
-                           "default" : "inetorgperson, posixaccount, person, user",
-                           "description" : "The objectclasses for users.",
-                           "format" : "ldap-simple-attr-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "username-claim" : {
-                           "description" : "OpenID claim used to generate the unique username.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "verify" : {
-                           "default" : 0,
-                           "description" : "Verify the server's SSL certificate",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        }
-                     },
-                     "type" : "object"
-                  },
-                  "permissions" : {
-                     "check" : [
-                        "perm",
-                        "/access/realm",
-                        [
-                           "Realm.Allocate"
-                        ]
-                     ]
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               }
-            },
-            "leaf" : 0,
-            "path" : "/access/domains",
-            "text" : "domains"
-         },
-         {
-            "children" : [
-               {
-                  "info" : {
-                     "POST" : {
-                        "allowtoken" : 1,
-                        "description" : "Get the OpenId Authorization Url for the specified realm.",
-                        "method" : "POST",
-                        "name" : "auth_url",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "realm" : {
-                                 "description" : "Authentication domain ID",
-                                 "format" : "pve-realm",
-                                 "maxLength" : 32,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "redirect-url" : {
-                                 "description" : "Redirection Url. The client should set this to the used server url (location.origin).",
-                                 "maxLength" : 255,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "user" : "world"
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "description" : "Redirection URL.",
-                           "type" : "string"
-                        }
-                     }
-                  },
-                  "leaf" : 1,
-                  "path" : "/access/openid/auth-url",
-                  "text" : "auth-url"
-               },
-               {
-                  "info" : {
-                     "POST" : {
-                        "allowtoken" : 1,
-                        "description" : " Verify OpenID authorization code and create a ticket.",
-                        "method" : "POST",
-                        "name" : "login",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "code" : {
-                                 "description" : "OpenId authorization code.",
-                                 "maxLength" : 4096,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "redirect-url" : {
-                                 "description" : "Redirection Url. The client should set this to the used server url (location.origin).",
-                                 "maxLength" : 255,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "state" : {
-                                 "description" : "OpenId state.",
-                                 "maxLength" : 1024,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "user" : "world"
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "properties" : {
-                              "CSRFPreventionToken" : {
-                                 "type" : "string"
-                              },
-                              "cap" : {
-                                 "type" : "object"
-                              },
-                              "clustername" : {
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "ticket" : {
-                                 "type" : "string"
-                              },
-                              "username" : {
-                                 "type" : "string"
-                              }
-                           }
-                        }
-                     }
-                  },
-                  "leaf" : 1,
-                  "path" : "/access/openid/login",
-                  "text" : "login"
+                  "path" : "/plugins/storage/plugin",
+                  "text" : "plugin"
                }
             ],
             "info" : {
@@ -71073,6 +71161,7 @@ const apiSchema = [
                   },
                   "returns" : {
                      "items" : {
+                        "additionalProperties" : 0,
                         "properties" : {
                            "subdir" : {
                               "type" : "string"
@@ -71091,757 +71180,8 @@ const apiSchema = [
                }
             },
             "leaf" : 0,
-            "path" : "/access/openid",
-            "text" : "openid"
-         },
-         {
-            "children" : [
-               {
-                  "children" : [
-                     {
-                        "info" : {
-                           "DELETE" : {
-                              "allowtoken" : 0,
-                              "description" : "Delete a TFA entry by ID.",
-                              "method" : "DELETE",
-                              "name" : "delete_tfa",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "id" : {
-                                       "description" : "A TFA entry id.",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "password" : {
-                                       "description" : "The current password of the user performing the change.",
-                                       "maxLength" : 64,
-                                       "minLength" : 5,
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "userid" : {
-                                       "description" : "Full User ID, in the `name@realm` format.",
-                                       "format" : "pve-userid",
-                                       "maxLength" : 64,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "or",
-                                    [
-                                       "userid-param",
-                                       "self"
-                                    ],
-                                    [
-                                       "userid-group",
-                                       [
-                                          "User.Modify"
-                                       ]
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "returns" : {
-                                 "type" : "null"
-                              }
-                           },
-                           "GET" : {
-                              "allowtoken" : 1,
-                              "description" : "Fetch a requested TFA entry if present.",
-                              "method" : "GET",
-                              "name" : "get_tfa_entry",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "id" : {
-                                       "description" : "A TFA entry id.",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "userid" : {
-                                       "description" : "Full User ID, in the `name@realm` format.",
-                                       "format" : "pve-userid",
-                                       "maxLength" : 64,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "or",
-                                    [
-                                       "userid-param",
-                                       "self"
-                                    ],
-                                    [
-                                       "userid-group",
-                                       [
-                                          "User.Modify",
-                                          "Sys.Audit"
-                                       ]
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "returns" : {
-                                 "description" : "TFA Entry.",
-                                 "properties" : {
-                                    "created" : {
-                                       "description" : "Creation time of this entry as unix epoch.",
-                                       "type" : "integer"
-                                    },
-                                    "description" : {
-                                       "description" : "User chosen description for this entry.",
-                                       "type" : "string"
-                                    },
-                                    "enable" : {
-                                       "default" : 1,
-                                       "description" : "Whether this TFA entry is currently enabled.",
-                                       "optional" : 1,
-                                       "type" : "boolean"
-                                    },
-                                    "id" : {
-                                       "description" : "The id used to reference this entry.",
-                                       "type" : "string"
-                                    },
-                                    "type" : {
-                                       "description" : "TFA Entry Type.",
-                                       "enum" : [
-                                          "totp",
-                                          "u2f",
-                                          "webauthn",
-                                          "recovery",
-                                          "yubico"
-                                       ],
-                                       "type" : "string"
-                                    }
-                                 },
-                                 "type" : "object"
-                              }
-                           },
-                           "PUT" : {
-                              "allowtoken" : 0,
-                              "description" : "Add a TFA entry for a user.",
-                              "method" : "PUT",
-                              "name" : "update_tfa_entry",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "description" : {
-                                       "description" : "A description to distinguish multiple entries from one another",
-                                       "maxLength" : 255,
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "enable" : {
-                                       "description" : "Whether the entry should be enabled for login.",
-                                       "optional" : 1,
-                                       "type" : "boolean",
-                                       "typetext" : "<boolean>"
-                                    },
-                                    "id" : {
-                                       "description" : "A TFA entry id.",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "password" : {
-                                       "description" : "The current password of the user performing the change.",
-                                       "maxLength" : 64,
-                                       "minLength" : 5,
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "userid" : {
-                                       "description" : "Full User ID, in the `name@realm` format.",
-                                       "format" : "pve-userid",
-                                       "maxLength" : 64,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "or",
-                                    [
-                                       "userid-param",
-                                       "self"
-                                    ],
-                                    [
-                                       "userid-group",
-                                       [
-                                          "User.Modify"
-                                       ]
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "returns" : {
-                                 "type" : "null"
-                              }
-                           }
-                        },
-                        "leaf" : 1,
-                        "path" : "/access/tfa/{userid}/{id}",
-                        "text" : "{id}"
-                     }
-                  ],
-                  "info" : {
-                     "GET" : {
-                        "allowtoken" : 1,
-                        "description" : "List TFA configurations of users.",
-                        "method" : "GET",
-                        "name" : "list_user_tfa",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "userid" : {
-                                 "description" : "Full User ID, in the `name@realm` format.",
-                                 "format" : "pve-userid",
-                                 "maxLength" : 64,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "or",
-                              [
-                                 "userid-param",
-                                 "self"
-                              ],
-                              [
-                                 "userid-group",
-                                 [
-                                    "User.Modify",
-                                    "Sys.Audit"
-                                 ]
-                              ]
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "description" : "A list of the user's TFA entries.",
-                           "items" : {
-                              "description" : "TFA Entry.",
-                              "properties" : {
-                                 "created" : {
-                                    "description" : "Creation time of this entry as unix epoch.",
-                                    "type" : "integer"
-                                 },
-                                 "description" : {
-                                    "description" : "User chosen description for this entry.",
-                                    "type" : "string"
-                                 },
-                                 "enable" : {
-                                    "default" : 1,
-                                    "description" : "Whether this TFA entry is currently enabled.",
-                                    "optional" : 1,
-                                    "type" : "boolean"
-                                 },
-                                 "id" : {
-                                    "description" : "The id used to reference this entry.",
-                                    "type" : "string"
-                                 },
-                                 "type" : {
-                                    "description" : "TFA Entry Type.",
-                                    "enum" : [
-                                       "totp",
-                                       "u2f",
-                                       "webauthn",
-                                       "recovery",
-                                       "yubico"
-                                    ],
-                                    "type" : "string"
-                                 }
-                              },
-                              "type" : "object"
-                           },
-                           "links" : [
-                              {
-                                 "href" : "{id}",
-                                 "rel" : "child"
-                              }
-                           ],
-                           "type" : "array"
-                        }
-                     },
-                     "POST" : {
-                        "allowtoken" : 0,
-                        "description" : "Add a TFA entry for a user.",
-                        "method" : "POST",
-                        "name" : "add_tfa_entry",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "challenge" : {
-                                 "description" : "When responding to a u2f challenge: the original challenge string",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "description" : {
-                                 "description" : "A description to distinguish multiple entries from one another",
-                                 "maxLength" : 255,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "password" : {
-                                 "description" : "The current password of the user performing the change.",
-                                 "maxLength" : 64,
-                                 "minLength" : 5,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "totp" : {
-                                 "description" : "A totp URI.",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "type" : {
-                                 "description" : "TFA Entry Type.",
-                                 "enum" : [
-                                    "totp",
-                                    "u2f",
-                                    "webauthn",
-                                    "recovery",
-                                    "yubico"
-                                 ],
-                                 "type" : "string"
-                              },
-                              "userid" : {
-                                 "description" : "Full User ID, in the `name@realm` format.",
-                                 "format" : "pve-userid",
-                                 "maxLength" : 64,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "value" : {
-                                 "description" : "The current value for the provided totp URI, or a Webauthn/U2F challenge response",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "or",
-                              [
-                                 "userid-param",
-                                 "self"
-                              ],
-                              [
-                                 "userid-group",
-                                 [
-                                    "User.Modify"
-                                 ]
-                              ]
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "properties" : {
-                              "challenge" : {
-                                 "description" : "When adding u2f entries, this contains a challenge the user must respond to in order to finish the registration.",
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "id" : {
-                                 "description" : "The id of a newly added TFA entry.",
-                                 "type" : "string"
-                              },
-                              "recovery" : {
-                                 "description" : "When adding recovery codes, this contains the list of codes to be displayed to the user",
-                                 "items" : {
-                                    "description" : "A recovery entry.",
-                                    "type" : "string"
-                                 },
-                                 "optional" : 1,
-                                 "type" : "array"
-                              }
-                           },
-                           "type" : "object"
-                        }
-                     }
-                  },
-                  "leaf" : 0,
-                  "path" : "/access/tfa/{userid}",
-                  "text" : "{userid}"
-               }
-            ],
-            "info" : {
-               "GET" : {
-                  "allowtoken" : 1,
-                  "description" : "List TFA configurations of users.",
-                  "method" : "GET",
-                  "name" : "list_tfa",
-                  "parameters" : {
-                     "additionalProperties" : 0
-                  },
-                  "permissions" : {
-                     "description" : "Returns all or just the logged-in user, depending on privileges.",
-                     "user" : "all"
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "description" : "The list tuples of user and TFA entries.",
-                     "items" : {
-                        "properties" : {
-                           "entries" : {
-                              "items" : {
-                                 "description" : "TFA Entry.",
-                                 "properties" : {
-                                    "created" : {
-                                       "description" : "Creation time of this entry as unix epoch.",
-                                       "type" : "integer"
-                                    },
-                                    "description" : {
-                                       "description" : "User chosen description for this entry.",
-                                       "type" : "string"
-                                    },
-                                    "enable" : {
-                                       "default" : 1,
-                                       "description" : "Whether this TFA entry is currently enabled.",
-                                       "optional" : 1,
-                                       "type" : "boolean"
-                                    },
-                                    "id" : {
-                                       "description" : "The id used to reference this entry.",
-                                       "type" : "string"
-                                    },
-                                    "type" : {
-                                       "description" : "TFA Entry Type.",
-                                       "enum" : [
-                                          "totp",
-                                          "u2f",
-                                          "webauthn",
-                                          "recovery",
-                                          "yubico"
-                                       ],
-                                       "type" : "string"
-                                    }
-                                 },
-                                 "type" : "object"
-                              },
-                              "type" : "array"
-                           },
-                           "tfa-locked-until" : {
-                              "description" : "Contains a timestamp until when a user is locked out of 2nd factors.",
-                              "optional" : 1,
-                              "type" : "integer"
-                           },
-                           "totp-locked" : {
-                              "description" : "True if the user is currently locked out of TOTP factors.",
-                              "optional" : 1,
-                              "type" : "boolean"
-                           },
-                           "userid" : {
-                              "description" : "User this entry belongs to.",
-                              "type" : "string"
-                           }
-                        },
-                        "type" : "object"
-                     },
-                     "links" : [
-                        {
-                           "href" : "{userid}",
-                           "rel" : "child"
-                        }
-                     ],
-                     "type" : "array"
-                  }
-               }
-            },
-            "leaf" : 0,
-            "path" : "/access/tfa",
-            "text" : "tfa"
-         },
-         {
-            "info" : {
-               "GET" : {
-                  "allowtoken" : 1,
-                  "description" : "Dummy. Useful for formatters which want to provide a login page.",
-                  "method" : "GET",
-                  "name" : "get_ticket",
-                  "parameters" : {
-                     "additionalProperties" : 0
-                  },
-                  "permissions" : {
-                     "user" : "world"
-                  },
-                  "returns" : {
-                     "type" : "null"
-                  }
-               },
-               "POST" : {
-                  "allowtoken" : 0,
-                  "description" : "Create or verify authentication ticket.",
-                  "method" : "POST",
-                  "name" : "create_ticket",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "new-format" : {
-                           "default" : 1,
-                           "description" : "This parameter is now ignored and assumed to be 1.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "otp" : {
-                           "description" : "One-time password for Two-factor authentication.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "password" : {
-                           "description" : "The secret password. This can also be a valid ticket.",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "path" : {
-                           "description" : "Verify ticket, and check if user have access 'privs' on 'path'",
-                           "maxLength" : 64,
-                           "optional" : 1,
-                           "requires" : "privs",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "privs" : {
-                           "description" : "Verify ticket, and check if user have access 'privs' on 'path'",
-                           "format" : "pve-priv-list",
-                           "maxLength" : 64,
-                           "optional" : 1,
-                           "requires" : "path",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "realm" : {
-                           "description" : "You can optionally pass the realm using this parameter. Normally the realm is simply added to the username <username>@<realm>.",
-                           "format" : "pve-realm",
-                           "maxLength" : 32,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "tfa-challenge" : {
-                           "description" : "The signed TFA challenge string the user wants to respond to.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "username" : {
-                           "description" : "User name",
-                           "maxLength" : 64,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "description" : "You need to pass valid credientials.",
-                     "user" : "world"
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "properties" : {
-                        "CSRFPreventionToken" : {
-                           "optional" : 1,
-                           "type" : "string"
-                        },
-                        "clustername" : {
-                           "optional" : 1,
-                           "type" : "string"
-                        },
-                        "ticket" : {
-                           "optional" : 1,
-                           "type" : "string"
-                        },
-                        "username" : {
-                           "type" : "string"
-                        }
-                     },
-                     "type" : "object"
-                  }
-               }
-            },
-            "leaf" : 1,
-            "path" : "/access/ticket",
-            "text" : "ticket"
-         },
-         {
-            "info" : {
-               "POST" : {
-                  "allowtoken" : 1,
-                  "description" : "verify VNC authentication ticket.",
-                  "method" : "POST",
-                  "name" : "verify_vnc_ticket",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "authid" : {
-                           "description" : "UserId or token",
-                           "maxLength" : 64,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "path" : {
-                           "description" : "Verify ticket, and check if user have access 'privs' on 'path'",
-                           "maxLength" : 64,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "port" : {
-                           "description" : "Verify that the ticket is valid for this port.",
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer>"
-                        },
-                        "privs" : {
-                           "description" : "Verify ticket, and check if user have access 'privs' on 'path'",
-                           "format" : "pve-priv-list",
-                           "maxLength" : 64,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "vncticket" : {
-                           "description" : "The VNC ticket.",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "description" : "You need to pass valid credientials.",
-                     "user" : "world"
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               }
-            },
-            "leaf" : 1,
-            "path" : "/access/vncticket",
-            "text" : "vncticket"
-         },
-         {
-            "info" : {
-               "PUT" : {
-                  "allowtoken" : 0,
-                  "description" : "Change user password.",
-                  "method" : "PUT",
-                  "name" : "change_password",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "confirmation-password" : {
-                           "description" : "The current password of the user performing the change.",
-                           "maxLength" : 64,
-                           "minLength" : 5,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "password" : {
-                           "description" : "The new password.",
-                           "maxLength" : 64,
-                           "minLength" : 8,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "userid" : {
-                           "description" : "Full User ID, in the `name@realm` format.",
-                           "format" : "pve-userid",
-                           "maxLength" : 64,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "check" : [
-                        "or",
-                        [
-                           "userid-param",
-                           "self"
-                        ],
-                        [
-                           "and",
-                           [
-                              "userid-param",
-                              "Realm.AllocateUser"
-                           ],
-                           [
-                              "userid-group",
-                              [
-                                 "User.Modify"
-                              ]
-                           ]
-                        ]
-                     ],
-                     "description" : "Each user is allowed to change their own password. A user can change the password of another user if they have 'Realm.AllocateUser' (on the realm of user <userid>) and 'User.Modify' permission on /access/groups/<group> on a group where user <userid> is member of. For the PAM realm, a password change does not take  effect cluster-wide, but only applies to the local node."
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               }
-            },
-            "leaf" : 1,
-            "path" : "/access/password",
-            "text" : "password"
-         },
-         {
-            "info" : {
-               "GET" : {
-                  "allowtoken" : 1,
-                  "description" : "Retrieve effective permissions of given user/token.",
-                  "method" : "GET",
-                  "name" : "permissions",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "path" : {
-                           "description" : "Only dump this specific path, not the whole tree.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "userid" : {
-                           "description" : "User ID or full API token ID",
-                           "optional" : 1,
-                           "pattern" : "(?^:^(?^:[^\\s:/]+)\\@(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)(?:!(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+))?\\z)",
-                           "type" : "string"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "description" : "Each user/token is allowed to dump their own permissions (or that of owned tokens). A user can dump the permissions of another user or their tokens if they have 'Sys.Audit' permission on /access.",
-                     "user" : "all"
-                  },
-                  "returns" : {
-                     "description" : "Map of \"path\" => (Map of \"privilege\" => \"propagate boolean\").",
-                     "type" : "object"
-                  }
-               }
-            },
-            "leaf" : 1,
-            "path" : "/access/permissions",
-            "text" : "permissions"
+            "path" : "/plugins/storage",
+            "text" : "storage"
          }
       ],
       "info" : {
@@ -71876,8 +71216,8 @@ const apiSchema = [
          }
       },
       "leaf" : 0,
-      "path" : "/access",
-      "text" : "access"
+      "path" : "/plugins",
+      "text" : "plugins"
    },
    {
       "children" : [
@@ -72275,6 +71615,1274 @@ const apiSchema = [
       "leaf" : 0,
       "path" : "/pools",
       "text" : "pools"
+   },
+   {
+      "children" : [
+         {
+            "info" : {
+               "DELETE" : {
+                  "allowtoken" : 1,
+                  "description" : "Delete storage configuration.",
+                  "method" : "DELETE",
+                  "name" : "delete",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "storage" : {
+                           "description" : "The storage identifier.",
+                           "format" : "pve-storage-id",
+                           "format_description" : "storage ID",
+                           "type" : "string",
+                           "typetext" : "<storage ID>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm",
+                        "/storage",
+                        [
+                           "Datastore.Allocate"
+                        ]
+                     ]
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               },
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Read storage configuration.",
+                  "method" : "GET",
+                  "name" : "read",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "storage" : {
+                           "description" : "The storage identifier.",
+                           "format" : "pve-storage-id",
+                           "format_description" : "storage ID",
+                           "type" : "string",
+                           "typetext" : "<storage ID>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm",
+                        "/storage/{storage}",
+                        [
+                           "Datastore.Allocate"
+                        ]
+                     ]
+                  },
+                  "returns" : {
+                     "type" : "object"
+                  }
+               },
+               "PUT" : {
+                  "allowtoken" : 1,
+                  "description" : "Update storage configuration.",
+                  "method" : "PUT",
+                  "name" : "update",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "blocksize" : {
+                           "description" : "ZFS block size.",
+                           "format" : "pve-storage-zfs-blocksize",
+                           "format_description" : "a power of 2 with optional k or m suffix",
+                           "optional" : 1,
+                           "title" : "Block Size",
+                           "type" : "string",
+                           "typetext" : "<a power of 2 with optional k or m suffix>"
+                        },
+                        "bwlimit" : {
+                           "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                           "format" : {
+                              "clone" : {
+                                 "description" : "bandwidth limit in KiB/s for cloning disks",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "default" : {
+                                 "description" : "default bandwidth limit in KiB/s",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "migration" : {
+                                 "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "move" : {
+                                 "description" : "bandwidth limit in KiB/s for moving disks",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "restore" : {
+                                 "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              }
+                           },
+                           "optional" : 1,
+                           "title" : "Bandwidth Limit",
+                           "type" : "string",
+                           "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                        },
+                        "comstar_hg" : {
+                           "description" : "Host group for COMSTAR views.",
+                           "optional" : 1,
+                           "title" : "Host Group",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "comstar_tg" : {
+                           "description" : "Target group for COMSTAR views.",
+                           "optional" : 1,
+                           "title" : "Target Group",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "content" : {
+                           "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                           "format" : "pve-storage-content-list",
+                           "optional" : 1,
+                           "title" : "Content",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "content-dirs" : {
+                           "description" : "Overrides for default content type directories.",
+                           "format" : "pve-dir-override-list",
+                           "optional" : 1,
+                           "title" : "Content Directories",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "create-base-path" : {
+                           "default" : "yes",
+                           "description" : "Create the base directory if it doesn't exist.",
+                           "optional" : 1,
+                           "title" : "Create Base Directory",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "create-subdirs" : {
+                           "default" : "yes",
+                           "description" : "Populate the base directory with the default structure.",
+                           "optional" : 1,
+                           "title" : "Populate Base Directory",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "data-pool" : {
+                           "description" : "Data pool name for erasure-coded images.",
+                           "optional" : 1,
+                           "title" : "Data Pool",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "delete" : {
+                           "description" : "A list of settings you want to delete.",
+                           "format" : "pve-configid-list",
+                           "maxLength" : 4096,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "digest" : {
+                           "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                           "maxLength" : 64,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "disable" : {
+                           "description" : "Flag to disable the storage.",
+                           "optional" : 1,
+                           "title" : "Disable",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "domain" : {
+                           "description" : "The name of the user domain (workgroup) to use.",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "title" : "Domain",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "encryption-key" : {
+                           "description" : "Encryption key. Use 'autogen' to generate one automatically without passphrase.",
+                           "optional" : 1,
+                           "sensitive" : 1,
+                           "title" : "Encryption Key",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "fingerprint" : {
+                           "description" : "Certificate SHA 256 fingerprint.",
+                           "optional" : 1,
+                           "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                           "title" : "Fingerprint",
+                           "type" : "string"
+                        },
+                        "format" : {
+                           "description" : "Default image format.",
+                           "enum" : [
+                              "raw",
+                              "qcow2",
+                              "subvol",
+                              "vmdk"
+                           ],
+                           "optional" : 1,
+                           "title" : "Default Format",
+                           "type" : "string"
+                        },
+                        "fs-name" : {
+                           "description" : "The name or identifier of the filesystem.",
+                           "format" : "pve-configid",
+                           "optional" : 1,
+                           "title" : "Filesystem Name",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "fuse" : {
+                           "description" : "Mount the filesystem through FUSE.",
+                           "optional" : 1,
+                           "title" : "Mount with FUSE",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "is_mountpoint" : {
+                           "default" : "no",
+                           "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
+                           "optional" : 1,
+                           "title" : "Is Mountpoint",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "keyring" : {
+                           "description" : "Client keyring contents (for external clusters).",
+                           "optional" : 1,
+                           "sensitive" : 1,
+                           "title" : "Keyring",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "krbd" : {
+                           "default" : 0,
+                           "description" : "Always access rbd through krbd kernel module.",
+                           "optional" : 1,
+                           "title" : "KRBD",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "lio_tpg" : {
+                           "description" : "Target portal group for Linux LIO targets.",
+                           "optional" : 1,
+                           "title" : "Target Portal Group",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "master-pubkey" : {
+                           "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
+                           "optional" : 1,
+                           "title" : "Master Public Key",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "max-protected-backups" : {
+                           "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                           "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                           "minimum" : -1,
+                           "optional" : 1,
+                           "title" : "Maximum Protected",
+                           "type" : "integer",
+                           "typetext" : "<integer> (-1 - N)"
+                        },
+                        "mkdir" : {
+                           "default" : "yes",
+                           "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "monhost" : {
+                           "description" : "IP addresses of monitors (for external clusters).",
+                           "format" : "pve-storage-portal-dns-list",
+                           "optional" : 1,
+                           "title" : "Monitor(s)",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "mountpoint" : {
+                           "description" : "Path to the directory where the storage is mounted.",
+                           "format" : "pve-storage-path",
+                           "optional" : 1,
+                           "title" : "Mountpoint",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "namespace" : {
+                           "description" : "The namespace used for grouping, isolation, or partitioning purposes.",
+                           "optional" : 1,
+                           "title" : "Namespace",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "nocow" : {
+                           "default" : 0,
+                           "description" : "Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.",
+                           "optional" : 1,
+                           "title" : "Set NOCOW Flag",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "nodes" : {
+                           "description" : "List of nodes for which the storage configuration applies.",
+                           "format" : "pve-node-list",
+                           "optional" : 1,
+                           "title" : "Nodes",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "nowritecache" : {
+                           "description" : "Disable write caching on the iSCSI target.",
+                           "optional" : 1,
+                           "title" : "Disable Write Cache",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "on-volume-remove" : {
+                           "description" : "Optional actions when removing LVs.",
+                           "format" : "on-volume-remove",
+                           "optional" : 1,
+                           "title" : "Volume Removal Actions",
+                           "type" : "string",
+                           "typetext" : "[discard=<1|0>]",
+                           "verbose_description" : "Configure actions performed before removing an LV. Use 'discard=1' to issue discard (TRIM) requests before removal."
+                        },
+                        "options" : {
+                           "description" : "Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.",
+                           "format" : "pve-storage-options",
+                           "optional" : 1,
+                           "title" : "Mount Options",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "password" : {
+                           "description" : "The password used for authentication.",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "sensitive" : 1,
+                           "title" : "Password",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "pool" : {
+                           "description" : "Name of the pool that stores images.",
+                           "optional" : 1,
+                           "title" : "Pool",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "port" : {
+                           "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
+                           "maximum" : 65535,
+                           "minimum" : 1,
+                           "optional" : 1,
+                           "title" : "Port",
+                           "type" : "integer",
+                           "typetext" : "<integer> (1 - 65535)"
+                        },
+                        "preallocation" : {
+                           "default" : "metadata",
+                           "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                           "enum" : [
+                              "off",
+                              "metadata",
+                              "falloc",
+                              "full"
+                           ],
+                           "optional" : 1,
+                           "title" : "Preallocation",
+                           "type" : "string"
+                        },
+                        "prune-backups" : {
+                           "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                           "format" : "prune-backups",
+                           "optional" : 1,
+                           "title" : "Backup Retention",
+                           "type" : "string",
+                           "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                        },
+                        "saferemove" : {
+                           "description" : "Zero-out data when removing LVs.",
+                           "optional" : 1,
+                           "title" : "Wipe Removed Volumes",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "saferemove-stepsize" : {
+                           "default" : 32,
+                           "description" : "Wipe step size in MiB. It will be capped to the maximum supported by the storage.",
+                           "enum" : [
+                              "1",
+                              "2",
+                              "4",
+                              "8",
+                              "16",
+                              "32"
+                           ],
+                           "optional" : 1,
+                           "title" : "Wipe Step Size",
+                           "type" : "integer"
+                        },
+                        "saferemove_throughput" : {
+                           "description" : "Wipe throughput in bytes per second (optional suffix: k, m, or g).",
+                           "optional" : 1,
+                           "pattern" : "-?\\d+[kmgKMG]?",
+                           "title" : "Wipe Throughput",
+                           "type" : "string"
+                        },
+                        "server" : {
+                           "description" : "IP address or hostname of the server.",
+                           "format" : "pve-storage-server",
+                           "optional" : 1,
+                           "title" : "Server",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "shared" : {
+                           "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                           "optional" : 1,
+                           "title" : "Shared",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "skip-cert-verification" : {
+                           "default" : "false",
+                           "description" : "Disable TLS certificate verification, only enable on fully trusted networks!",
+                           "optional" : 1,
+                           "title" : "Skip Certificate Verification",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "smbversion" : {
+                           "default" : "default",
+                           "description" : "SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.",
+                           "enum" : [
+                              "default",
+                              "2.0",
+                              "2.1",
+                              "3",
+                              "3.0",
+                              "3.11"
+                           ],
+                           "optional" : 1,
+                           "title" : "SMB Version",
+                           "type" : "string"
+                        },
+                        "snapshot-as-volume-chain" : {
+                           "default" : 0,
+                           "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
+                           "optional" : 1,
+                           "title" : "Allow Snapshots as Volume-Chain",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "sparse" : {
+                           "description" : "Use sparse (thin-provisioned) volumes.",
+                           "optional" : 1,
+                           "title" : "Thin Provision",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "storage" : {
+                           "description" : "The storage identifier.",
+                           "format" : "pve-storage-id",
+                           "format_description" : "storage ID",
+                           "title" : "ID",
+                           "type" : "string",
+                           "typetext" : "<storage ID>"
+                        },
+                        "subdir" : {
+                           "description" : "Subdir to mount.",
+                           "format" : "pve-storage-path",
+                           "optional" : 1,
+                           "title" : "Subdirectory",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "tagged_only" : {
+                           "description" : "Only list logical volumes tagged with 'pve-vm-ID'.",
+                           "optional" : 1,
+                           "title" : "Tagged Volumes Only",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "username" : {
+                           "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                           "optional" : 1,
+                           "title" : "Username",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "zfs-base-path" : {
+                           "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
+                           "format" : "pve-storage-path",
+                           "optional" : 1,
+                           "title" : "Base Path",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     },
+                     "type" : "object"
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm",
+                        "/storage",
+                        [
+                           "Datastore.Allocate"
+                        ]
+                     ]
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "properties" : {
+                        "config" : {
+                           "additionalProperties" : 1,
+                           "description" : "Partial, possibly server generated, configuration properties.",
+                           "optional" : 1,
+                           "properties" : {
+                              "encryption-key" : {
+                                 "description" : "The, possibly auto-generated, encryption-key.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "storage" : {
+                           "description" : "The ID of the created storage.",
+                           "type" : "string"
+                        },
+                        "type" : {
+                           "description" : "The type of the created storage.",
+                           "enum" : [
+                              "btrfs",
+                              "cephfs",
+                              "cifs",
+                              "dir",
+                              "esxi",
+                              "iscsi",
+                              "iscsidirect",
+                              "lvm",
+                              "lvmthin",
+                              "nfs",
+                              "pbs",
+                              "rbd",
+                              "zfs",
+                              "zfspool"
+                           ],
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  }
+               }
+            },
+            "leaf" : 1,
+            "path" : "/storage/{storage}",
+            "text" : "{storage}"
+         }
+      ],
+      "info" : {
+         "GET" : {
+            "allowtoken" : 1,
+            "description" : "Storage index.",
+            "method" : "GET",
+            "name" : "index",
+            "parameters" : {
+               "additionalProperties" : 0,
+               "properties" : {
+                  "type" : {
+                     "description" : "Only list storage of specific type",
+                     "enum" : [
+                        "btrfs",
+                        "cephfs",
+                        "cifs",
+                        "dir",
+                        "esxi",
+                        "iscsi",
+                        "iscsidirect",
+                        "lvm",
+                        "lvmthin",
+                        "nfs",
+                        "pbs",
+                        "rbd",
+                        "zfs",
+                        "zfspool"
+                     ],
+                     "optional" : 1,
+                     "type" : "string"
+                  }
+               }
+            },
+            "permissions" : {
+               "description" : "Only list entries where you have 'Datastore.Audit' or 'Datastore.AllocateSpace' permissions on '/storage/<storage>'",
+               "user" : "all"
+            },
+            "returns" : {
+               "items" : {
+                  "properties" : {
+                     "storage" : {
+                        "type" : "string"
+                     }
+                  },
+                  "type" : "object"
+               },
+               "links" : [
+                  {
+                     "href" : "{storage}",
+                     "rel" : "child"
+                  }
+               ],
+               "type" : "array"
+            }
+         },
+         "POST" : {
+            "allowtoken" : 1,
+            "description" : "Create a new storage.",
+            "method" : "POST",
+            "name" : "create",
+            "parameters" : {
+               "additionalProperties" : 0,
+               "properties" : {
+                  "authsupported" : {
+                     "description" : "Authsupported.",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "base" : {
+                     "description" : "Volume ID of the base volume (automatically activated).",
+                     "format" : "pve-volume-id",
+                     "optional" : 1,
+                     "title" : "Base Volume",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "blocksize" : {
+                     "description" : "ZFS block size.",
+                     "format" : "pve-storage-zfs-blocksize",
+                     "format_description" : "a power of 2 with optional k or m suffix",
+                     "optional" : 1,
+                     "title" : "Block Size",
+                     "type" : "string",
+                     "typetext" : "<a power of 2 with optional k or m suffix>"
+                  },
+                  "bwlimit" : {
+                     "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                     "format" : {
+                        "clone" : {
+                           "description" : "bandwidth limit in KiB/s for cloning disks",
+                           "format_description" : "LIMIT",
+                           "minimum" : "0",
+                           "optional" : 1,
+                           "type" : "number"
+                        },
+                        "default" : {
+                           "description" : "default bandwidth limit in KiB/s",
+                           "format_description" : "LIMIT",
+                           "minimum" : "0",
+                           "optional" : 1,
+                           "type" : "number"
+                        },
+                        "migration" : {
+                           "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                           "format_description" : "LIMIT",
+                           "minimum" : "0",
+                           "optional" : 1,
+                           "type" : "number"
+                        },
+                        "move" : {
+                           "description" : "bandwidth limit in KiB/s for moving disks",
+                           "format_description" : "LIMIT",
+                           "minimum" : "0",
+                           "optional" : 1,
+                           "type" : "number"
+                        },
+                        "restore" : {
+                           "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                           "format_description" : "LIMIT",
+                           "minimum" : "0",
+                           "optional" : 1,
+                           "type" : "number"
+                        }
+                     },
+                     "optional" : 1,
+                     "title" : "Bandwidth Limit",
+                     "type" : "string",
+                     "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                  },
+                  "comstar_hg" : {
+                     "description" : "Host group for COMSTAR views.",
+                     "optional" : 1,
+                     "title" : "Host Group",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "comstar_tg" : {
+                     "description" : "Target group for COMSTAR views.",
+                     "optional" : 1,
+                     "title" : "Target Group",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "content" : {
+                     "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                     "format" : "pve-storage-content-list",
+                     "optional" : 1,
+                     "title" : "Content",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "content-dirs" : {
+                     "description" : "Overrides for default content type directories.",
+                     "format" : "pve-dir-override-list",
+                     "optional" : 1,
+                     "title" : "Content Directories",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "create-base-path" : {
+                     "default" : "yes",
+                     "description" : "Create the base directory if it doesn't exist.",
+                     "optional" : 1,
+                     "title" : "Create Base Directory",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "create-subdirs" : {
+                     "default" : "yes",
+                     "description" : "Populate the base directory with the default structure.",
+                     "optional" : 1,
+                     "title" : "Populate Base Directory",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "data-pool" : {
+                     "description" : "Data pool name for erasure-coded images.",
+                     "optional" : 1,
+                     "title" : "Data Pool",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "datastore" : {
+                     "description" : "Proxmox Backup Server datastore name.",
+                     "optional" : 1,
+                     "title" : "Datastore",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "disable" : {
+                     "description" : "Flag to disable the storage.",
+                     "optional" : 1,
+                     "title" : "Disable",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "domain" : {
+                     "description" : "The name of the user domain (workgroup) to use.",
+                     "maxLength" : 256,
+                     "optional" : 1,
+                     "title" : "Domain",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "encryption-key" : {
+                     "description" : "Encryption key. Use 'autogen' to generate one automatically without passphrase.",
+                     "optional" : 1,
+                     "sensitive" : 1,
+                     "title" : "Encryption Key",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "export" : {
+                     "description" : "Path exported by the NFS server (e.g., /srv/nfs).",
+                     "format" : "pve-storage-path",
+                     "optional" : 1,
+                     "title" : "Export Path",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "fingerprint" : {
+                     "description" : "Certificate SHA 256 fingerprint.",
+                     "optional" : 1,
+                     "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                     "title" : "Fingerprint",
+                     "type" : "string"
+                  },
+                  "format" : {
+                     "description" : "Default image format.",
+                     "enum" : [
+                        "raw",
+                        "qcow2",
+                        "subvol",
+                        "vmdk"
+                     ],
+                     "optional" : 1,
+                     "title" : "Default Format",
+                     "type" : "string"
+                  },
+                  "fs-name" : {
+                     "description" : "The name or identifier of the filesystem.",
+                     "format" : "pve-configid",
+                     "optional" : 1,
+                     "title" : "Filesystem Name",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "fuse" : {
+                     "description" : "Mount the filesystem through FUSE.",
+                     "optional" : 1,
+                     "title" : "Mount with FUSE",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "is_mountpoint" : {
+                     "default" : "no",
+                     "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
+                     "optional" : 1,
+                     "title" : "Is Mountpoint",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "iscsiprovider" : {
+                     "description" : "The iSCSI target implementation used on the remote machine.",
+                     "optional" : 1,
+                     "title" : "iSCSI Provider",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "keyring" : {
+                     "description" : "Client keyring contents (for external clusters).",
+                     "optional" : 1,
+                     "sensitive" : 1,
+                     "title" : "Keyring",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "krbd" : {
+                     "default" : 0,
+                     "description" : "Always access rbd through krbd kernel module.",
+                     "optional" : 1,
+                     "title" : "KRBD",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "lio_tpg" : {
+                     "description" : "Target portal group for Linux LIO targets.",
+                     "optional" : 1,
+                     "title" : "Target Portal Group",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "master-pubkey" : {
+                     "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
+                     "optional" : 1,
+                     "title" : "Master Public Key",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "max-protected-backups" : {
+                     "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                     "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                     "minimum" : -1,
+                     "optional" : 1,
+                     "title" : "Maximum Protected",
+                     "type" : "integer",
+                     "typetext" : "<integer> (-1 - N)"
+                  },
+                  "mkdir" : {
+                     "default" : "yes",
+                     "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                     "optional" : 1,
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "monhost" : {
+                     "description" : "IP addresses of monitors (for external clusters).",
+                     "format" : "pve-storage-portal-dns-list",
+                     "optional" : 1,
+                     "title" : "Monitor(s)",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "mountpoint" : {
+                     "description" : "Path to the directory where the storage is mounted.",
+                     "format" : "pve-storage-path",
+                     "optional" : 1,
+                     "title" : "Mountpoint",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "namespace" : {
+                     "description" : "The namespace used for grouping, isolation, or partitioning purposes.",
+                     "optional" : 1,
+                     "title" : "Namespace",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "nocow" : {
+                     "default" : 0,
+                     "description" : "Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.",
+                     "optional" : 1,
+                     "title" : "Set NOCOW Flag",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "nodes" : {
+                     "description" : "List of nodes for which the storage configuration applies.",
+                     "format" : "pve-node-list",
+                     "optional" : 1,
+                     "title" : "Nodes",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "nowritecache" : {
+                     "description" : "Disable write caching on the iSCSI target.",
+                     "optional" : 1,
+                     "title" : "Disable Write Cache",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "on-volume-remove" : {
+                     "description" : "Optional actions when removing LVs.",
+                     "format" : "on-volume-remove",
+                     "optional" : 1,
+                     "title" : "Volume Removal Actions",
+                     "type" : "string",
+                     "typetext" : "[discard=<1|0>]",
+                     "verbose_description" : "Configure actions performed before removing an LV. Use 'discard=1' to issue discard (TRIM) requests before removal."
+                  },
+                  "options" : {
+                     "description" : "Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.",
+                     "format" : "pve-storage-options",
+                     "optional" : 1,
+                     "title" : "Mount Options",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "password" : {
+                     "description" : "The password used for authentication.",
+                     "maxLength" : 256,
+                     "optional" : 1,
+                     "sensitive" : 1,
+                     "title" : "Password",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "path" : {
+                     "description" : "Path of the storage in the local file system, for example its base directory or mount point.",
+                     "format" : "pve-storage-path",
+                     "optional" : 1,
+                     "title" : "Path",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "pool" : {
+                     "description" : "Name of the pool that stores images.",
+                     "optional" : 1,
+                     "title" : "Pool",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "port" : {
+                     "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
+                     "maximum" : 65535,
+                     "minimum" : 1,
+                     "optional" : 1,
+                     "title" : "Port",
+                     "type" : "integer",
+                     "typetext" : "<integer> (1 - 65535)"
+                  },
+                  "portal" : {
+                     "description" : "iSCSI portal (IP or hostname, optionally with port).",
+                     "format" : "pve-storage-portal-dns",
+                     "optional" : 1,
+                     "title" : "Portal",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "preallocation" : {
+                     "default" : "metadata",
+                     "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                     "enum" : [
+                        "off",
+                        "metadata",
+                        "falloc",
+                        "full"
+                     ],
+                     "optional" : 1,
+                     "title" : "Preallocation",
+                     "type" : "string"
+                  },
+                  "prune-backups" : {
+                     "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                     "format" : "prune-backups",
+                     "optional" : 1,
+                     "title" : "Backup Retention",
+                     "type" : "string",
+                     "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                  },
+                  "saferemove" : {
+                     "description" : "Zero-out data when removing LVs.",
+                     "optional" : 1,
+                     "title" : "Wipe Removed Volumes",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "saferemove-stepsize" : {
+                     "default" : 32,
+                     "description" : "Wipe step size in MiB. It will be capped to the maximum supported by the storage.",
+                     "enum" : [
+                        "1",
+                        "2",
+                        "4",
+                        "8",
+                        "16",
+                        "32"
+                     ],
+                     "optional" : 1,
+                     "title" : "Wipe Step Size",
+                     "type" : "integer"
+                  },
+                  "saferemove_throughput" : {
+                     "description" : "Wipe throughput in bytes per second (optional suffix: k, m, or g).",
+                     "optional" : 1,
+                     "pattern" : "-?\\d+[kmgKMG]?",
+                     "title" : "Wipe Throughput",
+                     "type" : "string"
+                  },
+                  "server" : {
+                     "description" : "IP address or hostname of the server.",
+                     "format" : "pve-storage-server",
+                     "optional" : 1,
+                     "title" : "Server",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "share" : {
+                     "description" : "The name of the share to use.",
+                     "optional" : 1,
+                     "title" : "Share",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "shared" : {
+                     "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                     "optional" : 1,
+                     "title" : "Shared",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "skip-cert-verification" : {
+                     "default" : "false",
+                     "description" : "Disable TLS certificate verification, only enable on fully trusted networks!",
+                     "optional" : 1,
+                     "title" : "Skip Certificate Verification",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "smbversion" : {
+                     "default" : "default",
+                     "description" : "SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.",
+                     "enum" : [
+                        "default",
+                        "2.0",
+                        "2.1",
+                        "3",
+                        "3.0",
+                        "3.11"
+                     ],
+                     "optional" : 1,
+                     "title" : "SMB Version",
+                     "type" : "string"
+                  },
+                  "snapshot-as-volume-chain" : {
+                     "default" : 0,
+                     "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
+                     "optional" : 1,
+                     "title" : "Allow Snapshots as Volume-Chain",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "sparse" : {
+                     "description" : "Use sparse (thin-provisioned) volumes.",
+                     "optional" : 1,
+                     "title" : "Thin Provision",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "storage" : {
+                     "description" : "The storage identifier.",
+                     "format" : "pve-storage-id",
+                     "format_description" : "storage ID",
+                     "title" : "ID",
+                     "type" : "string",
+                     "typetext" : "<storage ID>"
+                  },
+                  "subdir" : {
+                     "description" : "Subdir to mount.",
+                     "format" : "pve-storage-path",
+                     "optional" : 1,
+                     "title" : "Subdirectory",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "tagged_only" : {
+                     "description" : "Only list logical volumes tagged with 'pve-vm-ID'.",
+                     "optional" : 1,
+                     "title" : "Tagged Volumes Only",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "target" : {
+                     "description" : "iSCSI target name (an iSCSI Qualified Name - IQN).",
+                     "optional" : 1,
+                     "title" : "Target",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "thinpool" : {
+                     "description" : "Name of the LVM thin pool logical volume.",
+                     "format" : "pve-storage-vgname",
+                     "optional" : 1,
+                     "title" : "Thin Pool",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "type" : {
+                     "description" : "Storage type.",
+                     "enum" : [
+                        "btrfs",
+                        "cephfs",
+                        "cifs",
+                        "dir",
+                        "esxi",
+                        "iscsi",
+                        "iscsidirect",
+                        "lvm",
+                        "lvmthin",
+                        "nfs",
+                        "pbs",
+                        "rbd",
+                        "zfs",
+                        "zfspool"
+                     ],
+                     "title" : "Type",
+                     "type" : "string"
+                  },
+                  "username" : {
+                     "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                     "optional" : 1,
+                     "title" : "Username",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "vgname" : {
+                     "description" : "LVM volume group name.",
+                     "format" : "pve-storage-vgname",
+                     "optional" : 1,
+                     "title" : "Volume Group",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "zfs-base-path" : {
+                     "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
+                     "format" : "pve-storage-path",
+                     "optional" : 1,
+                     "title" : "Base Path",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  }
+               },
+               "type" : "object"
+            },
+            "permissions" : {
+               "check" : [
+                  "perm",
+                  "/storage",
+                  [
+                     "Datastore.Allocate"
+                  ]
+               ]
+            },
+            "protected" : 1,
+            "returns" : {
+               "properties" : {
+                  "config" : {
+                     "additionalProperties" : 1,
+                     "description" : "Partial, possibly server generated, configuration properties.",
+                     "optional" : 1,
+                     "properties" : {
+                        "encryption-key" : {
+                           "description" : "The, possibly auto-generated, encryption-key.",
+                           "optional" : 1,
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  },
+                  "storage" : {
+                     "description" : "The ID of the created storage.",
+                     "type" : "string"
+                  },
+                  "type" : {
+                     "description" : "The type of the created storage.",
+                     "enum" : [
+                        "btrfs",
+                        "cephfs",
+                        "cifs",
+                        "dir",
+                        "esxi",
+                        "iscsi",
+                        "iscsidirect",
+                        "lvm",
+                        "lvmthin",
+                        "nfs",
+                        "pbs",
+                        "rbd",
+                        "zfs",
+                        "zfspool"
+                     ],
+                     "type" : "string"
+                  }
+               },
+               "type" : "object"
+            }
+         }
+      },
+      "leaf" : 0,
+      "path" : "/storage",
+      "text" : "storage"
    },
    {
       "info" : {

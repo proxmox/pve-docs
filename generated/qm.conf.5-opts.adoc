@@ -342,7 +342,7 @@ Whether the drive should be included when making backups.
 
 `bps`=`<bps>` ;;
 
-Maximum r/w speed in bytes per second.
+Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.
 
 `bps_max_length`=`<seconds>` ;;
 
@@ -350,7 +350,7 @@ Maximum length of I/O bursts in seconds.
 
 `bps_rd`=`<bps>` ;;
 
-Maximum read speed in bytes per second.
+Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.
 
 `bps_rd_max_length`=`<seconds>` ;;
 
@@ -358,7 +358,7 @@ Maximum length of read I/O bursts in seconds.
 
 `bps_wr`=`<bps>` ;;
 
-Maximum write speed in bytes per second.
+Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.
 
 `bps_wr_max_length`=`<seconds>` ;;
 
@@ -490,7 +490,7 @@ Write error action.
 
 The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.
 
-`intel-tdx`: `[type=]<tdx-type> ,attestation=<1|0> [,vsock-cid=<integer>] [,vsock-port=<integer>]` ::
+`intel-tdx`: `[type=]<tdx-type> [,attestation=<1|0>] [,vsock-cid=<integer>] [,vsock-port=<integer>]` ::
 
 Trusted Domain Extension (TDX) features by Intel CPUs
 
@@ -572,7 +572,7 @@ Enable/disable KVM hardware virtualization.
 
 Set the real time clock (RTC) to local time. This is enabled by default if the `ostype` indicates a Microsoft Windows OS.
 
-`lock`: `<backup | clone | create | migrate | rollback | snapshot | snapshot-delete | suspended | suspending>` ::
+`lock`: `<backup | clone | create | import | migrate | rollback | snapshot | snapshot-delete | suspended | suspending>` ::
 
 Lock/unlock the VM.
 
@@ -787,7 +787,7 @@ Whether the drive should be included when making backups.
 
 `bps`=`<bps>` ;;
 
-Maximum r/w speed in bytes per second.
+Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.
 
 `bps_max_length`=`<seconds>` ;;
 
@@ -795,7 +795,7 @@ Maximum length of I/O bursts in seconds.
 
 `bps_rd`=`<bps>` ;;
 
-Maximum read speed in bytes per second.
+Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.
 
 `bps_rd_max_length`=`<seconds>` ;;
 
@@ -803,7 +803,7 @@ Maximum length of read I/O bursts in seconds.
 
 `bps_wr`=`<bps>` ;;
 
-Maximum write speed in bytes per second.
+Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.
 
 `bps_wr_max_length`=`<seconds>` ;;
 
@@ -945,7 +945,7 @@ Whether the drive should be included when making backups.
 
 `bps`=`<bps>` ;;
 
-Maximum r/w speed in bytes per second.
+Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.
 
 `bps_max_length`=`<seconds>` ;;
 
@@ -953,7 +953,7 @@ Maximum length of I/O bursts in seconds.
 
 `bps_rd`=`<bps>` ;;
 
-Maximum read speed in bytes per second.
+Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.
 
 `bps_rd_max_length`=`<seconds>` ;;
 
@@ -961,7 +961,7 @@ Maximum length of read I/O bursts in seconds.
 
 `bps_wr`=`<bps>` ;;
 
-Maximum write speed in bytes per second.
+Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.
 
 `bps_wr_max_length`=`<seconds>` ;;
 
@@ -1314,7 +1314,7 @@ Whether the drive should be included when making backups.
 
 `bps`=`<bps>` ;;
 
-Maximum r/w speed in bytes per second.
+Maximum r/w speed in bytes per second. Deprecated: Use 'mbps' instead.
 
 `bps_max_length`=`<seconds>` ;;
 
@@ -1322,7 +1322,7 @@ Maximum length of I/O bursts in seconds.
 
 `bps_rd`=`<bps>` ;;
 
-Maximum read speed in bytes per second.
+Maximum read speed in bytes per second. Deprecated: Use 'mbps_rd' instead.
 
 `bps_rd_max_length`=`<seconds>` ;;
 
@@ -1330,7 +1330,7 @@ Maximum length of read I/O bursts in seconds.
 
 `bps_wr`=`<bps>` ;;
 
-Maximum write speed in bytes per second.
+Maximum write speed in bytes per second. Deprecated: Use 'mbps_wr' instead.
 
 `bps_wr_max_length`=`<seconds>` ;;
 
@@ -1491,7 +1491,7 @@ Note that auto-creation only works when done through API/CLI create or update me
 
 Default storage for VM state volumes/files.
 
-`watchdog`: `[[model=]<i6300esb|ib700>] [,action=<enum>]` ::
+`watchdog`: `[[model=]<i6300esb>] [,action=<enum>]` ::
 
 Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)
 
@@ -1499,7 +1499,7 @@ Create a virtual hardware watchdog device. Once enabled (by a guest action), the
 
 The action to perform if after activation the guest fails to poll the watchdog in time.
 
-`model`=`<i6300esb | ib700>` ('default =' `i6300esb`);;
+`model`=`<i6300esb>` ('default =' `i6300esb`);;
 
 Watchdog type to emulate.
 
