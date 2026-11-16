@@ -340,10 +340,12 @@ Or to add a directory storage that only holds the saved states of VMs:
 # pvesm add dir vmstate --path /mnt/vmstate --content vm-state
 ----
 
-In the web interface, select 'VM Disk' or 'VM State' instead of 'Disk image' as
-'Content' of the storage. A volume type has no effect next to the content type
-that already allows it, for example `vm-vol` next to `images`, and is dropped
-from the configuration.
+In the web interface, tick 'Advanced' in the dialog for adding or editing a
+storage. The 'Content' selector then also lists the volume types. Select
+'VM Disk' or 'VM State' instead of 'Disk image', or 'Container Volume' instead
+of 'Container'. A volume type has no effect next to the content type that
+already allows it, for example `vm-vol` next to `images`, and is dropped from
+the configuration.
 
 Where the state of a VM is saved if the storages of its disks do not allow
 `vm-state` is described for the xref:qm_vmstatestorage[`vmstatestorage`]
