@@ -794,7 +794,9 @@ When compression is enabled on a dataset, ZFS tries to compress all *new*
 blocks before writing them and decompresses them on reading. Already
 existing data will not be compressed retroactively.
 
-You can enable compression with:
+When creating a pool on Proxmox VE using the Web UI or the ISO installer,
+compression is enabled by default. To enable it manually or to change the
+compression algorithm, you can use the following:
 
 ----
 # zfs set compression=<algorithm> <dataset>
