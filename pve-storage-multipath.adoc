@@ -179,6 +179,11 @@ LUNs that {pve} manages or that a storage uses with their state on each node.
 Other maps, for example those of a third-party storage plugin, are only counted
 under *Other Maps*. *Node -> SAN* lists all LUNs of a node with their paths.
 
+*Used By* under *Node -> SAN* names the storage that uses a LUN or, without
+one, the process that has it open for writing, for example a guest with the LUN
+as disk from a third-party storage plugin. Such a LUN can neither be wiped nor
+selected in a guided setup.
+
 The *State* of a LUN is its worst known state, followed by the nodes in that
 state if not all are. Hover over it for the state and paths of each node.
 *Multipath* shows how the map is managed: by an explicit entry, by a storage, or
