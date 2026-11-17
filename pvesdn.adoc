@@ -965,6 +965,107 @@ Skip Route Generation:: The fabric will autogenerate routes in the kernel
 routing table for all allowed IPs of a peer. By setting this option, no routes
 will be inserted into the kernel routing table.
 
+
+[[pvesdn_fabric_status]]
+Status Reporting
+~~~~~~~~~~~~~~~~
+
+Fabrics report their current status for informational and debugging purposes. It
+can be accessed by clicking on the respective entry for the fabric in the
+xref:gui_resource_tree[Resource Tree]. Depending on the protocol, different
+metrics are reported.
+
+
+[[pvesdn_fabric_status_wireguard]]
+WireGuard
+^^^^^^^^^
+
+A WireGuard fabric is shown as 'ok' in the resource tree if all of its
+interfaces on the node are in the 'up' state, use their configured public key
+and, unless it is 0, their configured listen port, and have exactly the peers of
+the applied fabric
+configuration. Otherwise, for example if an interface is missing or applying
+the configuration failed on the node, it is shown as 'not ok'. Pending changes
+are not taken into account. Neither are handshakes, since peers do not exchange
+handshakes if no traffic is sent and persistent keepalive is disabled.
+
+.Interfaces
+
+Provides information about the WireGuard interfaces of a specific node. The
+following properties are available:
+
+Name:: The name of the network interface on the host.
+
+Type:: Interfaces are always of type 'wireguard'.
+
+State:: The SDN stack performs several checks to determine the state of the
+interface. Possible states are:
++
+* 'up': The interface exists and has the `UP` flag set.
+* 'down': The interface exists, but does not have the `UP` flag set.
+* 'missing': The interface does not exist on the node, for example because
+  applying the configuration failed on the node.
+* 'unknown': The interface exists, but its WireGuard state could not be read.
+* 'error': The interface exists, but is not a WireGuard interface.
++
+If WireGuard does not report the public key or listen port of an interface,
+the values from the fabric configuration are shown.
+
+Public Key:: The public key that can be used for communicating with the
+WireGuard instance on this interface.
+
+Listen Port:: The port that can be used to reach this WireGuard instance.
+
+.Neighbors
+
+Provides information about the peers of all WireGuard interfaces on a specific
+node. The following properties are available:
+
+Name:: The name of the node in the fabric configuration. Additionally contains
+the name of the referenced interface in parentheses, if the node is an internal
+node. Peers are matched to the fabric configuration by their public key. Peers
+that are not part of the fabric configuration have no name.
+
+Neighbor:: The endpoint that is currently used to reach this peer (e.g.
+192.0.2.1:51820). WireGuard updates the endpoint to the address it last
+received traffic from, so this can differ from the configured endpoint, for
+example if the peer is behind NAT. Empty if the endpoint is not known yet.
+
+Interface:: The interface that has this neighbor configured.
+
+Status:: The status of the neighbor, derived from its latest handshake.
+WireGuard does not use session keys that are older than 180 seconds, so a
+handshake within that time means that the neighbor has a working session.
+Possible states are:
++
+* 'active': The latest handshake is less than 180 seconds old. With persistent
+  keepalive, the keepalive interval and another 90 seconds, for which WireGuard
+  retries a handshake, are added as margin.
+* 'down': Persistent keepalive is enabled, but there was no handshake in that
+  time. Since keepalive packets are sent regularly, a reachable neighbor would
+  have exchanged a new handshake.
+* 'idle': Persistent keepalive is disabled and there was no recent handshake.
+  Without traffic, WireGuard does not exchange handshakes, so an unused but
+  working neighbor cannot be distinguished from an unreachable one. Enable
+  persistent keepalive on the fabric for a reliable status.
+
+Public Key:: The public key of the neighbor.
+
+Allowed IPs:: A comma-separated list of CIDRs. On this interface, traffic to a
+destination is sent to the neighbor with the most specific matching prefix, and
+traffic from a source address is only accepted from that neighbor.
+
+Latest Handshake:: When the latest handshake with this neighbor occurred. An
+active session can renew its keys with a new handshake after 120 seconds. An
+idle neighbor without persistent keepalive need not exchange handshakes. Empty
+if no handshake happened yet.
+
+Bytes transmitted:: The amount of traffic that has been sent to this neighbor.
+
+Bytes received:: The amount of traffic that has been received from this
+neighbor.
+
+
 [[pvesdn_config_route_filtering]]
 Prefix Lists and Route Maps
 ---------------------------

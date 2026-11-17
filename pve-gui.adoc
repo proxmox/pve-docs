@@ -149,6 +149,7 @@ Line Height :: Specify the absolute height of a line.
 
 
 
+[[gui_resource_tree]]
 Resource Tree
 ~~~~~~~~~~~~~
 
