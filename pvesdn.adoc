@@ -934,6 +934,13 @@ Peers:: A list of peers that should be configured for that interface. All nodes
 that are part of the fabric can be selected as peers - the peer definition will
 be auto-generated from the configuration in the node.
 
+MTU:: The MTU of the interface. WireGuard encapsulation adds up to 80 bytes,
+so the MTU should be at least 80 bytes lower than the MTU of the underlying
+network, for example 1420 for an underlying network with an MTU of 1500. The
+web interface prefills 1420 for new interfaces. If no MTU is set, ifupdown2
+applies its default MTU of 1500. An interface with an IPv6 address requires an
+MTU of at least 1280.
+
 When defining an interface, Proxmox VE automatically generates a private key
 for it in `/etc/pve/priv/wg-keys.cfg` upon saving the interface, and stores the
 matching public key alongside the interface in the fabric configuration so it
