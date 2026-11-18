@@ -445,7 +445,13 @@ Currently supported are:
 * `{{cluster}}` the cluster name, if any
 * `{{guestname}}` the virtual guest's assigned name
 * `{{node}}` the host name of the node the backup is being created
+* `{{uid}}` the `uid` of the xref:guest_identity[guest identity] in the backup,
+  if any
 * `{{vmid}}` the numerical VMID of the guest
+
+WARNING: Nodes running a {pve} version older than 9.3 refuse a backup job whose
+notes template contains `{{uid}}` and back up none of their guests for it. Use
+the variable only once all nodes are upgraded.
 
 When specified via API or CLI, it needs to be a single line, where newline and
 backslash need to be escaped as literal `\n` and `\\` respectively.
