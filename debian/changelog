@@ -1,3 +1,55 @@
+pve-docs (9.2.15) trixie; urgency=medium
+
+  * storage:
+    - document the content types that restrict a storage to the disks of VMs,
+      the saved states of VMs or the volumes of containers, how they relate to
+      the 'images' and 'rootdir' content types and their names in the web
+      interface, and where the state of a snapshot or of a hibernated VM gets
+      saved with such a restriction.
+    - fix #7339: lvm: document the new 'on-volume-remove' option with its
+      'discard' action, and update the description of 'saferemove'.
+    - lvm: describe rescanning the devices after extending a shared volume
+      group, and that a rescan resets the autoactivation records, also when
+      it runs on its own because a node does not find the volume group.
+    - iscsi: state that LVM on top of iSCSI requires setting the content of
+      the iSCSI storage to none, and name the setting in the web interface.
+    - zfs: mention that pools are compressed by default.
+
+  * user management: document the new datacenter API token policy, the setting
+    that gives tokens created without an expiration date the maximum lifetime,
+    and rotating a token in place by extending it when regenerating its
+    secret.
+
+  * pvecm: next-id: document the new 'unique' and 'enforce' options, why
+    avoiding the reuse of guest IDs can be useful, and how the list of used IDs
+    is kept small. With 'enforce', the range is a hard limit for new guests.
+
+  * pmxcfs: list the new 'virtual-guest/used-guest-ids' file.
+
+  * pveceph:
+    - device classes: state when the PG autoscaler actually skips pools,
+      namely if their CRUSH rules take different roots that share OSDs, and
+      point out the '.mgr' pool, which the manager creates with the default
+      rule.
+    - cephx migration: describe migrating the keys of Ceph users that only
+      external clients use, either by moving the clients one by one to a new
+      user, or by rotating the key in place.
+
+  * fix #7852: pct: network: document the limit of 32 network interfaces.
+
+  * qm: warn that the 'host' CPU type can expose new CPU features to the guest
+    when it restarts after a host upgrade.
+
+  * installation: note that pinned interface names cannot have the form of
+    bond, VLAN or bridge names, and that the primary interface of a bond is
+    selected by the name it gets on the installed system.
+
+  * gui: mention the API access log in the overview of the node panels.
+
+  * update static/schema information for API viewer and generated synopsis.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 18 Nov 2026 14:41:06 +0100
+
 pve-docs (9.2.14) trixie; urgency=medium
 
   * pveceph: update the Cephx migration guide:
