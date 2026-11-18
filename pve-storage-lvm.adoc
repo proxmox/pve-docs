@@ -104,6 +104,8 @@ functionality.
 The snapshot functionality is managed by the PVE storage system.
 +
 Enabling or disabling this flag only affects newly created virtual disk volumes.
+The flag cannot be disabled while the storage holds a volume in the qcow2 format,
+as such volumes need it.
 +
 For efficient support of `snapshot-as-volume-chain`, the backing storage must
 support thin-provisioning and discard. Each snapshot will appear to use the
