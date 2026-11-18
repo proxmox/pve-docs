@@ -563,6 +563,46 @@ file in `/var/log/proxmox-backup/file-restore/`. The log file might contain
 additional information in case an attempt to restore individual files or
 accessing file systems contained in a backup archive fails.
 
+[[vzdump_restore_failed]]
+Failed Restores
+~~~~~~~~~~~~~~~
+
+A restore that fails or is canceled can leave one of the following leftover
+artifacts for its VMID:
+
+* The guest itself, possibly locked. This happens after a VM restore over an
+  existing VM, after a container restore over an existing container that fails
+  before it destroyed the old container, after a VM restore to a free VMID that
+  fails once the data is restored or in the live phase of a live restore, and
+  if the restore task was killed.
+* A locked container, after a container restore that fails after it destroyed
+  the old container, if the cleanup could not remove the firewall config or a
+  volume. That can be a volume of the restore or of the old container.
+* A locked placeholder without data, after a restore to a free VMID, if the
+  restore task was killed or the cleanup could not remove a volume or the
+  firewall config.
+
+In the other cases nothing is left. A restore to a free VMID that fails before
+it restored the data removes the guest again. A container restore that fails
+after it destroyed the old container removes the container, so the old container
+is gone then as well.
+
+To clean up and retry:
+
+. Make sure that no task of the guest is still running, then remove the lock
+  with `qm unlock <vmid>` or `pct unlock <vmid>`.
+. If a placeholder was left behind, remove it, for example with
+  `qm destroy <vmid>` or `pct destroy <vmid>`. With
+  `--destroy-unreferenced-disks 1`, the command also removes all other volumes
+  with that VMID on the enabled storages. These include volumes that a killed
+  restore created or that the cleanup could not remove, but can also be volumes
+  of an earlier guest, so check them first with
+  `pvesm list <storage> --vmid <vmid>`.
+. Restore again, over the guest that was left behind or to its VMID if nothing
+  is left there. If the VMID is free by then, use another one if the
+  xref:pvecm_next_id_range[`next-id`] setting of the datacenter has the
+  `unique` and `enforce` options set, as the first VMID then counts as used.
+
 [[vzdump_configuration]]
 Configuration
 -------------
