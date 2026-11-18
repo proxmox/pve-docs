@@ -136,7 +136,7 @@ Get help about specified command.
 
 `--extra-args` `<array>` ::
 
-Shows help for a specific command
+Shows help for a specific command. Its arguments can follow, to only list the options of the type they select.
 
 `--verbose` `<boolean>` ::
 
@@ -900,7 +900,7 @@ no description available
 
 `--expire` `<integer> (0 - N)` ('default =' `same as user`)::
 
-API token expiration date (seconds since epoch). '0' means no expiration date.
+API token expiration date (seconds since epoch). '0' means no expiration date, or the maximum lifetime if the datacenter token policy sets 'default-to-max-lifetime'.
 
 `--privsep` `<boolean>` ('default =' `1`)::
 

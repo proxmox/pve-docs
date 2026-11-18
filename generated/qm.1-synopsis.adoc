@@ -140,7 +140,7 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`--agent` `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`--agent` `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,sync-time-on-resume=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable communication with the QEMU Guest Agent and its properties.
 
@@ -763,7 +763,7 @@ Get help about specified command.
 
 `--extra-args` `<array>` ::
 
-Shows help for a specific command
+Shows help for a specific command. Its arguments can follow, to only list the options of the type they select.
 
 `--verbose` `<boolean>` ::
 
@@ -791,7 +791,7 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`--agent` `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`--agent` `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,sync-time-on-resume=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable communication with the QEMU Guest Agent and its properties.
 
@@ -1220,6 +1220,10 @@ Migration traffic is encrypted using an SSH tunnel by default. On secure, comple
 
 Use online/live migration if VM is running. Ignored if VM is stopped.
 
+`--skip-config-check` `<boolean>` ('default =' `0`)::
+
+For intra-cluster migration. Skip checking if the configuration can be parsed successfully by the target. Using this flag can lead to dropped configuration options if the target is too old to parse them.
+
 `--targetstorage` `<string>` ::
 
 Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.
@@ -1366,6 +1370,10 @@ Do not check whether the VM is running, used internally during migration. Only r
 
 Ignore locks - only root is allowed to use this option.
 
+`--sync-time-on-resume` `<boolean>` ::
+
+Override the 'sync-time-on-resume' setting from the VM's guest agent (QGA) config for this resume only. Controls whether the guest's clock is synchronized after resuming the VM.
+
 [[cli_qm_rollback]]
 *qm rollback* `<vmid> <snapname>` `[OPTIONS]`
 
@@ -1382,6 +1390,10 @@ The name of the snapshot.
 `--start` `<boolean>` ('default =' `0`)::
 
 Whether the VM should get started after rolling back successfully. (Note: VMs will be automatically started if the snapshot includes RAM.)
+
+`--sync-time-on-resume` `<boolean>` ::
+
+Override the 'sync-time-on-resume' setting from the VM's guest agent (QGA) config for this rollback only. Controls whether the guest's clock is synchronized after the RAM state is restored.
 
 [[cli_qm_sendkey]]
 *qm sendkey* `<vmid> <key>` `[OPTIONS]`
@@ -1419,7 +1431,7 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`--agent` `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`--agent` `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,sync-time-on-resume=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable communication with the QEMU Guest Agent and its properties.
 
@@ -1874,6 +1886,10 @@ Ignore locks - only root is allowed to use this option.
 `--stateuri` `<string>` ::
 
 Some command save/restore state from this location.
+
+`--sync-time-on-resume` `<boolean>` ::
+
+Override the 'sync-time-on-resume' setting from the VM's guest agent (QGA) config for this start only. Controls whether the guest's clock is synchronized when starting a hibernated VM. No effect on a regular start.
 
 `--targetstorage` `<string>` ::
 

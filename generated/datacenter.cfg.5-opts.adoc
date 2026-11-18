@@ -153,13 +153,21 @@ Migration traffic is encrypted using an SSH tunnel by default. On secure, comple
 
 Migration is secure using SSH tunnel by default. For secure private networks you can disable it to speed up migration. Deprecated, use the 'migration' property instead!
 
-`next-id`: `[lower=<integer>] [,upper=<integer>]` ::
+`next-id`: `[enforce=<1|0>] [,lower=<integer>] [,unique=<1|0>] [,upper=<integer>]` ::
 
 Control the range for the free VMID auto-selection pool.
+
+`enforce`=`<boolean>` ('default =' `0`);;
+
+Reject IDs for new guests outside of the configured 'lower' and 'upper' boundaries and, with 'unique', IDs that were used before.
 
 `lower`=`<integer>` ('default =' `100`);;
 
 Lower, inclusive boundary for free next-id API range.
+
+`unique`=`<boolean>` ('default =' `0`);;
+
+Only suggest guest IDs that are neither currently in use nor have previously been used.
 
 `upper`=`<integer>` ('default =' `1000000`);;
 
@@ -232,6 +240,34 @@ Controls the sorting of the tags in the web-interface and the API update.
 `shape`=`<circle | dense | full | none>` ('default =' `circle`);;
 
 Tag shape for the web ui tree. 'full' draws the full tag. 'circle' draws only a circle with the background color. 'dense' only draws a small rectancle (useful when many tags are assigned to each guest).'none' disables showing the tags.
+
+`token-policy`: `[allow-extension-on-regenerate=<1|0>] [,default-to-max-lifetime=<1|0>] [,disallow-expiry-extension=<1|0>] [,max-lifetime=<seconds>] [,require-expiry=<1|0>] [,require-privilege-separation=<1|0>]` ::
+
+Cluster-wide policy for creating and updating API tokens, for example to enforce an expiration date or privilege separation.
+
+`allow-extension-on-regenerate`=`<boolean>` ('default =' `0`);;
+
+Allow extending the expiration date of an existing API token when its secret is regenerated in the same request, despite 'disallow-expiry-extension'. The maximum lifetime still applies.
+
+`default-to-max-lifetime`=`<boolean>` ('default =' `0`);;
+
+Give API tokens created without an expiration date the maximum lifetime instead of rejecting them, for example for tools unaware of the policy. Has no effect without 'max-lifetime'.
+
+`disallow-expiry-extension`=`<boolean>` ('default =' `0`);;
+
+Disallow moving the expiration date of existing API tokens later or removing it, so that 'max-lifetime' cannot be circumvented by extending tokens repeatedly. Shortening the expiration date or setting one on a token that has none remains possible, and tokens can still be deleted and recreated.
+
+`max-lifetime`=`<seconds>` ;;
+
+Maximum lifetime of API tokens in seconds, counted from when the expiration date is set, that is on creation or when an update changes it. Implies 'require-expiry'.
+
+`require-expiry`=`<boolean>` ('default =' `0`);;
+
+Require an expiration date for new API tokens and when changing the expiration date of existing ones.
+
+`require-privilege-separation`=`<boolean>` ('default =' `0`);;
+
+Require privilege separation for new API tokens and when changing that setting on existing ones, that is, disallow tokens with the full privileges of their user.
 
 `u2f`: `[appid=<APPID>] [,origin=<URL>]` ::
 

@@ -175,6 +175,27 @@ List of cluster node names.
 
 Extra delay in seconds to wait before requesting validation. Allows to cope with a long TTL of DNS records.
 
+[[cli_pvenode_apt_history]]
+*pvenode apt history* `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+List past APT transactions and their package changes, newest first.
+
+`--limit` `<integer> (1 - N)` ::
+
+List at most this many transactions.
+
+`--package` `<package>` ::
+
+Only list transactions that changed this package.
+
+`--since` `<integer>` ::
+
+Only list transactions that started at or after this Unix epoch.
+
+`--until` `<integer>` ::
+
+Only list transactions that started at or before this Unix epoch.
+
 [[cli_pvenode_cert_delete]]
 *pvenode cert delete* `[<restart>]`
 
@@ -267,7 +288,7 @@ Get help about specified command.
 
 `--extra-args` `<array>` ::
 
-Shows help for a specific command
+Shows help for a specific command. Its arguments can follow, to only list the options of the type they select.
 
 `--verbose` `<boolean>` ::
 

@@ -54,11 +54,11 @@ Enable SMURFS filter.
 
 Enable synflood protection
 
-`protection_synflood_burst`: `<integer>` ('default =' `1000`)::
+`protection_synflood_burst`: `<integer> (-N - 1000000)` ('default =' `1000`)::
 
 Synflood protection rate burst by ip src.
 
-`protection_synflood_rate`: `<integer>` ('default =' `200`)::
+`protection_synflood_rate`: `<integer> (-N - 1000000)` ('default =' `200`)::
 
 Synflood protection rate syn/sec by ip src.
 

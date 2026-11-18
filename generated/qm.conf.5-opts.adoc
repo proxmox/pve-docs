@@ -6,7 +6,7 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`agent`: `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`agent`: `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,sync-time-on-resume=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable communication with the QEMU Guest Agent and its properties.
 
@@ -23,6 +23,10 @@ The deprecated 'freeze-fs-on-backup' setting is treated as an alias for this set
 `fstrim_cloned_disks`=`<boolean>` ('default =' `0`);;
 
 Run fstrim after moving a disk or migrating the VM.
+
+`sync-time-on-resume`=`<boolean>` ('default =' `0`);;
+
+Whether to issue the 'guest-set-time' QEMU guest agent command to synchronize the guest's clock to the host's current time after operations that can leave the guest's clock behind. This happens when resuming from hibernation, resuming from a paused state, taking a snapshot, after a live migration, after a backup in suspend mode, and after rolling back to a snapshot that includes RAM. In these cases the guest's clock may still reflect an earlier time. The time is only synchronized when the QEMU Guest Agent option is enabled in the guest's configuration and the agent is running inside of the guest. For resume, hibernation resume and snapshot rollback, the synchronization can be overridden per operation.
 
 `type`=`<isa | virtio>` ('default =' `virtio`);;
 

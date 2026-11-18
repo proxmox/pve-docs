@@ -385,7 +385,7 @@ Get help about specified command.
 
 `--extra-args` `<array>` ::
 
-Shows help for a specific command
+Shows help for a specific command. Its arguments can follow, to only list the options of the type they select.
 
 `--verbose` `<boolean>` ::
 
@@ -429,6 +429,10 @@ Use online/live migration.
 `--restart` `<boolean>` ::
 
 Use restart migration
+
+`--skip-config-check` `<boolean>` ('default =' `0`)::
+
+For intra-cluster migration. Skip checking if the configuration can be parsed successfully by the target. Using this flag can lead to dropped or ignored configuration options if the target is too old to parse them.
 
 `--target-storage` `<string>` ::
 
@@ -498,6 +502,11 @@ Prevent changes if current configuration file of the target " .
 *pct move_volume*
 
 An alias for 'pct move-volume'.
+
+[[cli_pct_mtunnel]]
+*pct mtunnel*
+
+For internal use by intra-cluster migration only.
 
 [[cli_pct_pending]]
 *pct pending* `<vmid>`

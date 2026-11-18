@@ -30,7 +30,7 @@ Get help about specified command.
 
 `--extra-args` `<array>` ::
 
-Shows help for a specific command
+Shows help for a specific command. Its arguments can follow, to only list the options of the type they select.
 
 `--verbose` `<boolean>` ::
 

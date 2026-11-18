@@ -252,7 +252,7 @@ const apiSchema = [
                                           },
                                           "expire" : {
                                              "default" : "same as user",
-                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date, or the maximum lifetime if the datacenter token policy sets 'default-to-max-lifetime'.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -967,6 +967,7 @@ const apiSchema = [
                            "maxLength" : 64,
                            "minLength" : 8,
                            "optional" : 1,
+                           "sensitive" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
@@ -1859,7 +1860,8 @@ const apiSchema = [
                               ],
                               "any",
                               1
-                           ]
+                           ],
+                           "description" : "The OpenID client key and the Yubico API key are only returned to users with 'Realm.Allocate'."
                         },
                         "returns" : {}
                      },
@@ -1948,6 +1950,7 @@ const apiSchema = [
                                  "description" : "OpenID Client Key",
                                  "maxLength" : 256,
                                  "optional" : 1,
+                                 "sensitive" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -2065,6 +2068,7 @@ const apiSchema = [
                               "password" : {
                                  "description" : "LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.",
                                  "optional" : 1,
+                                 "sensitive" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -2335,6 +2339,7 @@ const apiSchema = [
                            "description" : "OpenID Client Key",
                            "maxLength" : 256,
                            "optional" : 1,
+                           "sensitive" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
@@ -2437,6 +2442,7 @@ const apiSchema = [
                         "password" : {
                            "description" : "LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.",
                            "optional" : 1,
+                           "sensitive" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
@@ -2751,6 +2757,7 @@ const apiSchema = [
                                        "maxLength" : 64,
                                        "minLength" : 5,
                                        "optional" : 1,
+                                       "sensitive" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -2889,6 +2896,7 @@ const apiSchema = [
                                        "maxLength" : 64,
                                        "minLength" : 5,
                                        "optional" : 1,
+                                       "sensitive" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -3034,12 +3042,14 @@ const apiSchema = [
                                  "maxLength" : 64,
                                  "minLength" : 5,
                                  "optional" : 1,
+                                 "sensitive" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
                               "totp" : {
                                  "description" : "A totp URI.",
                                  "optional" : 1,
+                                 "sensitive" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -3242,6 +3252,7 @@ const apiSchema = [
                         },
                         "password" : {
                            "description" : "The secret password. This can also be a valid ticket.",
+                           "sensitive" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
@@ -3386,6 +3397,7 @@ const apiSchema = [
                            "maxLength" : 64,
                            "minLength" : 5,
                            "optional" : 1,
+                           "sensitive" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
@@ -3393,6 +3405,7 @@ const apiSchema = [
                            "description" : "The new password.",
                            "maxLength" : 64,
                            "minLength" : 8,
+                           "sensitive" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
@@ -4196,6 +4209,7 @@ const apiSchema = [
                                     "token" : {
                                        "description" : "The InfluxDB access token. Only necessary when using the http v2 api. If the v2 compatibility api is used, use 'user:password' instead.",
                                        "optional" : 1,
+                                       "sensitive" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -4418,6 +4432,7 @@ const apiSchema = [
                                     "token" : {
                                        "description" : "The InfluxDB access token. Only necessary when using the http v2 api. If the v2 compatibility api is used, use 'user:password' instead.",
                                        "optional" : 1,
+                                       "sensitive" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -5347,6 +5362,7 @@ const apiSchema = [
                                           "token" : {
                                              "description" : "Secret token",
                                              "optional" : 1,
+                                             "sensitive" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           }
@@ -5490,6 +5506,7 @@ const apiSchema = [
                                     },
                                     "token" : {
                                        "description" : "Secret token",
+                                       "sensitive" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     }
@@ -5773,6 +5790,7 @@ const apiSchema = [
                                           "password" : {
                                              "description" : "Password for SMTP authentication",
                                              "optional" : 1,
+                                             "sensitive" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
@@ -6030,6 +6048,7 @@ const apiSchema = [
                                     "password" : {
                                        "description" : "Password for SMTP authentication",
                                        "optional" : 1,
+                                       "sensitive" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -6295,6 +6314,7 @@ const apiSchema = [
                                           "secret" : {
                                              "description" : "Secrets to set. These have to be formatted as a property string in the format name=<name>,value=<base64 of value>",
                                              "items" : {
+                                                "sensitive" : 1,
                                                 "type" : "string"
                                              },
                                              "optional" : 1,
@@ -6497,6 +6517,7 @@ const apiSchema = [
                                     "secret" : {
                                        "description" : "Secrets to set. These have to be formatted as a property string in the format name=<name>,value=<base64 of value>",
                                        "items" : {
+                                          "sensitive" : 1,
                                           "type" : "string"
                                        },
                                        "optional" : 1,
@@ -8692,6 +8713,7 @@ const apiSchema = [
                               "password" : {
                                  "description" : "Superuser (root) password of peer node.",
                                  "maxLength" : 128,
+                                 "sensitive" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -10920,29 +10942,7 @@ const apiSchema = [
                               },
                               "log_ratelimit" : {
                                  "description" : "Log ratelimiting settings",
-                                 "format" : {
-                                    "burst" : {
-                                       "default" : 5,
-                                       "description" : "Initial burst of packages which will always get logged before the rate is applied",
-                                       "minimum" : 0,
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
-                                    "enable" : {
-                                       "default" : "1",
-                                       "default_key" : 1,
-                                       "description" : "Enable or disable log rate limiting",
-                                       "type" : "boolean"
-                                    },
-                                    "rate" : {
-                                       "default" : "1/second",
-                                       "description" : "Frequency with which the burst bucket gets refilled",
-                                       "format_description" : "rate",
-                                       "optional" : 1,
-                                       "pattern" : "[1-9][0-9]*\\/(second|minute|hour|day)",
-                                       "type" : "string"
-                                    }
-                                 },
+                                 "format" : "pve-fw-log-ratelimit",
                                  "optional" : 1,
                                  "type" : "string"
                               },
@@ -11018,29 +11018,7 @@ const apiSchema = [
                               },
                               "log_ratelimit" : {
                                  "description" : "Log ratelimiting settings",
-                                 "format" : {
-                                    "burst" : {
-                                       "default" : 5,
-                                       "description" : "Initial burst of packages which will always get logged before the rate is applied",
-                                       "minimum" : 0,
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
-                                    "enable" : {
-                                       "default" : "1",
-                                       "default_key" : 1,
-                                       "description" : "Enable or disable log rate limiting",
-                                       "type" : "boolean"
-                                    },
-                                    "rate" : {
-                                       "default" : "1/second",
-                                       "description" : "Frequency with which the burst bucket gets refilled",
-                                       "format_description" : "rate",
-                                       "optional" : 1,
-                                       "pattern" : "[1-9][0-9]*\\/(second|minute|hour|day)",
-                                       "type" : "string"
-                                    }
-                                 },
+                                 "format" : "pve-fw-log-ratelimit",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "[enable=]<1|0> [,burst=<integer>] [,rate=<rate>]"
@@ -12864,20 +12842,73 @@ const apiSchema = [
                                     "method" : "POST",
                                     "name" : "migrate",
                                     "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "node" : {
-                                             "description" : "Target node.",
-                                             "format" : "pve-node",
-                                             "type" : "string",
-                                             "typetext" : "<string>"
+                                       "oneOf" : [
+                                          {
+                                             "additionalProperties" : 0,
+                                             "instance-type" : "ct",
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "Target node.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "sid" : {
+                                                   "description" : "HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).",
+                                                   "format" : "pve-ha-resource-or-vm-id",
+                                                   "type" : "string",
+                                                   "typetext" : "<type>:<name>"
+                                                },
+                                                "skip-config-check" : {
+                                                   "default" : 0,
+                                                   "description" : "For intra-cluster migration. Skip checking if the configuration can be parsed successfully by the target. Using this flag can lead to dropped or ignored configuration options if the target is too old to parse them.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                }
+                                             }
                                           },
-                                          "sid" : {
-                                             "description" : "HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).",
-                                             "format" : "pve-ha-resource-or-vm-id",
-                                             "type" : "string",
-                                             "typetext" : "<type>:<name>"
+                                          {
+                                             "additionalProperties" : 0,
+                                             "instance-type" : "vm",
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "Target node.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "sid" : {
+                                                   "description" : "HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).",
+                                                   "format" : "pve-ha-resource-or-vm-id",
+                                                   "type" : "string",
+                                                   "typetext" : "<type>:<name>"
+                                                },
+                                                "skip-config-check" : {
+                                                   "default" : 0,
+                                                   "description" : "For intra-cluster migration. Skip checking if the configuration can be parsed successfully by the target. Using this flag can lead to dropped configuration options if the target is too old to parse them.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
+                                                "with-conntrack-state" : {
+                                                   "default" : 0,
+                                                   "description" : "Whether to migrate conntrack entries for running VMs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                }
+                                             }
                                           }
+                                       ],
+                                       "type-property" : "resource-type",
+                                       "type-property-schema" : {
+                                          "description" : "The resource type. Automatically determined from the service ID.",
+                                          "enum" : [
+                                             "ct",
+                                             "vm"
+                                          ],
+                                          "type" : "string"
                                        }
                                     },
                                     "permissions" : {
@@ -15733,6 +15764,7 @@ const apiSchema = [
                                  "description" : "HMAC key for External Account Binding.",
                                  "optional" : 1,
                                  "requires" : "eab-kid",
+                                 "sensitive" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -28415,6 +28447,12 @@ const apiSchema = [
                         "next-id" : {
                            "description" : "Control the range for the free VMID auto-selection pool.",
                            "format" : {
+                              "enforce" : {
+                                 "default" : 0,
+                                 "description" : "Reject IDs for new guests outside of the configured 'lower' and 'upper' boundaries and, with 'unique', IDs that were used before.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
                               "lower" : {
                                  "default" : 100,
                                  "description" : "Lower, inclusive boundary for free next-id API range.",
@@ -28422,6 +28460,12 @@ const apiSchema = [
                                  "min" : 100,
                                  "optional" : 1,
                                  "type" : "integer"
+                              },
+                              "unique" : {
+                                 "default" : 0,
+                                 "description" : "Only suggest guest IDs that are neither currently in use nor have previously been used.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
                               },
                               "upper" : {
                                  "default" : 1000000,
@@ -28558,6 +28602,50 @@ const apiSchema = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "token-policy" : {
+                           "description" : "Cluster-wide policy for creating and updating API tokens, for example to enforce an expiration date or privilege separation.",
+                           "format" : {
+                              "allow-extension-on-regenerate" : {
+                                 "default" : 0,
+                                 "description" : "Allow extending the expiration date of an existing API token when its secret is regenerated in the same request, despite 'disallow-expiry-extension'. The maximum lifetime still applies.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "default-to-max-lifetime" : {
+                                 "default" : 0,
+                                 "description" : "Give API tokens created without an expiration date the maximum lifetime instead of rejecting them, for example for tools unaware of the policy. Has no effect without 'max-lifetime'.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "disallow-expiry-extension" : {
+                                 "default" : 0,
+                                 "description" : "Disallow moving the expiration date of existing API tokens later or removing it, so that 'max-lifetime' cannot be circumvented by extending tokens repeatedly. Shortening the expiration date or setting one on a token that has none remains possible, and tokens can still be deleted and recreated.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "max-lifetime" : {
+                                 "description" : "Maximum lifetime of API tokens in seconds, counted from when the expiration date is set, that is on creation or when an update changes it. Implies 'require-expiry'.",
+                                 "format_description" : "seconds",
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              },
+                              "require-expiry" : {
+                                 "default" : 0,
+                                 "description" : "Require an expiration date for new API tokens and when changing the expiration date of existing ones.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "require-privilege-separation" : {
+                                 "default" : 0,
+                                 "description" : "Require privilege separation for new API tokens and when changing that setting on existing ones, that is, disallow tokens with the full privileges of their user.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
                               }
                            },
                            "optional" : 1,
@@ -28963,6 +29051,12 @@ const apiSchema = [
                         "next-id" : {
                            "description" : "Control the range for the free VMID auto-selection pool.",
                            "format" : {
+                              "enforce" : {
+                                 "default" : 0,
+                                 "description" : "Reject IDs for new guests outside of the configured 'lower' and 'upper' boundaries and, with 'unique', IDs that were used before.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
                               "lower" : {
                                  "default" : 100,
                                  "description" : "Lower, inclusive boundary for free next-id API range.",
@@ -28970,6 +29064,12 @@ const apiSchema = [
                                  "min" : 100,
                                  "optional" : 1,
                                  "type" : "integer"
+                              },
+                              "unique" : {
+                                 "default" : 0,
+                                 "description" : "Only suggest guest IDs that are neither currently in use nor have previously been used.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
                               },
                               "upper" : {
                                  "default" : 1000000,
@@ -28982,7 +29082,7 @@ const apiSchema = [
                            },
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "[lower=<integer>] [,upper=<integer>]"
+                           "typetext" : "[enforce=<1|0>] [,lower=<integer>] [,unique=<1|0>] [,upper=<integer>]"
                         },
                         "notify" : {
                            "description" : "Cluster-wide notification settings.",
@@ -29114,6 +29214,51 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "[case-sensitive=<1|0>] [,color-map=<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]] [,ordering=<config|alphabetical>] [,shape=<enum>]"
+                        },
+                        "token-policy" : {
+                           "description" : "Cluster-wide policy for creating and updating API tokens, for example to enforce an expiration date or privilege separation.",
+                           "format" : {
+                              "allow-extension-on-regenerate" : {
+                                 "default" : 0,
+                                 "description" : "Allow extending the expiration date of an existing API token when its secret is regenerated in the same request, despite 'disallow-expiry-extension'. The maximum lifetime still applies.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "default-to-max-lifetime" : {
+                                 "default" : 0,
+                                 "description" : "Give API tokens created without an expiration date the maximum lifetime instead of rejecting them, for example for tools unaware of the policy. Has no effect without 'max-lifetime'.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "disallow-expiry-extension" : {
+                                 "default" : 0,
+                                 "description" : "Disallow moving the expiration date of existing API tokens later or removing it, so that 'max-lifetime' cannot be circumvented by extending tokens repeatedly. Shortening the expiration date or setting one on a token that has none remains possible, and tokens can still be deleted and recreated.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "max-lifetime" : {
+                                 "description" : "Maximum lifetime of API tokens in seconds, counted from when the expiration date is set, that is on creation or when an update changes it. Implies 'require-expiry'.",
+                                 "format_description" : "seconds",
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              },
+                              "require-expiry" : {
+                                 "default" : 0,
+                                 "description" : "Require an expiration date for new API tokens and when changing the expiration date of existing ones.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "require-privilege-separation" : {
+                                 "default" : 0,
+                                 "description" : "Require privilege separation for new API tokens and when changing that setting on existing ones, that is, disallow tokens with the full privileges of their user.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[allow-extension-on-regenerate=<1|0>] [,default-to-max-lifetime=<1|0>] [,disallow-expiry-extension=<1|0>] [,max-lifetime=<seconds>] [,require-expiry=<1|0>] [,require-privilege-separation=<1|0>]"
                         },
                         "u2f" : {
                            "description" : "u2f",
@@ -32593,6 +32738,7 @@ const apiSchema = [
                                                    "description" : "The new password.",
                                                    "maxLength" : 1024,
                                                    "minLength" : 5,
+                                                   "sensitive" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
@@ -33305,6 +33451,13 @@ const apiSchema = [
                                                 },
                                                 "guest-fsfreeze" : {
                                                    "alias" : "freeze-fs"
+                                                },
+                                                "sync-time-on-resume" : {
+                                                   "default" : 0,
+                                                   "description" : "Synchronize the guest's clock through QGA after operations that can leave the guest's clock behind.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Whether to issue the 'guest-set-time' QEMU guest agent command to synchronize the guest's clock to the host's current time after operations that can leave the guest's clock behind. This happens when resuming from hibernation, resuming from a paused state, taking a snapshot, after a live migration, after a backup in suspend mode, and after rolling back to a snapshot that includes RAM. In these cases the guest's clock may still reflect an earlier time. The time is only synchronized when the QEMU Guest Agent option is enabled in the guest's configuration and the agent is running inside of the guest. For resume, hibernation resume and snapshot rollback, the synchronization can be overridden per operation."
                                                 },
                                                 "type" : {
                                                    "default" : "virtio",
@@ -35702,6 +35855,13 @@ const apiSchema = [
                                                 "guest-fsfreeze" : {
                                                    "alias" : "freeze-fs"
                                                 },
+                                                "sync-time-on-resume" : {
+                                                   "default" : 0,
+                                                   "description" : "Synchronize the guest's clock through QGA after operations that can leave the guest's clock behind.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Whether to issue the 'guest-set-time' QEMU guest agent command to synchronize the guest's clock to the host's current time after operations that can leave the guest's clock behind. This happens when resuming from hibernation, resuming from a paused state, taking a snapshot, after a live migration, after a backup in suspend mode, and after rolling back to a snapshot that includes RAM. In these cases the guest's clock may still reflect an earlier time. The time is only synchronized when the QEMU Guest Agent option is enabled in the guest's configuration and the agent is running inside of the guest. For resume, hibernation resume and snapshot rollback, the synchronization can be overridden per operation."
+                                                },
                                                 "type" : {
                                                    "default" : "virtio",
                                                    "description" : "Select the agent type",
@@ -35715,7 +35875,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                             "typetext" : "[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,sync-time-on-resume=<1|0>] [,type=<virtio|isa>]"
                                           },
                                           "allow-ksm" : {
                                              "default" : 1,
@@ -38193,6 +38353,13 @@ const apiSchema = [
                                                 "guest-fsfreeze" : {
                                                    "alias" : "freeze-fs"
                                                 },
+                                                "sync-time-on-resume" : {
+                                                   "default" : 0,
+                                                   "description" : "Synchronize the guest's clock through QGA after operations that can leave the guest's clock behind.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Whether to issue the 'guest-set-time' QEMU guest agent command to synchronize the guest's clock to the host's current time after operations that can leave the guest's clock behind. This happens when resuming from hibernation, resuming from a paused state, taking a snapshot, after a live migration, after a backup in suspend mode, and after rolling back to a snapshot that includes RAM. In these cases the guest's clock may still reflect an earlier time. The time is only synchronized when the QEMU Guest Agent option is enabled in the guest's configuration and the agent is running inside of the guest. For resume, hibernation resume and snapshot rollback, the synchronization can be overridden per operation."
+                                                },
                                                 "type" : {
                                                    "default" : "virtio",
                                                    "description" : "Select the agent type",
@@ -38206,7 +38373,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                             "typetext" : "[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,sync-time-on-resume=<1|0>] [,type=<virtio|isa>]"
                                           },
                                           "allow-ksm" : {
                                              "default" : 1,
@@ -40737,7 +40904,8 @@ const apiSchema = [
                                                 [
                                                    "VM.Audit"
                                                 ]
-                                             ]
+                                             ],
+                                             "description" : "Without 'VM.Config.Cloudinit' on /vms/{vmid}, the password is masked in the user data, and the meta data is not available if a password is set."
                                           },
                                           "proxyto" : "node",
                                           "returns" : {
@@ -41536,6 +41704,13 @@ const apiSchema = [
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
+                                                "sync-time-on-resume" : {
+                                                   "description" : "Override the 'sync-time-on-resume' setting from the VM's guest agent (QGA) config for this start only. Controls whether the guest's clock is synchronized when starting a hibernated VM. No effect on a regular start.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>",
+                                                   "verbose_description" : "Override the 'sync-time-on-resume' setting from the VM's guest agent (QGA) config for this start only. When enabled, the 'guest-set-time' QEMU guest agent command is issued to synchronize the guest's clock to the host's current time after the RAM state is restored, which happens here when starting a VM that was hibernated (suspended to disk). Without synchronization the guest's clock may still reflect the time from when the VM was hibernated. The time is only synchronized when the QEMU Guest Agent option is enabled in the guest's configuration and the agent is running inside of the guest."
+                                                },
                                                 "targetstorage" : {
                                                    "description" : "Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.",
                                                    "format" : "storage-pair-list",
@@ -41942,6 +42117,13 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean",
                                                    "typetext" : "<boolean>"
+                                                },
+                                                "sync-time-on-resume" : {
+                                                   "description" : "Override the 'sync-time-on-resume' setting from the VM's guest agent (QGA) config for this resume only. Controls whether the guest's clock is synchronized after resuming the VM.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>",
+                                                   "verbose_description" : "Override the 'sync-time-on-resume' setting from the VM's guest agent (QGA) config for this resume only. When enabled, the 'guest-set-time' QEMU guest agent command is issued to synchronize the guest's clock to the host's current time after resuming the VM from a paused or hibernated state. Without synchronization the guest's clock may still reflect the time from when the VM was paused or hibernated. The time is only synchronized when the QEMU Guest Agent option is enabled in the guest's configuration and the agent is running inside of the guest."
                                                 },
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
@@ -43162,42 +43344,55 @@ const apiSchema = [
                                              "type" : "array"
                                           },
                                           "not_allowed_nodes" : {
-                                             "description" : "List of not allowed nodes with additional information.",
-                                             "optional" : 1,
-                                             "properties" : {
-                                                "blocking-ha-resources" : {
-                                                   "description" : "HA resources, which are blocking the VM from being migrated to the node.",
-                                                   "items" : {
-                                                      "description" : "A blocking HA resource",
-                                                      "properties" : {
-                                                         "cause" : {
-                                                            "description" : "The reason why the HA resource is blocking the migration.",
-                                                            "enum" : [
-                                                               "node-affinity",
-                                                               "resource-affinity"
-                                                            ],
-                                                            "type" : "string"
+                                             "additionalProperties" : {
+                                                "description" : "Why migrating to the node is not allowed.",
+                                                "properties" : {
+                                                   "blocking-ha-resources" : {
+                                                      "description" : "HA resources, which are blocking the VM from being migrated to the node.",
+                                                      "items" : {
+                                                         "description" : "A blocking HA resource",
+                                                         "properties" : {
+                                                            "cause" : {
+                                                               "description" : "The reason why the HA resource is blocking the migration.",
+                                                               "enum" : [
+                                                                  "node-affinity",
+                                                                  "resource-affinity"
+                                                               ],
+                                                               "type" : "string"
+                                                            },
+                                                            "sid" : {
+                                                               "description" : "The blocking HA resource id",
+                                                               "type" : "string"
+                                                            }
                                                          },
-                                                         "sid" : {
-                                                            "description" : "The blocking HA resource id",
-                                                            "type" : "string"
-                                                         }
+                                                         "type" : "object"
                                                       },
-                                                      "type" : "object"
+                                                      "optional" : 1,
+                                                      "type" : "array"
                                                    },
-                                                   "optional" : 1,
-                                                   "type" : "array"
+                                                   "unavailable-resources" : {
+                                                      "description" : "Mapped resources without a mapping on the node.",
+                                                      "items" : {
+                                                         "description" : "The config key of a mapped resource",
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   },
+                                                   "unavailable_storages" : {
+                                                      "description" : "A list of not available storages.",
+                                                      "items" : {
+                                                         "description" : "A storage",
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   }
                                                 },
-                                                "unavailable_storages" : {
-                                                   "description" : "A list of not available storages.",
-                                                   "items" : {
-                                                      "description" : "A storage",
-                                                      "type" : "string"
-                                                   },
-                                                   "optional" : 1,
-                                                   "type" : "array"
-                                                }
+                                                "type" : "object"
                                              },
+                                             "description" : "Not allowed nodes, keyed by node name, with the reasons.",
+                                             "optional" : 1,
                                              "type" : "object"
                                           },
                                           "running" : {
@@ -43254,6 +43449,13 @@ const apiSchema = [
                                           },
                                           "online" : {
                                              "description" : "Use online/live migration if VM is running. Ignored if VM is stopped.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "skip-config-check" : {
+                                             "default" : 0,
+                                             "description" : "For intra-cluster migration. Skip checking if the configuration can be parsed successfully by the target. Using this flag can lead to dropped configuration options if the target is too old to parse them.",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -43740,6 +43942,13 @@ const apiSchema = [
                                                          "optional" : 1,
                                                          "type" : "boolean",
                                                          "typetext" : "<boolean>"
+                                                      },
+                                                      "sync-time-on-resume" : {
+                                                         "description" : "Override the 'sync-time-on-resume' setting from the VM's guest agent (QGA) config for this rollback only. Controls whether the guest's clock is synchronized after the RAM state is restored.",
+                                                         "optional" : 1,
+                                                         "type" : "boolean",
+                                                         "typetext" : "<boolean>",
+                                                         "verbose_description" : "Override the 'sync-time-on-resume' setting from the VM's guest agent (QGA) config for this rollback only. When enabled, the 'guest-set-time' QEMU guest agent command is issued to synchronize the guest's clock to the host's current time after rolling back to a snapshot that includes RAM. Without synchronization the guest's clock may still reflect the time from when the snapshot was taken. The time is only synchronized when the QEMU Guest Agent option is enabled in the guest's configuration and the agent is running inside of the guest."
                                                       },
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
@@ -44692,6 +44901,13 @@ const apiSchema = [
                                     "guest-fsfreeze" : {
                                        "alias" : "freeze-fs"
                                     },
+                                    "sync-time-on-resume" : {
+                                       "default" : 0,
+                                       "description" : "Synchronize the guest's clock through QGA after operations that can leave the guest's clock behind.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "verbose_description" : "Whether to issue the 'guest-set-time' QEMU guest agent command to synchronize the guest's clock to the host's current time after operations that can leave the guest's clock behind. This happens when resuming from hibernation, resuming from a paused state, taking a snapshot, after a live migration, after a backup in suspend mode, and after rolling back to a snapshot that includes RAM. In these cases the guest's clock may still reflect an earlier time. The time is only synchronized when the QEMU Guest Agent option is enabled in the guest's configuration and the agent is running inside of the guest. For resume, hibernation resume and snapshot rollback, the synchronization can be overridden per operation."
+                                    },
                                     "type" : {
                                        "default" : "virtio",
                                        "description" : "Select the agent type",
@@ -44705,7 +44921,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                 "typetext" : "[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,sync-time-on-resume=<1|0>] [,type=<virtio|isa>]"
                               },
                               "allow-ksm" : {
                                  "default" : 1,
@@ -51999,33 +52215,37 @@ const apiSchema = [
                                              "type" : "array"
                                           },
                                           "not-allowed-nodes" : {
-                                             "description" : "List of not allowed nodes with additional information.",
-                                             "optional" : 1,
-                                             "properties" : {
-                                                "blocking-ha-resources" : {
-                                                   "description" : "HA resources, which are blocking the container from being migrated to the node.",
-                                                   "items" : {
-                                                      "description" : "A blocking HA resource",
-                                                      "properties" : {
-                                                         "cause" : {
-                                                            "description" : "The reason why the HA resource is blocking the migration.",
-                                                            "enum" : [
-                                                               "node-affinity",
-                                                               "resource-affinity"
-                                                            ],
-                                                            "type" : "string"
+                                             "additionalProperties" : {
+                                                "description" : "Why migrating to the node is not allowed.",
+                                                "properties" : {
+                                                   "blocking-ha-resources" : {
+                                                      "description" : "HA resources, which are blocking the container from being migrated to the node.",
+                                                      "items" : {
+                                                         "description" : "A blocking HA resource",
+                                                         "properties" : {
+                                                            "cause" : {
+                                                               "description" : "The reason why the HA resource is blocking the migration.",
+                                                               "enum" : [
+                                                                  "node-affinity",
+                                                                  "resource-affinity"
+                                                               ],
+                                                               "type" : "string"
+                                                            },
+                                                            "sid" : {
+                                                               "description" : "The blocking HA resource id",
+                                                               "type" : "string"
+                                                            }
                                                          },
-                                                         "sid" : {
-                                                            "description" : "The blocking HA resource id",
-                                                            "type" : "string"
-                                                         }
+                                                         "type" : "object"
                                                       },
-                                                      "type" : "object"
-                                                   },
-                                                   "optional" : 1,
-                                                   "type" : "array"
-                                                }
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   }
+                                                },
+                                                "type" : "object"
                                              },
+                                             "description" : "Not allowed nodes, keyed by node name, with the reasons.",
+                                             "optional" : 1,
                                              "type" : "object"
                                           },
                                           "running" : {
@@ -52066,6 +52286,13 @@ const apiSchema = [
                                           },
                                           "restart" : {
                                              "description" : "Use restart migration",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "skip-config-check" : {
+                                             "default" : 0,
+                                             "description" : "For intra-cluster migration. Skip checking if the configuration can be parsed successfully by the target. Using this flag can lead to dropped or ignored configuration options if the target is too old to parse them.",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -54909,6 +55136,7 @@ const apiSchema = [
                                  "description" : "Sets root password inside container.",
                                  "minLength" : 5,
                                  "optional" : 1,
+                                 "sensitive" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -65152,8 +65380,11 @@ const apiSchema = [
                                     "perm",
                                     "/nodes/{node}",
                                     [
+                                       "Sys.Audit",
                                        "Sys.Modify"
-                                    ]
+                                    ],
+                                    "any",
+                                    1
                                  ]
                               },
                               "protected" : 1,
@@ -65272,6 +65503,153 @@ const apiSchema = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
+                              "description" : "Get the changelog entries for pending updates, grouped by source package.",
+                              "method" : "GET",
+                              "name" : "update_changelogs",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "description" : "The changelog entries, grouped by source package, upgrades first, then downgrades, installs and other changes, each sorted by name.",
+                                 "items" : {
+                                    "properties" : {
+                                       "entries" : {
+                                          "description" : "The entries of the versions that upgrades and downgrades changed between, for other changes only the newest one up to the new version, usually newest first.",
+                                          "items" : {
+                                             "properties" : {
+                                                "changes" : {
+                                                   "description" : "The changes as written in the changelog, usually as an indented list.",
+                                                   "type" : "string"
+                                                },
+                                                "date" : {
+                                                   "description" : "Date of the entry as written in the changelog.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "distributions" : {
+                                                   "description" : "Distributions the version was uploaded to, separated by spaces.",
+                                                   "type" : "string"
+                                                },
+                                                "maintainer" : {
+                                                   "description" : "Name and email address of the author of the entry.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "package" : {
+                                                   "description" : "Name of the source package.",
+                                                   "type" : "string"
+                                                },
+                                                "urgency" : {
+                                                   "description" : "Urgency of the upload.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "version" : {
+                                                   "description" : "Version of the source package.",
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "type" : "array"
+                                       },
+                                       "error" : {
+                                          "description" : "Why the changelog could not be read.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "packages" : {
+                                          "description" : "The changes to binary packages of the source package that show these entries.",
+                                          "items" : {
+                                             "properties" : {
+                                                "action" : {
+                                                   "description" : "What the transaction did to the package.",
+                                                   "enum" : [
+                                                      "install",
+                                                      "reinstall",
+                                                      "upgrade",
+                                                      "downgrade",
+                                                      "remove",
+                                                      "purge",
+                                                      "disappear"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "arch" : {
+                                                   "description" : "Package architecture.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "automatic" : {
+                                                   "default" : 0,
+                                                   "description" : "Whether APT marked the newly installed package as installed automatically.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "new-version" : {
+                                                   "description" : "Version installed by the transaction.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "old-version" : {
+                                                   "description" : "Version installed before the transaction.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "package" : {
+                                                   "description" : "Package name.",
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "type" : "array"
+                                       },
+                                       "source" : {
+                                          "description" : "Name of the source package as its changelog lists it, or as APT names it for a changelog that could not be downloaded. Missing if no changelog is installed for the packages, or the source package is not known.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "unlisted-version" : {
+                                          "default" : 0,
+                                          "description" : "The changelog does not list the version the entries go up to, as for signed kernels, so the entries are only its newest one, which can belong to a later version.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/apt/update-changelogs",
+                        "text" : "update-changelogs"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get package changelogs.",
                               "method" : "GET",
                               "name" : "changelog",
@@ -65315,6 +65693,484 @@ const apiSchema = [
                         "leaf" : 1,
                         "path" : "/nodes/{node}/apt/changelog",
                         "text" : "changelog"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "List past APT transactions and their package changes, newest first.",
+                              "method" : "GET",
+                              "name" : "history",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "limit" : {
+                                       "description" : "List at most this many transactions.",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - N)"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "package" : {
+                                       "description" : "Only list transactions that changed this package.",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:[a-z0-9][-+.a-z0-9]+)",
+                                       "type" : "string",
+                                       "typetext" : "<package>"
+                                    },
+                                    "since" : {
+                                       "description" : "Only list transactions that started at or after this Unix epoch.",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "until" : {
+                                       "description" : "Only list transactions that started at or before this Unix epoch.",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "command-line" : {
+                                          "description" : "Command line of the APT invocation.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "comment" : {
+                                          "description" : "Comment set through the 'APT::History::Comment' option.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "end-time" : {
+                                          "description" : "End time as Unix epoch, missing if the transaction is still running or got interrupted.",
+                                          "optional" : 1,
+                                          "renderer" : "timestamp",
+                                          "type" : "integer"
+                                       },
+                                       "error" : {
+                                          "description" : "Error reported for the transaction, usually by dpkg.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "packages" : {
+                                          "description" : "Changed packages, in the order APT logged them.",
+                                          "items" : {
+                                             "properties" : {
+                                                "action" : {
+                                                   "description" : "What the transaction did to the package.",
+                                                   "enum" : [
+                                                      "install",
+                                                      "reinstall",
+                                                      "upgrade",
+                                                      "downgrade",
+                                                      "remove",
+                                                      "purge",
+                                                      "disappear"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "arch" : {
+                                                   "description" : "Package architecture.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "automatic" : {
+                                                   "default" : 0,
+                                                   "description" : "Whether APT marked the newly installed package as installed automatically.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "new-version" : {
+                                                   "description" : "Version installed by the transaction.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "old-version" : {
+                                                   "description" : "Version installed before the transaction.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "package" : {
+                                                   "description" : "Package name.",
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "type" : "array"
+                                       },
+                                       "requested-by" : {
+                                          "description" : "User who requested the transaction through sudo, pkexec or PackageKit.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "requested-by-uid" : {
+                                          "description" : "UID of the user who requested the transaction.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "start-index" : {
+                                          "default" : 0,
+                                          "description" : "Number of earlier transactions with the same start time in the same log file. Together with the start time, this identifies the transaction.",
+                                          "minimum" : 0,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "start-time" : {
+                                          "description" : "Start time as Unix epoch.",
+                                          "renderer" : "timestamp",
+                                          "type" : "integer"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/apt/history",
+                        "text" : "history"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get the terminal output of a past APT transaction.",
+                              "method" : "GET",
+                              "name" : "termlog",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "format" : {
+                                       "default" : "plain",
+                                       "description" : "Format of the output, 'styled' keeps bold, dim and the basic foreground colors as SGR escape sequences, each setting the complete style and none spanning a line break.",
+                                       "enum" : [
+                                          "plain",
+                                          "styled"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "start-index" : {
+                                       "default" : 0,
+                                       "description" : "Start index of the transaction, as listed in the APT history.",
+                                       "maximum" : 4294967295,
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (0 - 4294967295)"
+                                    },
+                                    "start-time" : {
+                                       "description" : "Start time of the transaction, as listed in the APT history.",
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Syslog"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "description" : "The terminal output.",
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/apt/termlog",
+                        "text" : "termlog"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get the Debian changelog that an installed package ships, optionally limited to a version range.",
+                              "method" : "GET",
+                              "name" : "installed_changelog",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "name" : {
+                                       "description" : "Name of the installed package.",
+                                       "maxLength" : 128,
+                                       "pattern" : "(?^:[a-z0-9][-+.a-z0-9]+)",
+                                       "type" : "string",
+                                       "typetext" : "<package>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "since-version" : {
+                                       "description" : "Only list the entries of versions later than this one.",
+                                       "maxLength" : 128,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "to-version" : {
+                                       "description" : "Only list the entries of versions up to including this one, or only the newest entry if the changelog does not list this version.",
+                                       "maxLength" : 128,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "description" : "The changelog entries, usually newest first.",
+                                 "items" : {
+                                    "properties" : {
+                                       "changes" : {
+                                          "description" : "The changes as written in the changelog, usually as an indented list.",
+                                          "type" : "string"
+                                       },
+                                       "date" : {
+                                          "description" : "Date of the entry as written in the changelog.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "distributions" : {
+                                          "description" : "Distributions the version was uploaded to, separated by spaces.",
+                                          "type" : "string"
+                                       },
+                                       "maintainer" : {
+                                          "description" : "Name and email address of the author of the entry.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "package" : {
+                                          "description" : "Name of the source package.",
+                                          "type" : "string"
+                                       },
+                                       "urgency" : {
+                                          "description" : "Urgency of the upload.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "version" : {
+                                          "description" : "Version of the source package.",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/apt/installed-changelog",
+                        "text" : "installed-changelog"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get the changelog entries for the package changes of a past APT transaction, from the changelogs of the installed packages.",
+                              "method" : "GET",
+                              "name" : "transaction_changelogs",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "start-index" : {
+                                       "default" : 0,
+                                       "description" : "Start index of the transaction, as listed in the APT history.",
+                                       "maximum" : 4294967295,
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (0 - 4294967295)"
+                                    },
+                                    "start-time" : {
+                                       "description" : "Start time of the transaction, as listed in the APT history.",
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "description" : "The changelog entries, grouped by source package, upgrades first, then downgrades, installs and other changes, each sorted by name.",
+                                 "items" : {
+                                    "properties" : {
+                                       "entries" : {
+                                          "description" : "The entries of the versions that upgrades and downgrades changed between, for other changes only the newest one up to the new version, usually newest first.",
+                                          "items" : {
+                                             "properties" : {
+                                                "changes" : {
+                                                   "description" : "The changes as written in the changelog, usually as an indented list.",
+                                                   "type" : "string"
+                                                },
+                                                "date" : {
+                                                   "description" : "Date of the entry as written in the changelog.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "distributions" : {
+                                                   "description" : "Distributions the version was uploaded to, separated by spaces.",
+                                                   "type" : "string"
+                                                },
+                                                "maintainer" : {
+                                                   "description" : "Name and email address of the author of the entry.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "package" : {
+                                                   "description" : "Name of the source package.",
+                                                   "type" : "string"
+                                                },
+                                                "urgency" : {
+                                                   "description" : "Urgency of the upload.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "version" : {
+                                                   "description" : "Version of the source package.",
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "type" : "array"
+                                       },
+                                       "error" : {
+                                          "description" : "Why the changelog could not be read.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "packages" : {
+                                          "description" : "The changes to binary packages of the source package that show these entries.",
+                                          "items" : {
+                                             "properties" : {
+                                                "action" : {
+                                                   "description" : "What the transaction did to the package.",
+                                                   "enum" : [
+                                                      "install",
+                                                      "reinstall",
+                                                      "upgrade",
+                                                      "downgrade",
+                                                      "remove",
+                                                      "purge",
+                                                      "disappear"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "arch" : {
+                                                   "description" : "Package architecture.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "automatic" : {
+                                                   "default" : 0,
+                                                   "description" : "Whether APT marked the newly installed package as installed automatically.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "new-version" : {
+                                                   "description" : "Version installed by the transaction.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "old-version" : {
+                                                   "description" : "Version installed before the transaction.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "package" : {
+                                                   "description" : "Package name.",
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "type" : "array"
+                                       },
+                                       "source" : {
+                                          "description" : "Name of the source package as its changelog lists it, or as APT names it for a changelog that could not be downloaded. Missing if no changelog is installed for the packages, or the source package is not known.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "unlisted-version" : {
+                                          "default" : 0,
+                                          "description" : "The changelog does not list the version the entries go up to, as for signed kernels, so the entries are only its newest one, which can belong to a later version.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/apt/transaction-changelogs",
+                        "text" : "transaction-changelogs"
                      },
                      {
                         "info" : {
@@ -66573,12 +67429,14 @@ const apiSchema = [
                                     "protection_synflood_burst" : {
                                        "default" : 1000,
                                        "description" : "Synflood protection rate burst by ip src.",
+                                       "maximum" : 1000000,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "protection_synflood_rate" : {
                                        "default" : 200,
                                        "description" : "Synflood protection rate syn/sec by ip src.",
+                                       "maximum" : 1000000,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -66784,16 +67642,18 @@ const apiSchema = [
                                     "protection_synflood_burst" : {
                                        "default" : 1000,
                                        "description" : "Synflood protection rate burst by ip src.",
+                                       "maximum" : 1000000,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (-N - 1000000)"
                                     },
                                     "protection_synflood_rate" : {
                                        "default" : 200,
                                        "description" : "Synflood protection rate syn/sec by ip src.",
+                                       "maximum" : 1000000,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (-N - 1000000)"
                                     },
                                     "smurf_log_level" : {
                                        "description" : "Log level for SMURFS filter.",
@@ -67754,6 +68614,7 @@ const apiSchema = [
                                        "description" : "PEM encoded private key.",
                                        "format" : "pem-string",
                                        "optional" : 1,
+                                       "sensitive" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -69002,6 +69863,838 @@ const apiSchema = [
                   "leaf" : 0,
                   "path" : "/nodes/{node}/sdn",
                   "text" : "sdn"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Count the requests of the API access log of pveproxy and spiceproxy, including its rotated copies, in a time range, which defaults to the last day. As the log is not ordered by time, the counting reads through the files like a page of the access log does, as much as one page at most, and tells which parts of the files it covered.",
+                              "method" : "GET",
+                              "name" : "access_log_stats",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "auth-id" : {
+                                       "description" : "Only requests of this user or API token. A user also matches its own API tokens.",
+                                       "maxLength" : 1024,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "auth-id-exact" : {
+                                       "description" : "Whether 'auth-id' only matches itself, so a user does not match its API tokens, and '-' matches requests without any.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "bucket" : {
+                                       "description" : "The length of a histogram bucket in seconds, chosen for at most 300 buckets if not set.",
+                                       "maximum" : 9223372036854775807,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 9223372036854775807)"
+                                    },
+                                    "client" : {
+                                       "description" : "Only requests from this client address.",
+                                       "format" : "ip",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "max-status" : {
+                                       "description" : "Only responses with a known HTTP status code of at most this value.",
+                                       "maximum" : 999,
+                                       "minimum" : 100,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (100 - 999)"
+                                    },
+                                    "method" : {
+                                       "description" : "Only requests with this HTTP method.",
+                                       "maxLength" : 32,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "min-status" : {
+                                       "description" : "Only responses with a known HTTP status code of at least this value.",
+                                       "maximum" : 999,
+                                       "minimum" : 100,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (100 - 999)"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "path" : {
+                                       "description" : "Only requests whose path contains this text.",
+                                       "maxLength" : 1024,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "path-group" : {
+                                       "description" : "Only requests whose path falls into this group, as the statistics list them.",
+                                       "maxLength" : 1024,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "search" : {
+                                       "description" : "Only requests whose client address, user or path contains this text, ignoring case.",
+                                       "maxLength" : 1024,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "since" : {
+                                       "description" : "Only requests logged at or after this UNIX epoch.",
+                                       "maximum" : 253402300799,
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (0 - 253402300799)"
+                                    },
+                                    "top" : {
+                                       "default" : 10,
+                                       "description" : "The number of values with the most requests to list.",
+                                       "maximum" : 100,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 100)"
+                                    },
+                                    "until" : {
+                                       "description" : "Only requests logged at or before this UNIX epoch.",
+                                       "maximum" : 253402300799,
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (0 - 253402300799)"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Syslog"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "properties" : {
+                                    "auth-ids" : {
+                                       "description" : "The users and API tokens with the most requests.",
+                                       "properties" : {
+                                          "others" : {
+                                             "description" : "The requests of all other values.",
+                                             "properties" : {
+                                                "client-errors" : {
+                                                   "description" : "The number of requests with a known client-error status, 400 to 499.",
+                                                   "type" : "integer"
+                                                },
+                                                "requests" : {
+                                                   "description" : "The number of requests.",
+                                                   "type" : "integer"
+                                                },
+                                                "server-errors" : {
+                                                   "description" : "The number of requests with a known server-error status, 500 or more.",
+                                                   "type" : "integer"
+                                                },
+                                                "unauthenticated" : {
+                                                   "description" : "The number of requests without an authenticated user.",
+                                                   "type" : "integer"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "rows" : {
+                                             "description" : "The values with the most requests, most first.",
+                                             "items" : {
+                                                "properties" : {
+                                                   "client-errors" : {
+                                                      "description" : "The number of requests with a known client-error status, 400 to 499.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "key" : {
+                                                      "description" : "The value, missing for requests without one.",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "last" : {
+                                                      "description" : "When the newest of the requests got logged, as UNIX epoch.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "requests" : {
+                                                      "description" : "The number of requests.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "server-errors" : {
+                                                      "description" : "The number of requests with a known server-error status, 500 or more.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "unauthenticated" : {
+                                                      "description" : "The number of requests without an authenticated user.",
+                                                      "type" : "integer"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "type" : "array"
+                                          },
+                                          "tracked" : {
+                                             "description" : "The number of values counted separately.",
+                                             "type" : "integer"
+                                          },
+                                          "truncated" : {
+                                             "description" : "Whether there were more values than get counted separately, so further ones only count as others, and the rows need not be the values with the most requests of all.",
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "clients" : {
+                                       "description" : "The client addresses with the most requests.",
+                                       "properties" : {
+                                          "others" : {
+                                             "description" : "The requests of all other values.",
+                                             "properties" : {
+                                                "client-errors" : {
+                                                   "description" : "The number of requests with a known client-error status, 400 to 499.",
+                                                   "type" : "integer"
+                                                },
+                                                "requests" : {
+                                                   "description" : "The number of requests.",
+                                                   "type" : "integer"
+                                                },
+                                                "server-errors" : {
+                                                   "description" : "The number of requests with a known server-error status, 500 or more.",
+                                                   "type" : "integer"
+                                                },
+                                                "unauthenticated" : {
+                                                   "description" : "The number of requests without an authenticated user.",
+                                                   "type" : "integer"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "rows" : {
+                                             "description" : "The values with the most requests, most first.",
+                                             "items" : {
+                                                "properties" : {
+                                                   "client-errors" : {
+                                                      "description" : "The number of requests with a known client-error status, 400 to 499.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "key" : {
+                                                      "description" : "The value, missing for requests without one.",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "last" : {
+                                                      "description" : "When the newest of the requests got logged, as UNIX epoch.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "requests" : {
+                                                      "description" : "The number of requests.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "server-errors" : {
+                                                      "description" : "The number of requests with a known server-error status, 500 or more.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "unauthenticated" : {
+                                                      "description" : "The number of requests without an authenticated user.",
+                                                      "type" : "integer"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "type" : "array"
+                                          },
+                                          "tracked" : {
+                                             "description" : "The number of values counted separately.",
+                                             "type" : "integer"
+                                          },
+                                          "truncated" : {
+                                             "description" : "Whether there were more values than get counted separately, so further ones only count as others, and the rows need not be the values with the most requests of all.",
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "complete" : {
+                                       "description" : "Whether all lines of all files got counted. Otherwise, the counts are only those of the covered parts.",
+                                       "type" : "boolean"
+                                    },
+                                    "covered" : {
+                                       "description" : "The parts of the files that got counted, newest first.",
+                                       "items" : {
+                                          "properties" : {
+                                             "end" : {
+                                                "description" : "Where the part ends, as offset in the uncompressed data.",
+                                                "type" : "integer"
+                                             },
+                                             "file" : {
+                                                "description" : "The name of the file.",
+                                                "type" : "string"
+                                             },
+                                             "start" : {
+                                                "description" : "Where the part starts, as offset in the uncompressed data.",
+                                                "type" : "integer"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    },
+                                    "dated-copies" : {
+                                       "description" : "Rotated copies named by date, as logrotate's 'dateext' names them, which are not counted but can hold requests of the time range.",
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array"
+                                    },
+                                    "gaps" : {
+                                       "description" : "The damaged compressed copy the counting stopped at.",
+                                       "items" : {
+                                          "properties" : {
+                                             "end" : {
+                                                "description" : "Where the skipped part ends, missing if at the end of a compressed copy.",
+                                                "optional" : 1,
+                                                "type" : "integer"
+                                             },
+                                             "file" : {
+                                                "description" : "The name of the file.",
+                                                "type" : "string"
+                                             },
+                                             "reason" : {
+                                                "description" : "Why the part was skipped: reaching it needs decompressing more of a compressed copy than one page reads, or the copy is damaged.",
+                                                "enum" : [
+                                                   "too-large",
+                                                   "damaged"
+                                                ],
+                                                "type" : "string"
+                                             },
+                                             "start" : {
+                                                "description" : "Where the skipped part starts, as offset in the uncompressed data.",
+                                                "type" : "integer"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    },
+                                    "histogram" : {
+                                       "description" : "The matching requests over the time range.",
+                                       "properties" : {
+                                          "bucket" : {
+                                             "description" : "The length of a bucket in seconds.",
+                                             "type" : "integer"
+                                          },
+                                          "counts" : {
+                                             "description" : "The requests of each bucket.",
+                                             "items" : {
+                                                "properties" : {
+                                                   "client-errors" : {
+                                                      "description" : "The number of requests with a known client-error status, 400 to 499.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "requests" : {
+                                                      "description" : "The number of requests.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "server-errors" : {
+                                                      "description" : "The number of requests with a known server-error status, 500 or more.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "unauthenticated" : {
+                                                      "description" : "The number of requests without an authenticated user.",
+                                                      "type" : "integer"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "type" : "array"
+                                          },
+                                          "start" : {
+                                             "description" : "The start of the first bucket, as UNIX epoch.",
+                                             "type" : "integer"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "invalid-lines" : {
+                                       "description" : "The number of lines that failed to parse, of the ones parsed completely. Lines whose first fields already rule them out do not get parsed further.",
+                                       "type" : "integer"
+                                    },
+                                    "path-groups" : {
+                                       "description" : "The path groups with the most requests, which replace the parts of API paths naming objects, like IDs, with placeholders.",
+                                       "properties" : {
+                                          "others" : {
+                                             "description" : "The requests of all other values.",
+                                             "properties" : {
+                                                "client-errors" : {
+                                                   "description" : "The number of requests with a known client-error status, 400 to 499.",
+                                                   "type" : "integer"
+                                                },
+                                                "requests" : {
+                                                   "description" : "The number of requests.",
+                                                   "type" : "integer"
+                                                },
+                                                "server-errors" : {
+                                                   "description" : "The number of requests with a known server-error status, 500 or more.",
+                                                   "type" : "integer"
+                                                },
+                                                "unauthenticated" : {
+                                                   "description" : "The number of requests without an authenticated user.",
+                                                   "type" : "integer"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "rows" : {
+                                             "description" : "The values with the most requests, most first.",
+                                             "items" : {
+                                                "properties" : {
+                                                   "client-errors" : {
+                                                      "description" : "The number of requests with a known client-error status, 400 to 499.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "key" : {
+                                                      "description" : "The value, missing for requests without one.",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "last" : {
+                                                      "description" : "When the newest of the requests got logged, as UNIX epoch.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "requests" : {
+                                                      "description" : "The number of requests.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "server-errors" : {
+                                                      "description" : "The number of requests with a known server-error status, 500 or more.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "unauthenticated" : {
+                                                      "description" : "The number of requests without an authenticated user.",
+                                                      "type" : "integer"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "type" : "array"
+                                          },
+                                          "tracked" : {
+                                             "description" : "The number of values counted separately.",
+                                             "type" : "integer"
+                                          },
+                                          "truncated" : {
+                                             "description" : "Whether there were more values than get counted separately, so further ones only count as others, and the rows need not be the values with the most requests of all.",
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "searched-back-to" : {
+                                       "description" : "The time of the oldest request looked at, matching or not, as UNIX epoch. Requests are not strictly ordered in the log, so this does not bound the covered time.",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "since" : {
+                                       "description" : "The start of the time range, as UNIX epoch.",
+                                       "type" : "integer"
+                                    },
+                                    "statuses" : {
+                                       "description" : "The status codes with the most requests. A missing key denotes an unknown status. Error counts include only requests with a known status.",
+                                       "properties" : {
+                                          "others" : {
+                                             "description" : "The requests of all other values.",
+                                             "properties" : {
+                                                "client-errors" : {
+                                                   "description" : "The number of requests with a known client-error status, 400 to 499.",
+                                                   "type" : "integer"
+                                                },
+                                                "requests" : {
+                                                   "description" : "The number of requests.",
+                                                   "type" : "integer"
+                                                },
+                                                "server-errors" : {
+                                                   "description" : "The number of requests with a known server-error status, 500 or more.",
+                                                   "type" : "integer"
+                                                },
+                                                "unauthenticated" : {
+                                                   "description" : "The number of requests without an authenticated user.",
+                                                   "type" : "integer"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "rows" : {
+                                             "description" : "The values with the most requests, most first.",
+                                             "items" : {
+                                                "properties" : {
+                                                   "client-errors" : {
+                                                      "description" : "The number of requests with a known client-error status, 400 to 499.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "key" : {
+                                                      "description" : "The value, missing for requests without one.",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "last" : {
+                                                      "description" : "When the newest of the requests got logged, as UNIX epoch.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "requests" : {
+                                                      "description" : "The number of requests.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "server-errors" : {
+                                                      "description" : "The number of requests with a known server-error status, 500 or more.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "unauthenticated" : {
+                                                      "description" : "The number of requests without an authenticated user.",
+                                                      "type" : "integer"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "type" : "array"
+                                          },
+                                          "tracked" : {
+                                             "description" : "The number of values counted separately.",
+                                             "type" : "integer"
+                                          },
+                                          "truncated" : {
+                                             "description" : "Whether there were more values than get counted separately, so further ones only count as others, and the rows need not be the values with the most requests of all.",
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "stopped" : {
+                                       "description" : "Why the counting stopped before the oldest file ended.",
+                                       "enum" : [
+                                          "read-budget",
+                                          "parse-budget",
+                                          "damaged"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "total" : {
+                                       "description" : "The counts of all matching requests.",
+                                       "properties" : {
+                                          "client-errors" : {
+                                             "description" : "The number of requests with a known client-error status, 400 to 499.",
+                                             "type" : "integer"
+                                          },
+                                          "requests" : {
+                                             "description" : "The number of requests.",
+                                             "type" : "integer"
+                                          },
+                                          "server-errors" : {
+                                             "description" : "The number of requests with a known server-error status, 500 or more.",
+                                             "type" : "integer"
+                                          },
+                                          "unauthenticated" : {
+                                             "description" : "The number of requests without an authenticated user.",
+                                             "type" : "integer"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "until" : {
+                                       "description" : "The end of the time range, as UNIX epoch.",
+                                       "type" : "integer"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/access-log/stats",
+                        "text" : "stats"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Read a page of the API access log of pveproxy and spiceproxy, including its rotated copies, newest requests first. A page ends once enough requests matched or after reading 512 MiB of log data, also without any match, and the next page continues at its 'next-cursor'. The values of query parameters are redacted for all but root@pam.",
+                        "method" : "GET",
+                        "name" : "access_log",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "after" : {
+                                 "description" : "Only the requests logged after this position, the 'head-cursor' of an earlier page, to follow the log. Cannot be combined with 'cursor'.",
+                                 "maxLength" : 128,
+                                 "optional" : 1,
+                                 "pattern" : "[A-Za-z0-9._-]+",
+                                 "type" : "string"
+                              },
+                              "auth-id" : {
+                                 "description" : "Only requests of this user or API token. A user also matches its own API tokens.",
+                                 "maxLength" : 1024,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "auth-id-exact" : {
+                                 "description" : "Whether 'auth-id' only matches itself, so a user does not match its API tokens, and '-' matches requests without any.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "client" : {
+                                 "description" : "Only requests from this client address.",
+                                 "format" : "ip",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "cursor" : {
+                                 "description" : "Continue with the requests logged before this position, the 'next-cursor' of the previous page.",
+                                 "maxLength" : 128,
+                                 "optional" : 1,
+                                 "pattern" : "[A-Za-z0-9._-]+",
+                                 "type" : "string"
+                              },
+                              "limit" : {
+                                 "default" : 500,
+                                 "description" : "The maximum number of requests to return.",
+                                 "maximum" : 1000,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 1000)"
+                              },
+                              "max-status" : {
+                                 "description" : "Only responses with a known HTTP status code of at most this value.",
+                                 "maximum" : 999,
+                                 "minimum" : 100,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (100 - 999)"
+                              },
+                              "method" : {
+                                 "description" : "Only requests with this HTTP method.",
+                                 "maxLength" : 32,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "min-status" : {
+                                 "description" : "Only responses with a known HTTP status code of at least this value.",
+                                 "maximum" : 999,
+                                 "minimum" : 100,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (100 - 999)"
+                              },
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "path" : {
+                                 "description" : "Only requests whose path contains this text.",
+                                 "maxLength" : 1024,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "path-group" : {
+                                 "description" : "Only requests whose path falls into this group, as the statistics list them.",
+                                 "maxLength" : 1024,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "search" : {
+                                 "description" : "Only requests whose client address, user or path contains this text, ignoring case.",
+                                 "maxLength" : 1024,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "since" : {
+                                 "description" : "Only requests logged at or after this UNIX epoch.",
+                                 "maximum" : 253402300799,
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - 253402300799)"
+                              },
+                              "until" : {
+                                 "description" : "Only requests logged at or before this UNIX epoch.",
+                                 "maximum" : 253402300799,
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - 253402300799)"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.Syslog"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "properties" : {
+                              "complete" : {
+                                 "description" : "Whether this page and the ones before it covered the whole log, without any gap. With 'after', whether this page holds all requests logged since.",
+                                 "type" : "boolean"
+                              },
+                              "dated-copies" : {
+                                 "description" : "Rotated copies named by date, as logrotate's 'dateext' names them, which are not read but can hold older requests. Only on the last page.",
+                                 "items" : {
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "array"
+                              },
+                              "entries" : {
+                                 "description" : "The matching requests, from the end of the log and its newest rotated copy on, in reverse order of logging. Their times need not decrease strictly, as requests can get logged late and rotated copies can overlap.",
+                                 "items" : {
+                                    "properties" : {
+                                       "auth-id" : {
+                                          "description" : "The authenticated user or API token.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "client" : {
+                                          "description" : "The client address.",
+                                          "format" : "ip",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "http-version" : {
+                                          "description" : "The HTTP version, omitted if the request was not read or its attribution is ambiguous.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "method" : {
+                                          "description" : "The HTTP method, with special characters escaped as \\xHH since pve-http-server 6.0.6. Omitted if the request was not read or its attribution is ambiguous.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "request-line" : {
+                                          "description" : "The raw request region of the log line, if it contains more than method, URI and HTTP version, like text around the request before pve-http-server 6.0.6, or another record after a cut line. Only returned to root@pam, as it includes query parameter values.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "size" : {
+                                          "description" : "The size of the response body in bytes, omitted when not logged or when the outcome is ambiguous.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "status" : {
+                                          "description" : "The HTTP status code, omitted when the log line leaves the outcome ambiguous.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "time" : {
+                                          "description" : "When the request was logged, as UNIX epoch.",
+                                          "type" : "integer"
+                                       },
+                                       "uri" : {
+                                          "description" : "The request target as logged, normally percent-encoded, as sent by the client before pve-http-server 6.0.6. Omitted if the request was not read or its attribution is ambiguous.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "utc-offset" : {
+                                          "description" : "The offset of the node's local time to UTC, in seconds.",
+                                          "type" : "integer"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              },
+                              "gaps" : {
+                                 "description" : "The parts of the log this page skipped, as they could not be read.",
+                                 "items" : {
+                                    "properties" : {
+                                       "end" : {
+                                          "description" : "Where the skipped part ends, missing if at the end of a compressed copy.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "file" : {
+                                          "description" : "The name of the file.",
+                                          "type" : "string"
+                                       },
+                                       "reason" : {
+                                          "description" : "Why the part was skipped: reaching it needs decompressing more of a compressed copy than one page reads, or the copy is damaged.",
+                                          "enum" : [
+                                             "too-large",
+                                             "damaged"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "start" : {
+                                          "description" : "Where the skipped part starts, as offset in the uncompressed data.",
+                                          "type" : "integer"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              },
+                              "head-cursor" : {
+                                 "description" : "Where the log ended when this page started, to get the requests logged since with 'after'. Missing on pages continuing at a cursor, and if the log has no complete line yet or ends in an unfinished overlong one.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "invalid-lines" : {
+                                 "description" : "The number of lines this page looked at that failed to parse.",
+                                 "type" : "integer"
+                              },
+                              "next-cursor" : {
+                                 "description" : "Where the next page continues, missing if no older requests are left to look at.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "searched-back-to" : {
+                                 "description" : "The time of the oldest request this page looked at, matching or not, as UNIX epoch. Requests are not strictly ordered in the log, so older ones can still follow.",
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/nodes/{node}/access-log",
+                  "text" : "access-log"
                },
                {
                   "info" : {

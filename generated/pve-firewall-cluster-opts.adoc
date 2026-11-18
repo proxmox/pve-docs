@@ -10,7 +10,7 @@ Enable or disable the firewall cluster wide.
 
 Log ratelimiting settings
 
-`burst`=`<integer> (0 - N)` ('default =' `5`);;
+`burst`=`<integer> (0 - 10000)` ('default =' `5`);;
 
 Initial burst of packages which will always get logged before the rate is applied
 
