@@ -495,8 +495,58 @@ NOTE: Backup job notifications only have `job-id` set if the backup job
   was executed automatically based on its schedule, but not if it was triggered
   manually by the 'Run now' button in the UI.
 
+[[notification_queue]]
+Notification Queue
+------------------
+
+Notification events are not sent directly by the process that emits them.
+Instead, they are put into a local queue and sent by the `pve-notify-worker`
+service within a few seconds. Errors while sending, for example an unreachable
+mail server, are therefore logged to the system journal of that service, not to
+the task log of the job that emitted the event. Test notifications for a target
+are the exception: these are sent directly, so that their result can be
+reported.
+
+Logs for the `pve-notify-worker` service can be viewed in the web interface
+under the *System* tab for the node that emitted the notification event, by
+selecting the `pve-notify-worker` service and clicking the *Service System Log*
+button. Alternatively, run `journalctl -u pve-notify-worker` on that node.
+
+If the service is shut down gracefully while sending a notification (e.g. due
+to a `systemctl stop pve-notify-worker`), the service attempts to finish
+sending before shutting down. If the service is stopped irregularly, e.g. due
+to a crash or being killed, it sends the notification again after it has been
+restarted. There can be up to 2 retries after the initial attempt, after which
+the notification is dropped by the worker. Targets that have already been
+notified during a prior attempt may be notified again. The retries only cover
+interruptions of the service. Failed deliveries to individual targets, for
+example due to an unreachable email server, are not retried.
+
+If the notification configuration cannot be loaded, for example while the
+`pve-cluster` service is not running, notifications stay in the queue. The
+service tries again periodically and sends them once the configuration can be
+loaded. These attempts do not count towards the retry limit.
+
+The local notification queue is located at
+`/var/lib/pve-manager/notifications/queue`, with each queued notification being
+a file in this directory. Notification files follow the naming scheme
+`notification-<uuid>` with an optional appended attempt counter, for instance
+`notification-46516f7e-7eb7-43e7-b776-6048f144a6fe` for a freshly queued
+notification or `notification-46516f7e-7eb7-43e7-b776-6048f144a6fe.attempt-1`
+for a notification that is either currently being handled or was interrupted
+during the first attempt. Attempts that do not count towards the retry limit
+are not counted here either, so a notification waiting to be sent can also end
+in `.attempt-0`.
+
+Generally, this directory should be empty if all queued notifications have been
+sent. Notification files with a `.broken` suffix could not be processed by the
+`pve-notify-worker` service, for example because the file is not a regular
+file, is too large, or does not contain a valid notification. The service keeps
+such files for inspection and never removes them itself. It is safe to delete
+`.broken` files at any time.
+
 System Mail Forwarding
----------------------
+----------------------
 
 Certain local system daemons, such as `smartd`, generate notification emails
 that are initially directed to the local `root` user. These mails are converted
@@ -508,6 +558,11 @@ are forwarded as-is. For all other targets,
 the system tries to extract both a subject line and the main text body
 from the email content. In instances where emails solely consist of HTML
 content, they will be transformed into plain text format during this process.
+
+If Proxmox Backup Server is installed on the same host, system mails are only
+handled by the notification system of {pve}. Mails larger than 1 MiB are
+rejected and bounce. If a mail cannot be queued, the local mail system keeps it
+and tries again later.
 
 Permissions
 -----------
