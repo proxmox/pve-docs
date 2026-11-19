@@ -1203,7 +1203,8 @@ You can enable or disable the maintenance mode using the web interface or the
 `ha-manager` CLI tool. In the web interface, select the `lrm` entry of the node
 in the status panel under __Datacenter -> HA__ and use the *Node Maintenance*
 menu. Requests to enable the maintenance mode are rejected while HA is disarmed
-or if the node is not online.
+or if the node is not online, except for a node that shuts down with the
+`migrate` shutdown policy, see below.
 
 .Enabling maintenance mode for a node
 ----
@@ -1230,6 +1231,10 @@ when the node finished its transition into the maintenance mode.
 NOTE: The manual maintenance mode is not automatically deleted on node reboot,
 but only if it is either manually deactivated or if the manager-status is
 manually cleared.
+
+A node that shuts down with the `migrate` shutdown policy stays in maintenance
+mode only until it is back online. To keep it in maintenance mode after that,
+enable the manual maintenance mode while it is shutting down or offline.
 
 .Disabling maintenance mode for a node
 ----
@@ -1273,7 +1278,9 @@ HA Manager that the service cannot run outside of the chosen set of nodes. If al
 of these nodes are unavailable, the shutdown will hang until you manually
 intervene. Once the shut down node comes back online again, the previously
 displaced services will be moved back, if they were not already manually migrated
-in-between.
+in-between. To keep the services away from the node, enable the manual
+maintenance mode for it before it is back online, see
+xref:ha_manager_node_maintenance[Node Maintenance].
 
 NOTE: The watchdog is still active during the migration process on shutdown.
 If the node loses quorum it will be fenced and the services will be recovered.
