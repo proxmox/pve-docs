@@ -1199,8 +1199,11 @@ During each migration, the original node will be recorded in the HA managers'
 state, so that the service can be moved back again automatically once the
 maintenance mode is disabled and the node is back online.
 
-Currently you can enabled or disable the maintenance mode using the ha-manager
-CLI tool.
+You can enable or disable the maintenance mode using the web interface or the
+`ha-manager` CLI tool. In the web interface, select the `lrm` entry of the node
+in the status panel under __Datacenter -> HA__ and use the *Node Maintenance*
+menu. Requests to enable the maintenance mode are rejected while HA is disarmed
+or if the node is not online.
 
 .Enabling maintenance mode for a node
 ----
@@ -1225,8 +1228,8 @@ out for a log line like: `pve-ha-lrm[PID]: watchdog closed (disabled)` to know
 when the node finished its transition into the maintenance mode.
 
 NOTE: The manual maintenance mode is not automatically deleted on node reboot,
-but only if it is either manually deactivated using the `ha-manager` CLI or if
-the manager-status is manually cleared.
+but only if it is either manually deactivated or if the manager-status is
+manually cleared.
 
 .Disabling maintenance mode for a node
 ----
@@ -1234,8 +1237,9 @@ the manager-status is manually cleared.
 ----
 
 The process of disabling the manual maintenance mode is similar to enabling it.
-Using the `ha-manager` CLI command shown above will queue a CRM command that,
-once processed, marks the respective LRM node as available again.
+Using the web interface or the `ha-manager` CLI command shown above will queue a
+CRM command that, once processed, marks the respective LRM node as available
+again.
 
 If you deactivate the maintenance mode, all services that were on the node when
 the maintenance mode was activated will be moved back.
