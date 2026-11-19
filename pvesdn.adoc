@@ -239,6 +239,108 @@ bridge is not linked to a physical interface, and VM traffic is only local on
 each the node.
 It can be used in NAT or routed setups.
 
+Simple zone configuration options:
+
+Dedicated VRF:: Put the VNets of the zone into a VRF dedicated to the zone, see
+  xref:pvesdn_zone_plugin_simple_vrf[Dedicated VRF]. Optional, disabled by
+  default.
+
+[[pvesdn_zone_plugin_simple_vrf]]
+Dedicated VRF
+^^^^^^^^^^^^^
+
+With a dedicated VRF, the VNets of a simple zone are put into the VRF
+`vrf_<zone>`, which has a routing table of its own. Traffic of the zone is
+routed separately from the routing table of the host and from other zones, so
+the subnets of different zones with a dedicated VRF may overlap.
+
+Traffic can only leave the zone through interfaces in its VRF:
+
+* Host interfaces that the network configuration of the node puts into the VRF,
+  for example a VLAN interface to an upstream router.
+* Interfaces of xref:pvesdn_config_fabrics[fabrics] in the zone.
+
+Without any such interface, the zone is isolated. Services of the host, such as
+SSH or the web interface, cannot be reached from the zone, as long as the
+`net.ipv4.tcp_l3mdev_accept` and `net.ipv4.udp_l3mdev_accept` sysctls are not
+enabled.
+
+DHCP:: The DHCP server of the zone runs in its VRF. Guests use it as DNS server
+  by default, which needs a route to the upstream DNS servers through an
+  interface in the VRF. Otherwise, set a DNS server reachable from the zone with
+  the `dhcp-dns-server` option of the subnet.
+
+SNAT:: Subnets with SNAT enabled are masqueraded on every host interface in the
+  VRF, called uplinks below. Only interfaces configured in
+  `/etc/network/interfaces` itself are taken into account, not the ones in files
+  included from it. Interfaces of fabrics are not used for SNAT. If routing
+  balances connections across several uplinks, connections of a guest leave with
+  different source addresses. Connections through an uplink are dropped if it
+  goes down, even briefly.
++
+Traffic of the subnet routed through an uplink carries the address of the node,
+also towards networks that should see the addresses of the guests. Only put
+interfaces into the VRF that should be used as uplinks.
++
+SNAT does not protect guests from incoming connections, use the firewall for
+that. Packets that arrive on an uplink with a source address from the subnet
+are masqueraded as well if they are routed out through an uplink. To drop them,
+enable strict reverse path filtering for IPv4 on the uplinks, by setting the
+`net.ipv4.conf.<interface>.rp_filter` sysctl to `1`, or drop such packets with
+the firewall. Strict reverse path filtering also drops replies that arrive on
+another uplink than the one routing would use to reach their source.
+
+Connection tracking:: Each zone with a dedicated VRF gets a conntrack zone, so
+  that connections of different VRFs never share a conntrack entry. It is
+  assigned automatically from the range 16384 to 17407 and shown as `ct-zone`
+  in the configuration of the zone, for example with
+  `pvesh get /cluster/sdn/zones/<zone>`. {pve} reserves the conntrack zones
+  16384 to 32767, do not use them in your own rules.
++
+The conntrack zone is set for the VRF device and all interfaces in the VRF by
+the `proxmox-firewall` package, which needs to be installed, even if the
+nftables-based firewall is not used. The rules are loaded into the nftables
+table `inet proxmox-sdn-ct-zones` when the network configuration is applied
+and at boot. If the interfaces in a VRF are changed in another way, for example
+by running `ifreload -a` manually, or if the nftables ruleset is flushed, for
+example by enabling `nftables.service` with its default configuration, apply
+the network configuration again.
++
+After a zone is deleted, a new zone may reuse its conntrack zone. Remaining
+connection tracking entries of the deleted zone expire after their timeout.
+
+Firewall:: Only the xref:pve_firewall_nft[nftables-based firewall] isolates the
+  connections of guests between zone VRFs. With `pve-firewall`, guests with the
+  firewall enabled on a network device share their connection tracking state
+  across all VRFs, and applying the configuration warns about this. The
+  conntrack helpers that `pve-firewall` sets up for the `nf_conntrack_helpers`
+  host option do not apply in zone VRFs.
++
+Firewall rules and the IPSets generated for VNets match addresses only. With
+overlapping subnets, a rule applies to every zone with a matching subnet. For
+traffic of a zone VRF, the input interface seen by the host firewall is the VRF
+device `vrf_<zone>`.
+
+Infrastructure addresses in the VRF, such as the addresses of fabric interfaces
+and nodes or the address of an upstream router, are reachable from guests in the
+zone. To block them with the nftables-based firewall, add a datacenter IPSet,
+for example `vrf-infra`, with these addresses and drop traffic from the subnets
+of the zone to them:
+
+----
+# /etc/pve/firewall/cluster.fw
+
+[RULES]
+
+FORWARD DROP -source +sdn/vnet0-all -dest +dc/vrf-infra
+IN DROP -source +sdn/vnet0-all -dest +dc/vrf-infra
+----
+
+An upstream router should additionally protect its own addresses with access
+lists on its interface to the zone. This does not work for subnets with SNAT, as
+the router only sees the address of the node for their traffic, so only the
+firewall of the node can block it.
+
 
 [[pvesdn_zone_plugin_vlan]]
 VLAN Zones
