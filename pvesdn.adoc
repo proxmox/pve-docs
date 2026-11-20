@@ -829,6 +829,22 @@ Advertisements, Router Solicitations, and Router Advertisements. More details
 here: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt under
 `net.ipv6.conf.all.forwarding`.
 
+[[pvesdn_fabric_vrf_zone]]
+Fabrics in a Zone VRF
+~~~~~~~~~~~~~~~~~~~~~
+
+OSPF and BGP fabrics can route in the VRF of a simple zone instead of the
+default routing table of the host, for example to connect the zone across
+nodes or to an upstream network. Select the zone in 'VRF Zone' when you create
+the fabric, it cannot be changed later. Only simple zones with a
+xref:pvesdn_zone_plugin_simple_vrf[dedicated VRF] can be selected, and all
+nodes of the fabric need to be part of the zone. The fabric puts its interfaces
+into the VRF, so do not set a VRF for them in the network configuration of the
+nodes.
+
+Fabrics used as underlay for EVPN controllers or VXLAN zones need to stay in
+the default routing table.
+
 [[pvesdn_openfabric]]
 OpenFabric
 ~~~~~~~~~~
@@ -941,6 +957,10 @@ verify that all router-IDs in the fabric are contained within this prefix.
 Area:: This specifies the OSPF area identifier, which can be either a 32-bit
 signed integer or an IP address. Areas are a way to organize and structure OSPF
 networks hierarchically, with Area 0 (or 0.0.0.0) serving as the backbone area.
+
+VRF Zone:: A simple zone with a dedicated VRF in which the fabric routes, see
+xref:pvesdn_fabric_vrf_zone[Fabrics in a Zone VRF]. Without one, the fabric uses
+the default routing table.
 
 Redistribute:: Optional list of source protocols whose routes are imported
 into OSPF. Each entry picks a source (`bgp`, `connected`, `kernel` or
@@ -1409,6 +1429,10 @@ all node IPv6 addresses in the fabric are contained within this prefix.
 
 BFD:: Enable Bidirectional Forwarding Detection on all peering sessions in this
 fabric. BFD provides fast failure detection for links between nodes.
+
+VRF Zone:: A simple zone with a dedicated VRF in which the fabric routes, see
+xref:pvesdn_fabric_vrf_zone[Fabrics in a Zone VRF]. Without one, the fabric uses
+the default routing table.
 
 Route Filter:: A prefix list applied to the fabric peer-group's inbound
 direction. When set, this prefix list replaces the implicit "must be within the
