@@ -1,3 +1,23 @@
+pve-docs (9.2.17) trixie; urgency=medium
+
+  * backup and restore:
+    - describe the new guest identity of VMs and containers: the 'uid' and the
+      registration time in the 'meta' property, what create, clone, restore and
+      migration do with them, the new 'allow-identity-mismatch' and
+      'allow-new-uid' options, and what to consider while some nodes of a
+      cluster run an older version.
+    - describe what a failed restore can leave behind, and how to clean up and
+      retry.
+    - document the 'uid' variable of the backup notes template.
+
+  * cluster manager: document the new cluster ID, where to find it and how to
+    get a new one.
+
+  * qm, pct: describe the read-only 'meta' property in the reference of the
+    configuration files.
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 20 Nov 2026 11:35:07 +0100
+
 pve-docs (9.2.16) trixie; urgency=medium
 
   * storage:
