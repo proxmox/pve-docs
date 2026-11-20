@@ -1149,7 +1149,8 @@ of its interfaces on the node are up, use their configured public key and
 listen port, and have exactly the configured peers. A listen port of 0 is not
 checked. The check uses the applied configuration, not pending changes. It does
 not show whether the peers are reachable, see the 'Status' of the neighbors for
-recent contact with them.
+recent contact with them. On a node that is not part of the fabric, the
+interfaces and neighbors are empty.
 
 .Interfaces
 
@@ -1158,7 +1159,8 @@ with the following properties:
 
 Name:: The name of the network interface on the host.
 
-Type:: Interfaces are always of type 'wireguard'.
+Type:: 'wireguard' if the interface on the node is a WireGuard interface,
+shown as '-' otherwise.
 
 State:: The state of the interface on the node:
 +
@@ -1168,14 +1170,13 @@ State:: The state of the interface on the node:
   applying the configuration failed on the node.
 * 'unknown': The interface exists, but its WireGuard state could not be read.
 * 'error': The interface exists, but is not a WireGuard interface.
-+
-If WireGuard does not report a public key for an interface, the configured
-public key and listen port are shown.
 
 Public Key:: The public key that can be used for communicating with the
-WireGuard instance on this interface.
+WireGuard instance on this interface. Shown as '-' if WireGuard does not report
+one, for example because the interface has no private key.
 
 Listen Port:: The port that can be used to reach this WireGuard instance.
+Shown as '-' if WireGuard does not report the interface.
 
 .Neighbors
 
@@ -1183,13 +1184,14 @@ Lists the peers that WireGuard reports for the interfaces of the node, with the
 following properties:
 
 Name:: The name of the peer in the fabric configuration. For a node of the
-cluster, its interface follows in parentheses. A peer without a name has a
-public key that is not configured for this interface.
+cluster, its interface follows in parentheses. A peer without a name, shown
+as '-', has a public key that is not configured for this interface.
 
 Neighbor:: The endpoint that is currently used to reach this peer (e.g.
 192.0.2.1:51820). WireGuard updates the endpoint to the address it last
 received traffic from, so this can differ from the configured endpoint, for
-example if the peer is behind NAT. Empty if the endpoint is not known yet.
+example if the peer is behind NAT. Shown as '-' if the endpoint is not known
+yet.
 
 Interface:: The interface that has this neighbor configured.
 
@@ -1207,10 +1209,15 @@ Public Key:: The public key of the neighbor.
 
 Allowed IPs:: A comma-separated list of CIDRs. On this interface, traffic to a
 destination is sent to the neighbor with the most specific matching prefix, and
-traffic from a source address is only accepted from that neighbor.
+traffic from a source address is only accepted from that neighbor. Shown as
+'-' if WireGuard reports no allowed IPs for the neighbor.
 
 Latest Handshake:: The time of the latest handshake with this neighbor. A dash
 means that there was no handshake yet.
+
+Persistent Keepalive (s):: The persistent keepalive interval that WireGuard
+currently uses for this neighbor, or 'off' if it is disabled. This can differ
+from the configured interval, for example if applying the configuration failed.
 
 Bytes transmitted:: The amount of traffic that has been sent to this neighbor.
 
