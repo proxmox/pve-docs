@@ -312,7 +312,8 @@ the firewall. Strict reverse path filtering also drops replies that arrive on
 another uplink than the one routing would use to reach their source.
 
 Connection tracking:: Each zone with a dedicated VRF gets a conntrack zone, so
-  that connections of different VRFs never share a conntrack entry. It is
+  that connections of different VRFs do not share conntrack entries. See
+  'Firewall' below for exceptions. It is
   assigned automatically from the range 16384 to 17407 and shown as `ct-zone`
   in the configuration of the zone, for example with
   `pvesh get /cluster/sdn/zones/<zone>`. {pve} reserves the conntrack zones
@@ -341,6 +342,30 @@ Firewall rules and the IPSets generated for VNets match addresses only. With
 overlapping subnets, a rule applies to every zone with a matching subnet. For
 traffic of a zone VRF, the input interface seen by the host firewall is the VRF
 device `vrf_<zone>`.
++
+When connection tracking on bridges is active, for example once the
+nftables-based firewall is used for guests, incoming IPv4 and IPv6 traffic on
+bridges is tracked before it reaches a VRF. The nftables-based firewall puts it
+into the conntrack zone of the VRF for VNets and other bridges in the VRF, and
+for VLAN interfaces in the VRF on top of a bridge, such as `vmbr0.100`. For such
+a VLAN interface, it covers singly tagged 802.1Q unicast to the MAC address of
+the bridge that keeps its tag on delivery to the host, and this takes
+precedence over the zone of the bridge. The zone of a bridge in a VRF applies
+to all its remaining traffic, including traffic between guests. If that is not
+intended, keep the bridge outside the zone VRFs and only put its VLAN
+interfaces into them.
++
+Frames that only get their VLAN from the PVID of the bridge port, VLAN
+interfaces using 802.1ad, and VLAN interfaces with a MAC address of their own
+are not covered. Their traffic can be tracked outside the conntrack zone of the
+VRF, so replies to connections masqueraded by SNAT can fail to be translated,
+and these connections can share tracking state with another zone. A physical
+interface, a bond or a VLAN interface on one of them as uplink avoids this.
++
+After applying a changed network configuration, these assignments can be
+outdated until the next successful update of the firewall, which normally
+follows within a few seconds. Existing conntrack entries are not moved to
+another zone.
 
 Infrastructure addresses in the VRF, such as the addresses of fabric interfaces
 and nodes or the address of an upstream router, are reachable from guests in the
