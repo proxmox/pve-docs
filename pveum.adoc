@@ -184,8 +184,8 @@ Resource Pools
 
 [thumbnail="screenshot/gui-datacenter-pool-window.png"]
 
-A resource pool is a set of virtual machines, containers, and storage
-devices. It is useful for permission handling in cases where certain users
+A resource pool is a set of virtual machines, containers, storage devices and
+SDN VNets. It is useful for permission handling in cases where certain users
 should have controlled access to a specific set of resources, as it allows for a
 single permission to be applied to a set of elements, rather than having to
 manage this on a per-resource basis. Resource pools are often used in tandem
@@ -1061,6 +1061,17 @@ Pools
 Pools can be used to group a set of virtual machines and datastores. You can
 then simply set permissions on pools (`/pool/{poolid}`), which are inherited by
 all pool members. This is a great way to simplify access control.
+
+Pools can also contain SDN VNets. To add one, open 'Members' of the pool, click
+'Add' and select 'VNet'. Without 'VLAN Tag', the member allows network devices
+on the VNet without VLAN tag. With a 'VLAN Tag', it allows that tag, and with
+'Propagate', the VNet with or without any VLAN tag. This only controls the
+configuration of network devices. Unlike guests, a VNet can be in several
+pools. All nodes of the cluster need to run `pve-manager` 9.2.34 or newer.
+
+Adding a VNet requires 'Pool.Allocate' on the pool, and 'Permissions.Modify' or
+'SDN.Allocate' on the VNet, or on its VLAN tag if one is selected. For
+'Propagate', 'SDN.Allocate' needs to be propagated.
 
 
 Which Permissions Do I Need?
