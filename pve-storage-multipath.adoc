@@ -235,7 +235,10 @@ no-path-retry::
 
 What happens to I/O while all paths are down: `queue` holds it until a path
 returns, `fail` fails it at once, and a number holds it for that many path
-checks. If unset, the settings for the array apply.
+checks. If unset, the settings for the array apply, which queue for some
+arrays. With `queue`, the guests and processes using the LUN hang for as long
+as no path returns, for example if the LUN was deleted on the array before it
+was removed from the nodes, see xref:storage_multipath_remove[Removing a LUN].
 
 paths-expected::
 
