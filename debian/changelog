@@ -1,3 +1,46 @@
+pve-docs (9.2.16) trixie; urgency=medium
+
+  * storage:
+    - add a chapter for the cluster-wide multipath management on iSCSI and
+      Fibre Channel SANs: prerequisites, setting up shared LVM with the guided
+      setup or by hand, adding, growing and removing a LUN, reading the states
+      during a path failure, the options of a multipath entry, array settings
+      and moving over from a hand-made multipath.conf.
+    - lvm: drop the technology preview note of snapshots as volume chains, and
+      note that the option cannot be disabled while the storage holds a volume
+      in the qcow2 format.
+
+  * web interface: name the new SAN view below Datacenter > Storage and the SAN
+    panel of a node.
+
+  * pvestatd: describe that the daemon applies the multipath configuration and
+    reports the multipath state of the node.
+
+  * pveceph: advise against FastEC in production, as it hit several bugs
+    around truncate, discard and object sizes, mostly on pools that already
+    held data when the flag was set.
+
+  * firewall: drop the technology preview note of proxmox-firewall.
+
+  * ha-manager: maintenance mode: describe enabling and disabling it from the
+    HA status panel, when such a request gets rejected, and its use with the
+    'migrate' shutdown policy, which now keeps a node in maintenance once it
+    is back online.
+
+  * sdn:
+    - document dedicated VRFs of simple zones: setting up uplinks with IPv4
+      forwarding, static routes, DHCP, SNAT, connection tracking and the
+      firewall.
+    - fabrics: document the VRF zone of OSPF and BGP fabrics, the WireGuard
+      MTU option with its minimum of 1280, the WireGuard status reporting, and
+      how OSPF fabrics in the same VRF share their redistributions.
+    - subnets: document the DHCP DNS resolver option.
+
+  * user management: document SDN VNets as pool members, and list
+    SDN.Allocate as substitute for Permissions.Modify on SDN paths.
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 20 Nov 2026 06:48:27 +0100
+
 pve-docs (9.2.15) trixie; urgency=medium
 
   * storage:
