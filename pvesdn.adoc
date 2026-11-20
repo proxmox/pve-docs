@@ -1100,12 +1100,11 @@ Peers:: A list of peers that should be configured for that interface. All nodes
 that are part of the fabric can be selected as peers - the peer definition will
 be auto-generated from the configuration in the node.
 
-MTU:: The MTU of the interface. WireGuard encapsulation adds up to 80 bytes,
-so the MTU should be at least 80 bytes lower than the MTU of the underlying
-network, for example 1420 for an underlying network with an MTU of 1500. The
-web interface prefills 1420 for new interfaces. If no MTU is set, ifupdown2
-applies its default MTU of 1500. The MTU has to be at least 1280, the minimum
-MTU for IPv6.
+MTU:: The MTU of the interface. WireGuard adds up to 80 bytes, so set it 80
+bytes below the MTU of the underlying network, for example 1420 for 1500. The
+web interface fills in 1420 for new interfaces. Without an MTU, `ifupdown2` uses
+its default, normally 1500. The minimum is 1280, as the kernel disables IPv6 on
+interfaces with a smaller MTU.
 
 When defining an interface, Proxmox VE automatically generates a private key
 for it in `/etc/pve/priv/wg-keys.cfg` upon saving the interface, and stores the
@@ -1136,36 +1135,32 @@ will be inserted into the kernel routing table.
 Status Reporting
 ~~~~~~~~~~~~~~~~
 
-Fabrics report their current status for informational and debugging purposes. It
-can be accessed by clicking on the respective entry for the fabric in the
-xref:gui_resource_tree[Resource Tree]. Depending on the protocol, different
-metrics are reported.
+To see the status of a fabric on a node, select the fabric under the node in
+the xref:gui_resource_tree[resource tree]. The information shown depends on the
+protocol of the fabric.
 
 
 [[pvesdn_fabric_status_wireguard]]
 WireGuard
 ^^^^^^^^^
 
-A WireGuard fabric is shown as 'ok' in the resource tree if all of its
-interfaces on the node are in the 'up' state, use their configured public key
-and, unless it is 0, their configured listen port, and have exactly the peers of
-the applied fabric
-configuration. Otherwise, for example if an interface is missing or applying
-the configuration failed on the node, it is shown as 'not ok'. Pending changes
-are not taken into account. Neither are handshakes, since peers do not exchange
-handshakes if no traffic is sent and persistent keepalive is disabled.
+The tooltip of a WireGuard fabric in the resource tree shows it as 'ok' if all
+of its interfaces on the node are up, use their configured public key and
+listen port, and have exactly the configured peers. A listen port of 0 is not
+checked. The check uses the applied configuration, not pending changes. It does
+not show whether the peers are reachable, see the 'Status' of the neighbors for
+recent contact with them.
 
 .Interfaces
 
-Provides information about the WireGuard interfaces of a specific node. The
-following properties are available:
+Lists the WireGuard interfaces configured for the node, including missing ones,
+with the following properties:
 
 Name:: The name of the network interface on the host.
 
 Type:: Interfaces are always of type 'wireguard'.
 
-State:: The SDN stack performs several checks to determine the state of the
-interface. Possible states are:
+State:: The state of the interface on the node:
 +
 * 'up': The interface exists and has the `UP` flag set.
 * 'down': The interface exists, but does not have the `UP` flag set.
@@ -1174,8 +1169,8 @@ interface. Possible states are:
 * 'unknown': The interface exists, but its WireGuard state could not be read.
 * 'error': The interface exists, but is not a WireGuard interface.
 +
-If WireGuard does not report the public key or listen port of an interface,
-the values from the fabric configuration are shown.
+If WireGuard does not report a public key for an interface, the configured
+public key and listen port are shown.
 
 Public Key:: The public key that can be used for communicating with the
 WireGuard instance on this interface.
@@ -1184,13 +1179,12 @@ Listen Port:: The port that can be used to reach this WireGuard instance.
 
 .Neighbors
 
-Provides information about the peers of all WireGuard interfaces on a specific
-node. The following properties are available:
+Lists the peers that WireGuard reports for the interfaces of the node, with the
+following properties:
 
-Name:: The name of the node in the fabric configuration. Additionally contains
-the name of the referenced interface in parentheses, if the node is an internal
-node. Peers are matched to the fabric configuration by their public key. Peers
-that are not part of the fabric configuration have no name.
+Name:: The name of the peer in the fabric configuration. For a node of the
+cluster, its interface follows in parentheses. A peer without a name has a
+public key that is not configured for this interface.
 
 Neighbor:: The endpoint that is currently used to reach this peer (e.g.
 192.0.2.1:51820). WireGuard updates the endpoint to the address it last
@@ -1199,21 +1193,15 @@ example if the peer is behind NAT. Empty if the endpoint is not known yet.
 
 Interface:: The interface that has this neighbor configured.
 
-Status:: The status of the neighbor, derived from its latest handshake.
-WireGuard does not use session keys that are older than 180 seconds, so a
-handshake within that time means that the neighbor has a working session.
-Possible states are:
+Status:: How recently the neighbor completed a handshake:
 +
-* 'active': The latest handshake is less than 180 seconds old. With persistent
-  keepalive, the keepalive interval and another 90 seconds, for which WireGuard
-  retries a handshake, are added as margin.
-* 'down': Persistent keepalive is enabled, but there was no handshake in that
-  time. Since keepalive packets are sent regularly, a reachable neighbor would
-  have exchanged a new handshake.
+* 'active': The latest handshake was less than 180 seconds ago, or within the
+  longer interval allowed with persistent keepalive.
+* 'down': Persistent keepalive is enabled, but there was no handshake within
+  that interval. Check the connection to the neighbor.
 * 'idle': Persistent keepalive is disabled and there was no recent handshake.
-  Without traffic, WireGuard does not exchange handshakes, so an unused but
-  working neighbor cannot be distinguished from an unreachable one. Enable
-  persistent keepalive on the fabric for a reliable status.
+  This is normal for an unused tunnel. To monitor neighbors also without
+  traffic, enable 'Persistent Keepalive (s)' on the fabric.
 
 Public Key:: The public key of the neighbor.
 
@@ -1221,10 +1209,8 @@ Allowed IPs:: A comma-separated list of CIDRs. On this interface, traffic to a
 destination is sent to the neighbor with the most specific matching prefix, and
 traffic from a source address is only accepted from that neighbor.
 
-Latest Handshake:: When the latest handshake with this neighbor occurred. An
-active session can renew its keys with a new handshake after 120 seconds. An
-idle neighbor without persistent keepalive need not exchange handshakes. Empty
-if no handshake happened yet.
+Latest Handshake:: The time of the latest handshake with this neighbor. A dash
+means that there was no handshake yet.
 
 Bytes transmitted:: The amount of traffic that has been sent to this neighbor.
 
