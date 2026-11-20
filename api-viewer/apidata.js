@@ -11502,7 +11502,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "notes-template" : {
-                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
+                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, {{uid}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
                                  "maxLength" : 1024,
                                  "optional" : 1,
                                  "requires" : "storage",
@@ -11860,7 +11860,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "notes-template" : {
-                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
+                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, {{uid}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
                                  "maxLength" : 1024,
                                  "optional" : 1,
                                  "requires" : "storage",
@@ -12199,7 +12199,7 @@ const apiSchema = [
                               "type" : "string"
                            },
                            "notes-template" : {
-                              "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
+                              "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, {{uid}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
                               "maxLength" : 1024,
                               "optional" : 1,
                               "requires" : "storage",
@@ -12560,7 +12560,7 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "notes-template" : {
-                           "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
+                           "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, {{uid}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
                            "maxLength" : 1024,
                            "optional" : 1,
                            "requires" : "storage",
@@ -14186,6 +14186,16 @@ const apiSchema = [
                                        "id" : {
                                           "description" : "Status entry ID (quorum, master, lrm:<node>, service:<sid>).",
                                           "type" : "string"
+                                       },
+                                       "maintenance-request-queued" : {
+                                          "description" : "For type 'lrm'. Whether a request to enable or disable maintenance mode for the node is queued and not yet processed by the CRM.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "maintenance-requested" : {
+                                          "description" : "For type 'lrm'. Whether maintenance mode was manually requested for the node.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
                                        },
                                        "max_relocate" : {
                                           "description" : "For type 'service'.",
@@ -16804,6 +16814,623 @@ const apiSchema = [
          {
             "children" : [
                {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Report the multipath health of each LUN on each node, and as summary the worst known state among the nodes that should see or report the LUN. Nodes whose state is unknown are not counted.",
+                        "method" : "GET",
+                        "name" : "status",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "or",
+                              [
+                                 "perm",
+                                 "/",
+                                 [
+                                    "Sys.Audit"
+                                 ]
+                              ],
+                              [
+                                 "perm",
+                                 "/storage",
+                                 [
+                                    "Datastore.Allocate"
+                                 ]
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "properties" : {
+                              "luns" : {
+                                 "description" : "One entry per LUN, identified by its WWID, with the state of its map on each node and the overall cluster state.",
+                                 "items" : {
+                                    "additionalProperties" : 0,
+                                    "properties" : {
+                                       "explicit" : {
+                                          "description" : "An explicit entry exists.",
+                                          "type" : "boolean"
+                                       },
+                                       "multipath-storage" : {
+                                          "description" : "The storage that requests the map of the LUN.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "The alias of the explicit entry, or else the name of the map on a node if it differs from the WWID.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "nodes" : {
+                                          "additionalProperties" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "name" : {
+                                                   "description" : "The name of the map on the node, if it differs from the WWID.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "paths-active" : {
+                                                   "description" : "The number of active paths of the map whose checker state is ready, ghost, or not reported.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "paths-expected" : {
+                                                   "description" : "The number of paths the LUN should have on the node: the highest of the count of its multipath entry and, for each managed iSCSI storage of the LUN, the number of its portals.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "paths-total" : {
+                                                   "description" : "The number of paths of the map.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "size" : {
+                                                   "description" : "The size of the map in bytes.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "state" : {
+                                                   "description" : "The health of the map on the node from its paths, 'missing' if the node should have the map but does not list it, or 'unknown' if the node has no current report that covers the map.",
+                                                   "enum" : [
+                                                      "optimal",
+                                                      "degraded",
+                                                      "failed",
+                                                      "missing",
+                                                      "unknown"
+                                                   ],
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "description" : "Map health keyed by node name.",
+                                          "type" : "object"
+                                       },
+                                       "size" : {
+                                          "description" : "The size of the LUN in bytes, as a node reports it.",
+                                          "minimum" : 0,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "state" : {
+                                          "description" : "The worst state of the LUN among its nodes, or 'unknown' if no node's state is known.",
+                                          "enum" : [
+                                             "optimal",
+                                             "degraded",
+                                             "failed",
+                                             "missing",
+                                             "unknown"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "used-by-storage" : {
+                                          "description" : "The storage that uses the LUN: as its base volume or through the volume group on it, or as an iSCSI storage that serves the LUNs of its target as images.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "wwid" : {
+                                          "description" : "The LUN WWID.",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              },
+                              "nodes" : {
+                                 "additionalProperties" : {
+                                    "additionalProperties" : 0,
+                                    "properties" : {
+                                       "apply-error" : {
+                                          "description" : "The error of the last attempt of the node to apply the cluster-wide multipath configuration, for example a WWID that multipath refuses or a failed reload of multipathd.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "error" : {
+                                          "description" : "Why the node cannot report its multipath maps, for example because multipathd is not running.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "iscsi-initiator-name" : {
+                                          "description" : "The iSCSI initiator name of the node.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "other-maps" : {
+                                          "description" : "The number of multipath maps that the node leaves out of its LUN list. It lists the maps that Proxmox VE manages and the ones it knows to be the base volume of a storage or to hold its volume group.",
+                                          "minimum" : 1,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "state" : {
+                                          "description" : "'ok' if the node has a current report, 'unavailable' if its report has an 'error', or 'no-report' if the node is offline or its last report is missing or older than three minutes.",
+                                          "enum" : [
+                                             "ok",
+                                             "unavailable",
+                                             "no-report"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "time" : {
+                                          "description" : "The time of the last report of the node (seconds since the UNIX epoch).",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "description" : "The multipath status of each cluster node, keyed by node name.",
+                                 "type" : "object"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/multipath/status",
+                  "text" : "status"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Read the verbatim multipath.conf override sections.",
+                        "method" : "GET",
+                        "name" : "read_overrides",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "properties" : {
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "overrides" : {
+                                 "description" : "Verbatim override sections.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     },
+                     "PUT" : {
+                        "allowtoken" : 1,
+                        "description" : "Set the verbatim multipath.conf sections for hardware-specific settings: 'devices', 'overrides', 'defaults', 'blacklist' and 'blacklist_exceptions' blocks, for example a 'devices' section with 'device' subsections.",
+                        "method" : "PUT",
+                        "name" : "set_overrides",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "overrides" : {
+                                 "description" : "Verbatim override sections. Omit to clear them.",
+                                 "maxLength" : 131072,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/multipath/overrides",
+                  "text" : "overrides"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Remove an explicit multipath entry without changing node allow-lists.",
+                              "method" : "DELETE",
+                              "name" : "remove_wwid",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "wwid" : {
+                                       "description" : "The WWID to remove.",
+                                       "maxLength" : 128,
+                                       "pattern" : "(?!-|[0-9]+:-?[0-9])[a-zA-Z0-9._:-]+",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Read the explicit multipath entry of a WWID, with the digest of the configuration it was read from.",
+                              "method" : "GET",
+                              "name" : "read_wwid",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "wwid" : {
+                                       "description" : "The WWID to read.",
+                                       "maxLength" : 128,
+                                       "pattern" : "(?!-|[0-9]+:-?[0-9])[a-zA-Z0-9._:-]+",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "returns" : {
+                                 "properties" : {
+                                    "alias" : {
+                                       "description" : "The name of the multipath map.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "pattern" : "[a-zA-Z0-9][a-zA-Z0-9._-]*",
+                                       "type" : "string"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "no-path-retry" : {
+                                       "description" : "The action or number of retries when all paths are down.",
+                                       "optional" : 1,
+                                       "pattern" : "(?:queue|fail|[0-9]+)",
+                                       "type" : "string"
+                                    },
+                                    "nodes" : {
+                                       "description" : "The nodes that should assemble the map, or all nodes when unset.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "paths-expected" : {
+                                       "description" : "The number of paths each node should have to the LUN. A node with fewer paths reports the LUN as degraded.",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "wwid" : {
+                                       "description" : "The LUN WWID.",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update the alias, node restriction, and per-LUN settings of an explicit multipath entry.",
+                              "method" : "PUT",
+                              "name" : "update_wwid",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "alias" : {
+                                       "description" : "The name of the multipath map.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "pattern" : "[a-zA-Z0-9][a-zA-Z0-9._-]*",
+                                       "type" : "string"
+                                    },
+                                    "delete" : {
+                                       "description" : "Comma-separated list of settings to unset.",
+                                       "format" : "pve-configid-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "no-path-retry" : {
+                                       "description" : "The action or number of retries when all paths are down.",
+                                       "optional" : 1,
+                                       "pattern" : "(?:queue|fail|[0-9]+)",
+                                       "type" : "string"
+                                    },
+                                    "nodes" : {
+                                       "description" : "The nodes that should assemble the map, or all nodes when unset.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "paths-expected" : {
+                                       "description" : "The number of paths each node should have to the LUN. A node with fewer paths reports the LUN as degraded.",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - N)"
+                                    },
+                                    "wwid" : {
+                                       "description" : "The WWID to update.",
+                                       "maxLength" : 128,
+                                       "pattern" : "(?!-|[0-9]+:-?[0-9])[a-zA-Z0-9._:-]+",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/multipath/wwid/{wwid}",
+                        "text" : "{wwid}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "List the explicit multipath entries with their alias and per-LUN settings.",
+                        "method" : "GET",
+                        "name" : "wwid_index",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "alias" : {
+                                    "description" : "The name of the multipath map.",
+                                    "maxLength" : 64,
+                                    "optional" : 1,
+                                    "pattern" : "[a-zA-Z0-9][a-zA-Z0-9._-]*",
+                                    "type" : "string"
+                                 },
+                                 "no-path-retry" : {
+                                    "description" : "The action or number of retries when all paths are down.",
+                                    "optional" : 1,
+                                    "pattern" : "(?:queue|fail|[0-9]+)",
+                                    "type" : "string"
+                                 },
+                                 "nodes" : {
+                                    "description" : "The nodes that should assemble the map, or all nodes when unset.",
+                                    "format" : "pve-node-list",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "paths-expected" : {
+                                    "description" : "The number of paths each node should have to the LUN. A node with fewer paths reports the LUN as degraded.",
+                                    "minimum" : 1,
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "wwid" : {
+                                    "description" : "The LUN WWID.",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{wwid}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Add an explicit multipath entry for a LUN, with an optional alias, node restriction, and per-LUN settings. For a LUN of an iSCSI storage with multipath enabled, an entry is only needed to set an alias or per-LUN settings. The entry keeps the LUN managed even if the storage's 'managed-multipath' option is disabled.",
+                        "method" : "POST",
+                        "name" : "add_wwid",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "alias" : {
+                                 "description" : "The name of the multipath map.",
+                                 "maxLength" : 64,
+                                 "optional" : 1,
+                                 "pattern" : "[a-zA-Z0-9][a-zA-Z0-9._-]*",
+                                 "type" : "string"
+                              },
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "no-path-retry" : {
+                                 "description" : "The action or number of retries when all paths are down.",
+                                 "optional" : 1,
+                                 "pattern" : "(?:queue|fail|[0-9]+)",
+                                 "type" : "string"
+                              },
+                              "nodes" : {
+                                 "description" : "The nodes that should assemble the map, or all nodes when unset.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "paths-expected" : {
+                                 "description" : "The number of paths each node should have to the LUN. A node with fewer paths reports the LUN as degraded.",
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - N)"
+                              },
+                              "wwid" : {
+                                 "description" : "The WWID of the LUN to manage via multipath.",
+                                 "maxLength" : 128,
+                                 "pattern" : "(?!-|[0-9]+:-?[0-9])[a-zA-Z0-9._:-]+",
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/multipath/wwid",
+                  "text" : "wwid"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Directory index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {
+                           "name" : {
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{name}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/multipath",
+            "text" : "multipath"
+         },
+         {
+            "children" : [
+               {
                   "children" : [
                      {
                         "info" : {
@@ -18659,6 +19286,7 @@ const apiSchema = [
                                                       },
                                                       "vnet" : {
                                                          "description" : "The SDN vnet object identifier.",
+                                                         "format" : "pve-sdn-vnet-id",
                                                          "maxLength" : 8,
                                                          "minLength" : 2,
                                                          "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -18693,6 +19321,7 @@ const apiSchema = [
                                                       },
                                                       "vnet" : {
                                                          "description" : "The SDN vnet object identifier.",
+                                                         "format" : "pve-sdn-vnet-id",
                                                          "maxLength" : 8,
                                                          "minLength" : 2,
                                                          "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -18941,6 +19570,7 @@ const apiSchema = [
                                                       },
                                                       "vnet" : {
                                                          "description" : "The SDN vnet object identifier.",
+                                                         "format" : "pve-sdn-vnet-id",
                                                          "maxLength" : 8,
                                                          "minLength" : 2,
                                                          "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -18975,6 +19605,7 @@ const apiSchema = [
                                              "properties" : {
                                                 "vnet" : {
                                                    "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
                                                    "maxLength" : 8,
                                                    "minLength" : 2,
                                                    "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19218,6 +19849,7 @@ const apiSchema = [
                                                 },
                                                 "vnet" : {
                                                    "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
                                                    "maxLength" : 8,
                                                    "minLength" : 2,
                                                    "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19252,6 +19884,7 @@ const apiSchema = [
                                              "properties" : {
                                                 "vnet" : {
                                                    "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
                                                    "maxLength" : 8,
                                                    "minLength" : 2,
                                                    "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19356,6 +19989,7 @@ const apiSchema = [
                                                 },
                                                 "vnet" : {
                                                    "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
                                                    "maxLength" : 8,
                                                    "minLength" : 2,
                                                    "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19389,6 +20023,7 @@ const apiSchema = [
                                        "properties" : {
                                           "vnet" : {
                                              "description" : "The SDN vnet object identifier.",
+                                             "format" : "pve-sdn-vnet-id",
                                              "maxLength" : 8,
                                              "minLength" : 2,
                                              "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19441,6 +20076,7 @@ const apiSchema = [
                                                 },
                                                 "vnet" : {
                                                    "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
                                                    "maxLength" : 8,
                                                    "minLength" : 2,
                                                    "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19485,6 +20121,7 @@ const apiSchema = [
                                                 },
                                                 "vnet" : {
                                                    "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
                                                    "maxLength" : 8,
                                                    "minLength" : 2,
                                                    "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19517,7 +20154,7 @@ const apiSchema = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "dhcp-dns-server" : {
-                                                   "description" : "IP address for the DNS server",
+                                                   "description" : "DNS server IP address. Must use the same address family as the subnet.",
                                                    "format" : "ip",
                                                    "optional" : 1,
                                                    "type" : "string",
@@ -19619,6 +20256,7 @@ const apiSchema = [
                                           },
                                           "vnet" : {
                                              "description" : "The SDN vnet object identifier.",
+                                             "format" : "pve-sdn-vnet-id",
                                              "maxLength" : 8,
                                              "minLength" : 2,
                                              "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19653,7 +20291,7 @@ const apiSchema = [
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "dhcp-dns-server" : {
-                                             "description" : "IP address for the DNS server",
+                                             "description" : "DNS server IP address. Must use the same address family as the subnet.",
                                              "format" : "ip",
                                              "optional" : 1,
                                              "type" : "string",
@@ -19757,6 +20395,7 @@ const apiSchema = [
                                           },
                                           "vnet" : {
                                              "description" : "The SDN vnet object identifier.",
+                                             "format" : "pve-sdn-vnet-id",
                                              "maxLength" : 8,
                                              "minLength" : 2,
                                              "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19764,6 +20403,7 @@ const apiSchema = [
                                           },
                                           "zone" : {
                                              "description" : "DEPRECATED: value is ignored and parameter will be removed with PVE 10",
+                                             "format" : "pve-sdn-zone-id",
                                              "maxLength" : 8,
                                              "minLength" : 2,
                                              "optional" : 1,
@@ -19806,6 +20446,7 @@ const apiSchema = [
                                           },
                                           "vnet" : {
                                              "description" : "The SDN vnet object identifier.",
+                                             "format" : "pve-sdn-vnet-id",
                                              "maxLength" : 8,
                                              "minLength" : 2,
                                              "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19813,6 +20454,7 @@ const apiSchema = [
                                           },
                                           "zone" : {
                                              "description" : "DEPRECATED: value is ignored and parameter will be removed with PVE 10",
+                                             "format" : "pve-sdn-zone-id",
                                              "maxLength" : 8,
                                              "minLength" : 2,
                                              "optional" : 1,
@@ -19864,6 +20506,7 @@ const apiSchema = [
                                           },
                                           "vnet" : {
                                              "description" : "The SDN vnet object identifier.",
+                                             "format" : "pve-sdn-vnet-id",
                                              "maxLength" : 8,
                                              "minLength" : 2,
                                              "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19871,6 +20514,7 @@ const apiSchema = [
                                           },
                                           "zone" : {
                                              "description" : "DEPRECATED: value is ignored and parameter will be removed with PVE 10",
+                                             "format" : "pve-sdn-zone-id",
                                              "maxLength" : 8,
                                              "minLength" : 2,
                                              "optional" : 1,
@@ -19911,6 +20555,7 @@ const apiSchema = [
                                     },
                                     "vnet" : {
                                        "description" : "The SDN vnet object identifier.",
+                                       "format" : "pve-sdn-vnet-id",
                                        "maxLength" : 8,
                                        "minLength" : 2,
                                        "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -19949,6 +20594,7 @@ const apiSchema = [
                                     },
                                     "vnet" : {
                                        "description" : "The SDN vnet object identifier.",
+                                       "format" : "pve-sdn-vnet-id",
                                        "maxLength" : 8,
                                        "minLength" : 2,
                                        "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -20116,6 +20762,7 @@ const apiSchema = [
                                     },
                                     "vnet" : {
                                        "description" : "The SDN vnet object identifier.",
+                                       "format" : "pve-sdn-vnet-id",
                                        "maxLength" : 8,
                                        "minLength" : 2,
                                        "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -20331,6 +20978,7 @@ const apiSchema = [
                               },
                               "vnet" : {
                                  "description" : "The SDN vnet object identifier.",
+                                 "format" : "pve-sdn-vnet-id",
                                  "maxLength" : 8,
                                  "minLength" : 2,
                                  "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -20384,6 +21032,7 @@ const apiSchema = [
                                     },
                                     "zone" : {
                                        "description" : "The SDN zone object identifier.",
+                                       "format" : "pve-sdn-zone-id",
                                        "maxLength" : 8,
                                        "minLength" : 2,
                                        "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -20398,7 +21047,8 @@ const apiSchema = [
                                     [
                                        "SDN.Allocate"
                                     ]
-                                 ]
+                                 ],
+                                 "description" : "Deleting a zone with static routes additionally requires 'Sys.Modify' on '/nodes/<node>' for all nodes of the zone."
                               },
                               "protected" : 1,
                               "returns" : {
@@ -20427,6 +21077,7 @@ const apiSchema = [
                                     },
                                     "zone" : {
                                        "description" : "The SDN zone object identifier.",
+                                       "format" : "pve-sdn-zone-id",
                                        "maxLength" : 8,
                                        "minLength" : 2,
                                        "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -20464,6 +21115,17 @@ const apiSchema = [
                                        "description" : "ID of the controller for this zone. EVPN zone only.",
                                        "optional" : 1,
                                        "type" : "string"
+                                    },
+                                    "ct-zone" : {
+                                       "description" : "Conntrack zone of the dedicated VRF, assigned automatically.",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "dedicated-vrf" : {
+                                       "default" : 0,
+                                       "description" : "Create a dedicated VRF for a simple zone.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
                                     },
                                     "dhcp" : {
                                        "description" : "Name of DHCP server backend for this zone.",
@@ -20560,6 +21222,17 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string"
                                           },
+                                          "ct-zone" : {
+                                             "description" : "Conntrack zone of the dedicated VRF, assigned automatically.",
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "dedicated-vrf" : {
+                                             "default" : 0,
+                                             "description" : "Create a dedicated VRF for a simple zone.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
                                           "dhcp" : {
                                              "description" : "Name of DHCP server backend for this zone.",
                                              "enum" : [
@@ -20631,6 +21304,15 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string"
                                           },
+                                          "route" : {
+                                             "description" : "Static routes of a simple zone, installed in its dedicated VRF, which they require.",
+                                             "items" : {
+                                                "format" : "pve-sdn-static-route",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
                                           "rt-import" : {
                                              "description" : "Route-Targets that should be imported into the VRF of this zone via BGP. EVPN zone only.",
                                              "format" : "pve-sdn-bgp-rt-list",
@@ -20687,6 +21369,15 @@ const apiSchema = [
                                        "description" : "ID of the reverse DNS server for this zone.",
                                        "optional" : 1,
                                        "type" : "string"
+                                    },
+                                    "route" : {
+                                       "description" : "Static routes of a simple zone, installed in its dedicated VRF, which they require.",
+                                       "items" : {
+                                          "format" : "pve-sdn-static-route",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array"
                                     },
                                     "rt-import" : {
                                        "description" : "Route-Targets that should be imported into the VRF of this zone via BGP. EVPN zone only.",
@@ -20799,6 +21490,21 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "ct-zone" : {
+                                       "description" : "Conntrack zone of the dedicated VRF, assigned automatically.",
+                                       "maximum" : 17407,
+                                       "minimum" : 16384,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (16384 - 17407)"
+                                    },
+                                    "dedicated-vrf" : {
+                                       "default" : 0,
+                                       "description" : "Create a dedicated VRF for the zone.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     },
                                     "delete" : {
                                        "description" : "A list of settings you want to delete.",
@@ -20922,6 +21628,16 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "route" : {
+                                       "description" : "Static routes of a simple zone, installed in its dedicated VRF, which they require.",
+                                       "items" : {
+                                          "format" : "pve-sdn-static-route",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
                                     "rt-import" : {
                                        "description" : "List of Route Targets that should be imported into the VRF of the zone.",
                                        "format" : "pve-sdn-bgp-rt-list",
@@ -20979,6 +21695,7 @@ const apiSchema = [
                                     },
                                     "zone" : {
                                        "description" : "The SDN zone object identifier.",
+                                       "format" : "pve-sdn-zone-id",
                                        "maxLength" : 8,
                                        "minLength" : 2,
                                        "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -20994,7 +21711,8 @@ const apiSchema = [
                                     [
                                        "SDN.Allocate"
                                     ]
-                                 ]
+                                 ],
+                                 "description" : "Changing static routes, or the nodes of a zone with static routes, additionally requires 'Sys.Modify' on '/nodes/<node>' for all nodes of the zone."
                               },
                               "protected" : 1,
                               "returns" : {
@@ -21069,6 +21787,17 @@ const apiSchema = [
                                     "description" : "ID of the controller for this zone. EVPN zone only.",
                                     "optional" : 1,
                                     "type" : "string"
+                                 },
+                                 "ct-zone" : {
+                                    "description" : "Conntrack zone of the dedicated VRF, assigned automatically.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "dedicated-vrf" : {
+                                    "default" : 0,
+                                    "description" : "Create a dedicated VRF for a simple zone.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
                                  },
                                  "dhcp" : {
                                     "description" : "Name of DHCP server backend for this zone.",
@@ -21165,6 +21894,17 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
+                                       "ct-zone" : {
+                                          "description" : "Conntrack zone of the dedicated VRF, assigned automatically.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "dedicated-vrf" : {
+                                          "default" : 0,
+                                          "description" : "Create a dedicated VRF for a simple zone.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
                                        "dhcp" : {
                                           "description" : "Name of DHCP server backend for this zone.",
                                           "enum" : [
@@ -21236,6 +21976,15 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
+                                       "route" : {
+                                          "description" : "Static routes of a simple zone, installed in its dedicated VRF, which they require.",
+                                          "items" : {
+                                             "format" : "pve-sdn-static-route",
+                                             "type" : "string"
+                                          },
+                                          "optional" : 1,
+                                          "type" : "array"
+                                       },
                                        "rt-import" : {
                                           "description" : "Route-Targets that should be imported into the VRF of this zone via BGP. EVPN zone only.",
                                           "format" : "pve-sdn-bgp-rt-list",
@@ -21292,6 +22041,15 @@ const apiSchema = [
                                     "description" : "ID of the reverse DNS server for this zone.",
                                     "optional" : 1,
                                     "type" : "string"
+                                 },
+                                 "route" : {
+                                    "description" : "Static routes of a simple zone, installed in its dedicated VRF, which they require.",
+                                    "items" : {
+                                       "format" : "pve-sdn-static-route",
+                                       "type" : "string"
+                                    },
+                                    "optional" : 1,
+                                    "type" : "array"
                                  },
                                  "rt-import" : {
                                     "description" : "Route-Targets that should be imported into the VRF of this zone via BGP. EVPN zone only.",
@@ -21414,6 +22172,21 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "ct-zone" : {
+                                 "description" : "Conntrack zone of the dedicated VRF, assigned automatically.",
+                                 "maximum" : 17407,
+                                 "minimum" : 16384,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (16384 - 17407)"
+                              },
+                              "dedicated-vrf" : {
+                                 "default" : 0,
+                                 "description" : "Create a dedicated VRF for the zone.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "dhcp" : {
                                  "description" : "Type of the DHCP backend for this zone",
                                  "enum" : [
@@ -21521,6 +22294,16 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "route" : {
+                                 "description" : "Static routes of a simple zone, installed in its dedicated VRF, which they require.",
+                                 "items" : {
+                                    "format" : "pve-sdn-static-route",
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "array",
+                                 "typetext" : "<array>"
+                              },
                               "rt-import" : {
                                  "description" : "List of Route Targets that should be imported into the VRF of the zone.",
                                  "format" : "pve-sdn-bgp-rt-list",
@@ -21591,6 +22374,7 @@ const apiSchema = [
                               },
                               "zone" : {
                                  "description" : "The SDN zone object identifier.",
+                                 "format" : "pve-sdn-zone-id",
                                  "maxLength" : 8,
                                  "minLength" : 2,
                                  "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -21606,7 +22390,8 @@ const apiSchema = [
                               [
                                  "SDN.Allocate"
                               ]
-                           ]
+                           ],
+                           "description" : "Static routes additionally require 'Sys.Modify' on '/nodes/<node>' for all nodes of the zone."
                         },
                         "protected" : 1,
                         "returns" : {
@@ -23289,6 +24074,20 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "type-property" : "protocol"
+                                          },
+                                          "zone" : {
+                                             "description" : "Simple zone whose VRF contains this fabric.",
+                                             "format" : "pve-sdn-zone-id",
+                                             "instance-types" : [
+                                                "bgp",
+                                                "ospf"
+                                             ],
+                                             "maxLength" : 8,
+                                             "minLength" : 2,
+                                             "optional" : 1,
+                                             "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
+                                             "type" : "string",
+                                             "type-property" : "protocol"
                                           }
                                        },
                                        "type" : "object"
@@ -23537,6 +24336,20 @@ const apiSchema = [
                                              "type" : "string",
                                              "type-property" : "protocol",
                                              "typetext" : "<string>"
+                                          },
+                                          "zone" : {
+                                             "description" : "Simple zone whose VRF contains this fabric.",
+                                             "format" : "pve-sdn-zone-id",
+                                             "instance-types" : [
+                                                "bgp",
+                                                "ospf"
+                                             ],
+                                             "maxLength" : 8,
+                                             "minLength" : 2,
+                                             "optional" : 1,
+                                             "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
+                                             "type" : "string",
+                                             "type-property" : "protocol"
                                           }
                                        }
                                     },
@@ -23745,6 +24558,20 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string",
                                           "type-property" : "protocol"
+                                       },
+                                       "zone" : {
+                                          "description" : "Simple zone whose VRF contains this fabric.",
+                                          "format" : "pve-sdn-zone-id",
+                                          "instance-types" : [
+                                             "bgp",
+                                             "ospf"
+                                          ],
+                                          "maxLength" : 8,
+                                          "minLength" : 2,
+                                          "optional" : 1,
+                                          "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
+                                          "type" : "string",
+                                          "type-property" : "protocol"
                                        }
                                     },
                                     "type" : "object"
@@ -23931,6 +24758,20 @@ const apiSchema = [
                                        "type" : "string",
                                        "type-property" : "protocol",
                                        "typetext" : "<string>"
+                                    },
+                                    "zone" : {
+                                       "description" : "Simple zone whose VRF contains this fabric.",
+                                       "format" : "pve-sdn-zone-id",
+                                       "instance-types" : [
+                                          "bgp",
+                                          "ospf"
+                                       ],
+                                       "maxLength" : 8,
+                                       "minLength" : 2,
+                                       "optional" : 1,
+                                       "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
+                                       "type" : "string",
+                                       "type-property" : "protocol"
                                     }
                                  }
                               },
@@ -23941,7 +24782,8 @@ const apiSchema = [
                                     [
                                        "SDN.Allocate"
                                     ]
-                                 ]
+                                 ],
+                                 "description" : "Assigning a VRF zone additionally requires 'SDN.Use' or 'SDN.Allocate' on '/sdn/zones/<zone>'."
                               },
                               "protected" : 1,
                               "returns" : {
@@ -25243,7 +26085,8 @@ const apiSchema = [
                                                 "Sys.Modify"
                                              ]
                                           ]
-                                       ]
+                                       ],
+                                       "description" : "If the fabric uses a VRF zone, also requires 'SDN.Use' or 'SDN.Allocate' on '/sdn/zones/<zone>'."
                                     },
                                     "protected" : 1,
                                     "returns" : {
@@ -25735,6 +26578,20 @@ const apiSchema = [
                                                    "openfabric"
                                                 ],
                                                 "optional" : 1,
+                                                "type" : "string",
+                                                "type-property" : "protocol"
+                                             },
+                                             "zone" : {
+                                                "description" : "Simple zone whose VRF contains this fabric.",
+                                                "format" : "pve-sdn-zone-id",
+                                                "instance-types" : [
+                                                   "bgp",
+                                                   "ospf"
+                                                ],
+                                                "maxLength" : 8,
+                                                "minLength" : 2,
+                                                "optional" : 1,
+                                                "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
                                                 "type" : "string",
                                                 "type-property" : "protocol"
                                              }
@@ -28017,6 +28874,13 @@ const apiSchema = [
                               "optional" : 1,
                               "type" : "string"
                            },
+                           "rtime" : {
+                              "description" : "Time the guest was registered in this cluster, for example by creation, a restore to a free VMID, or a migration from another cluster, in milliseconds since the UNIX epoch (for types 'qemu' and 'lxc').",
+                              "maximum" : 999999999999999,
+                              "minimum" : 0,
+                              "optional" : 1,
+                              "type" : "integer"
+                           },
                            "sdn" : {
                               "description" : "The name of an SDN entity (for type 'sdn')",
                               "optional" : 1,
@@ -28062,6 +28926,12 @@ const apiSchema = [
                                  "sdn",
                                  "network"
                               ],
+                              "type" : "string"
+                           },
+                           "uid" : {
+                              "description" : "Random identifier of the guest, kept across restores and migrations and independent of the VMID (for types 'qemu' and 'lxc').",
+                              "optional" : 1,
+                              "pattern" : "[a-z2-7]{20}",
                               "type" : "string"
                            },
                            "uptime" : {
@@ -28197,9 +29067,10 @@ const apiSchema = [
                            "type" : "string"
                         },
                         "consent-text" : {
-                           "description" : "Consent text that is displayed before logging in.",
+                           "description" : "Consent text that is displayed before logging in. Needs to be base64 encoded.",
                            "maxLength" : 65536,
                            "optional" : 1,
+                           "pattern" : "[A-Za-z0-9+/]+={0,2}",
                            "type" : "string"
                         },
                         "console" : {
@@ -28784,11 +29655,11 @@ const apiSchema = [
                            "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
                         },
                         "consent-text" : {
-                           "description" : "Consent text that is displayed before logging in.",
+                           "description" : "Consent text that is displayed before logging in. Needs to be base64 encoded.",
                            "maxLength" : 65536,
                            "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
+                           "pattern" : "[A-Za-z0-9+/]+={0,2}",
+                           "type" : "string"
                         },
                         "console" : {
                            "description" : "Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), an HTML5 based vnc viewer (noVNC), or an HTML5 based console client (xtermjs). If the selected viewer is not available (e.g. SPICE not activated for the VM), the fallback is noVNC.",
@@ -29384,6 +30255,11 @@ const apiSchema = [
                   "returns" : {
                      "items" : {
                         "properties" : {
+                           "cluster-id" : {
+                              "description" : "[cluster] Random identifier of the cluster. A standalone node reports its own identifier on its node entry.",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
                            "id" : {
                               "type" : "string"
                            },
@@ -34210,6 +35086,19 @@ const apiSchema = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer"
+                                                },
+                                                "rtime" : {
+                                                   "description" : "Time the guest was registered in this cluster, for example by creation, a restore to a free VMID, or a migration from another cluster, in milliseconds since the UNIX epoch.",
+                                                   "maximum" : 999999999999999,
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "uid" : {
+                                                   "description" : "Random identifier of the guest, kept across restores and migrations and independent of the VMID.",
+                                                   "optional" : 1,
+                                                   "pattern" : "[a-z2-7]{20}",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
@@ -41574,6 +42463,12 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
+                                                "uid" : {
+                                                   "description" : "Random identifier of the guest, kept across restores and migrations and independent of the VMID.",
+                                                   "optional" : 1,
+                                                   "pattern" : "[a-z2-7]{20}",
+                                                   "type" : "string"
+                                                },
                                                 "uptime" : {
                                                    "description" : "Uptime in seconds.",
                                                    "optional" : 1,
@@ -42325,6 +43220,7 @@ const apiSchema = [
                                              "type" : "boolean"
                                           },
                                           "nodes" : {
+                                             "description" : "Nodes on which the storages of the VM are available, for 'clone' and 'copy' only those that keep the guest identity.",
                                              "items" : {
                                                 "type" : "string"
                                              },
@@ -43370,6 +44266,22 @@ const apiSchema = [
                                                       "optional" : 1,
                                                       "type" : "array"
                                                    },
+                                                   "guest-identity-unsupported" : {
+                                                      "description" : "Set if migrating to the node is refused because the node does not report a Proxmox VE version that keeps the guest identity.",
+                                                      "optional" : 1,
+                                                      "properties" : {
+                                                         "required-version" : {
+                                                            "description" : "The minimum Proxmox VE version that keeps the guest identity.",
+                                                            "type" : "string"
+                                                         },
+                                                         "version" : {
+                                                            "description" : "The Proxmox VE version the node reports.",
+                                                            "optional" : 1,
+                                                            "type" : "string"
+                                                         }
+                                                      },
+                                                      "type" : "object"
+                                                   },
                                                    "unavailable-resources" : {
                                                       "description" : "Mapped resources without a mapping on the node.",
                                                       "items" : {
@@ -43527,6 +44439,13 @@ const apiSchema = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "allow-new-uid" : {
+                                             "default" : 0,
+                                             "description" : "Allow the migration if another guest in the target cluster already has the uid of this guest. The migrated guest then gets a new uid.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
                                           "bwlimit" : {
                                              "default" : "migrate limit from datacenter or storage config",
                                              "description" : "Override I/O bandwidth limit (in KiB/s).",
@@ -44922,6 +45841,14 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,sync-time-on-resume=<1|0>] [,type=<virtio|isa>]"
+                              },
+                              "allow-identity-mismatch" : {
+                                 "default" : 0,
+                                 "description" : "Allow overwriting an existing guest with a backup of another guest, as detected by a different 'uid' in 'meta'. The guest then keeps its own uid. Not needed to restore a backup again over a guest that an unfinished restore of that backup left behind.",
+                                 "optional" : 1,
+                                 "requires" : "archive",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "allow-ksm" : {
                                  "default" : 1,
@@ -46861,7 +47788,7 @@ const apiSchema = [
                                  "typetext" : "[file=]<volume> [,format=<raw|qcow2|vmdk>] [,import-from=<source volume>] [,size=<DiskSize>] [,version=<v1.2|v2.0>]"
                               },
                               "unique" : {
-                                 "description" : "Assign a unique random ethernet address.",
+                                 "description" : "Assign a unique random ethernet address and do not adopt the guest uid of the backup.",
                                  "optional" : 1,
                                  "requires" : "archive",
                                  "type" : "boolean",
@@ -47634,6 +48561,11 @@ const apiSchema = [
                                              "minimum" : 16,
                                              "optional" : 1,
                                              "type" : "integer"
+                                          },
+                                          "meta" : {
+                                             "description" : "Read-only meta-information about this container, for example its creation time.",
+                                             "optional" : 1,
+                                             "type" : "string"
                                           },
                                           "mp[n]" : {
                                              "description" : "Use volume as container mount point. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
@@ -48813,6 +49745,12 @@ const apiSchema = [
                                                    "description" : "Determines if the guest is a template.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "uid" : {
+                                                   "description" : "Random identifier of the guest, kept across restores and migrations and independent of the VMID.",
+                                                   "optional" : 1,
+                                                   "pattern" : "[a-z2-7]{20}",
+                                                   "type" : "string"
                                                 },
                                                 "uptime" : {
                                                    "description" : "Uptime in seconds.",
@@ -52048,6 +52986,13 @@ const apiSchema = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "allow-new-uid" : {
+                                             "default" : 0,
+                                             "description" : "Allow the migration if another guest in the target cluster already has the uid of this guest. The migrated guest then gets a new uid.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
                                           "bwlimit" : {
                                              "default" : "migrate limit from datacenter or storage config",
                                              "description" : "Override I/O bandwidth limit (in KiB/s).",
@@ -52240,6 +53185,22 @@ const apiSchema = [
                                                       },
                                                       "optional" : 1,
                                                       "type" : "array"
+                                                   },
+                                                   "guest-identity-unsupported" : {
+                                                      "description" : "Set if migrating to the node is refused because the node does not report a Proxmox VE version that keeps the guest identity.",
+                                                      "optional" : 1,
+                                                      "properties" : {
+                                                         "required-version" : {
+                                                            "description" : "The minimum Proxmox VE version that keeps the guest identity.",
+                                                            "type" : "string"
+                                                         },
+                                                         "version" : {
+                                                            "description" : "The Proxmox VE version the node reports.",
+                                                            "optional" : 1,
+                                                            "type" : "string"
+                                                         }
+                                                      },
+                                                      "type" : "object"
                                                    }
                                                 },
                                                 "type" : "object"
@@ -52406,6 +53367,14 @@ const apiSchema = [
                                        "properties" : {
                                           "hasFeature" : {
                                              "type" : "boolean"
+                                          },
+                                          "nodes" : {
+                                             "description" : "Nodes that pass the guest identity check for a clone. The storages of the container are not checked. Not set for 'snapshot'.",
+                                             "items" : {
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
                                           }
                                        },
                                        "type" : "object"
@@ -54656,6 +55625,14 @@ const apiSchema = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "allow-identity-mismatch" : {
+                                 "default" : 0,
+                                 "description" : "Allow overwriting an existing guest with a backup of another guest, as detected by a different 'uid' in 'meta'. The guest then keeps its own uid. Not needed to restore a backup again over a guest that an unfinished restore of that backup left behind. A restore from standard input over a container that has a uid always needs this option, as the backup cannot be checked beforehand.",
+                                 "optional" : 1,
+                                 "requires" : "restore",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "arch" : {
                                  "default" : "amd64",
                                  "description" : "OS architecture type.",
@@ -55300,7 +56277,7 @@ const apiSchema = [
                                  "typetext" : "<integer> (0 - 6)"
                               },
                               "unique" : {
-                                 "description" : "Assign a unique random ethernet address.",
+                                 "description" : "Assign a unique random ethernet address and do not adopt the guest uid of the backup.",
                                  "optional" : 1,
                                  "requires" : "restore",
                                  "type" : "boolean",
@@ -58494,7 +59471,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "notes-template" : {
-                                       "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
+                                       "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, {{uid}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
                                        "maxLength" : 1024,
                                        "optional" : 1,
                                        "requires" : "storage",
@@ -58787,7 +59764,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "notes-template" : {
-                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
+                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, {{uid}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
                                  "maxLength" : 1024,
                                  "optional" : 1,
                                  "requires" : "storage",
@@ -58980,6 +59957,7 @@ const apiSchema = [
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
                                                 "pve-lxc-syscalld",
+                                                "pve-notify-worker",
                                                 "pvedaemon",
                                                 "pvefw-logger",
                                                 "pveproxy",
@@ -59130,6 +60108,7 @@ const apiSchema = [
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
                                                 "pve-lxc-syscalld",
+                                                "pve-notify-worker",
                                                 "pvedaemon",
                                                 "pvefw-logger",
                                                 "pveproxy",
@@ -59197,6 +60176,7 @@ const apiSchema = [
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
                                                 "pve-lxc-syscalld",
+                                                "pve-notify-worker",
                                                 "pvedaemon",
                                                 "pvefw-logger",
                                                 "pveproxy",
@@ -59264,6 +60244,7 @@ const apiSchema = [
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
                                                 "pve-lxc-syscalld",
+                                                "pve-notify-worker",
                                                 "pvedaemon",
                                                 "pvefw-logger",
                                                 "pveproxy",
@@ -59331,6 +60312,7 @@ const apiSchema = [
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
                                                 "pve-lxc-syscalld",
+                                                "pve-notify-worker",
                                                 "pvedaemon",
                                                 "pvefw-logger",
                                                 "pveproxy",
@@ -59398,6 +60380,7 @@ const apiSchema = [
                                           "pve-ha-crm",
                                           "pve-ha-lrm",
                                           "pve-lxc-syscalld",
+                                          "pve-notify-worker",
                                           "pvedaemon",
                                           "pvefw-logger",
                                           "pveproxy",
@@ -59867,6 +60850,11 @@ const apiSchema = [
                                     },
                                     "type" : {
                                        "type" : "string"
+                                    },
+                                    "vrf-readonly" : {
+                                       "description" : "The interface belongs to an SDN fabric, an existing VRF can be removed but no VRF can be set.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
                                     }
                                  },
                                  "type" : "object"
@@ -60011,6 +60999,12 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "ip-forward" : {
+                                       "description" : "Enable IPv4 forwarding on the interface, which is needed for interfaces that receive routed traffic, for example the uplinks of an SDN zone with a dedicated VRF. If not set, forwarding follows the defaults of the interface.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "mtu" : {
                                        "description" : "MTU.",
                                        "maximum" : 65520,
@@ -60117,6 +61111,14 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "vrf" : {
+                                       "description" : "VRF master interface.",
+                                       "maxLength" : 15,
+                                       "minLength" : 1,
+                                       "optional" : 1,
+                                       "pattern" : "[a-zA-Z0-9_][a-zA-Z0-9_.-]*",
+                                       "type" : "string"
                                     }
                                  }
                               },
@@ -60377,6 +61379,11 @@ const apiSchema = [
                                     "minLength" : 2,
                                     "type" : "string"
                                  },
+                                 "ip-forward" : {
+                                    "description" : "Enable IPv4 forwarding on the interface, which is needed for interfaces that receive routed traffic, for example the uplinks of an SDN zone with a dedicated VRF. If not set, forwarding follows the defaults of the interface.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
                                  "link-type" : {
                                     "description" : "The link type.",
                                     "optional" : 1,
@@ -60532,6 +61539,14 @@ const apiSchema = [
                                     "description" : "Specify the raw interface for the vlan interface.",
                                     "format" : "pve-iface",
                                     "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "vrf" : {
+                                    "description" : "VRF master interface.",
+                                    "maxLength" : 15,
+                                    "minLength" : 1,
+                                    "optional" : 1,
+                                    "pattern" : "[a-zA-Z0-9_][a-zA-Z0-9_.-]*",
                                     "type" : "string"
                                  },
                                  "vxlan-id" : {
@@ -60698,6 +61713,12 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "ip-forward" : {
+                                 "description" : "Enable IPv4 forwarding on the interface, which is needed for interfaces that receive routed traffic, for example the uplinks of an SDN zone with a dedicated VRF. If not set, forwarding follows the defaults of the interface.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "mtu" : {
                                  "description" : "MTU.",
                                  "maximum" : 65520,
@@ -60804,6 +61825,14 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "vrf" : {
+                                 "description" : "VRF master interface.",
+                                 "maxLength" : 15,
+                                 "minLength" : 1,
+                                 "optional" : 1,
+                                 "pattern" : "[a-zA-Z0-9_][a-zA-Z0-9_.-]*",
+                                 "type" : "string"
                               }
                            }
                         },
@@ -61631,6 +62660,239 @@ const apiSchema = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
+                              "description" : "List SAN LUNs with their paths and cached usage.",
+                              "method" : "GET",
+                              "name" : "sanlunscan",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "perm",
+                                       "/nodes/{node}",
+                                       [
+                                          "Sys.Audit"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/storage",
+                                       [
+                                          "Datastore.Allocate"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "by-id" : {
+                                          "description" : "A path under /dev/disk/by-id that encodes the device's identity and has been verified to resolve to this device. Absent when no such link could be verified.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "detail" : {
+                                          "description" : "The cached signature or usage when usage is 'other'.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "devpath" : {
+                                          "description" : "The device path.",
+                                          "type" : "string"
+                                       },
+                                       "iscsi-lun" : {
+                                          "description" : "The number of the LUN on that target.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "iscsi-target" : {
+                                          "description" : "An iSCSI target through which this node reaches the LUN; one of them if there are several.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "model" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "multipath" : {
+                                          "description" : "How the node manages multipath for the LUN: 'manual' for a map with an explicit entry, 'storage' for the map of an iSCSI storage with the 'managed-multipath' option, 'unmanaged' for any other map, 'pending' while a map that an entry, a storage or the allow-list of the node requests does not exist yet, 'none' without a map or request, 'native' for the kernel-native multipath of an NVMe namespace.",
+                                          "enum" : [
+                                             "none",
+                                             "pending",
+                                             "storage",
+                                             "manual",
+                                             "unmanaged",
+                                             "native"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "multipath-storage" : {
+                                          "description" : "The multipath-enabled storage the LUN belongs to, whether or not it also has an explicit multipath entry.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "The map alias, when different from its WWID.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "nvme-nsid" : {
+                                          "description" : "The namespace ID within the NVMe subsystem.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "nvme-subsystem" : {
+                                          "description" : "The NVMe subsystem NQN.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "path-list" : {
+                                          "description" : "The member paths of the device with their state.",
+                                          "items" : {
+                                             "properties" : {
+                                                "address" : {
+                                                   "description" : "The address of the NVMe controller the path uses, or the portal of the iSCSI session of the path.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "ana-state" : {
+                                                   "description" : "The Asymmetric Namespace Access state of the namespace on this path, for example optimized or inaccessible.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "checker-state" : {
+                                                   "description" : "The state reported by the multipathd path checker, for example ready, ghost or faulty.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "device" : {
+                                                   "description" : "The path block device, or the NVMe controller device the path uses.",
+                                                   "type" : "string"
+                                                },
+                                                "host-wwpn" : {
+                                                   "description" : "The WWPN of the host (initiator) port of Fibre Channel attached paths.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "state" : {
+                                                   "description" : "The device mapper state of the path (for example active or failed), the state of the NVMe controller (for example live or connecting), or for a LUN without a map the kernel state of the device (for example running or transport-offline).",
+                                                   "type" : "string"
+                                                },
+                                                "target-wwpn" : {
+                                                   "description" : "The WWPN of the target port of Fibre Channel attached paths.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "optional" : 1,
+                                          "type" : "array"
+                                       },
+                                       "paths-active" : {
+                                          "description" : "The number of active paths whose checker state is ready, ghost, or not reported. Native NVMe paths count when their controller is live and their ANA state is optimized, non-optimized, or not reported. A device of a LUN without a map counts while the kernel reports it as running.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "paths-expected" : {
+                                          "description" : "The number of paths the LUN should have on this node: the highest of the count of its multipath entry and, for each managed iSCSI storage of the LUN, the number of its portals. Absent if no count is known.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "paths-total" : {
+                                          "description" : "The number of paths of a multipath mapped device or of an NVMe namespace attached through multiple controllers, or the number of SCSI devices of a LUN without a map.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "serial" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "size" : {
+                                          "description" : "The device size in bytes.",
+                                          "optional" : 1,
+                                          "renderer" : "bytes",
+                                          "type" : "integer"
+                                       },
+                                       "state" : {
+                                          "description" : "The health of the LUN from the state of its paths, when that is known. Absent while a requested multipath map is missing.",
+                                          "enum" : [
+                                             "optimal",
+                                             "degraded",
+                                             "failed"
+                                          ],
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "transport" : {
+                                          "description" : "The device transport, for example 'sata', 'sas', 'usb', 'fc', 'iscsi', 'nvme', 'nvme-fc', or 'nvme-tcp'.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "usage" : {
+                                          "description" : "The usage indicated by cached device metadata.",
+                                          "enum" : [
+                                             "unused",
+                                             "lvm",
+                                             "other"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "used-by-guest" : {
+                                          "description" : "The ID of the virtual machine that this process belongs to. Only returned with the VM.Audit privilege on it.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "used-by-process" : {
+                                          "description" : "A process of the node that has the LUN, one of its paths or a partition open for writing, as PID followed by the command name in parentheses. A guest shows up like this if it has the LUN as disk by its device path or from a third-party storage plugin.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "used-by-storage" : {
+                                          "description" : "The storage that uses the LUN: as its base volume or through the volume group on it, or as an iSCSI storage that serves the LUNs of its target as images.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "vendor" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "vgname" : {
+                                          "description" : "The name of the LVM volume group the device belongs to.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "wwid" : {
+                                          "description" : "The LUN WWID.",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/scan/san-luns",
+                        "text" : "san-luns"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Scan zfs pool list on local node.",
                               "method" : "GET",
                               "name" : "zfsscan",
@@ -62076,6 +63338,221 @@ const apiSchema = [
                   "leaf" : 0,
                   "path" : "/nodes/{node}/hardware",
                   "text" : "hardware"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Report the iSCSI initiator identity and availability.",
+                              "method" : "GET",
+                              "name" : "status",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "perm",
+                                       "/nodes/{node}",
+                                       [
+                                          "Sys.Audit"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/storage",
+                                       [
+                                          "Datastore.Allocate"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "properties" : {
+                                    "initiator-alias" : {
+                                       "description" : "The initiator alias.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "initiator-name" : {
+                                       "description" : "The initiator IQN.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "supported" : {
+                                       "description" : "Whether open-iscsi is installed.",
+                                       "type" : "boolean"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/iscsi/status",
+                        "text" : "status"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "List iSCSI targets and their sessions and devices.",
+                              "method" : "GET",
+                              "name" : "targets",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "perm",
+                                       "/nodes/{node}",
+                                       [
+                                          "Sys.Audit"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/storage",
+                                       [
+                                          "Datastore.Allocate"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "devices" : {
+                                          "description" : "The block devices of the session.",
+                                          "items" : {
+                                             "properties" : {
+                                                "devpath" : {
+                                                   "description" : "The block device path.",
+                                                   "type" : "string"
+                                                },
+                                                "lun" : {
+                                                   "description" : "The LUN number.",
+                                                   "type" : "integer"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "type" : "array"
+                                       },
+                                       "kernel-state" : {
+                                          "description" : "The kernel session state.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "portal" : {
+                                          "description" : "The portal address and port.",
+                                          "type" : "string"
+                                       },
+                                       "session-id" : {
+                                          "description" : "The kernel session ID.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "state" : {
+                                          "description" : "The connection state.",
+                                          "enum" : [
+                                             "logged-in",
+                                             "recovering",
+                                             "failed",
+                                             "not-connected",
+                                             "unknown"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "target" : {
+                                          "description" : "The target IQN.",
+                                          "type" : "string"
+                                       },
+                                       "used-by-storage" : {
+                                          "description" : "An iSCSI storage using the target.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/iscsi/target",
+                        "text" : "target"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Node iSCSI index.",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "all"
+                        },
+                        "proxyto" : "node",
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "name" : {
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/nodes/{node}/iscsi",
+                  "text" : "iscsi"
                },
                {
                   "children" : [
@@ -64118,7 +65595,7 @@ const apiSchema = [
                               "info" : {
                                  "DELETE" : {
                                     "allowtoken" : 1,
-                                    "description" : "Remove an LVM Volume Group.",
+                                    "description" : "Remove an LVM Volume Group. Refused if a shared storage is configured with a volume group of that name.",
                                     "method" : "DELETE",
                                     "name" : "delete",
                                     "parameters" : {
@@ -64270,13 +65747,13 @@ const apiSchema = [
                                  "properties" : {
                                     "add_storage" : {
                                        "default" : 0,
-                                       "description" : "Configure storage using the Volume Group",
+                                       "description" : "Configure storage using the Volume Group. On a SAN LUN, this adds a new shared storage for all nodes. On a local disk, the storage is for this node, or this node joins a matching storage of that ID.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
                                     "device" : {
-                                       "description" : "The block device you want to create the volume group on",
+                                       "description" : "The block device you want to create the volume group on. Multipath mapped devices are supported.",
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -65141,6 +66618,11 @@ const apiSchema = [
                                        "size" : {
                                           "type" : "integer"
                                        },
+                                       "transport" : {
+                                          "description" : "The device transport, for example 'sata', 'sas', 'usb', 'fc', 'nvme', 'nvme-fc', or 'nvme-tcp'.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
                                        "used" : {
                                           "optional" : 1,
                                           "type" : "string"
@@ -65291,8 +66773,8 @@ const apiSchema = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "disk" : {
-                                       "description" : "Block device name",
-                                       "pattern" : "^/dev/[a-zA-Z0-9\\/]+$",
+                                       "description" : "Block device name. A SAN LUN can also be given by a by-id or mapper name.",
+                                       "pattern" : "^/dev/[a-zA-Z0-9._:+/-]+$",
                                        "type" : "string"
                                     },
                                     "node" : {
@@ -69196,16 +70678,62 @@ const apiSchema = [
                                           "returns" : {
                                              "items" : {
                                                 "properties" : {
+                                                   "allowed-ips" : {
+                                                      "description" : "The allowed IPs for this neighbor, omitted if there are none (WireGuard only)",
+                                                      "format_description" : "Comma-separated list of CIDRs.",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "bytes-rx" : {
+                                                      "description" : "The number of bytes received from this neighbor (WireGuard only)",
+                                                      "optional" : 1,
+                                                      "type" : "number"
+                                                   },
+                                                   "bytes-tx" : {
+                                                      "description" : "The number of bytes transmitted to this neighbor (WireGuard only)",
+                                                      "optional" : 1,
+                                                      "type" : "number"
+                                                   },
+                                                   "interface" : {
+                                                      "description" : "The name of the interface that uses this neighbor as a peer (WireGuard only)",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "latest-handshake" : {
+                                                      "description" : "UNIX Timestamp of the last successful handshake, omitted if no handshake happened yet (WireGuard only)",
+                                                      "optional" : 1,
+                                                      "type" : "number"
+                                                   },
+                                                   "name" : {
+                                                      "description" : "The name for this neighbor in the WireGuard fabric. Omitted for peers that are not part of the fabric configuration. (WireGuard only)",
+                                                      "format_description" : "<node>[ (<interface>)]",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
                                                    "neighbor" : {
-                                                      "description" : "The IP or hostname of the neighbor.",
+                                                      "description" : "The IP or hostname of the neighbor. For WireGuard, the endpoint currently used, including the port. Omitted for WireGuard peers without a known endpoint.",
+                                                      "format_description" : "(<IP>|<Host>)[:<port>]",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "persistent-keepalive" : {
+                                                      "description" : "The currently used persistent keepalive interval for this neighbor in seconds, omitted if disabled (WireGuard only)",
+                                                      "optional" : 1,
+                                                      "type" : "number"
+                                                   },
+                                                   "public-key" : {
+                                                      "description" : "The public key used for this neighbor (WireGuard only)",
+                                                      "format_description" : "Base64-encoded Curve 25519 public key.",
+                                                      "optional" : 1,
                                                       "type" : "string"
                                                    },
                                                    "status" : {
-                                                      "description" : "The status of the neighbor, as returned by FRR.",
+                                                      "description" : "The status of the neighbor. As returned by FRR for OSPF, Openfabric and BGP. For WireGuard, derived from the latest handshake: 'active' if the peer has a recent session, 'down' if it is unreachable despite persistent keepalive, 'idle' otherwise.",
                                                       "type" : "string"
                                                    },
                                                    "uptime" : {
-                                                      "description" : "The uptime of this neighbor, as returned by FRR (e.g. 8h24m12s).",
+                                                      "description" : "The uptime of this neighbor, as returned by FRR, e.g. 8h24m12s (OSPF, Openfabric, BGP only)",
+                                                      "optional" : 1,
                                                       "type" : "string"
                                                    }
                                                 },
@@ -69259,8 +70787,19 @@ const apiSchema = [
                                           "returns" : {
                                              "items" : {
                                                 "properties" : {
+                                                   "listen-port" : {
+                                                      "description" : "The listen port of the interface (WireGuard only).",
+                                                      "optional" : 1,
+                                                      "type" : "number"
+                                                   },
                                                    "name" : {
                                                       "description" : "The name of the network interface.",
+                                                      "type" : "string"
+                                                   },
+                                                   "public-key" : {
+                                                      "description" : "The public key of the interface (WireGuard only).",
+                                                      "format_description" : "Base64-encoded Curve 25519 public key.",
+                                                      "optional" : 1,
                                                       "type" : "string"
                                                    },
                                                    "state" : {
@@ -69367,6 +70906,7 @@ const apiSchema = [
                                                 },
                                                 "zone" : {
                                                    "description" : "The SDN zone object identifier.",
+                                                   "format" : "pve-sdn-zone-id",
                                                    "maxLength" : 8,
                                                    "minLength" : 2,
                                                    "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -69602,6 +71142,7 @@ const apiSchema = [
                                           },
                                           "zone" : {
                                              "description" : "The SDN zone object identifier.",
+                                             "format" : "pve-sdn-zone-id",
                                              "maxLength" : 8,
                                              "minLength" : 2,
                                              "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -69679,6 +71220,7 @@ const apiSchema = [
                                        },
                                        "zone" : {
                                           "description" : "The SDN zone object identifier.",
+                                          "format" : "pve-sdn-zone-id",
                                           "maxLength" : 8,
                                           "minLength" : 2,
                                           "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -69723,6 +71265,7 @@ const apiSchema = [
                                                 },
                                                 "vnet" : {
                                                    "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
                                                    "maxLength" : 8,
                                                    "minLength" : 2,
                                                    "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -69784,6 +71327,7 @@ const apiSchema = [
                                           },
                                           "vnet" : {
                                              "description" : "The SDN vnet object identifier.",
+                                             "format" : "pve-sdn-vnet-id",
                                              "maxLength" : 8,
                                              "minLength" : 2,
                                              "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
@@ -72490,6 +74034,51 @@ const apiSchema = [
                   "leaf" : 1,
                   "path" : "/nodes/{node}/hosts",
                   "text" : "hosts"
+               },
+               {
+                  "info" : {
+                     "PUT" : {
+                        "allowtoken" : 1,
+                        "description" : "Enable or disable maintenance mode for the node. Currently, this only requests the HA node maintenance mode.",
+                        "method" : "PUT",
+                        "name" : "maintenance_set",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "maintenance-mode" : {
+                                 "description" : "Specifies whether the maintenance mode for the specified node should be enabled or disabled.",
+                                 "enum" : [
+                                    "enable",
+                                    "disable"
+                                 ],
+                                 "type" : "string"
+                              },
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/nodes/{node}/maintenance",
+                  "text" : "maintenance"
                }
             ],
             "info" : {
@@ -72963,7 +74552,8 @@ const apiSchema = [
                            "enum" : [
                               "qemu",
                               "lxc",
-                              "storage"
+                              "storage",
+                              "network"
                            ],
                            "optional" : 1,
                            "type" : "string"
@@ -72993,10 +74583,29 @@ const apiSchema = [
                                  "id" : {
                                     "type" : "string"
                                  },
+                                 "network" : {
+                                    "description" : "The network resource as passed to the 'network' parameter (only for network members).",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "network-type" : {
+                                    "description" : "Type of the network resource (only for network members).",
+                                    "enum" : [
+                                       "vnet"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
                                  "node" : {
+                                    "optional" : 1,
                                     "type" : "string"
                                  },
                                  "storage" : {
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "text" : {
+                                    "description" : "Human-readable description (only for network members).",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
@@ -73005,7 +74614,8 @@ const apiSchema = [
                                        "qemu",
                                        "lxc",
                                        "openvz",
-                                       "storage"
+                                       "storage",
+                                       "network"
                                     ],
                                     "type" : "string"
                                  },
@@ -73044,10 +74654,17 @@ const apiSchema = [
                         },
                         "delete" : {
                            "default" : 0,
-                           "description" : "Remove the passed VMIDs and/or storage IDs instead of adding them.",
+                           "description" : "Remove the passed VMIDs, storage IDs and/or network resources instead of adding them.",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
+                        },
+                        "network" : {
+                           "description" : "List of network resources to add or remove from this pool. 'vnet/<zone>/<vnet>' allows network devices on the VNet without VLAN tag or trunks, a trailing '/<tag>' allows that VLAN tag, and '/*' allows the VNet with or without any VLAN tag. This only controls the network device configuration, a device without VLAN tag can still carry tagged guest traffic on a VLAN-aware VNet.",
+                           "format" : "pve-pool-network-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "vnet/<zone>/<vnet>[/<tag>|/*]"
                         },
                         "poolid" : {
                            "format" : "pve-poolid",
@@ -73140,7 +74757,8 @@ const apiSchema = [
                      "enum" : [
                         "qemu",
                         "lxc",
-                        "storage"
+                        "storage",
+                        "network"
                      ],
                      "optional" : 1,
                      "requires" : "poolid",
@@ -73166,10 +74784,29 @@ const apiSchema = [
                               "id" : {
                                  "type" : "string"
                               },
+                              "network" : {
+                                 "description" : "The network resource as passed to the 'network' parameter (only for network members).",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "network-type" : {
+                                 "description" : "Type of the network resource (only for network members).",
+                                 "enum" : [
+                                    "vnet"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "node" : {
+                                 "optional" : 1,
                                  "type" : "string"
                               },
                               "storage" : {
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "text" : {
+                                 "description" : "Human-readable description (only for network members).",
                                  "optional" : 1,
                                  "type" : "string"
                               },
@@ -73178,7 +74815,8 @@ const apiSchema = [
                                     "qemu",
                                     "lxc",
                                     "openvz",
-                                    "storage"
+                                    "storage",
+                                    "network"
                                  ],
                                  "type" : "string"
                               },
@@ -73263,10 +74901,17 @@ const apiSchema = [
                   },
                   "delete" : {
                      "default" : 0,
-                     "description" : "Remove the passed VMIDs and/or storage IDs instead of adding them.",
+                     "description" : "Remove the passed VMIDs, storage IDs and/or network resources instead of adding them.",
                      "optional" : 1,
                      "type" : "boolean",
                      "typetext" : "<boolean>"
+                  },
+                  "network" : {
+                     "description" : "List of network resources to add or remove from this pool. 'vnet/<zone>/<vnet>' allows network devices on the VNet without VLAN tag or trunks, a trailing '/<tag>' allows that VLAN tag, and '/*' allows the VNet with or without any VLAN tag. This only controls the network device configuration, a device without VLAN tag can still carry tagged guest traffic on a VLAN-aware VNet.",
+                     "format" : "pve-pool-network-list",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "vnet/<zone>/<vnet>[/<tag>|/*]"
                   },
                   "poolid" : {
                      "format" : "pve-poolid",
@@ -73590,6 +75235,13 @@ const apiSchema = [
                            "title" : "Target Portal Group",
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "managed-multipath" : {
+                           "description" : "Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.",
+                           "optional" : 1,
+                           "title" : "Multipath",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
                         },
                         "master-pubkey" : {
                            "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
@@ -74196,6 +75848,13 @@ const apiSchema = [
                      "title" : "Target Portal Group",
                      "type" : "string",
                      "typetext" : "<string>"
+                  },
+                  "managed-multipath" : {
+                     "description" : "Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.",
+                     "optional" : 1,
+                     "title" : "Multipath",
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
                   },
                   "master-pubkey" : {
                      "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",

@@ -144,6 +144,12 @@ List of host cores used to execute guest processes, for example: 0,5,8-11
 
 Enable/disable communication with the QEMU Guest Agent and its properties.
 
+`--allow-identity-mismatch` `<boolean>` ('default =' `0`)::
+
+Allow overwriting an existing guest with a backup of another guest, as detected by a different 'uid' in 'meta'. The guest then keeps its own uid. Not needed to restore a backup again over a guest that an unfinished restore of that backup left behind.
++
+NOTE: Requires option(s): `archive`
+
 `--allow-ksm` `<boolean>` ('default =' `1`)::
 
 Allow memory pages of this guest to be merged via KSM (Kernel Samepage Merging).
@@ -472,7 +478,7 @@ Configure a Disk for storing TPM state. The format is fixed to 'raw'. Use the sp
 
 `--unique` `<boolean>` ::
 
-Assign a unique random ethernet address.
+Assign a unique random ethernet address and do not adopt the guest uid of the backup.
 +
 NOTE: Requires option(s): `archive`
 
@@ -1309,6 +1315,10 @@ The (unique) ID of the VM.
 `<target-endpoint>`: `apitoken=<PVEAPIToken=user@realm!token=SECRET> ,host=<ADDRESS> [,fingerprint=<FINGERPRINT>] [,port=<PORT>]` ::
 
 Remote target endpoint
+
+`--allow-new-uid` `<boolean>` ('default =' `0`)::
+
+Allow the migration if another guest in the target cluster already has the uid of this guest. The migrated guest then gets a new uid.
 
 `--bwlimit` `<integer> (0 - N)` ('default =' `migrate limit from datacenter or storage config`)::
 

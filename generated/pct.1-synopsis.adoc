@@ -94,6 +94,12 @@ The (unique) ID of the VM.
 
 The OS template or backup file.
 
+`--allow-identity-mismatch` `<boolean>` ('default =' `0`)::
+
+Allow overwriting an existing guest with a backup of another guest, as detected by a different 'uid' in 'meta'. The guest then keeps its own uid. Not needed to restore a backup again over a guest that an unfinished restore of that backup left behind. A restore from standard input over a container that has a uid always needs this option, as the backup cannot be checked beforehand.
++
+NOTE: Requires option(s): `restore`
+
 `--arch` `<amd64 | arm64 | armhf | i386 | riscv32 | riscv64>` ('default =' `amd64`)::
 
 OS architecture type.
@@ -258,7 +264,7 @@ Specify the number of tty available to the container
 
 `--unique` `<boolean>` ::
 
-Assign a unique random ethernet address.
+Assign a unique random ethernet address and do not adopt the guest uid of the backup.
 +
 NOTE: Requires option(s): `restore`
 
@@ -607,6 +613,10 @@ The (unique) ID of the VM.
 
 Remote target endpoint
 
+`--allow-new-uid` `<boolean>` ('default =' `0`)::
+
+Allow the migration if another guest in the target cluster already has the uid of this guest. The migrated guest then gets a new uid.
+
 `--bwlimit` `<integer> (0 - N)` ('default =' `migrate limit from datacenter or storage config`)::
 
 Override I/O bandwidth limit (in KiB/s).
@@ -681,6 +691,12 @@ The (unique) ID of the VM.
 `<ostemplate>`: `<string>` ::
 
 The OS template or backup file.
+
+`--allow-identity-mismatch` `<boolean>` ('default =' `0`)::
+
+Allow overwriting an existing guest with a backup of another guest, as detected by a different 'uid' in 'meta'. The guest then keeps its own uid. Not needed to restore a backup again over a guest that an unfinished restore of that backup left behind. A restore from standard input over a container that has a uid always needs this option, as the backup cannot be checked beforehand.
++
+NOTE: Requires option(s): `restore`
 
 `--arch` `<amd64 | arm64 | armhf | i386 | riscv32 | riscv64>` ('default =' `amd64`)::
 
@@ -842,7 +858,7 @@ Specify the number of tty available to the container
 
 `--unique` `<boolean>` ::
 
-Assign a unique random ethernet address.
+Assign a unique random ethernet address and do not adopt the guest uid of the backup.
 +
 NOTE: Requires option(s): `restore`
 

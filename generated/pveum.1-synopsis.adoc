@@ -186,7 +186,7 @@ List pools or get pool configuration.
 
 no description available
 
-`--type` `<lxc | qemu | storage>` ::
+`--type` `<lxc | network | qemu | storage>` ::
 
 no description available
 +
@@ -211,7 +211,11 @@ no description available
 
 `--delete` `<boolean>` ('default =' `0`)::
 
-Remove the passed VMIDs and/or storage IDs instead of adding them.
+Remove the passed VMIDs, storage IDs and/or network resources instead of adding them.
+
+`--network` `vnet/<zone>/<vnet>[/<tag>|/*]` ::
+
+List of network resources to add or remove from this pool. 'vnet/<zone>/<vnet>' allows network devices on the VNet without VLAN tag or trunks, a trailing '/<tag>' allows that VLAN tag, and '/*' allows the VNet with or without any VLAN tag. This only controls the network device configuration, a device without VLAN tag can still carry tagged guest traffic on a VLAN-aware VNet.
 
 `--storage` `<string>` ::
 

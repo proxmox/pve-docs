@@ -14,6 +14,10 @@ The backup file. You can pass '-' to read from standard input.
 
 The (unique) ID of the VM.
 
+`--allow-identity-mismatch` `<boolean>` ('default =' `0`)::
+
+Allow overwriting an existing guest with a backup of another guest, as detected by a different 'uid' in 'meta'. The guest then keeps its own uid. Not needed to restore a backup again over a guest that an unfinished restore of that backup left behind.
+
 `--bwlimit` `<number> (0 - N)` ::
 
 Override I/O bandwidth limit (in KiB/s).
@@ -44,5 +48,5 @@ Default storage.
 
 `--unique` `<boolean>` ::
 
-Assign a unique random ethernet address.
+Assign a unique random ethernet address and do not adopt the guest uid of the backup.
 

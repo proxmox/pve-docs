@@ -116,6 +116,10 @@ Always access rbd through krbd kernel module.
 
 Target portal group for Linux LIO targets.
 
+`--managed-multipath` `<boolean>` ::
+
+Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.
+
 `--master-pubkey` `a file containing a PEM-formatted master public key` ::
 
 Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.
@@ -586,6 +590,11 @@ User password or API token secret.
 
 Optional port.
 
+[[cli_pvesm_scan_san-luns]]
+*pvesm scan san-luns* `[FORMAT_OPTIONS]`
+
+List SAN LUNs with their paths and cached usage.
+
 [[cli_pvesm_scan_zfs]]
 *pvesm scan zfs*
 
@@ -689,6 +698,10 @@ Always access rbd through krbd kernel module.
 `--lio_tpg` `<string>` ::
 
 Target portal group for Linux LIO targets.
+
+`--managed-multipath` `<boolean>` ::
+
+Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.
 
 `--master-pubkey` `a file containing a PEM-formatted master public key` ::
 
