@@ -1061,8 +1061,8 @@ MTU:: The MTU of the interface. WireGuard encapsulation adds up to 80 bytes,
 so the MTU should be at least 80 bytes lower than the MTU of the underlying
 network, for example 1420 for an underlying network with an MTU of 1500. The
 web interface prefills 1420 for new interfaces. If no MTU is set, ifupdown2
-applies its default MTU of 1500. An interface with an IPv6 address requires an
-MTU of at least 1280.
+applies its default MTU of 1500. The MTU has to be at least 1280, the minimum
+MTU for IPv6.
 
 When defining an interface, Proxmox VE automatically generates a private key
 for it in `/etc/pve/priv/wg-keys.cfg` upon saving the interface, and stores the
