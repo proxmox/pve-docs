@@ -265,6 +265,27 @@ SSH or the web interface, cannot be reached from the zone, as long as the
 `net.ipv4.tcp_l3mdev_accept` and `net.ipv4.udp_l3mdev_accept` sysctls are not
 enabled.
 
+IPv4 traffic routed into the zone through a host interface in the VRF, including
+replies to connections that left the zone through it, is only forwarded if IPv4
+forwarding is enabled on that interface. `ifupdown2` enables it on bridges in
+the VRF. On other interfaces, such as physical, bond or VLAN interfaces, enable
+it explicitly instead of relying on their current setting. In the web
+interface, set the 'IPv4 Forwarding' option of the interface to 'Enabled',
+which is suggested when a VRF is chosen. In the configuration file, set
+`ip-forward on`, for example:
+
+----
+auto eno2.100
+iface eno2.100 inet static
+	address 198.51.100.2/30
+	ip-forward on
+	vrf vrf_myzone
+----
+
+For IPv6, enable forwarding globally with the `net.ipv6.conf.all.forwarding`
+sysctl, or set the `net/ipv6/conf/<interface>/force_forwarding` sysctl to `1` on
+the host interfaces in the VRF and the VNets of the zone.
+
 DHCP:: The DHCP server of the zone runs in its VRF. Guests use it as DNS server
   by default, which needs a route to the upstream DNS servers through an
   interface in the VRF. Otherwise, set a DNS server reachable from the zone with
