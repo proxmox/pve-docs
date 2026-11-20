@@ -960,6 +960,11 @@ xref:pvesdn_config_route_maps[route map] to filter or transform routes
 before they are advertised. Useful for example to leak BGP fabric routes
 into OSPF, or to advertise locally connected networks without configuring
 them per interface.
++
+On a node, all OSPF fabrics in the same VRF, including the default VRF, share
+their redistributions. Configure each source in just one of them. If several
+fabrics redistribute the same source, the first fabric in ID order sets its
+metric and route map.
 
 [[pvesdn_ospf_node]]
 On the Node
