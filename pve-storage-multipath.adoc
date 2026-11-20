@@ -56,11 +56,11 @@ Setting Up Shared LVM
   *Nodes* under *Advanced* limits the storage to some nodes. If virtual
   machines need snapshots, enable *Allow Snapshots as Volume-Chain* before
   creating their disks, see xref:pvesm_lvm_config[LVM configuration].
-. Check the *Active Paths* of every node in the result before placing guests on
-  the storage, as the setup only checked the LUN on the node serving the web
-  UI. Nodes show *Pending* while they set up the LUN, for up to a minute. A
-  node that stays *Missing* cannot reach the LUN or has no map for it.
-  *OK (1 path)* means that the node has no redundancy.
+. Check the paths of every node in the result before placing guests on the
+  storage, as the setup only checked the LUN on the node serving the web UI.
+  Nodes show *Pending* while they set up the LUN, for up to a minute. A node
+  that stays *Missing* cannot reach the LUN or has no map for it. A node with
+  `1/1` has no redundancy.
 
 For Fibre Channel, the setup uses an existing map as it is, so check that a map
 set up by hand exists on all nodes. Otherwise, it adds a multipath entry if
@@ -184,15 +184,19 @@ one, the process that has it open for writing, for example a guest with the LUN
 as disk from a third-party storage plugin. Such a LUN can neither be wiped nor
 selected in a guided setup.
 
-The *State* of a LUN is its worst known state, followed by the nodes in that
-state if not all are. Hover over it for the state and paths of each node.
+The *State* of a LUN on a node is its count of usable paths out of the paths it
+has, or of its *Expected Paths* if more: green if all are usable, for example
+`2/2`, orange if not, for example `1/2`. A LUN without a multipath map shows its
+count without a green check, as nothing fails over between its paths. For
+several nodes, *State* lists each state of a node that is not fine, with the
+nodes in it if not all are, the worst first. If the only such state is
+*Unknown*, it lists the other nodes too. *Paths by Node*, or a double click on
+the LUN, shows the state of each node.
 *Multipath* shows how the map is managed: by an explicit entry, by a storage, or
 *Unmanaged* if {pve} did not set it up.
 
-*Optimal*:: All paths are usable and no expected path is missing.
-*OK (1 path)*:: The only path is usable; there is no redundancy.
-*Degraded*:: Some paths are unusable or missing.
-*Failed*:: No path is usable; I/O queues or fails depending on the retry policy.
+*Failed*:: No path is usable, for example `Failed (0/2)`; I/O queues or fails
+depending on the retry policy.
 *Missing*:: The node should have a map for the LUN but has none. Check the LUN
 under *Node -> SAN* on that node, the *Message* of the node and its access on
 the array.
@@ -242,8 +246,8 @@ was removed from the nodes, see xref:storage_multipath_remove[Removing a LUN].
 
 paths-expected::
 
-The number of paths each node should have. Fewer usable paths make the LUN
-*Degraded* on that node.
+The number of paths each node should have. With fewer usable paths, the LUN
+shows in orange on that node, for example `1/2`.
 
 .Configuration Example (`/etc/pve/multipath.cfg`)
 ----
