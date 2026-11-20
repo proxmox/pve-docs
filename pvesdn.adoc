@@ -290,9 +290,24 @@ For IPv6, enable forwarding globally with the `net.ipv6.conf.all.forwarding`
 sysctl, or set the `net/ipv6/conf/<interface>/force_forwarding` sysctl to `1` on
 the uplinks and the VNets of the zone.
 
-Before you disable the dedicated VRF of a zone, delete the zone, or remove a
-node from it, remove the VRF from the uplinks in the network configuration of
-the affected nodes, and remove the fabrics that use the zone.
+Before you remove a node from the zone, remove the VRF from the uplinks of that
+node, and the node from the fabrics that use the zone. Before you disable the
+dedicated VRF or delete the zone, remove the VRF from the uplinks of all its
+nodes, the fabrics that use the zone, and its static routes.
+
+Static routes:: To reach networks behind an uplink, for example with a
+  default route via the upstream router, add static routes in the 'Static
+  Routes' tab of the zone, which is available with a dedicated VRF. FRR
+  installs them in the VRF, so set it up on the nodes of the zone first, see
+  xref:pvesdn_install_frrouting[FRRouting]. Each route has a 'Destination
+  Prefix' and a 'Gateway', an 'Outgoing Interface', or both. An IPv6
+  link-local gateway needs an outgoing interface. 'Distance' is optional. In
+  the zone configuration, a default route via the router of the uplink example
+  above is `route prefix=0.0.0.0/0,via=198.51.100.1`.
++
+Changing static routes, changing the nodes of a zone with static routes, or
+deleting such a zone requires 'Sys.Modify' on all affected nodes, as routes can
+affect the host.
 
 DHCP:: The DHCP server of the zone runs in its VRF. Guests use it as DNS server
   by default, which needs a route from the VRF to the upstream DNS servers.
