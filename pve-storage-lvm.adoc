@@ -143,8 +143,8 @@ A benefit of LVM is that it can be used with shared storage.
 For example, an iSCSI LUN. The backend implements proper cluster-wide locking if
 the storage is marked as shared in the configuration.
 
-TIP: The guided setup under *Datacenter -> Storage -> SAN* in the web UI creates
-a shared LVM storage on a SAN LUN, see xref:storage_multipath_setup[Multipath].
+TIP: The guided setup under *Datacenter -> SAN* in the web UI creates a shared
+LVM storage on a SAN LUN, see xref:storage_multipath_setup[Multipath].
 
 NOTE: If you extend a shared volume group onto another device on one node, the
 other nodes may only see the added physical volume after LVM has scanned their

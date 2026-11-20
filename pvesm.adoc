@@ -154,9 +154,9 @@ is available on all nodes, but it is physically different and can have
 totally different content.
 
 Add storage under *Datacenter -> Storage -> Add* in the web UI. For shared LVM
-on a xref:storage_multipath_setup[SAN LUN], use *Guided Setup* under
-*Datacenter -> Storage -> SAN* instead. It creates the storages that are needed
-and enables multipath for the LUN.
+on a xref:storage_multipath_setup[SAN LUN], use *Add Shared LVM* under
+*Datacenter -> SAN* instead. It creates the storages that are needed and enables
+multipath for the LUN.
 
 
 Storage Pools

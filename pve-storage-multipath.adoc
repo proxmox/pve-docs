@@ -13,9 +13,9 @@ the World Wide Identifier (WWID) of the LUN. Use it for shared LVM on iSCSI or
 Fibre Channel.
 
 {pve} sets up the maps on all nodes and shows their state under *Datacenter ->
-Storage -> SAN*. An iSCSI storage with *Multipath* enabled requests the maps of
-its LUNs, a Fibre Channel LUN needs a multipath entry. NVMe namespaces use the
-multipath support of the kernel instead and are not covered here.
+SAN*. An iSCSI storage with *Multipath* enabled requests the maps of its LUNs, a
+Fibre Channel LUN needs a multipath entry. NVMe namespaces use the multipath
+support of the kernel instead and are not covered here.
 
 Prerequisites
 ~~~~~~~~~~~~~
@@ -26,7 +26,7 @@ Prerequisites
 * `multipath-tools` is installed on all nodes; it is only a recommended
   package.
 * For iSCSI, the array allows the initiator name of each node, which
-  *Datacenter -> Storage -> SAN* shows.
+  *Datacenter -> SAN* shows.
 * For Fibre Channel, zoning and LUN masking allow the HBA ports of each node,
   whose WWPNs `cat /sys/class/fc_host/host*/port_name` lists.
 * The same empty LUN is presented to the nodes that use it over redundant
@@ -47,8 +47,8 @@ If the LUN does not show up, check that the target ports of the array are
 Setting Up Shared LVM
 ~~~~~~~~~~~~~~~~~~~~
 
-. Under *Datacenter -> Storage -> SAN* on a node that can access the LUN,
-  select *Guided Setup -> LVM on iSCSI* or *LVM on Fibre Channel*.
+. Under *Datacenter -> SAN* on a node that can access the LUN, select *Add
+  Shared LVM -> iSCSI* or *Fibre Channel*.
 . For iSCSI, enter a portal, select the target and name the connection storage,
   which logs the nodes in to the target. *Nodes* under *Advanced* limits it to
   some nodes.
@@ -109,7 +109,7 @@ add an entry for it. Once the scan shows a by-id path with
 To limit a storage to some nodes, set `--nodes <nodes>` on the entry or iSCSI
 storage and on the LVM storage. For Fibre Channel, leave out `--add_storage 1`
 and add the storage with `pvesm add lvm <storage> --vgname <storage> --shared 1
---nodes <nodes>`. Then check under *Datacenter -> Storage -> SAN* that every
+--nodes <nodes>`. Then check under *Datacenter -> SAN* that every
 node has the LUN with all its paths.
 
 Adding Another LUN
@@ -174,7 +174,7 @@ Removing an iSCSI connection storage does not log out its sessions; use
 Checking Path Failures
 ~~~~~~~~~~~~~~~~~~~~~
 
-*Datacenter -> Storage -> SAN* shows configuration errors of the nodes, and the
+*Datacenter -> SAN* shows configuration errors of the nodes, and the
 LUNs that {pve} manages or that a storage uses with their state on each node.
 Other maps, for example those of a third-party storage plugin, are only counted
 under *Other Maps*. *Node -> SAN* lists all LUNs of a node with their paths.
@@ -224,8 +224,9 @@ Multipath Entries
 An entry in `/etc/pve/multipath.cfg` makes the nodes set up the map of a LUN
 and holds its settings. Fibre Channel and SAS LUNs need one. For a LUN of an
 iSCSI storage with *Multipath* enabled, an entry is only needed for its
-settings. Manage the entries under *Datacenter -> Storage -> SAN* or with
-`pvesh` under `/cluster/multipath/wwid`.
+settings. Manage the entries under *Datacenter -> SAN*, where *Add
+Multipath Entry* takes the WWID of a selected LUN, or with `pvesh` under
+`/cluster/multipath/wwid`.
 
 alias::
 
@@ -263,7 +264,7 @@ Array Settings and Existing Configurations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use the built-in device profiles unless the array vendor requires changes.
-*Edit Overrides* under *Datacenter -> Storage -> SAN* edits
+*Multipath Overrides* under *Datacenter -> SAN* edits
 `/etc/pve/multipath-overrides.conf` for all nodes, for example to set a retry
 count for one array model:
 
@@ -294,7 +295,7 @@ To move from a hand-made `/etc/multipath.conf`:
 . Enable *Multipath* on the existing iSCSI storages and keep their LVM base
   volumes. Check `multipathd show config` on every node before removing local
   settings. Do not edit the generated `/etc/multipath/conf.d/pve-*.conf` files.
-. Once *Datacenter -> Storage -> SAN* shows the LUNs on every node, check with
+. Once *Datacenter -> SAN* shows the LUNs on every node, check with
   `lsblk` for active volumes that still use a single path, and stop and start
   or migrate their guests. See also the
   xref:storage_lvm[shared LVM autoactivation guidance].

@@ -24,7 +24,7 @@ resources.
 Low-level iscsi management task can be done using the `iscsiadm` tool.
 
 TIP: To set up shared LVM on a LUN of an iSCSI target, use the guided setup
-under *Datacenter -> Storage -> SAN* in the web UI, see
+under *Datacenter -> SAN* in the web UI, see
 xref:storage_multipath_setup[Multipath].
 
 
