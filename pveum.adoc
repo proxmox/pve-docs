@@ -1116,6 +1116,7 @@ depending on the path, the following privileges as a possible substitute:
 +
 * `/storage/...`: requires 'Datastore.Allocate`
 * `/vms/...`: requires 'VM.Allocate`
+* `/sdn/...`: requires `SDN.Allocate`
 * `/pool/...`: requires 'Pool.Allocate`
 +
 If the path is empty, `Permissions.Modify` on `/access` is required.
