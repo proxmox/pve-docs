@@ -1,3 +1,21 @@
+pve-docs (9.2.18) trixie; urgency=medium
+
+  * qm: guest agent: document the new 'sync-time-on-resume' option, which sets
+    the guest clock to the host time after operations that pause the VM or
+    restore a saved state, such as resume, snapshot rollback and live
+    migration, as the guest clock otherwise lags behind.
+
+  * ha-manager: crs:
+    - describe how the cluster imbalance is calculated and where its current
+      value is shown, to make it easier to choose a suitable imbalance
+      threshold. Also note that a lightly loaded cluster can exceed the
+      threshold, and that an uneven spread of only CPU or only memory usage can
+      go unnoticed.
+    - note that the load balancer skips balancing if both the imbalance
+      threshold and the imbalance improvement are set to 0.
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 20 Nov 2026 12:37:23 +0100
+
 pve-docs (9.2.17) trixie; urgency=medium
 
   * backup and restore:
