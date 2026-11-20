@@ -1664,6 +1664,64 @@ IMPORTANT: Disabling this option can potentially lead to backups with
 inconsistent filesystems. Therefore, adapting the QEMU Guest Agent
 configuration in the guest is the preferred option.
 
+[[qm_qga_time_sync]]
+Guest Clock Synchronization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+While a VM is paused, the guest's clock does not advance. A similar problem
+occurs when restoring a VM from a previously saved state, for example after
+hibernation or after rolling back to a snapshot that includes RAM. Once the VM
+runs again, the guest's clock lags behind the host's time. A live migration can
+have the same effect if transferring the final part of the VM's state takes a
+long time, because the VM is paused during that phase. A time synchronization
+service in the guest, such as NTP, may correct a large offset only slowly or
+not at all, depending on its configuration. Until then, time-sensitive services
+can misbehave.
+
+With the `sync-time-on-resume` QEMU Guest Agent option enabled, {pve} sets the
+guest's clock to the host's current time via the
+https://www.qemu.org/docs/master/interop/qemu-ga-ref.html#command-QGA-qapi-schema.guest-set-time[`guest-set-time`]
+guest agent command right after the following operations:
+
+* resuming a paused VM
+* resuming a hibernated VM
+* rolling back to a snapshot that includes RAM
+* taking a snapshot of a running VM
+* live migrating a VM to another node
+* performing a backup in suspend mode
+
+The option is disabled by default. You can enable it in the 'QEMU Guest Agent'
+dialog in the VM's 'Options' panel, or with
+`qm set <vmid> --agent 1,sync-time-on-resume=1`.
+
+.Overriding the Option for a Single Operation
+For a single operation, the configured value can be overridden with the
+`--sync-time-on-resume` parameter. This is supported when resuming a paused or
+hibernated VM (`qm resume`), starting a hibernated VM (`qm start`), and rolling
+back to a snapshot with RAM (`qm rollback`). For example, to resume a VM
+without synchronizing its clock:
+
+----
+# qm resume <vmid> --sync-time-on-resume 0
+----
+
+Snapshots, live migrations and backups always use the configured value.
+
+.Rolling Back to a Snapshot
+When rolling back to a snapshot with RAM, {pve} decides whether to synchronize
+the clock as follows:
+
+* If the `--sync-time-on-resume` parameter is given, its value is used.
+* Otherwise, if the guest agent is enabled in the configuration before the
+  rollback, its `sync-time-on-resume` setting is used (disabled if not set).
+  This way, the current setting also applies to snapshots taken before the
+  option was enabled.
+* Otherwise, the `sync-time-on-resume` setting stored in the snapshot is used.
+
+In any case, the guest agent must be enabled in the snapshot's configuration,
+since the restored VM runs with the hardware configuration of the snapshot. The
+agent must also be running inside the guest.
+
 Troubleshooting
 ^^^^^^^^^^^^^^^
 
