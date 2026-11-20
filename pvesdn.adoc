@@ -580,6 +580,10 @@ SNAT:: Enable Source NAT which allows VMs from inside a
 DNS Zone Prefix:: Add a prefix to the domain registration, like
   <hostname>.prefix.<domain>  Optional.
 
+DHCP DNS Resolver:: The DNS server that DHCP announces to guests. Without it,
+  guests use the DHCP server of the zone, which forwards queries to the DNS
+  servers of the host. Optional.
+
 
 [[pvesdn_config_controllers]]
 Controllers
