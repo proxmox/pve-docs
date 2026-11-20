@@ -478,6 +478,10 @@ Notification Events
 | System updates available         |`package-updates`  | `info`   | `hostname`
 | Cluster node fenced              |`fencing`          | `error`  | `hostname`
 | Storage replication job failed   |`replication`      | `error`  | `hostname`, `job-id`
+| Multipath paths lost             |`multipath`        | `warning`| `hostname`
+| Multipath LUN failed             |`multipath`        | `error`  | `hostname`
+| Multipath paths restored         |`multipath`        | `info`   | `hostname`
+| Multipath alert cleared          |`multipath`        | `info`   | `hostname`
 | Backup succeeded                 |`vzdump`           | `info`   | `hostname`, `job-id` (only for backup jobs)
 | Backup failed                    |`vzdump`           | `error`  | `hostname`, `job-id` (only for backup jobs)
 | Mail for root                    |`system-mail`      | `unknown`| `hostname`
@@ -490,6 +494,9 @@ Notification Events
 | `hostname`        | Hostname, without domain (e.g. `pve1`)
 | `job-id`          | Job ID
 |=======================================================================
+
+A `multipath` notification groups affected LUNs on the same node. If any LUN
+in a problem notification is *Failed*, the severity is `error`.
 
 NOTE: Backup job notifications only have `job-id` set if the backup job
   was executed automatically based on its schedule, but not if it was triggered

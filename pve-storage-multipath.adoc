@@ -203,11 +203,27 @@ the array.
 *Unknown*:: The node has no current report or cannot tell whether it has the
 map. Check the node under *Nodes*.
 
-{pve} does not notify about a lost path. During a path failure, expand the LUN
-under *Node -> SAN* on the affected node to see which paths failed. For iSCSI,
-*Node -> SAN -> iSCSI* shows the sessions. After restoring the connection,
-check that every node has all its paths again. Scripts can read the states with
-`pvesh get /cluster/multipath/status`.
+A node sends a xref:notification_events[multipath notification] when not all
+paths of a LUN are usable in two consecutive checks, and again when none is left
+in two checks. A notification waits one more check while other LUNs of the node
+change the same way, so that it lists them too. A recovery notification follows
+once all paths of the LUN are usable in two consecutive checks. Without
+*Expected Paths*, a map with fewer paths than when the problem was notified does
+not count, as the kernel removes failed paths after a while. With it, such a map
+counts once it has that many paths, but the notification then says that the
+alert is cleared rather than that paths are restored, as it does if *Expected
+Paths* was lowered meanwhile, or for a single path without *Expected Paths*,
+which does not tell whether others are missing. Such a notification also follows
+once two reports of the node no longer list the LUN.
+
+A node whose *Multipath Setup* is not *OK*, for example because `multipathd` is
+not running, sends no such notifications; check its *Message* under
+*Datacenter -> SAN*. A LUN that is *Missing* on a node is not notified either.
+
+During a path failure, expand the LUN under *Node -> SAN* on the affected node
+to see which paths failed. For iSCSI, *Node -> SAN -> iSCSI* shows the sessions.
+After restoring the connection, check that every node has all its paths again.
+Scripts can read the states with `pvesh get /cluster/multipath/status`.
 
 An iSCSI storage expects one path per portal, so the array should report to
 each node only the portals it can reach. For Fibre Channel, set *Expected
