@@ -1623,7 +1623,10 @@ The _imbalance improvement_ defaults to 10% and filters what constitutes an
 acceptable rebalancing migration; with a value of `0` it will always commit to
 a migration even if the expected imbalance does not change at all. The value
 can never be negative, so the balancer will never commit to a migration with an
-expected imbalance worse than the current one.
+expected imbalance worse than the current one. If both the _imbalance
+threshold_ and the _imbalance improvement_ are set to `0`, the load balancer
+issues no migrations and logs a warning instead, as it could otherwise keep
+migrating HA resources without improving the cluster imbalance.
 
 NOTE: It is planned that load balancing will also include non-HA resources in
 the future.
