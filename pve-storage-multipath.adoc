@@ -229,7 +229,7 @@ not running, sends no such notifications; check its *Message* under
 During a path failure, expand the LUN under *Node -> SAN* on the affected node
 to see which paths failed. For iSCSI, *Node -> SAN -> iSCSI* shows the sessions.
 After restoring the connection, check that every node has all its paths again.
-Scripts can read the states with `pvesh get /cluster/multipath/status`.
+Scripts can read the states with `pvesh get /cluster/san/status`.
 
 An iSCSI storage expects one path per portal, so the array should report to
 each node only the portals it can reach. For Fibre Channel, set *Expected
