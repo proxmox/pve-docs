@@ -24445,6 +24445,7 @@ const apiSchema = [
                                           "format" : "pve-sdn-fabric-id",
                                           "maxLength" : 8,
                                           "minLength" : 2,
+                                          "optional" : 1,
                                           "pattern" : "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]",
                                           "type" : "string"
                                        },
@@ -24460,10 +24461,175 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
-                                       "lock-token" : {
-                                          "description" : "the token for unlocking the global SDN configuration",
+                                       "pending" : {
+                                          "description" : "Changes that are not applied yet, 'deleted' for removed values. A new entry has all its values here.",
                                           "optional" : 1,
-                                          "type" : "string"
+                                          "properties" : {
+                                             "area" : {
+                                                "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                                "format" : "pve-sdn-fabric-ospf-area",
+                                                "instance-types" : [
+                                                   "ospf"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string",
+                                                "type-property" : "protocol"
+                                             },
+                                             "csnp_interval" : {
+                                                "description" : "The csnp_interval property for Openfabric",
+                                                "instance-types" : [
+                                                   "openfabric"
+                                                ],
+                                                "maximum" : 600,
+                                                "minimum" : 1,
+                                                "optional" : 1,
+                                                "type" : "number",
+                                                "type-property" : "protocol"
+                                             },
+                                             "hello_interval" : {
+                                                "description" : "The hello_interval property for Openfabric",
+                                                "instance-types" : [
+                                                   "openfabric"
+                                                ],
+                                                "maximum" : 600,
+                                                "minimum" : 1,
+                                                "optional" : 1,
+                                                "type" : "number",
+                                                "type-property" : "protocol"
+                                             },
+                                             "id" : {
+                                                "description" : "Identifier for SDN fabrics",
+                                                "format" : "pve-sdn-fabric-id",
+                                                "maxLength" : 8,
+                                                "minLength" : 2,
+                                                "optional" : 1,
+                                                "pattern" : "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]",
+                                                "type" : "string"
+                                             },
+                                             "ip6_prefix" : {
+                                                "description" : "The IP prefix for Node IPs",
+                                                "format" : "CIDR",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "ip_prefix" : {
+                                                "description" : "The IP prefix for Node IPs",
+                                                "format" : "CIDR",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "persistent_keepalive" : {
+                                                "description" : "A seconds interval, between 1 and 65535 inclusive, of how often to send an authenticated empty packet to the peer for the purpose of keeping a stateful firewall or NAT mapping valid persistently. For example, if the interface very rarely sends traffic, but it might at anytime receive traffic from another node, and it is behind NAT, the interface might benefit from having a persistent keepalive interval of 25 seconds. If unset or set to 0, it is turned off",
+                                                "instance-types" : [
+                                                   "wireguard"
+                                                ],
+                                                "maximum" : 65535,
+                                                "minimum" : 0,
+                                                "optional" : 1,
+                                                "type" : "number",
+                                                "type-property" : "protocol"
+                                             },
+                                             "protocol" : {
+                                                "description" : "Type of configuration entry in an SDN Fabric section config",
+                                                "enum" : [
+                                                   "openfabric",
+                                                   "ospf",
+                                                   "wireguard",
+                                                   "bgp"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "redistribute" : {
+                                                "oneOf" : [
+                                                   {
+                                                      "instance-types" : [
+                                                         "ospf"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "route-map" : {
+                                                               "description" : "Route map to filter or transform redistributed routes from this source.",
+                                                               "format" : "pve-sdn-route-map-id",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "source" : {
+                                                               "description" : "The protocol from which to redistribute routes from.",
+                                                               "enum" : [
+                                                                  "bgp",
+                                                                  "connected",
+                                                                  "kernel",
+                                                                  "static"
+                                                               ],
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   },
+                                                   {
+                                                      "instance-types" : [
+                                                         "bgp"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "route-map" : {
+                                                               "description" : "Route map to filter or transform redistributed routes from this source.",
+                                                               "format" : "pve-sdn-route-map-id",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "source" : {
+                                                               "description" : "The protocol from which to redistribute routes from.",
+                                                               "enum" : [
+                                                                  "connected",
+                                                                  "kernel",
+                                                                  "ospf",
+                                                                  "static"
+                                                               ],
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   }
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "array",
+                                                "type-property" : "protocol"
+                                             },
+                                             "route_filter" : {
+                                                "description" : "A prefix list that should be used for filtering routes that are to be installed into the kernel routing table",
+                                                "format" : "pve-sdn-prefix-list-id",
+                                                "instance-types" : [
+                                                   "ospf",
+                                                   "openfabric"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string",
+                                                "type-property" : "protocol"
+                                             },
+                                             "zone" : {
+                                                "description" : "Simple zone whose VRF contains this fabric.",
+                                                "format" : "pve-sdn-zone-id",
+                                                "instance-types" : [
+                                                   "bgp",
+                                                   "ospf"
+                                                ],
+                                                "maxLength" : 8,
+                                                "minLength" : 2,
+                                                "optional" : 1,
+                                                "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
+                                                "type" : "string",
+                                                "type-property" : "protocol"
+                                             }
+                                          },
+                                          "type" : "object"
                                        },
                                        "persistent_keepalive" : {
                                           "description" : "A seconds interval, between 1 and 65535 inclusive, of how often to send an authenticated empty packet to the peer for the purpose of keeping a stateful firewall or NAT mapping valid persistently. For example, if the interface very rarely sends traffic, but it might at anytime receive traffic from another node, and it is behind NAT, the interface might benefit from having a persistent keepalive interval of 25 seconds. If unset or set to 0, it is turned off",
@@ -24484,6 +24650,7 @@ const apiSchema = [
                                              "wireguard",
                                              "bgp"
                                           ],
+                                          "optional" : 1,
                                           "type" : "string"
                                        },
                                        "redistribute" : {
@@ -24558,6 +24725,16 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string",
                                           "type-property" : "protocol"
+                                       },
+                                       "state" : {
+                                          "description" : "State of the SDN configuration object.",
+                                          "enum" : [
+                                             "new",
+                                             "changed",
+                                             "deleted"
+                                          ],
+                                          "optional" : 1,
+                                          "type" : "string"
                                        },
                                        "zone" : {
                                           "description" : "Simple zone whose VRF contains this fabric.",
@@ -25576,6 +25753,7 @@ const apiSchema = [
                                                 "format" : "pve-sdn-fabric-id",
                                                 "maxLength" : 8,
                                                 "minLength" : 2,
+                                                "optional" : 1,
                                                 "pattern" : "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]",
                                                 "type" : "string"
                                              },
@@ -25699,14 +25877,10 @@ const apiSchema = [
                                                 "optional" : 1,
                                                 "type" : "string"
                                              },
-                                             "lock-token" : {
-                                                "description" : "the token for unlocking the global SDN configuration",
-                                                "optional" : 1,
-                                                "type" : "string"
-                                             },
                                              "node_id" : {
                                                 "description" : "Identifier for nodes in an SDN fabric",
                                                 "format" : "pve-node",
+                                                "optional" : 1,
                                                 "type" : "string"
                                              },
                                              "peers" : {
@@ -25757,6 +25931,253 @@ const apiSchema = [
                                                 "type" : "array",
                                                 "type-property" : "protocol"
                                              },
+                                             "pending" : {
+                                                "description" : "Changes that are not applied yet, 'deleted' for removed values. A new entry has all its values here.",
+                                                "optional" : 1,
+                                                "properties" : {
+                                                   "allowed_ips" : {
+                                                      "description" : "A list of IPs that are routable via this node in the WireGuard fabric.",
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : "FullRangeCIDR",
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "endpoint" : {
+                                                      "description" : "The endpoint used for connecting to this node.",
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "fabric_id" : {
+                                                      "description" : "Identifier for SDN fabrics",
+                                                      "format" : "pve-sdn-fabric-id",
+                                                      "maxLength" : 8,
+                                                      "minLength" : 2,
+                                                      "optional" : 1,
+                                                      "pattern" : "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]",
+                                                      "type" : "string"
+                                                   },
+                                                   "interfaces" : {
+                                                      "oneOf" : [
+                                                         {
+                                                            "description" : "OpenFabric network interface",
+                                                            "instance-types" : [
+                                                               "openfabric"
+                                                            ],
+                                                            "items" : {
+                                                               "format" : {
+                                                                  "hello_multiplier" : {
+                                                                     "description" : "The hello_multiplier property of the interface",
+                                                                     "maximum" : 100,
+                                                                     "minimum" : 2,
+                                                                     "optional" : 1,
+                                                                     "type" : "integer"
+                                                                  },
+                                                                  "ip" : {
+                                                                     "description" : "IPv4 address for this node",
+                                                                     "format" : "CIDRv4",
+                                                                     "optional" : 1,
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "ip6" : {
+                                                                     "description" : "IPv6 address for this node",
+                                                                     "format" : "CIDRv6",
+                                                                     "optional" : 1,
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "name" : {
+                                                                     "description" : "Name of the network interface",
+                                                                     "format" : "pve-iface",
+                                                                     "type" : "string"
+                                                                  }
+                                                               },
+                                                               "type" : "string"
+                                                            },
+                                                            "optional" : 1,
+                                                            "type" : "array"
+                                                         },
+                                                         {
+                                                            "description" : "OSPF network interface",
+                                                            "instance-types" : [
+                                                               "ospf"
+                                                            ],
+                                                            "items" : {
+                                                               "format" : {
+                                                                  "ip" : {
+                                                                     "description" : "IPv4 address for this node",
+                                                                     "format" : "CIDRv4",
+                                                                     "optional" : 1,
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "name" : {
+                                                                     "description" : "Name of the network interface",
+                                                                     "format" : "pve-iface",
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "network_type" : {
+                                                                     "description" : "Network Type of the OSPF interface",
+                                                                     "enum" : [
+                                                                        "broadcast",
+                                                                        "non-broadcast",
+                                                                        "point-to-multipoint",
+                                                                        "point-to-point"
+                                                                     ],
+                                                                     "optional" : 1,
+                                                                     "type" : "string"
+                                                                  }
+                                                               },
+                                                               "type" : "string"
+                                                            },
+                                                            "optional" : 1,
+                                                            "type" : "array"
+                                                         },
+                                                         {
+                                                            "description" : "List of WireGuard network interfaces for this node.",
+                                                            "instance-types" : [
+                                                               "wireguard"
+                                                            ],
+                                                            "items" : {
+                                                               "description" : "WireGuard network interface",
+                                                               "format" : "pve-sdn-fabric-wireguard-interface",
+                                                               "type" : "string"
+                                                            },
+                                                            "optional" : 1,
+                                                            "type" : "array"
+                                                         },
+                                                         {
+                                                            "description" : "BGP network interface",
+                                                            "instance-types" : [
+                                                               "bgp"
+                                                            ],
+                                                            "items" : {
+                                                               "format" : {
+                                                                  "name" : {
+                                                                     "description" : "Name of the network interface",
+                                                                     "format" : "pve-iface",
+                                                                     "type" : "string"
+                                                                  }
+                                                               },
+                                                               "type" : "string"
+                                                            },
+                                                            "optional" : 1
+                                                         }
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "array",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "ip" : {
+                                                      "description" : "IPv4 address for this node",
+                                                      "format" : "ipv4",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "ip6" : {
+                                                      "description" : "IPv6 address for this node",
+                                                      "format" : "ipv6",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "node_id" : {
+                                                      "description" : "Identifier for nodes in an SDN fabric",
+                                                      "format" : "pve-node",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "peers" : {
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "endpoint" : {
+                                                               "description" : "Override for the endpoint settings in the node section.",
+                                                               "optional" : 1,
+                                                               "pattern" : "\\S+",
+                                                               "type" : "string"
+                                                            },
+                                                            "iface" : {
+                                                               "description" : "The interface of this node that uses this peer definition.",
+                                                               "format" : "pve-sdn-wireguard-iface-name",
+                                                               "type" : "string"
+                                                            },
+                                                            "node" : {
+                                                               "description" : "The name of the referenced node section (the external node or the internal peer node).",
+                                                               "format" : "pve-node",
+                                                               "type" : "string"
+                                                            },
+                                                            "node_iface" : {
+                                                               "description" : "The interface of the other node, if it is internal",
+                                                               "format" : "pve-sdn-wireguard-iface-name",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "skip_route_generation" : {
+                                                               "default" : 0,
+                                                               "description" : "Whether routes for the allowed IPs should be created in the kernel routing table.",
+                                                               "optional" : 1,
+                                                               "type" : "boolean"
+                                                            },
+                                                            "type" : {
+                                                               "enum" : [
+                                                                  "internal",
+                                                                  "external"
+                                                               ],
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "protocol" : {
+                                                      "description" : "Type of configuration entry in an SDN Fabric section config",
+                                                      "enum" : [
+                                                         "openfabric",
+                                                         "ospf",
+                                                         "wireguard",
+                                                         "bgp"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "public_key" : {
+                                                      "description" : "The public key for the external node.",
+                                                      "format" : "pve-sdn-wireguard-key",
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "role" : {
+                                                      "description" : "The role of this node in the WireGuard fabric.",
+                                                      "enum" : [
+                                                         "internal",
+                                                         "external"
+                                                      ],
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string",
+                                                      "type-property" : "protocol"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
                                              "protocol" : {
                                                 "description" : "Type of configuration entry in an SDN Fabric section config",
                                                 "enum" : [
@@ -25765,6 +26186,7 @@ const apiSchema = [
                                                    "wireguard",
                                                    "bgp"
                                                 ],
+                                                "optional" : 1,
                                                 "type" : "string"
                                              },
                                              "public_key" : {
@@ -25789,6 +26211,16 @@ const apiSchema = [
                                                 "optional" : 1,
                                                 "type" : "string",
                                                 "type-property" : "protocol"
+                                             },
+                                             "state" : {
+                                                "description" : "State of the SDN configuration object.",
+                                                "enum" : [
+                                                   "new",
+                                                   "changed",
+                                                   "deleted"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string"
                                              }
                                           },
                                           "type" : "object"
@@ -26161,6 +26593,7 @@ const apiSchema = [
                                           "format" : "pve-sdn-fabric-id",
                                           "maxLength" : 8,
                                           "minLength" : 2,
+                                          "optional" : 1,
                                           "pattern" : "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]",
                                           "type" : "string"
                                        },
@@ -26284,14 +26717,10 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
-                                       "lock-token" : {
-                                          "description" : "the token for unlocking the global SDN configuration",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
                                        "node_id" : {
                                           "description" : "Identifier for nodes in an SDN fabric",
                                           "format" : "pve-node",
+                                          "optional" : 1,
                                           "type" : "string"
                                        },
                                        "peers" : {
@@ -26342,6 +26771,253 @@ const apiSchema = [
                                           "type" : "array",
                                           "type-property" : "protocol"
                                        },
+                                       "pending" : {
+                                          "description" : "Changes that are not applied yet, 'deleted' for removed values. A new entry has all its values here.",
+                                          "optional" : 1,
+                                          "properties" : {
+                                             "allowed_ips" : {
+                                                "description" : "A list of IPs that are routable via this node in the WireGuard fabric.",
+                                                "instance-types" : [
+                                                   "wireguard"
+                                                ],
+                                                "items" : {
+                                                   "format" : "FullRangeCIDR",
+                                                   "type" : "string"
+                                                },
+                                                "optional" : 1,
+                                                "type" : "array",
+                                                "type-property" : "protocol"
+                                             },
+                                             "endpoint" : {
+                                                "description" : "The endpoint used for connecting to this node.",
+                                                "instance-types" : [
+                                                   "wireguard"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string",
+                                                "type-property" : "protocol"
+                                             },
+                                             "fabric_id" : {
+                                                "description" : "Identifier for SDN fabrics",
+                                                "format" : "pve-sdn-fabric-id",
+                                                "maxLength" : 8,
+                                                "minLength" : 2,
+                                                "optional" : 1,
+                                                "pattern" : "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]",
+                                                "type" : "string"
+                                             },
+                                             "interfaces" : {
+                                                "oneOf" : [
+                                                   {
+                                                      "description" : "OpenFabric network interface",
+                                                      "instance-types" : [
+                                                         "openfabric"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "hello_multiplier" : {
+                                                               "description" : "The hello_multiplier property of the interface",
+                                                               "maximum" : 100,
+                                                               "minimum" : 2,
+                                                               "optional" : 1,
+                                                               "type" : "integer"
+                                                            },
+                                                            "ip" : {
+                                                               "description" : "IPv4 address for this node",
+                                                               "format" : "CIDRv4",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "ip6" : {
+                                                               "description" : "IPv6 address for this node",
+                                                               "format" : "CIDRv6",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "name" : {
+                                                               "description" : "Name of the network interface",
+                                                               "format" : "pve-iface",
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   },
+                                                   {
+                                                      "description" : "OSPF network interface",
+                                                      "instance-types" : [
+                                                         "ospf"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "ip" : {
+                                                               "description" : "IPv4 address for this node",
+                                                               "format" : "CIDRv4",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "name" : {
+                                                               "description" : "Name of the network interface",
+                                                               "format" : "pve-iface",
+                                                               "type" : "string"
+                                                            },
+                                                            "network_type" : {
+                                                               "description" : "Network Type of the OSPF interface",
+                                                               "enum" : [
+                                                                  "broadcast",
+                                                                  "non-broadcast",
+                                                                  "point-to-multipoint",
+                                                                  "point-to-point"
+                                                               ],
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   },
+                                                   {
+                                                      "description" : "List of WireGuard network interfaces for this node.",
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "items" : {
+                                                         "description" : "WireGuard network interface",
+                                                         "format" : "pve-sdn-fabric-wireguard-interface",
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   },
+                                                   {
+                                                      "description" : "BGP network interface",
+                                                      "instance-types" : [
+                                                         "bgp"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "name" : {
+                                                               "description" : "Name of the network interface",
+                                                               "format" : "pve-iface",
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1
+                                                   }
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "array",
+                                                "type-property" : "protocol"
+                                             },
+                                             "ip" : {
+                                                "description" : "IPv4 address for this node",
+                                                "format" : "ipv4",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "ip6" : {
+                                                "description" : "IPv6 address for this node",
+                                                "format" : "ipv6",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "node_id" : {
+                                                "description" : "Identifier for nodes in an SDN fabric",
+                                                "format" : "pve-node",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "peers" : {
+                                                "instance-types" : [
+                                                   "wireguard"
+                                                ],
+                                                "items" : {
+                                                   "format" : {
+                                                      "endpoint" : {
+                                                         "description" : "Override for the endpoint settings in the node section.",
+                                                         "optional" : 1,
+                                                         "pattern" : "\\S+",
+                                                         "type" : "string"
+                                                      },
+                                                      "iface" : {
+                                                         "description" : "The interface of this node that uses this peer definition.",
+                                                         "format" : "pve-sdn-wireguard-iface-name",
+                                                         "type" : "string"
+                                                      },
+                                                      "node" : {
+                                                         "description" : "The name of the referenced node section (the external node or the internal peer node).",
+                                                         "format" : "pve-node",
+                                                         "type" : "string"
+                                                      },
+                                                      "node_iface" : {
+                                                         "description" : "The interface of the other node, if it is internal",
+                                                         "format" : "pve-sdn-wireguard-iface-name",
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "skip_route_generation" : {
+                                                         "default" : 0,
+                                                         "description" : "Whether routes for the allowed IPs should be created in the kernel routing table.",
+                                                         "optional" : 1,
+                                                         "type" : "boolean"
+                                                      },
+                                                      "type" : {
+                                                         "enum" : [
+                                                            "internal",
+                                                            "external"
+                                                         ],
+                                                         "type" : "string"
+                                                      }
+                                                   },
+                                                   "type" : "string"
+                                                },
+                                                "optional" : 1,
+                                                "type" : "array",
+                                                "type-property" : "protocol"
+                                             },
+                                             "protocol" : {
+                                                "description" : "Type of configuration entry in an SDN Fabric section config",
+                                                "enum" : [
+                                                   "openfabric",
+                                                   "ospf",
+                                                   "wireguard",
+                                                   "bgp"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "public_key" : {
+                                                "description" : "The public key for the external node.",
+                                                "format" : "pve-sdn-wireguard-key",
+                                                "instance-types" : [
+                                                   "wireguard"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string",
+                                                "type-property" : "protocol"
+                                             },
+                                             "role" : {
+                                                "description" : "The role of this node in the WireGuard fabric.",
+                                                "enum" : [
+                                                   "internal",
+                                                   "external"
+                                                ],
+                                                "instance-types" : [
+                                                   "wireguard"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string",
+                                                "type-property" : "protocol"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
                                        "protocol" : {
                                           "description" : "Type of configuration entry in an SDN Fabric section config",
                                           "enum" : [
@@ -26350,6 +27026,7 @@ const apiSchema = [
                                              "wireguard",
                                              "bgp"
                                           ],
+                                          "optional" : 1,
                                           "type" : "string"
                                        },
                                        "public_key" : {
@@ -26374,6 +27051,16 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string",
                                           "type-property" : "protocol"
+                                       },
+                                       "state" : {
+                                          "description" : "State of the SDN configuration object.",
+                                          "enum" : [
+                                             "new",
+                                             "changed",
+                                             "deleted"
+                                          ],
+                                          "optional" : 1,
+                                          "type" : "string"
                                        }
                                     },
                                     "type" : "object"
@@ -26467,6 +27154,7 @@ const apiSchema = [
                                                 "format" : "pve-sdn-fabric-id",
                                                 "maxLength" : 8,
                                                 "minLength" : 2,
+                                                "optional" : 1,
                                                 "pattern" : "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]",
                                                 "type" : "string"
                                              },
@@ -26482,10 +27170,175 @@ const apiSchema = [
                                                 "optional" : 1,
                                                 "type" : "string"
                                              },
-                                             "lock-token" : {
-                                                "description" : "the token for unlocking the global SDN configuration",
+                                             "pending" : {
+                                                "description" : "Changes that are not applied yet, 'deleted' for removed values. A new entry has all its values here.",
                                                 "optional" : 1,
-                                                "type" : "string"
+                                                "properties" : {
+                                                   "area" : {
+                                                      "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                                      "format" : "pve-sdn-fabric-ospf-area",
+                                                      "instance-types" : [
+                                                         "ospf"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "csnp_interval" : {
+                                                      "description" : "The csnp_interval property for Openfabric",
+                                                      "instance-types" : [
+                                                         "openfabric"
+                                                      ],
+                                                      "maximum" : 600,
+                                                      "minimum" : 1,
+                                                      "optional" : 1,
+                                                      "type" : "number",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "hello_interval" : {
+                                                      "description" : "The hello_interval property for Openfabric",
+                                                      "instance-types" : [
+                                                         "openfabric"
+                                                      ],
+                                                      "maximum" : 600,
+                                                      "minimum" : 1,
+                                                      "optional" : 1,
+                                                      "type" : "number",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "id" : {
+                                                      "description" : "Identifier for SDN fabrics",
+                                                      "format" : "pve-sdn-fabric-id",
+                                                      "maxLength" : 8,
+                                                      "minLength" : 2,
+                                                      "optional" : 1,
+                                                      "pattern" : "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]",
+                                                      "type" : "string"
+                                                   },
+                                                   "ip6_prefix" : {
+                                                      "description" : "The IP prefix for Node IPs",
+                                                      "format" : "CIDR",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "ip_prefix" : {
+                                                      "description" : "The IP prefix for Node IPs",
+                                                      "format" : "CIDR",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "persistent_keepalive" : {
+                                                      "description" : "A seconds interval, between 1 and 65535 inclusive, of how often to send an authenticated empty packet to the peer for the purpose of keeping a stateful firewall or NAT mapping valid persistently. For example, if the interface very rarely sends traffic, but it might at anytime receive traffic from another node, and it is behind NAT, the interface might benefit from having a persistent keepalive interval of 25 seconds. If unset or set to 0, it is turned off",
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "maximum" : 65535,
+                                                      "minimum" : 0,
+                                                      "optional" : 1,
+                                                      "type" : "number",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "protocol" : {
+                                                      "description" : "Type of configuration entry in an SDN Fabric section config",
+                                                      "enum" : [
+                                                         "openfabric",
+                                                         "ospf",
+                                                         "wireguard",
+                                                         "bgp"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "redistribute" : {
+                                                      "oneOf" : [
+                                                         {
+                                                            "instance-types" : [
+                                                               "ospf"
+                                                            ],
+                                                            "items" : {
+                                                               "format" : {
+                                                                  "route-map" : {
+                                                                     "description" : "Route map to filter or transform redistributed routes from this source.",
+                                                                     "format" : "pve-sdn-route-map-id",
+                                                                     "optional" : 1,
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "source" : {
+                                                                     "description" : "The protocol from which to redistribute routes from.",
+                                                                     "enum" : [
+                                                                        "bgp",
+                                                                        "connected",
+                                                                        "kernel",
+                                                                        "static"
+                                                                     ],
+                                                                     "type" : "string"
+                                                                  }
+                                                               },
+                                                               "type" : "string"
+                                                            },
+                                                            "optional" : 1,
+                                                            "type" : "array"
+                                                         },
+                                                         {
+                                                            "instance-types" : [
+                                                               "bgp"
+                                                            ],
+                                                            "items" : {
+                                                               "format" : {
+                                                                  "route-map" : {
+                                                                     "description" : "Route map to filter or transform redistributed routes from this source.",
+                                                                     "format" : "pve-sdn-route-map-id",
+                                                                     "optional" : 1,
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "source" : {
+                                                                     "description" : "The protocol from which to redistribute routes from.",
+                                                                     "enum" : [
+                                                                        "connected",
+                                                                        "kernel",
+                                                                        "ospf",
+                                                                        "static"
+                                                                     ],
+                                                                     "type" : "string"
+                                                                  }
+                                                               },
+                                                               "type" : "string"
+                                                            },
+                                                            "optional" : 1,
+                                                            "type" : "array"
+                                                         }
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "array",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "route_filter" : {
+                                                      "description" : "A prefix list that should be used for filtering routes that are to be installed into the kernel routing table",
+                                                      "format" : "pve-sdn-prefix-list-id",
+                                                      "instance-types" : [
+                                                         "ospf",
+                                                         "openfabric"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "zone" : {
+                                                      "description" : "Simple zone whose VRF contains this fabric.",
+                                                      "format" : "pve-sdn-zone-id",
+                                                      "instance-types" : [
+                                                         "bgp",
+                                                         "ospf"
+                                                      ],
+                                                      "maxLength" : 8,
+                                                      "minLength" : 2,
+                                                      "optional" : 1,
+                                                      "pattern" : "[a-zA-Z][a-zA-Z0-9]*[a-zA-Z0-9]",
+                                                      "type" : "string",
+                                                      "type-property" : "protocol"
+                                                   }
+                                                },
+                                                "type" : "object"
                                              },
                                              "persistent_keepalive" : {
                                                 "description" : "A seconds interval, between 1 and 65535 inclusive, of how often to send an authenticated empty packet to the peer for the purpose of keeping a stateful firewall or NAT mapping valid persistently. For example, if the interface very rarely sends traffic, but it might at anytime receive traffic from another node, and it is behind NAT, the interface might benefit from having a persistent keepalive interval of 25 seconds. If unset or set to 0, it is turned off",
@@ -26506,6 +27359,7 @@ const apiSchema = [
                                                    "wireguard",
                                                    "bgp"
                                                 ],
+                                                "optional" : 1,
                                                 "type" : "string"
                                              },
                                              "redistribute" : {
@@ -26581,6 +27435,16 @@ const apiSchema = [
                                                 "type" : "string",
                                                 "type-property" : "protocol"
                                              },
+                                             "state" : {
+                                                "description" : "State of the SDN configuration object.",
+                                                "enum" : [
+                                                   "new",
+                                                   "changed",
+                                                   "deleted"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
                                              "zone" : {
                                                 "description" : "Simple zone whose VRF contains this fabric.",
                                                 "format" : "pve-sdn-zone-id",
@@ -26636,6 +27500,7 @@ const apiSchema = [
                                                 "format" : "pve-sdn-fabric-id",
                                                 "maxLength" : 8,
                                                 "minLength" : 2,
+                                                "optional" : 1,
                                                 "pattern" : "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]",
                                                 "type" : "string"
                                              },
@@ -26759,14 +27624,10 @@ const apiSchema = [
                                                 "optional" : 1,
                                                 "type" : "string"
                                              },
-                                             "lock-token" : {
-                                                "description" : "the token for unlocking the global SDN configuration",
-                                                "optional" : 1,
-                                                "type" : "string"
-                                             },
                                              "node_id" : {
                                                 "description" : "Identifier for nodes in an SDN fabric",
                                                 "format" : "pve-node",
+                                                "optional" : 1,
                                                 "type" : "string"
                                              },
                                              "peers" : {
@@ -26817,6 +27678,253 @@ const apiSchema = [
                                                 "type" : "array",
                                                 "type-property" : "protocol"
                                              },
+                                             "pending" : {
+                                                "description" : "Changes that are not applied yet, 'deleted' for removed values. A new entry has all its values here.",
+                                                "optional" : 1,
+                                                "properties" : {
+                                                   "allowed_ips" : {
+                                                      "description" : "A list of IPs that are routable via this node in the WireGuard fabric.",
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : "FullRangeCIDR",
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "endpoint" : {
+                                                      "description" : "The endpoint used for connecting to this node.",
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "fabric_id" : {
+                                                      "description" : "Identifier for SDN fabrics",
+                                                      "format" : "pve-sdn-fabric-id",
+                                                      "maxLength" : 8,
+                                                      "minLength" : 2,
+                                                      "optional" : 1,
+                                                      "pattern" : "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]",
+                                                      "type" : "string"
+                                                   },
+                                                   "interfaces" : {
+                                                      "oneOf" : [
+                                                         {
+                                                            "description" : "OpenFabric network interface",
+                                                            "instance-types" : [
+                                                               "openfabric"
+                                                            ],
+                                                            "items" : {
+                                                               "format" : {
+                                                                  "hello_multiplier" : {
+                                                                     "description" : "The hello_multiplier property of the interface",
+                                                                     "maximum" : 100,
+                                                                     "minimum" : 2,
+                                                                     "optional" : 1,
+                                                                     "type" : "integer"
+                                                                  },
+                                                                  "ip" : {
+                                                                     "description" : "IPv4 address for this node",
+                                                                     "format" : "CIDRv4",
+                                                                     "optional" : 1,
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "ip6" : {
+                                                                     "description" : "IPv6 address for this node",
+                                                                     "format" : "CIDRv6",
+                                                                     "optional" : 1,
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "name" : {
+                                                                     "description" : "Name of the network interface",
+                                                                     "format" : "pve-iface",
+                                                                     "type" : "string"
+                                                                  }
+                                                               },
+                                                               "type" : "string"
+                                                            },
+                                                            "optional" : 1,
+                                                            "type" : "array"
+                                                         },
+                                                         {
+                                                            "description" : "OSPF network interface",
+                                                            "instance-types" : [
+                                                               "ospf"
+                                                            ],
+                                                            "items" : {
+                                                               "format" : {
+                                                                  "ip" : {
+                                                                     "description" : "IPv4 address for this node",
+                                                                     "format" : "CIDRv4",
+                                                                     "optional" : 1,
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "name" : {
+                                                                     "description" : "Name of the network interface",
+                                                                     "format" : "pve-iface",
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "network_type" : {
+                                                                     "description" : "Network Type of the OSPF interface",
+                                                                     "enum" : [
+                                                                        "broadcast",
+                                                                        "non-broadcast",
+                                                                        "point-to-multipoint",
+                                                                        "point-to-point"
+                                                                     ],
+                                                                     "optional" : 1,
+                                                                     "type" : "string"
+                                                                  }
+                                                               },
+                                                               "type" : "string"
+                                                            },
+                                                            "optional" : 1,
+                                                            "type" : "array"
+                                                         },
+                                                         {
+                                                            "description" : "List of WireGuard network interfaces for this node.",
+                                                            "instance-types" : [
+                                                               "wireguard"
+                                                            ],
+                                                            "items" : {
+                                                               "description" : "WireGuard network interface",
+                                                               "format" : "pve-sdn-fabric-wireguard-interface",
+                                                               "type" : "string"
+                                                            },
+                                                            "optional" : 1,
+                                                            "type" : "array"
+                                                         },
+                                                         {
+                                                            "description" : "BGP network interface",
+                                                            "instance-types" : [
+                                                               "bgp"
+                                                            ],
+                                                            "items" : {
+                                                               "format" : {
+                                                                  "name" : {
+                                                                     "description" : "Name of the network interface",
+                                                                     "format" : "pve-iface",
+                                                                     "type" : "string"
+                                                                  }
+                                                               },
+                                                               "type" : "string"
+                                                            },
+                                                            "optional" : 1
+                                                         }
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "array",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "ip" : {
+                                                      "description" : "IPv4 address for this node",
+                                                      "format" : "ipv4",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "ip6" : {
+                                                      "description" : "IPv6 address for this node",
+                                                      "format" : "ipv6",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "node_id" : {
+                                                      "description" : "Identifier for nodes in an SDN fabric",
+                                                      "format" : "pve-node",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "peers" : {
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "endpoint" : {
+                                                               "description" : "Override for the endpoint settings in the node section.",
+                                                               "optional" : 1,
+                                                               "pattern" : "\\S+",
+                                                               "type" : "string"
+                                                            },
+                                                            "iface" : {
+                                                               "description" : "The interface of this node that uses this peer definition.",
+                                                               "format" : "pve-sdn-wireguard-iface-name",
+                                                               "type" : "string"
+                                                            },
+                                                            "node" : {
+                                                               "description" : "The name of the referenced node section (the external node or the internal peer node).",
+                                                               "format" : "pve-node",
+                                                               "type" : "string"
+                                                            },
+                                                            "node_iface" : {
+                                                               "description" : "The interface of the other node, if it is internal",
+                                                               "format" : "pve-sdn-wireguard-iface-name",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "skip_route_generation" : {
+                                                               "default" : 0,
+                                                               "description" : "Whether routes for the allowed IPs should be created in the kernel routing table.",
+                                                               "optional" : 1,
+                                                               "type" : "boolean"
+                                                            },
+                                                            "type" : {
+                                                               "enum" : [
+                                                                  "internal",
+                                                                  "external"
+                                                               ],
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "protocol" : {
+                                                      "description" : "Type of configuration entry in an SDN Fabric section config",
+                                                      "enum" : [
+                                                         "openfabric",
+                                                         "ospf",
+                                                         "wireguard",
+                                                         "bgp"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "public_key" : {
+                                                      "description" : "The public key for the external node.",
+                                                      "format" : "pve-sdn-wireguard-key",
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string",
+                                                      "type-property" : "protocol"
+                                                   },
+                                                   "role" : {
+                                                      "description" : "The role of this node in the WireGuard fabric.",
+                                                      "enum" : [
+                                                         "internal",
+                                                         "external"
+                                                      ],
+                                                      "instance-types" : [
+                                                         "wireguard"
+                                                      ],
+                                                      "optional" : 1,
+                                                      "type" : "string",
+                                                      "type-property" : "protocol"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
                                              "protocol" : {
                                                 "description" : "Type of configuration entry in an SDN Fabric section config",
                                                 "enum" : [
@@ -26825,6 +27933,7 @@ const apiSchema = [
                                                    "wireguard",
                                                    "bgp"
                                                 ],
+                                                "optional" : 1,
                                                 "type" : "string"
                                              },
                                              "public_key" : {
@@ -26849,6 +27958,16 @@ const apiSchema = [
                                                 "optional" : 1,
                                                 "type" : "string",
                                                 "type-property" : "protocol"
+                                             },
+                                             "state" : {
+                                                "description" : "State of the SDN configuration object.",
+                                                "enum" : [
+                                                   "new",
+                                                   "changed",
+                                                   "deleted"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string"
                                              }
                                           },
                                           "type" : "object"
@@ -70642,7 +71761,7 @@ const apiSchema = [
                                     "info" : {
                                        "GET" : {
                                           "allowtoken" : 1,
-                                          "description" : "Get all neighbors for a fabric.",
+                                          "description" : "Get all neighbors for a fabric, empty if this node is not part of it.",
                                           "method" : "GET",
                                           "name" : "neighbors",
                                           "parameters" : {
@@ -70751,7 +71870,7 @@ const apiSchema = [
                                     "info" : {
                                        "GET" : {
                                           "allowtoken" : 1,
-                                          "description" : "Get all interfaces for a fabric.",
+                                          "description" : "Get all interfaces for a fabric, empty if this node is not part of it.",
                                           "method" : "GET",
                                           "name" : "interfaces",
                                           "parameters" : {
@@ -70788,7 +71907,7 @@ const apiSchema = [
                                              "items" : {
                                                 "properties" : {
                                                    "listen-port" : {
-                                                      "description" : "The listen port of the interface (WireGuard only).",
+                                                      "description" : "The listen port of the interface, omitted if WireGuard does not report the interface (WireGuard only).",
                                                       "optional" : 1,
                                                       "type" : "number"
                                                    },
@@ -70797,7 +71916,7 @@ const apiSchema = [
                                                       "type" : "string"
                                                    },
                                                    "public-key" : {
-                                                      "description" : "The public key of the interface (WireGuard only).",
+                                                      "description" : "The public key of the interface, omitted if WireGuard does not report one (WireGuard only).",
                                                       "format_description" : "Base64-encoded Curve 25519 public key.",
                                                       "optional" : 1,
                                                       "type" : "string"
@@ -70807,7 +71926,8 @@ const apiSchema = [
                                                       "type" : "string"
                                                    },
                                                    "type" : {
-                                                      "description" : "The type of this interface in the fabric (e.g. Point-to-Point, Broadcast, ..).",
+                                                      "description" : "The type of this interface in the fabric (e.g. Point-to-Point, Broadcast, ..). Omitted for WireGuard if the interface is missing or is not a WireGuard interface.",
+                                                      "optional" : 1,
                                                       "type" : "string"
                                                    }
                                                 },
