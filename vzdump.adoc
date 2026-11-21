@@ -880,10 +880,8 @@ the property is lost.
 
 Therefore, while some nodes of a cluster still run such a version, migrating or
 cloning a guest to one of these nodes is refused. The guest keeps running on its
-current node. If the target node reports its version, the error message shows
-that version and the minimum required version. If the node does not report its
-version, the operation is refused because {pve} cannot verify that the node
-supports guest identities. The 'Migrate' window of the web interface shows the
+current node. The error message shows the version of the target node and the
+minimum required version. The 'Migrate' window of the web interface shows the
 reason for the selected target node.
 
 Moves of HA-managed guests to such nodes are refused in the same way. A running
