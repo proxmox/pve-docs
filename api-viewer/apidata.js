@@ -16817,191 +16817,6 @@ const apiSchema = [
                   "info" : {
                      "GET" : {
                         "allowtoken" : 1,
-                        "description" : "Report the multipath health of each LUN on each node, and as summary the worst known state among the nodes that should see or report the LUN. Nodes whose state is unknown are not counted.",
-                        "method" : "GET",
-                        "name" : "status",
-                        "parameters" : {
-                           "additionalProperties" : 0
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "or",
-                              [
-                                 "perm",
-                                 "/",
-                                 [
-                                    "Sys.Audit"
-                                 ]
-                              ],
-                              [
-                                 "perm",
-                                 "/storage",
-                                 [
-                                    "Datastore.Allocate"
-                                 ]
-                              ]
-                           ]
-                        },
-                        "returns" : {
-                           "properties" : {
-                              "luns" : {
-                                 "description" : "One entry per LUN, identified by its WWID, with the state of its map on each node and the overall cluster state.",
-                                 "items" : {
-                                    "additionalProperties" : 0,
-                                    "properties" : {
-                                       "explicit" : {
-                                          "description" : "An explicit entry exists.",
-                                          "type" : "boolean"
-                                       },
-                                       "multipath-storage" : {
-                                          "description" : "The storage that requests the map of the LUN.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "name" : {
-                                          "description" : "The alias of the explicit entry, or else the name of the map on a node if it differs from the WWID.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "nodes" : {
-                                          "additionalProperties" : {
-                                             "additionalProperties" : 0,
-                                             "properties" : {
-                                                "name" : {
-                                                   "description" : "The name of the map on the node, if it differs from the WWID.",
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
-                                                "paths-active" : {
-                                                   "description" : "The number of active paths of the map whose checker state is ready, ghost, or not reported.",
-                                                   "minimum" : 0,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
-                                                "paths-expected" : {
-                                                   "description" : "The number of paths the LUN should have on the node: the highest of the count of its multipath entry and, for each managed iSCSI storage of the LUN, the number of its portals.",
-                                                   "minimum" : 0,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
-                                                "paths-total" : {
-                                                   "description" : "The number of paths of the map.",
-                                                   "minimum" : 0,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
-                                                "size" : {
-                                                   "description" : "The size of the map in bytes.",
-                                                   "minimum" : 0,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
-                                                "state" : {
-                                                   "description" : "The health of the map on the node from its paths, 'missing' if the node should have the map but does not list it, or 'unknown' if the node has no current report that covers the map.",
-                                                   "enum" : [
-                                                      "optimal",
-                                                      "degraded",
-                                                      "failed",
-                                                      "missing",
-                                                      "unknown"
-                                                   ],
-                                                   "type" : "string"
-                                                }
-                                             },
-                                             "type" : "object"
-                                          },
-                                          "description" : "Map health keyed by node name.",
-                                          "type" : "object"
-                                       },
-                                       "size" : {
-                                          "description" : "The size of the LUN in bytes, as a node reports it.",
-                                          "minimum" : 0,
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       },
-                                       "state" : {
-                                          "description" : "The worst state of the LUN among its nodes, or 'unknown' if no node's state is known.",
-                                          "enum" : [
-                                             "optimal",
-                                             "degraded",
-                                             "failed",
-                                             "missing",
-                                             "unknown"
-                                          ],
-                                          "type" : "string"
-                                       },
-                                       "used-by-storage" : {
-                                          "description" : "The storage that uses the LUN: as its base volume or through the volume group on it, or as an iSCSI storage that serves the LUNs of its target as images.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "wwid" : {
-                                          "description" : "The LUN WWID.",
-                                          "type" : "string"
-                                       }
-                                    },
-                                    "type" : "object"
-                                 },
-                                 "type" : "array"
-                              },
-                              "nodes" : {
-                                 "additionalProperties" : {
-                                    "additionalProperties" : 0,
-                                    "properties" : {
-                                       "apply-error" : {
-                                          "description" : "The error of the last attempt of the node to apply the cluster-wide multipath configuration, for example a WWID that multipath refuses or a failed reload of multipathd.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "error" : {
-                                          "description" : "Why the node cannot report its multipath maps, for example because multipathd is not running.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "iscsi-initiator-name" : {
-                                          "description" : "The iSCSI initiator name of the node.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "other-maps" : {
-                                          "description" : "The number of multipath maps that the node leaves out of its LUN list. It lists the maps that Proxmox VE manages and the ones it knows to be the base volume of a storage or to hold its volume group.",
-                                          "minimum" : 1,
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       },
-                                       "state" : {
-                                          "description" : "'ok' if the node has a current report, 'unavailable' if its report has an 'error', or 'no-report' if the node is offline or its last report is missing or older than three minutes.",
-                                          "enum" : [
-                                             "ok",
-                                             "unavailable",
-                                             "no-report"
-                                          ],
-                                          "type" : "string"
-                                       },
-                                       "time" : {
-                                          "description" : "The time of the last report of the node (seconds since the UNIX epoch).",
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       }
-                                    },
-                                    "type" : "object"
-                                 },
-                                 "description" : "The multipath status of each cluster node, keyed by node name.",
-                                 "type" : "object"
-                              }
-                           },
-                           "type" : "object"
-                        }
-                     }
-                  },
-                  "leaf" : 1,
-                  "path" : "/cluster/multipath/status",
-                  "text" : "status"
-               },
-               {
-                  "info" : {
-                     "GET" : {
-                        "allowtoken" : 1,
                         "description" : "Read the verbatim multipath.conf override sections.",
                         "method" : "GET",
                         "name" : "read_overrides",
@@ -17427,6 +17242,229 @@ const apiSchema = [
             "leaf" : 0,
             "path" : "/cluster/multipath",
             "text" : "multipath"
+         },
+         {
+            "children" : [
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Report the SAN status of the nodes, with their initiator names, and the multipath health of each LUN on each node, with as summary the worst known state among the nodes that should see or report the LUN. Nodes whose state is unknown are not counted.",
+                        "method" : "GET",
+                        "name" : "status",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "or",
+                              [
+                                 "perm",
+                                 "/",
+                                 [
+                                    "Sys.Audit"
+                                 ]
+                              ],
+                              [
+                                 "perm",
+                                 "/storage",
+                                 [
+                                    "Datastore.Allocate"
+                                 ]
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "properties" : {
+                              "luns" : {
+                                 "description" : "One entry per LUN, identified by its WWID, with the state of its map on each node and the overall cluster state.",
+                                 "items" : {
+                                    "additionalProperties" : 0,
+                                    "properties" : {
+                                       "explicit" : {
+                                          "description" : "An explicit entry exists.",
+                                          "type" : "boolean"
+                                       },
+                                       "multipath-storage" : {
+                                          "description" : "The storage that requests the map of the LUN.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "The alias of the explicit entry, or else the name of the map on a node if it differs from the WWID.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "nodes" : {
+                                          "additionalProperties" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "name" : {
+                                                   "description" : "The name of the map on the node, if it differs from the WWID.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "paths-active" : {
+                                                   "description" : "The number of active paths of the map whose checker state is ready, ghost, or not reported.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "paths-expected" : {
+                                                   "description" : "The number of paths the LUN should have on the node: the highest of the count of its multipath entry and, for each managed iSCSI storage of the LUN, the number of its portals.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "paths-total" : {
+                                                   "description" : "The number of paths of the map.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "size" : {
+                                                   "description" : "The size of the map in bytes.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "state" : {
+                                                   "description" : "The health of the map on the node from its paths, 'missing' if the node should have the map but does not list it, or 'unknown' if the node has no current report that covers the map.",
+                                                   "enum" : [
+                                                      "optimal",
+                                                      "degraded",
+                                                      "failed",
+                                                      "missing",
+                                                      "unknown"
+                                                   ],
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "description" : "Map health keyed by node name.",
+                                          "type" : "object"
+                                       },
+                                       "size" : {
+                                          "description" : "The size of the LUN in bytes, as a node reports it.",
+                                          "minimum" : 0,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "state" : {
+                                          "description" : "The worst state of the LUN among its nodes, or 'unknown' if no node's state is known.",
+                                          "enum" : [
+                                             "optimal",
+                                             "degraded",
+                                             "failed",
+                                             "missing",
+                                             "unknown"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "used-by-storage" : {
+                                          "description" : "The storage that uses the LUN: as its base volume or through the volume group on it, or as an iSCSI storage that serves the LUNs of its target as images.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "wwid" : {
+                                          "description" : "The LUN WWID.",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              },
+                              "nodes" : {
+                                 "additionalProperties" : {
+                                    "additionalProperties" : 0,
+                                    "properties" : {
+                                       "apply-error" : {
+                                          "description" : "The error of the last attempt of the node to apply the cluster-wide multipath configuration, for example a WWID that multipath refuses or a failed reload of multipathd.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "error" : {
+                                          "description" : "Why the node cannot report its multipath maps, for example because multipathd is not running.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "iscsi-initiator-name" : {
+                                          "description" : "The iSCSI initiator name of the node.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "other-maps" : {
+                                          "description" : "The number of multipath maps that the node leaves out of its LUN list. It lists the maps that Proxmox VE manages and the ones it knows to be the base volume of a storage or to hold its volume group.",
+                                          "minimum" : 1,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "state" : {
+                                          "description" : "'ok' if the node has a current report, 'unavailable' if its report has an 'error', or 'no-report' if the node is offline or its last report is missing or older than three minutes.",
+                                          "enum" : [
+                                             "ok",
+                                             "unavailable",
+                                             "no-report"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "time" : {
+                                          "description" : "The time of the last report of the node (seconds since the UNIX epoch).",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "description" : "The SAN status of each cluster node, keyed by node name.",
+                                 "type" : "object"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/san/status",
+                  "text" : "status"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Directory index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {
+                           "name" : {
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{name}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/san",
+            "text" : "san"
          },
          {
             "children" : [
@@ -59791,7 +59829,7 @@ const apiSchema = [
                                           "type" : "boolean"
                                        },
                                        "is-default" : {
-                                          "description" : "Whether this is the release recommended for new installations.",
+                                          "description" : "Whether this release gets installed on this node if none is chosen, that is, the newest release running on other cluster nodes, or else the default for new installations.",
                                           "type" : "boolean"
                                        },
                                        "release" : {
@@ -63779,239 +63817,6 @@ const apiSchema = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "List SAN LUNs with their paths and cached usage.",
-                              "method" : "GET",
-                              "name" : "sanlunscan",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "node" : {
-                                       "description" : "The cluster node name.",
-                                       "format" : "pve-node",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "or",
-                                    [
-                                       "perm",
-                                       "/nodes/{node}",
-                                       [
-                                          "Sys.Audit"
-                                       ]
-                                    ],
-                                    [
-                                       "perm",
-                                       "/storage",
-                                       [
-                                          "Datastore.Allocate"
-                                       ]
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "proxyto" : "node",
-                              "returns" : {
-                                 "items" : {
-                                    "properties" : {
-                                       "by-id" : {
-                                          "description" : "A path under /dev/disk/by-id that encodes the device's identity and has been verified to resolve to this device. Absent when no such link could be verified.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "detail" : {
-                                          "description" : "The cached signature or usage when usage is 'other'.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "devpath" : {
-                                          "description" : "The device path.",
-                                          "type" : "string"
-                                       },
-                                       "iscsi-lun" : {
-                                          "description" : "The number of the LUN on that target.",
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       },
-                                       "iscsi-target" : {
-                                          "description" : "An iSCSI target through which this node reaches the LUN; one of them if there are several.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "model" : {
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "multipath" : {
-                                          "description" : "How the node manages multipath for the LUN: 'manual' for a map with an explicit entry, 'storage' for the map of an iSCSI storage with the 'managed-multipath' option, 'unmanaged' for any other map, 'pending' while a map that an entry, a storage or the allow-list of the node requests does not exist yet, 'none' without a map or request, 'native' for the kernel-native multipath of an NVMe namespace.",
-                                          "enum" : [
-                                             "none",
-                                             "pending",
-                                             "storage",
-                                             "manual",
-                                             "unmanaged",
-                                             "native"
-                                          ],
-                                          "type" : "string"
-                                       },
-                                       "multipath-storage" : {
-                                          "description" : "The multipath-enabled storage the LUN belongs to, whether or not it also has an explicit multipath entry.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "name" : {
-                                          "description" : "The map alias, when different from its WWID.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "nvme-nsid" : {
-                                          "description" : "The namespace ID within the NVMe subsystem.",
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       },
-                                       "nvme-subsystem" : {
-                                          "description" : "The NVMe subsystem NQN.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "path-list" : {
-                                          "description" : "The member paths of the device with their state.",
-                                          "items" : {
-                                             "properties" : {
-                                                "address" : {
-                                                   "description" : "The address of the NVMe controller the path uses, or the portal of the iSCSI session of the path.",
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
-                                                "ana-state" : {
-                                                   "description" : "The Asymmetric Namespace Access state of the namespace on this path, for example optimized or inaccessible.",
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
-                                                "checker-state" : {
-                                                   "description" : "The state reported by the multipathd path checker, for example ready, ghost or faulty.",
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
-                                                "device" : {
-                                                   "description" : "The path block device, or the NVMe controller device the path uses.",
-                                                   "type" : "string"
-                                                },
-                                                "host-wwpn" : {
-                                                   "description" : "The WWPN of the host (initiator) port of Fibre Channel attached paths.",
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
-                                                "state" : {
-                                                   "description" : "The device mapper state of the path (for example active or failed), the state of the NVMe controller (for example live or connecting), or for a LUN without a map the kernel state of the device (for example running or transport-offline).",
-                                                   "type" : "string"
-                                                },
-                                                "target-wwpn" : {
-                                                   "description" : "The WWPN of the target port of Fibre Channel attached paths.",
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                }
-                                             },
-                                             "type" : "object"
-                                          },
-                                          "optional" : 1,
-                                          "type" : "array"
-                                       },
-                                       "paths-active" : {
-                                          "description" : "The number of active paths whose checker state is ready, ghost, or not reported. Native NVMe paths count when their controller is live and their ANA state is optimized, non-optimized, or not reported. A device of a LUN without a map counts while the kernel reports it as running.",
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       },
-                                       "paths-expected" : {
-                                          "description" : "The number of paths the LUN should have on this node: the highest of the count of its multipath entry and, for each managed iSCSI storage of the LUN, the number of its portals. Absent if no count is known.",
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       },
-                                       "paths-total" : {
-                                          "description" : "The number of paths of a multipath mapped device or of an NVMe namespace attached through multiple controllers, or the number of SCSI devices of a LUN without a map.",
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       },
-                                       "serial" : {
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "size" : {
-                                          "description" : "The device size in bytes.",
-                                          "optional" : 1,
-                                          "renderer" : "bytes",
-                                          "type" : "integer"
-                                       },
-                                       "state" : {
-                                          "description" : "The health of the LUN from the state of its paths, when that is known. Absent while a requested multipath map is missing.",
-                                          "enum" : [
-                                             "optimal",
-                                             "degraded",
-                                             "failed"
-                                          ],
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "transport" : {
-                                          "description" : "The device transport, for example 'sata', 'sas', 'usb', 'fc', 'iscsi', 'nvme', 'nvme-fc', or 'nvme-tcp'.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "usage" : {
-                                          "description" : "The usage indicated by cached device metadata.",
-                                          "enum" : [
-                                             "unused",
-                                             "lvm",
-                                             "other"
-                                          ],
-                                          "type" : "string"
-                                       },
-                                       "used-by-guest" : {
-                                          "description" : "The ID of the virtual machine that this process belongs to. Only returned with the VM.Audit privilege on it.",
-                                          "optional" : 1,
-                                          "type" : "integer"
-                                       },
-                                       "used-by-process" : {
-                                          "description" : "A process of the node that has the LUN, one of its paths or a partition open for writing, as PID followed by the command name in parentheses. A guest shows up like this if it has the LUN as disk by its device path or from a third-party storage plugin.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "used-by-storage" : {
-                                          "description" : "The storage that uses the LUN: as its base volume or through the volume group on it, or as an iSCSI storage that serves the LUNs of its target as images.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "vendor" : {
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "vgname" : {
-                                          "description" : "The name of the LVM volume group the device belongs to.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "wwid" : {
-                                          "description" : "The LUN WWID.",
-                                          "type" : "string"
-                                       }
-                                    },
-                                    "type" : "object"
-                                 },
-                                 "type" : "array"
-                              }
-                           }
-                        },
-                        "leaf" : 1,
-                        "path" : "/nodes/{node}/scan/san-luns",
-                        "text" : "san-luns"
-                     },
-                     {
-                        "info" : {
-                           "GET" : {
-                              "allowtoken" : 1,
                               "description" : "Scan zfs pool list on local node.",
                               "method" : "GET",
                               "name" : "zfsscan",
@@ -64461,12 +64266,182 @@ const apiSchema = [
                {
                   "children" : [
                      {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Report the iSCSI initiator identity and availability.",
+                                    "method" : "GET",
+                                    "name" : "status",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/nodes/{node}",
+                                             [
+                                                "Sys.Audit"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/storage",
+                                             [
+                                                "Datastore.Allocate"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "properties" : {
+                                          "initiator-alias" : {
+                                             "description" : "The initiator alias.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "initiator-name" : {
+                                             "description" : "The initiator IQN.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "supported" : {
+                                             "description" : "Whether open-iscsi is installed.",
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/san/iscsi/status",
+                              "text" : "status"
+                           },
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "List iSCSI targets and their sessions and devices.",
+                                    "method" : "GET",
+                                    "name" : "targets",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/nodes/{node}",
+                                             [
+                                                "Sys.Audit"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/storage",
+                                             [
+                                                "Datastore.Allocate"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "devices" : {
+                                                "description" : "The block devices of the session.",
+                                                "items" : {
+                                                   "properties" : {
+                                                      "devpath" : {
+                                                         "description" : "The block device path.",
+                                                         "type" : "string"
+                                                      },
+                                                      "lun" : {
+                                                         "description" : "The LUN number.",
+                                                         "type" : "integer"
+                                                      }
+                                                   },
+                                                   "type" : "object"
+                                                },
+                                                "type" : "array"
+                                             },
+                                             "kernel-state" : {
+                                                "description" : "The kernel session state.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "portal" : {
+                                                "description" : "The portal address and port.",
+                                                "type" : "string"
+                                             },
+                                             "session-id" : {
+                                                "description" : "The kernel session ID.",
+                                                "optional" : 1,
+                                                "type" : "integer"
+                                             },
+                                             "state" : {
+                                                "description" : "The connection state.",
+                                                "enum" : [
+                                                   "logged-in",
+                                                   "recovering",
+                                                   "failed",
+                                                   "not-connected",
+                                                   "unknown"
+                                                ],
+                                                "type" : "string"
+                                             },
+                                             "target" : {
+                                                "description" : "The target IQN.",
+                                                "type" : "string"
+                                             },
+                                             "used-by-storage" : {
+                                                "description" : "An iSCSI storage using the target.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/san/iscsi/target",
+                              "text" : "target"
+                           }
+                        ],
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "Report the iSCSI initiator identity and availability.",
+                              "description" : "Node iSCSI index.",
                               "method" : "GET",
-                              "name" : "status",
+                              "name" : "index",
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
@@ -64479,58 +64454,39 @@ const apiSchema = [
                                  }
                               },
                               "permissions" : {
-                                 "check" : [
-                                    "or",
-                                    [
-                                       "perm",
-                                       "/nodes/{node}",
-                                       [
-                                          "Sys.Audit"
-                                       ]
-                                    ],
-                                    [
-                                       "perm",
-                                       "/storage",
-                                       [
-                                          "Datastore.Allocate"
-                                       ]
-                                    ]
-                                 ]
+                                 "user" : "all"
                               },
-                              "protected" : 1,
                               "proxyto" : "node",
                               "returns" : {
-                                 "properties" : {
-                                    "initiator-alias" : {
-                                       "description" : "The initiator alias.",
-                                       "optional" : 1,
-                                       "type" : "string"
+                                 "items" : {
+                                    "properties" : {
+                                       "name" : {
+                                          "type" : "string"
+                                       }
                                     },
-                                    "initiator-name" : {
-                                       "description" : "The initiator IQN.",
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
-                                    "supported" : {
-                                       "description" : "Whether open-iscsi is installed.",
-                                       "type" : "boolean"
-                                    }
+                                    "type" : "object"
                                  },
-                                 "type" : "object"
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
                               }
                            }
                         },
-                        "leaf" : 1,
-                        "path" : "/nodes/{node}/iscsi/status",
-                        "text" : "status"
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/san/iscsi",
+                        "text" : "iscsi"
                      },
                      {
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "List iSCSI targets and their sessions and devices.",
+                              "description" : "List the SAN LUNs of the node with their paths and cached usage.",
                               "method" : "GET",
-                              "name" : "targets",
+                              "name" : "luns",
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
@@ -64566,55 +64522,184 @@ const apiSchema = [
                               "returns" : {
                                  "items" : {
                                     "properties" : {
-                                       "devices" : {
-                                          "description" : "The block devices of the session.",
+                                       "by-id" : {
+                                          "description" : "A path under /dev/disk/by-id that encodes the device's identity and has been verified to resolve to this device. Absent when no such link could be verified.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "detail" : {
+                                          "description" : "The cached signature or usage when usage is 'other'.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "devpath" : {
+                                          "description" : "The device path.",
+                                          "type" : "string"
+                                       },
+                                       "iscsi-lun" : {
+                                          "description" : "The number of the LUN on that target.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "iscsi-target" : {
+                                          "description" : "An iSCSI target through which this node reaches the LUN; one of them if there are several.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "model" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "multipath" : {
+                                          "description" : "How the node manages multipath for the LUN: 'manual' for a map with an explicit entry, 'storage' for the map of an iSCSI storage with the 'managed-multipath' option, 'unmanaged' for any other map, 'pending' while a map that an entry, a storage or the allow-list of the node requests does not exist yet, 'none' without a map or request, 'native' for the kernel-native multipath of an NVMe namespace.",
+                                          "enum" : [
+                                             "none",
+                                             "pending",
+                                             "storage",
+                                             "manual",
+                                             "unmanaged",
+                                             "native"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "multipath-storage" : {
+                                          "description" : "The multipath-enabled storage the LUN belongs to, whether or not it also has an explicit multipath entry.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "The map alias, when different from its WWID.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "nvme-nsid" : {
+                                          "description" : "The namespace ID within the NVMe subsystem.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "nvme-subsystem" : {
+                                          "description" : "The NVMe subsystem NQN.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "path-list" : {
+                                          "description" : "The member paths of the device with their state.",
                                           "items" : {
                                              "properties" : {
-                                                "devpath" : {
-                                                   "description" : "The block device path.",
+                                                "address" : {
+                                                   "description" : "The address of the NVMe controller the path uses, or the portal of the iSCSI session of the path.",
+                                                   "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "lun" : {
-                                                   "description" : "The LUN number.",
-                                                   "type" : "integer"
+                                                "ana-state" : {
+                                                   "description" : "The Asymmetric Namespace Access state of the namespace on this path, for example optimized or inaccessible.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "checker-state" : {
+                                                   "description" : "The state reported by the multipathd path checker, for example ready, ghost or faulty.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "device" : {
+                                                   "description" : "The path block device, or the NVMe controller device the path uses.",
+                                                   "type" : "string"
+                                                },
+                                                "host-wwpn" : {
+                                                   "description" : "The WWPN of the host (initiator) port of Fibre Channel attached paths.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "state" : {
+                                                   "description" : "The device mapper state of the path (for example active or failed), the state of the NVMe controller (for example live or connecting), or for a LUN without a map the kernel state of the device (for example running or transport-offline).",
+                                                   "type" : "string"
+                                                },
+                                                "target-wwpn" : {
+                                                   "description" : "The WWPN of the target port of Fibre Channel attached paths.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 }
                                              },
                                              "type" : "object"
                                           },
+                                          "optional" : 1,
                                           "type" : "array"
                                        },
-                                       "kernel-state" : {
-                                          "description" : "The kernel session state.",
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "portal" : {
-                                          "description" : "The portal address and port.",
-                                          "type" : "string"
-                                       },
-                                       "session-id" : {
-                                          "description" : "The kernel session ID.",
+                                       "paths-active" : {
+                                          "description" : "The number of active paths whose checker state is ready, ghost, or not reported. Native NVMe paths count when their controller is live and their ANA state is optimized, non-optimized, or not reported. A device of a LUN without a map counts while the kernel reports it as running.",
                                           "optional" : 1,
                                           "type" : "integer"
                                        },
+                                       "paths-expected" : {
+                                          "description" : "The number of paths the LUN should have on this node: the highest of the count of its multipath entry and, for each managed iSCSI storage of the LUN, the number of its portals. Absent if no count is known.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "paths-total" : {
+                                          "description" : "The number of paths of a multipath mapped device or of an NVMe namespace attached through multiple controllers, or the number of SCSI devices of a LUN without a map.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "serial" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "size" : {
+                                          "description" : "The device size in bytes.",
+                                          "optional" : 1,
+                                          "renderer" : "bytes",
+                                          "type" : "integer"
+                                       },
                                        "state" : {
-                                          "description" : "The connection state.",
+                                          "description" : "The health of the LUN from the state of its paths, when that is known. Absent while a requested multipath map is missing.",
                                           "enum" : [
-                                             "logged-in",
-                                             "recovering",
-                                             "failed",
-                                             "not-connected",
-                                             "unknown"
+                                             "optimal",
+                                             "degraded",
+                                             "failed"
+                                          ],
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "transport" : {
+                                          "description" : "The device transport, for example 'sata', 'sas', 'usb', 'fc', 'iscsi', 'nvme', 'nvme-fc', or 'nvme-tcp'.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "usage" : {
+                                          "description" : "The usage indicated by cached device metadata.",
+                                          "enum" : [
+                                             "unused",
+                                             "lvm",
+                                             "other"
                                           ],
                                           "type" : "string"
                                        },
-                                       "target" : {
-                                          "description" : "The target IQN.",
+                                       "used-by-guest" : {
+                                          "description" : "The ID of the virtual machine that this process belongs to. Only returned with the VM.Audit privilege on it.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "used-by-process" : {
+                                          "description" : "A process of the node that has the LUN, one of its paths or a partition open for writing, as PID followed by the command name in parentheses. A guest shows up like this if it has the LUN as disk by its device path or from a third-party storage plugin.",
+                                          "optional" : 1,
                                           "type" : "string"
                                        },
                                        "used-by-storage" : {
-                                          "description" : "An iSCSI storage using the target.",
+                                          "description" : "The storage that uses the LUN: as its base volume or through the volume group on it, or as an iSCSI storage that serves the LUNs of its target as images.",
                                           "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "vendor" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "vgname" : {
+                                          "description" : "The name of the LVM volume group the device belongs to.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "wwid" : {
+                                          "description" : "The LUN WWID.",
                                           "type" : "string"
                                        }
                                     },
@@ -64625,14 +64710,14 @@ const apiSchema = [
                            }
                         },
                         "leaf" : 1,
-                        "path" : "/nodes/{node}/iscsi/target",
-                        "text" : "target"
+                        "path" : "/nodes/{node}/san/luns",
+                        "text" : "luns"
                      }
                   ],
                   "info" : {
                      "GET" : {
                         "allowtoken" : 1,
-                        "description" : "Node iSCSI index.",
+                        "description" : "Directory index.",
                         "method" : "GET",
                         "name" : "index",
                         "parameters" : {
@@ -64670,8 +64755,8 @@ const apiSchema = [
                      }
                   },
                   "leaf" : 0,
-                  "path" : "/nodes/{node}/iscsi",
-                  "text" : "iscsi"
+                  "path" : "/nodes/{node}/san",
+                  "text" : "san"
                },
                {
                   "children" : [
@@ -76086,6 +76171,13 @@ const apiSchema = [
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {
+                        "digest" : {
+                           "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                           "maxLength" : 64,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "storage" : {
                            "description" : "The storage identifier.",
                            "format" : "pve-storage-id",
@@ -76523,14 +76615,6 @@ const apiSchema = [
                            "pattern" : "-?\\d+[kmgKMG]?",
                            "title" : "Wipe Throughput",
                            "type" : "string"
-                        },
-                        "server" : {
-                           "description" : "IP address or hostname of the server.",
-                           "format" : "pve-storage-server",
-                           "optional" : 1,
-                           "title" : "Server",
-                           "type" : "string",
-                           "typetext" : "<string>"
                         },
                         "shared" : {
                            "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",

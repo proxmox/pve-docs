@@ -150,7 +150,7 @@ Ceph repository to use. The 'manual' option will not configure any repositories.
 
 `--version` `<squid | tentacle | umbrella>` ('default =' `tentacle`)::
 
-Ceph version to install.
+Ceph version to install. Defaults to the newest version running on other cluster nodes, if any.
 
 [[cli_pveceph_lspools]]
 *pveceph lspools*

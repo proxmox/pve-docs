@@ -504,13 +504,17 @@ Either 'qemu' or 'lxc'. Only consider backups for guests of this type.
 Only consider backups for this guest.
 
 [[cli_pvesm_remove]]
-*pvesm remove* `<storage>`
+*pvesm remove* `<storage>` `[OPTIONS]`
 
 Delete storage configuration.
 
 `<storage>`: `<storage ID>` ::
 
 The storage identifier.
+
+`--digest` `<string>` ::
+
+Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.
 
 [[cli_pvesm_scan_cifs]]
 *pvesm scan cifs* `<server>` `[OPTIONS]`
@@ -593,7 +597,7 @@ Optional port.
 [[cli_pvesm_scan_san-luns]]
 *pvesm scan san-luns* `[FORMAT_OPTIONS]`
 
-List SAN LUNs with their paths and cached usage.
+List the SAN LUNs of the node with their paths and cached usage.
 
 [[cli_pvesm_scan_zfs]]
 *pvesm scan zfs*
@@ -778,10 +782,6 @@ Wipe step size in MiB. It will be capped to the maximum supported by the storage
 `--saferemove_throughput` `-?\d+[kmgKMG]?` ::
 
 Wipe throughput in bytes per second (optional suffix: k, m, or g).
-
-`--server` `<string>` ::
-
-IP address or hostname of the server.
 
 `--shared` `<boolean>` ::
 
