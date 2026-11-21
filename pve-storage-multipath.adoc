@@ -49,13 +49,16 @@ Setting Up Shared LVM
 
 . Under *Datacenter -> SAN* on a node that can access the LUN, select *Add
   Shared LVM -> iSCSI* or *Fibre Channel*.
-. For iSCSI, enter a portal, select the target and name the connection storage,
-  which logs the nodes in to the target. *Nodes* under *Advanced* limits it to
-  some nodes.
-. Select the LUN and name the storage and the volume group. For Fibre Channel,
-  *Nodes* under *Advanced* limits the storage to some nodes. If virtual
-  machines need snapshots, enable *Allow Snapshots as Volume-Chain* before
-  creating their disks, see xref:pvesm_lvm_config[LVM configuration].
+. For iSCSI, enter the *ID* of the new storage, a portal and the target. If no
+  iSCSI storage logs the nodes in to that target yet, the setup adds one named
+  after the ID with a `-base` suffix, or as set under *Advanced*. Clear the
+  nodes in the list of initiator names that should not use the storages.
+. Select the LUN after checking that no host uses it and that no data on it
+  must be kept. For Fibre Channel, enter the *ID* of the new storage, and
+  *Nodes* under *Advanced* limits it to some nodes. The volume group is named
+  after the ID unless set under *Advanced*. If virtual machines need snapshots,
+  enable *Allow Snapshots as Volume-Chain* before creating their disks, see
+  xref:pvesm_lvm_config[LVM configuration].
 . Check the paths of every node in the result before placing guests on the
   storage, as the setup only checked the LUN on the node serving the web UI.
   Nodes show *Pending* while they set up the LUN, for up to a minute. A node
@@ -69,7 +72,10 @@ web UI if it has at least two. Check that number, as a fabric may have been
 down during the setup.
 
 If the setup fails, check the error and the task log before retrying. Closing
-the dialog does not undo what was already created.
+the setup before it added its storage removes an iSCSI storage that it added,
+unless a storage uses it or it was changed meanwhile. If the web UI lost its
+connection, check whether that iSCSI storage is left over. Other changes stay,
+such as a multipath entry that the Fibre Channel setup added.
 
 The setup refuses a LUN on which it finds data. To keep a volume group that a
 LUN already holds, add it under *Datacenter -> Storage -> Add -> LVM* with
@@ -86,9 +92,9 @@ storage with it as *Base storage*, the LUN as *Base volume* and *Shared*
 enabled. On the command line:
 
 ----
-# pvesm add iscsi <connection> --portal <portal> --target <iqn> \
+# pvesm add iscsi <iscsi-storage> --portal <portal> --target <iqn> \
     --content none --managed-multipath 1
-# pvesm list <connection> --content images
+# pvesm list <iscsi-storage> --content images
 # pvesm add lvm <storage> --vgname <vg> --base <volume-id> --shared 1
 ----
 
@@ -117,8 +123,8 @@ Adding Another LUN
 
 Present the new LUN to the same nodes. iSCSI storages detect it by themselves,
 for Fibre Channel rescan the hosts as shown in the prerequisites. Then run the
-guided setup again. For iSCSI, select the same target to reuse its connection
-storage, after enabling *Multipath* on it if needed, see
+guided setup again. For iSCSI, select the same target to use its iSCSI storage,
+after enabling *Multipath* on it if needed, see
 xref:storage_multipath_config[Existing Configurations].
 
 [[storage_multipath_grow]]
@@ -168,7 +174,7 @@ If I/O already hangs because the LUN was unmapped first, run
 `multipathd disablequeueing map <map>` on the affected nodes and continue.
 
 [[storage_multipath_disconnect]]
-Removing an iSCSI connection storage does not log out its sessions; use
+Removing the iSCSI storage of a target does not log out its sessions; use
 `iscsiadm` for that once no LUN of the target is in use.
 
 Checking Path Failures
