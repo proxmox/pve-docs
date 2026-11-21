@@ -1,3 +1,27 @@
+pve-docs (9.2.20) trixie; urgency=medium
+
+  * vzdump: guest identity: drop the refusal of target nodes that do not
+    report their version.
+
+  * storage: multipath: say that queued I/O can hang guests if a LUN does not
+    come back, and point to the removal procedure.
+
+  * storage: multipath: describe the path counts and node states of a LUN,
+    Paths by Node, and the notifications about lost and restored paths with
+    their limits, also in the list of notification events.
+
+  * storage: multipath: describe the SAN view at its own Datacenter menu
+    entry, and the reworked guided setups, which ask for one ID and are listed
+    under Datacenter > Storage > Add. The iSCSI setup selects its nodes in the
+    list of initiator names.
+
+  * storage: multipath: use the new path of the SAN status,
+    '/cluster/san/status'.
+
+  * update static/schema information for API viewer and generated synopsis.
+
+ -- Proxmox Support Team <support@proxmox.com>  Sun, 22 Nov 2026 00:30:42 +0100
+
 pve-docs (9.2.19) trixie; urgency=medium
 
   * notifications: document the notification queue and the size limit for
