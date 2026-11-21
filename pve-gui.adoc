@@ -232,10 +232,11 @@ On the datacenter level, you can access cluster-wide settings and information.
 
 * *Options:* view and manage cluster-wide default settings.
 
-* *Storage:* provides an interface for managing cluster storage.
+* *Storage:* provides an interface for managing cluster storage. The *Add* menu
+   offers guided setups for shared LVM on iSCSI and Fibre Channel LUNs.
 
-* *SAN:* shows the state of the SAN LUNs on all nodes, manages the multipath
-   configuration and offers guided setups for shared LVM.
+* *SAN:* shows the state of the SAN LUNs on all nodes and manages the multipath
+   configuration.
 
 * *Backup:* schedule backup jobs. This operates cluster wide, so it doesn't
    matter where the VMs/containers are on your cluster when scheduling.

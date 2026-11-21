@@ -47,8 +47,9 @@ If the LUN does not show up, check that the target ports of the array are
 Setting Up Shared LVM
 ~~~~~~~~~~~~~~~~~~~~
 
-. Under *Datacenter -> SAN* on a node that can access the LUN, select *Add
-  Shared LVM -> iSCSI* or *Fibre Channel*.
+. On a node that can access the LUN, select *Shared LVM on iSCSI* or *Shared
+  LVM on Fibre Channel* under *Datacenter -> Storage -> Add*. The *Add Shared
+  LVM* menu of *Datacenter -> SAN* has the same setups.
 . For iSCSI, enter the *ID* of the new storage, a portal and the target. If no
   iSCSI storage logs the nodes in to that target yet, the setup adds one named
   after the ID with a `-base` suffix, or as set under *Advanced*. Clear the
@@ -86,9 +87,9 @@ signatures, and zeroes the start of the LUN; it is not a secure erase. It
 refuses a LUN that a process on the node has open, but cannot detect every user,
 nor any on other hosts. Other nodes can still show the old usage afterwards.
 
-Without the guided setup, add an *iSCSI* storage with *Multipath* enabled and
-*Use LUNs directly* cleared under *Datacenter -> Storage -> Add*, then an *LVM*
-storage with it as *Base storage*, the LUN as *Base volume* and *Shared*
+Without the guided setup, add an iSCSI storage under *Datacenter -> Storage ->
+Add -> iSCSI* with *Multipath* enabled and *Use LUNs directly* cleared, then an
+*LVM* storage with it as *Base storage*, the LUN as *Base volume* and *Shared*
 enabled. On the command line:
 
 ----
