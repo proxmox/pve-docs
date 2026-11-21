@@ -271,7 +271,9 @@ To add an uplink:
 . Apply the SDN configuration, so that the VRF of the zone exists on the nodes.
 . On each node that needs an uplink, edit the interface under
   `Node -> System -> Network`, select the VRF of the zone in 'VRF', and set
-  'IPv4 Forwarding' to 'Enabled'. Then apply the network configuration.
+  'IPv4 Forwarding' to 'Enabled'. Then apply the network configuration. The
+  'VRF' and 'IPv4 Forwarding' columns of the interface list, hidden by default,
+  show these settings for all interfaces.
 
 An uplink needs IPv4 forwarding to route traffic into the zone, including the
 replies to connections of guests. `ifupdown2` enables it on bridges in the VRF,
@@ -293,7 +295,9 @@ the uplinks and the VNets of the zone.
 Before you remove a node from the zone, remove the VRF from the uplinks of that
 node, and the node from the fabrics that use the zone. Before you disable the
 dedicated VRF or delete the zone, remove the VRF from the uplinks of all its
-nodes, the fabrics that use the zone, and its static routes.
+nodes, the fabrics that use the zone, and its static routes. Applying the SDN
+configuration warns about host interfaces that still use a VRF that no longer
+exists on the node.
 
 Static routes:: To reach networks behind an uplink, for example with a
   default route via the upstream router, add static routes in the 'Static
@@ -844,7 +848,11 @@ the fabric, it cannot be changed later. Only simple zones with a
 xref:pvesdn_zone_plugin_simple_vrf[dedicated VRF] can be selected, and all
 nodes of the fabric need to be part of the zone. The fabric puts its interfaces
 into the VRF, so do not set a VRF for them in the network configuration of the
-nodes.
+nodes. Applying the SDN configuration warns about such a setting, which can
+override the VRF of the fabric.
+
+Interfaces of WireGuard fabrics cannot be used, as the WireGuard fabric keeps
+their addresses and routes in the default routing table.
 
 Fabrics used as underlay for EVPN controllers or VXLAN zones need to stay in
 the default routing table.
