@@ -1,3 +1,19 @@
+pve-docs (9.2.19) trixie; urgency=medium
+
+  * notifications: document the notification queue and the size limit for
+    forwarded mails.
+
+  * sdn: fabrics: wireguard: document the status values and the persistent
+    keepalive column.
+
+  * sdn: document the warnings about VRF settings of host interfaces, that
+    fabrics in a zone cannot use WireGuard interfaces, and the new columns of
+    the network interface list.
+
+  * update static/schema information for API viewer and generated synopsis.
+
+ -- Proxmox Support Team <support@proxmox.com>  Sat, 21 Nov 2026 18:52:33 +0100
+
 pve-docs (9.2.18) trixie; urgency=medium
 
   * qm: guest agent: document the new 'sync-time-on-resume' option, which sets
