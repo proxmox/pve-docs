@@ -259,7 +259,8 @@ Guests can reach networks outside the zone through:
 * A host interface in the VRF, called uplink below, for example a VLAN
   interface to an upstream router.
 * An OSPF or BGP xref:pvesdn_config_fabrics[fabric] that uses the zone, see
-  xref:pvesdn_fabric_vrf_zone[Fabrics in a Zone VRF].
+  xref:pvesdn_fabric_vrf_zone[Fabrics in a Zone VRF], which also describes the
+  `rp_filter` setting such a fabric needs.
 
 Without either, the zone has no connection to other networks. By default,
 services of the host such as SSH or the web interface cannot be reached from
@@ -856,6 +857,22 @@ their addresses and routes in the default routing table.
 
 Fabrics used as underlay for EVPN controllers or VXLAN zones need to stay in
 the default routing table.
+
+Reverse path filtering drops traffic of fabrics in a VRF, also in the loose mode
+that `/usr/lib/sysctl.d/pve-firewall.conf` sets for `all`. The kernel uses the
+higher value of `all` and of the interface, so on each node of the fabric, set
+`rp_filter` to `0` for `all` and for every interface of the fabric. Use a file
+that sorts after `pve-firewall.conf`, so that it overrides the value set there,
+for example `/etc/sysctl.d/zz-rp-filter.conf`. Replace `<interface>` with the
+name of a fabric interface, and add one such line for each of them:
+
+----
+net.ipv4.conf.all.rp_filter = 0
+net/ipv4/conf/<interface>/rp_filter = 0
+----
+
+Apply the file with `sysctl --system` or by rebooting the node. Other
+interfaces keep their own value, which is `2` by default.
 
 [[pvesdn_openfabric]]
 OpenFabric
