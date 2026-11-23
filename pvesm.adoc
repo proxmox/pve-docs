@@ -74,7 +74,7 @@ nodes that can be accessed as RBD (RADOS Block Device).
 |NFS            |nfs         |file   |yes   |yes^2^   |yes
 |CIFS           |cifs        |file   |yes   |yes^2^   |yes
 |Proxmox Backup |pbs         |both   |yes   |n/a      |yes
-|CephFS         |cephfs      |file   |yes   |yes      |yes
+|CephFS         |cephfs      |file   |yes   |n/a      |yes
 |LVM            |lvm         |block  |no^3^ |yes^4^   |yes
 |LVM-thin       |lvmthin     |block  |no    |yes      |yes
 |iSCSI/kernel   |iscsi       |block  |yes^3^|yes^4^   |yes
