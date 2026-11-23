@@ -1,3 +1,13 @@
+pve-docs (9.2.21) trixie; urgency=medium
+
+  * storage: add a chapter about NVMe over Fabrics storages: prerequisites,
+    setting up shared LVM with the guided setup or by hand, the storage
+    properties, and checking and disconnecting paths.
+
+  * storage: describe adding storages through the new Add Storage wizard.
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 23 Nov 2026 07:38:33 +0100
+
 pve-docs (9.2.20) trixie; urgency=medium
 
   * vzdump: guest identity: drop the refusal of target nodes that do not
