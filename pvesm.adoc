@@ -156,11 +156,15 @@ also useful for local storage types. In this case such local storage
 is available on all nodes, but it is physically different and can have
 totally different content.
 
-Add storage under *Datacenter -> Storage -> Add* in the web UI. For shared LVM
-on a xref:storage_multipath_setup[SAN LUN] or an
-xref:storage_nvmeof_setup[NVMe namespace], use *Shared LVM on iSCSI*, *Shared
-LVM on Fibre Channel* or *Shared LVM on NVMe over Fabrics* there instead. It
-creates the storages that are needed and enables multipath for a LUN.
+To add a storage in the web UI, use *Datacenter -> Storage -> Add*, which opens
+a wizard. Its first step lists the storage types and guided setups, grouped and
+with a search field. The next steps hold the settings of the chosen entry.
+
+For shared LVM on a xref:storage_multipath_setup[SAN LUN] or an
+xref:storage_nvmeof_setup[NVMe namespace], choose *Shared LVM on iSCSI*,
+*Shared LVM on Fibre Channel* or *Shared LVM on NVMe over Fabrics* in the
+wizard. These setups create the storages that are needed and enable multipath
+for a LUN.
 
 
 Storage Pools
