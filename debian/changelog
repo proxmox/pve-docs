@@ -1,3 +1,16 @@
+pve-docs (9.2.22) trixie; urgency=medium
+
+  * storage: list snapshots as not available for CephFS in the table of
+    storage types, as CephFS cannot hold VM disks or container volumes.
+
+  * sdn: fabrics: document how to disable reverse path filtering for fabrics
+    in a zone VRF, as they do not work with it enabled, which is the default
+    on Proxmox VE.
+
+  * update static/schema information for API viewer and generated synopsis.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 24 Nov 2026 08:16:16 +0100
+
 pve-docs (9.2.21) trixie; urgency=medium
 
   * storage: add a chapter about NVMe over Fabrics storages: prerequisites,
