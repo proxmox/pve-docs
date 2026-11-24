@@ -553,6 +553,7 @@ file, is too large, or does not contain a valid notification. The service keeps
 such files for inspection and never removes them itself. It is safe to delete
 `.broken` files at any time.
 
+[[notification_mail_forward]]
 System Mail Forwarding
 ----------------------
 

@@ -589,9 +589,11 @@ favorite editor. The required setting for email notification is
 ZED_EMAIL_ADDR="root"
 --------
 
-Please note {pve} forwards mails to `root` to the email address
-configured for the root user.
-
+NOTE: {pve} converts emails sent to the local root user into notification events
+of type `system-mail`. xref:notification_matchers[Matchers] then route these
+events to notification targets. With the default notification configuration,
+they are sent to the email address configured for `root@pam`. See
+xref:notification_mail_forward[System Mail Forwarding] for more details.
 
 [[sysadmin_zfs_limit_memory_usage]]
 Limit ZFS Memory Usage
