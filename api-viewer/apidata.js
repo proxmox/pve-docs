@@ -8649,6 +8649,11 @@ const apiSchema = [
                                  "format" : "pve-node",
                                  "type" : "string"
                               },
+                              "pve-version" : {
+                                 "description" : "The highest Proxmox VE manager version of all cluster nodes.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "totem" : {
                                  "type" : "object"
                               }
@@ -17277,7 +17282,7 @@ const apiSchema = [
                         "returns" : {
                            "properties" : {
                               "luns" : {
-                                 "description" : "One entry per LUN, identified by its WWID, with the state of its map on each node and the overall cluster state.",
+                                 "description" : "One entry per LUN or NVMe namespace, identified by its WWID, with its path health on each node and the overall cluster state.",
                                  "items" : {
                                     "additionalProperties" : 0,
                                     "properties" : {
@@ -17295,6 +17300,11 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
+                                       "native" : {
+                                          "description" : "An NVMe namespace, which uses the native multipath of the kernel.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
                                        "nodes" : {
                                           "additionalProperties" : {
                                              "additionalProperties" : 0,
@@ -17305,31 +17315,31 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "paths-active" : {
-                                                   "description" : "The number of active paths of the map whose checker state is ready, ghost, or not reported.",
+                                                   "description" : "The number of active paths of the map whose checker state is ready, ghost, or not reported. For an NVMe namespace, the number of its paths over a live controller whose ANA state is optimized, non-optimized, or not reported.",
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "paths-expected" : {
-                                                   "description" : "The number of paths the LUN should have on the node: the highest of the count of its multipath entry and, for each managed iSCSI storage of the LUN, the number of its portals.",
+                                                   "description" : "The number of paths the LUN should have on the node: the highest of the count of its multipath entry and, for each managed iSCSI storage of the LUN, the number of its portals. For an NVMe namespace, the number of portals of its NVMe over Fabrics storage.",
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "paths-total" : {
-                                                   "description" : "The number of paths of the map.",
+                                                   "description" : "The number of paths of the map or namespace.",
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "size" : {
-                                                   "description" : "The size of the map in bytes.",
+                                                   "description" : "The size of the map or namespace in bytes.",
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "state" : {
-                                                   "description" : "The health of the map on the node from its paths, 'missing' if the node should have the map but does not list it, or 'unknown' if the node has no current report that covers the map.",
+                                                   "description" : "The health of the map or NVMe namespace on the node from its paths, 'missing' if the node should have it but does not list it, or 'unknown' if the node has no current report that covers it.",
                                                    "enum" : [
                                                       "optimal",
                                                       "degraded",
@@ -17342,7 +17352,7 @@ const apiSchema = [
                                              },
                                              "type" : "object"
                                           },
-                                          "description" : "Map health keyed by node name.",
+                                          "description" : "Path health keyed by node name.",
                                           "type" : "object"
                                        },
                                        "size" : {
@@ -17363,7 +17373,7 @@ const apiSchema = [
                                           "type" : "string"
                                        },
                                        "used-by-storage" : {
-                                          "description" : "The storage that uses the LUN: as its base volume or through the volume group on it, or as an iSCSI storage that serves the LUNs of its target as images.",
+                                          "description" : "The storage that uses the LUN: as its base volume or through the volume group on it, or as an iSCSI or NVMe over Fabrics storage that serves the LUNs of its target or subsystem as images.",
                                           "optional" : 1,
                                           "type" : "string"
                                        },
@@ -17391,7 +17401,12 @@ const apiSchema = [
                                           "type" : "string"
                                        },
                                        "iscsi-initiator-name" : {
-                                          "description" : "The iSCSI initiator name of the node.",
+                                          "description" : "The iSCSI initiator name of the node, if open-iscsi is installed.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "nvme-host-nqn" : {
+                                          "description" : "The NVMe host NQN of the node.",
                                           "optional" : 1,
                                           "type" : "string"
                                        },
@@ -30227,7 +30242,7 @@ const apiSchema = [
                            "description" : "Consent text that is displayed before logging in. Needs to be base64 encoded.",
                            "maxLength" : 65536,
                            "optional" : 1,
-                           "pattern" : "[A-Za-z0-9+/]+={0,2}",
+                           "pattern" : "[A-Za-z0-9+/]*={0,2}",
                            "type" : "string"
                         },
                         "console" : {
@@ -30815,7 +30830,7 @@ const apiSchema = [
                            "description" : "Consent text that is displayed before logging in. Needs to be base64 encoded.",
                            "maxLength" : 65536,
                            "optional" : 1,
-                           "pattern" : "[A-Za-z0-9+/]+={0,2}",
+                           "pattern" : "[A-Za-z0-9+/]*={0,2}",
                            "type" : "string"
                         },
                         "console" : {
@@ -45424,7 +45439,7 @@ const apiSchema = [
                                                       "type" : "array"
                                                    },
                                                    "guest-identity-unsupported" : {
-                                                      "description" : "Set if migrating to the node is refused because the node does not report a Proxmox VE version that keeps the guest identity.",
+                                                      "description" : "Set if migrating to the node is refused because the node runs a Proxmox VE version that does not keep the guest identity.",
                                                       "optional" : 1,
                                                       "properties" : {
                                                          "required-version" : {
@@ -45433,7 +45448,6 @@ const apiSchema = [
                                                          },
                                                          "version" : {
                                                             "description" : "The Proxmox VE version the node reports.",
-                                                            "optional" : 1,
                                                             "type" : "string"
                                                          }
                                                       },
@@ -54344,7 +54358,7 @@ const apiSchema = [
                                                       "type" : "array"
                                                    },
                                                    "guest-identity-unsupported" : {
-                                                      "description" : "Set if migrating to the node is refused because the node does not report a Proxmox VE version that keeps the guest identity.",
+                                                      "description" : "Set if migrating to the node is refused because the node runs a Proxmox VE version that does not keep the guest identity.",
                                                       "optional" : 1,
                                                       "properties" : {
                                                          "required-version" : {
@@ -54353,7 +54367,6 @@ const apiSchema = [
                                                          },
                                                          "version" : {
                                                             "description" : "The Proxmox VE version the node reports.",
-                                                            "optional" : 1,
                                                             "type" : "string"
                                                          }
                                                       },
@@ -62211,7 +62224,7 @@ const apiSchema = [
                                        "description" : "OVS interface options.",
                                        "maxLength" : 1024,
                                        "optional" : 1,
-                                       "pattern" : "[^\\n\\r]*",
+                                       "pattern" : "(?!.*(?:<%|\\$\\{))[^\\n\\r]*",
                                        "type" : "string"
                                     },
                                     "ovs_ports" : {
@@ -62626,7 +62639,7 @@ const apiSchema = [
                                     "description" : "OVS interface options.",
                                     "maxLength" : 1024,
                                     "optional" : 1,
-                                    "pattern" : "[^\\n\\r]*",
+                                    "pattern" : "(?!.*(?:<%|\\$\\{))[^\\n\\r]*",
                                     "type" : "string"
                                  },
                                  "ovs_ports" : {
@@ -62925,7 +62938,7 @@ const apiSchema = [
                                  "description" : "OVS interface options.",
                                  "maxLength" : 1024,
                                  "optional" : 1,
-                                 "pattern" : "[^\\n\\r]*",
+                                 "pattern" : "(?!.*(?:<%|\\$\\{))[^\\n\\r]*",
                                  "type" : "string"
                               },
                               "ovs_ports" : {
@@ -63718,6 +63731,64 @@ const apiSchema = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
+                              "description" : "List the NVMe over TCP subsystems offered to this node by a discovery controller.",
+                              "method" : "GET",
+                              "name" : "nvmeofscan",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "portal" : {
+                                       "description" : "IPv4 or bracketed IPv6 discovery address with an optional port. Without a port, try 8009 then 4420.",
+                                       "format" : "pve-storage-nvme-portal",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/storage",
+                                    [
+                                       "Datastore.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "additionalProperties" : 0,
+                                    "properties" : {
+                                       "portals" : {
+                                          "description" : "The discovered TCP portals, comma separated.",
+                                          "type" : "string"
+                                       },
+                                       "subsysnqn" : {
+                                          "description" : "The subsystem NQN.",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/scan/nvmeof",
+                        "text" : "nvmeof"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List local LVM volume groups.",
                               "method" : "GET",
                               "name" : "lvmscan",
@@ -64481,6 +64552,267 @@ const apiSchema = [
                         "text" : "iscsi"
                      },
                      {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Report the NVMe host identity and nvme-cli availability.",
+                                    "method" : "GET",
+                                    "name" : "status",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/nodes/{node}",
+                                             [
+                                                "Sys.Audit"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/storage",
+                                             [
+                                                "Datastore.Allocate"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "error" : {
+                                             "description" : "Why the host identity is unavailable.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "host-id" : {
+                                             "description" : "The persistent host UUID.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "host-nqn" : {
+                                             "description" : "The host NQN for target access control.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "supported" : {
+                                             "description" : "Whether nvme-cli is installed.",
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/san/nvmeof/status",
+                              "text" : "status"
+                           },
+                           {
+                              "children" : [
+                                 {
+                                    "info" : {
+                                       "DELETE" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Disconnect one fabrics controller. Refuse when a namespace in use has no other usable path. A storage still listing the portal reconnects it on activation.",
+                                          "method" : "DELETE",
+                                          "name" : "disconnect",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "controller" : {
+                                                   "description" : "The fabrics controller name, for example nvme3.",
+                                                   "pattern" : "nvme[0-9]+",
+                                                   "type" : "string"
+                                                },
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "portal" : {
+                                                   "description" : "Refuse unless the controller still has this portal.",
+                                                   "maxLength" : 128,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "subsysnqn" : {
+                                                   "description" : "Refuse unless the controller still has this subsystem NQN.",
+                                                   "maxLength" : 223,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/",
+                                                [
+                                                   "Sys.Modify"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "The task identifier.",
+                                             "type" : "string"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/san/nvmeof/controller/{controller}",
+                                    "text" : "{controller}"
+                                 }
+                              ],
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "List connected NVMe over Fabrics controllers and their states.",
+                                    "method" : "GET",
+                                    "name" : "controllers",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/nodes/{node}",
+                                             [
+                                                "Sys.Audit"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/storage",
+                                             [
+                                                "Datastore.Allocate"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "items" : {
+                                          "additionalProperties" : 0,
+                                          "properties" : {
+                                             "controller" : {
+                                                "description" : "The fabrics controller name, for example nvme3.",
+                                                "pattern" : "nvme[0-9]+",
+                                                "type" : "string"
+                                             },
+                                             "namespaces" : {
+                                                "description" : "The number of namespaces of the subsystem, counted by the devices that native NVMe multipath creates for them.",
+                                                "type" : "integer"
+                                             },
+                                             "portal" : {
+                                                "description" : "The controller address and port, if applicable.",
+                                                "type" : "string"
+                                             },
+                                             "state" : {
+                                                "description" : "The controller state, such as live or connecting.",
+                                                "type" : "string"
+                                             },
+                                             "subsysnqn" : {
+                                                "description" : "The subsystem NQN.",
+                                                "type" : "string"
+                                             },
+                                             "transport" : {
+                                                "description" : "The controller transport.",
+                                                "type" : "string"
+                                             },
+                                             "used-by-storage" : {
+                                                "description" : "An NVMe over Fabrics storage using the subsystem.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 0,
+                              "path" : "/nodes/{node}/san/nvmeof/controller",
+                              "text" : "controller"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Node NVMe over Fabrics index.",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "user" : "all"
+                              },
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "name" : {
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/san/nvmeof",
+                        "text" : "nvmeof"
+                     },
+                     {
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
@@ -64631,7 +64963,7 @@ const apiSchema = [
                                           "type" : "integer"
                                        },
                                        "paths-expected" : {
-                                          "description" : "The number of paths the LUN should have on this node: the highest of the count of its multipath entry and, for each managed iSCSI storage of the LUN, the number of its portals. Absent if no count is known.",
+                                          "description" : "The number of paths the LUN should have on this node: the highest of the count of its multipath entry and, for each managed iSCSI storage of the LUN, the number of its portals. For a namespace of an NVMe over Fabrics storage, the number of its portals. Absent if no count is known.",
                                           "optional" : 1,
                                           "type" : "integer"
                                        },
@@ -64685,7 +65017,7 @@ const apiSchema = [
                                           "type" : "string"
                                        },
                                        "used-by-storage" : {
-                                          "description" : "The storage that uses the LUN: as its base volume or through the volume group on it, or as an iSCSI storage that serves the LUNs of its target as images.",
+                                          "description" : "The storage that uses the LUN: as its base volume or through the volume group on it, or as an iSCSI or NVMe over Fabrics storage that serves the LUNs of its target or subsystem as images.",
                                           "optional" : 1,
                                           "type" : "string"
                                        },
@@ -66546,6 +66878,7 @@ const apiSchema = [
                                                 "lvm",
                                                 "lvmthin",
                                                 "nfs",
+                                                "nvmeof",
                                                 "pbs",
                                                 "rbd",
                                                 "zfs",
@@ -68516,6 +68849,11 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "integer"
                                        },
+                                       "running" : {
+                                          "description" : "Whether a transaction without end time is still running, or else got interrupted. Only the newest transaction can still be running. Missing if that could not be checked.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
                                        "start-index" : {
                                           "default" : 0,
                                           "description" : "Number of earlier transactions with the same start time in the same log file. Together with the start time, this identifies the transaction.",
@@ -70097,7 +70435,7 @@ const apiSchema = [
                                     },
                                     "nftables" : {
                                        "default" : 0,
-                                       "description" : "Enable nftables based firewall (tech preview)",
+                                       "description" : "Enable nftables based firewall.",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -70301,7 +70639,7 @@ const apiSchema = [
                                     },
                                     "nftables" : {
                                        "default" : 0,
-                                       "description" : "Enable nftables based firewall (tech preview)",
+                                       "description" : "Enable nftables based firewall.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -72626,14 +72964,14 @@ const apiSchema = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "auth-id" : {
-                                       "description" : "Only requests of this user or API token. A user also matches its own API tokens.",
+                                       "description" : "Only requests whose user or API token contains this text, ignoring case, so a user also matches its own API tokens.",
                                        "maxLength" : 1024,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
                                     "auth-id-exact" : {
-                                       "description" : "Whether 'auth-id' only matches itself, so a user does not match its API tokens, and '-' matches requests without any.",
+                                       "description" : "Whether 'auth-id' only matches itself as a whole, so a user does not match its API tokens, and '-' matches requests without any.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -73201,14 +73539,14 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "auth-id" : {
-                                 "description" : "Only requests of this user or API token. A user also matches its own API tokens.",
+                                 "description" : "Only requests whose user or API token contains this text, ignoring case, so a user also matches its own API tokens.",
                                  "maxLength" : 1024,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
                               "auth-id-exact" : {
-                                 "description" : "Whether 'auth-id' only matches itself, so a user does not match its API tokens, and '-' matches requests without any.",
+                                 "description" : "Whether 'auth-id' only matches itself as a whole, so a user does not match its API tokens, and '-' matches requests without any.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -73475,6 +73813,11 @@ const apiSchema = [
                               },
                               "repoid" : {
                                  "description" : "The short git commit hash ID from which this version was build",
+                                 "type" : "string"
+                              },
+                              "ui-version" : {
+                                 "description" : "A string generated from UI package versions, to detect changes.",
+                                 "optional" : 1,
                                  "type" : "string"
                               },
                               "version" : {
@@ -75440,6 +75783,7 @@ const apiSchema = [
                                           "lvm",
                                           "lvmthin",
                                           "nfs",
+                                          "nvmeof",
                                           "pbs",
                                           "rbd",
                                           "zfs",
@@ -75509,6 +75853,7 @@ const apiSchema = [
                                           "lvm",
                                           "lvmthin",
                                           "nfs",
+                                          "nvmeof",
                                           "pbs",
                                           "rbd",
                                           "zfs",
@@ -75608,6 +75953,7 @@ const apiSchema = [
                                        "lvm",
                                        "lvmthin",
                                        "nfs",
+                                       "nvmeof",
                                        "pbs",
                                        "rbd",
                                        "zfs",
@@ -76237,470 +76583,1844 @@ const apiSchema = [
                   "method" : "PUT",
                   "name" : "update",
                   "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "blocksize" : {
-                           "description" : "ZFS block size.",
-                           "format" : "pve-storage-zfs-blocksize",
-                           "format_description" : "a power of 2 with optional k or m suffix",
-                           "optional" : 1,
-                           "title" : "Block Size",
-                           "type" : "string",
-                           "typetext" : "<a power of 2 with optional k or m suffix>"
-                        },
-                        "bwlimit" : {
-                           "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
-                           "format" : {
-                              "clone" : {
-                                 "description" : "bandwidth limit in KiB/s for cloning disks",
-                                 "format_description" : "LIMIT",
-                                 "minimum" : "0",
+                     "allOf" : [
+                        {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "delete" : {
+                                 "description" : "A list of settings you want to delete.",
+                                 "format" : "pve-configid-list",
+                                 "maxLength" : 4096,
                                  "optional" : 1,
-                                 "type" : "number"
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
-                              "default" : {
-                                 "description" : "default bandwidth limit in KiB/s",
-                                 "format_description" : "LIMIT",
-                                 "minimum" : "0",
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
                                  "optional" : 1,
-                                 "type" : "number"
-                              },
-                              "migration" : {
-                                 "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
-                                 "format_description" : "LIMIT",
-                                 "minimum" : "0",
-                                 "optional" : 1,
-                                 "type" : "number"
-                              },
-                              "move" : {
-                                 "description" : "bandwidth limit in KiB/s for moving disks",
-                                 "format_description" : "LIMIT",
-                                 "minimum" : "0",
-                                 "optional" : 1,
-                                 "type" : "number"
-                              },
-                              "restore" : {
-                                 "description" : "bandwidth limit in KiB/s for restoring guests from backups",
-                                 "format_description" : "LIMIT",
-                                 "minimum" : "0",
-                                 "optional" : 1,
-                                 "type" : "number"
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               }
-                           },
-                           "optional" : 1,
-                           "title" : "Bandwidth Limit",
-                           "type" : "string",
-                           "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                           }
                         },
-                        "comstar_hg" : {
-                           "description" : "Host group for COMSTAR views.",
-                           "optional" : 1,
-                           "title" : "Host Group",
-                           "type" : "string",
-                           "typetext" : "<string>"
+                        {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "storage" : {
+                                 "description" : "The storage identifier.",
+                                 "format" : "pve-storage-id",
+                                 "format_description" : "storage ID",
+                                 "title" : "ID",
+                                 "type" : "string",
+                                 "typetext" : "<storage ID>"
+                              }
+                           }
                         },
-                        "comstar_tg" : {
-                           "description" : "Target group for COMSTAR views.",
-                           "optional" : 1,
-                           "title" : "Target Group",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "content" : {
-                           "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
-                           "format" : "pve-storage-content-list",
-                           "optional" : 1,
-                           "title" : "Content",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "content-dirs" : {
-                           "description" : "Overrides for default content type directories.",
-                           "format" : "pve-dir-override-list",
-                           "optional" : 1,
-                           "title" : "Content Directories",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "create-base-path" : {
-                           "default" : "yes",
-                           "description" : "Create the base directory if it doesn't exist.",
-                           "optional" : 1,
-                           "title" : "Create Base Directory",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "create-subdirs" : {
-                           "default" : "yes",
-                           "description" : "Populate the base directory with the default structure.",
-                           "optional" : 1,
-                           "title" : "Populate Base Directory",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "data-pool" : {
-                           "description" : "Data pool name for erasure-coded images.",
-                           "optional" : 1,
-                           "title" : "Data Pool",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "delete" : {
-                           "description" : "A list of settings you want to delete.",
-                           "format" : "pve-configid-list",
-                           "maxLength" : 4096,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "digest" : {
-                           "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
-                           "maxLength" : 64,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "disable" : {
-                           "description" : "Flag to disable the storage.",
-                           "optional" : 1,
-                           "title" : "Disable",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "domain" : {
-                           "description" : "The name of the user domain (workgroup) to use.",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "title" : "Domain",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "encryption-key" : {
-                           "description" : "Encryption key. Use 'autogen' to generate one automatically without passphrase.",
-                           "optional" : 1,
-                           "sensitive" : 1,
-                           "title" : "Encryption Key",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "fingerprint" : {
-                           "description" : "Certificate SHA 256 fingerprint.",
-                           "optional" : 1,
-                           "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
-                           "title" : "Fingerprint",
-                           "type" : "string"
-                        },
-                        "format" : {
-                           "description" : "Default image format.",
-                           "enum" : [
-                              "raw",
-                              "qcow2",
-                              "subvol",
-                              "vmdk"
+                        {
+                           "oneOf" : [
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "btrfs",
+                                 "properties" : {
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "create-base-path" : {
+                                       "default" : "yes",
+                                       "description" : "Create the base directory if it doesn't exist.",
+                                       "optional" : 1,
+                                       "title" : "Create Base Directory",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "create-subdirs" : {
+                                       "default" : "yes",
+                                       "description" : "Populate the base directory with the default structure.",
+                                       "optional" : 1,
+                                       "title" : "Populate Base Directory",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "format" : {
+                                       "description" : "Default image format.",
+                                       "enum" : [
+                                          "raw",
+                                          "qcow2",
+                                          "subvol",
+                                          "vmdk"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Default Format",
+                                       "type" : "string"
+                                    },
+                                    "is_mountpoint" : {
+                                       "default" : "no",
+                                       "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
+                                       "optional" : 1,
+                                       "title" : "Is Mountpoint",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "max-protected-backups" : {
+                                       "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                       "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                       "minimum" : -1,
+                                       "optional" : 1,
+                                       "title" : "Maximum Protected",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (-1 - N)"
+                                    },
+                                    "mkdir" : {
+                                       "default" : "yes",
+                                       "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nocow" : {
+                                       "default" : 0,
+                                       "description" : "Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.",
+                                       "optional" : 1,
+                                       "title" : "Set NOCOW Flag",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "preallocation" : {
+                                       "default" : "metadata",
+                                       "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                                       "enum" : [
+                                          "off",
+                                          "metadata",
+                                          "falloc",
+                                          "full"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Preallocation",
+                                       "type" : "string"
+                                    },
+                                    "prune-backups" : {
+                                       "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                       "format" : "prune-backups",
+                                       "optional" : 1,
+                                       "title" : "Backup Retention",
+                                       "type" : "string",
+                                       "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                    },
+                                    "shared" : {
+                                       "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                                       "optional" : 1,
+                                       "title" : "Shared",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "cephfs",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "content-dirs" : {
+                                       "description" : "Overrides for default content type directories.",
+                                       "format" : "pve-dir-override-list",
+                                       "optional" : 1,
+                                       "title" : "Content Directories",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "create-base-path" : {
+                                       "default" : "yes",
+                                       "description" : "Create the base directory if it doesn't exist.",
+                                       "optional" : 1,
+                                       "title" : "Create Base Directory",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "create-subdirs" : {
+                                       "default" : "yes",
+                                       "description" : "Populate the base directory with the default structure.",
+                                       "optional" : 1,
+                                       "title" : "Populate Base Directory",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "format" : {
+                                       "description" : "Default image format.",
+                                       "enum" : [
+                                          "raw",
+                                          "qcow2",
+                                          "subvol",
+                                          "vmdk"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Default Format",
+                                       "type" : "string"
+                                    },
+                                    "fs-name" : {
+                                       "description" : "The name or identifier of the filesystem.",
+                                       "format" : "pve-configid",
+                                       "optional" : 1,
+                                       "title" : "Filesystem Name",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "fuse" : {
+                                       "description" : "Mount the filesystem through FUSE.",
+                                       "optional" : 1,
+                                       "title" : "Mount with FUSE",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "keyring" : {
+                                       "description" : "Client keyring contents (for external clusters).",
+                                       "optional" : 1,
+                                       "sensitive" : 1,
+                                       "title" : "Keyring",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "max-protected-backups" : {
+                                       "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                       "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                       "minimum" : -1,
+                                       "optional" : 1,
+                                       "title" : "Maximum Protected",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (-1 - N)"
+                                    },
+                                    "mkdir" : {
+                                       "default" : "yes",
+                                       "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "monhost" : {
+                                       "description" : "IP addresses of monitors (for external clusters).",
+                                       "format" : "pve-storage-portal-dns-list",
+                                       "optional" : 1,
+                                       "title" : "Monitor(s)",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "options" : {
+                                       "description" : "Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.",
+                                       "format" : "pve-storage-options",
+                                       "optional" : 1,
+                                       "title" : "Mount Options",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "prune-backups" : {
+                                       "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                       "format" : "prune-backups",
+                                       "optional" : 1,
+                                       "title" : "Backup Retention",
+                                       "type" : "string",
+                                       "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                    },
+                                    "subdir" : {
+                                       "description" : "Subdir to mount.",
+                                       "format" : "pve-storage-path",
+                                       "optional" : 1,
+                                       "title" : "Subdirectory",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "username" : {
+                                       "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                                       "optional" : 1,
+                                       "title" : "Username",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "cifs",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "content-dirs" : {
+                                       "description" : "Overrides for default content type directories.",
+                                       "format" : "pve-dir-override-list",
+                                       "optional" : 1,
+                                       "title" : "Content Directories",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "create-base-path" : {
+                                       "default" : "yes",
+                                       "description" : "Create the base directory if it doesn't exist.",
+                                       "optional" : 1,
+                                       "title" : "Create Base Directory",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "create-subdirs" : {
+                                       "default" : "yes",
+                                       "description" : "Populate the base directory with the default structure.",
+                                       "optional" : 1,
+                                       "title" : "Populate Base Directory",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "domain" : {
+                                       "description" : "The name of the user domain (workgroup) to use.",
+                                       "maxLength" : 256,
+                                       "optional" : 1,
+                                       "title" : "Domain",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "format" : {
+                                       "description" : "Default image format.",
+                                       "enum" : [
+                                          "raw",
+                                          "qcow2",
+                                          "subvol",
+                                          "vmdk"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Default Format",
+                                       "type" : "string"
+                                    },
+                                    "max-protected-backups" : {
+                                       "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                       "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                       "minimum" : -1,
+                                       "optional" : 1,
+                                       "title" : "Maximum Protected",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (-1 - N)"
+                                    },
+                                    "mkdir" : {
+                                       "default" : "yes",
+                                       "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "options" : {
+                                       "description" : "Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.",
+                                       "format" : "pve-storage-options",
+                                       "optional" : 1,
+                                       "title" : "Mount Options",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "password" : {
+                                       "description" : "The password used for authentication.",
+                                       "maxLength" : 256,
+                                       "optional" : 1,
+                                       "sensitive" : 1,
+                                       "title" : "Password",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "preallocation" : {
+                                       "default" : "metadata",
+                                       "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                                       "enum" : [
+                                          "off",
+                                          "metadata",
+                                          "falloc",
+                                          "full"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Preallocation",
+                                       "type" : "string"
+                                    },
+                                    "prune-backups" : {
+                                       "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                       "format" : "prune-backups",
+                                       "optional" : 1,
+                                       "title" : "Backup Retention",
+                                       "type" : "string",
+                                       "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                    },
+                                    "smbversion" : {
+                                       "default" : "default",
+                                       "description" : "SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.",
+                                       "enum" : [
+                                          "default",
+                                          "2.0",
+                                          "2.1",
+                                          "3",
+                                          "3.0",
+                                          "3.11"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "SMB Version",
+                                       "type" : "string"
+                                    },
+                                    "subdir" : {
+                                       "description" : "Subdir to mount.",
+                                       "format" : "pve-storage-path",
+                                       "optional" : 1,
+                                       "title" : "Subdirectory",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "username" : {
+                                       "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                                       "optional" : 1,
+                                       "title" : "Username",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "dir",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "content-dirs" : {
+                                       "description" : "Overrides for default content type directories.",
+                                       "format" : "pve-dir-override-list",
+                                       "optional" : 1,
+                                       "title" : "Content Directories",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "create-base-path" : {
+                                       "default" : "yes",
+                                       "description" : "Create the base directory if it doesn't exist.",
+                                       "optional" : 1,
+                                       "title" : "Create Base Directory",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "create-subdirs" : {
+                                       "default" : "yes",
+                                       "description" : "Populate the base directory with the default structure.",
+                                       "optional" : 1,
+                                       "title" : "Populate Base Directory",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "format" : {
+                                       "description" : "Default image format.",
+                                       "enum" : [
+                                          "raw",
+                                          "qcow2",
+                                          "subvol",
+                                          "vmdk"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Default Format",
+                                       "type" : "string"
+                                    },
+                                    "is_mountpoint" : {
+                                       "default" : "no",
+                                       "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
+                                       "optional" : 1,
+                                       "title" : "Is Mountpoint",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "max-protected-backups" : {
+                                       "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                       "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                       "minimum" : -1,
+                                       "optional" : 1,
+                                       "title" : "Maximum Protected",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (-1 - N)"
+                                    },
+                                    "mkdir" : {
+                                       "default" : "yes",
+                                       "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "preallocation" : {
+                                       "default" : "metadata",
+                                       "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                                       "enum" : [
+                                          "off",
+                                          "metadata",
+                                          "falloc",
+                                          "full"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Preallocation",
+                                       "type" : "string"
+                                    },
+                                    "prune-backups" : {
+                                       "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                       "format" : "prune-backups",
+                                       "optional" : 1,
+                                       "title" : "Backup Retention",
+                                       "type" : "string",
+                                       "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                    },
+                                    "shared" : {
+                                       "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                                       "optional" : 1,
+                                       "title" : "Shared",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "esxi",
+                                 "properties" : {
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "password" : {
+                                       "description" : "The password used for authentication.",
+                                       "maxLength" : 256,
+                                       "optional" : 1,
+                                       "sensitive" : 1,
+                                       "title" : "Password",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "port" : {
+                                       "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
+                                       "maximum" : 65535,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "title" : "Port",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 65535)"
+                                    },
+                                    "shared" : {
+                                       "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                                       "optional" : 1,
+                                       "title" : "Shared",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "skip-cert-verification" : {
+                                       "default" : "false",
+                                       "description" : "Disable TLS certificate verification, only enable on fully trusted networks!",
+                                       "optional" : 1,
+                                       "title" : "Skip Certificate Verification",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "username" : {
+                                       "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                                       "optional" : 1,
+                                       "title" : "Username",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "iscsi",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "managed-multipath" : {
+                                       "description" : "Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.",
+                                       "optional" : 1,
+                                       "title" : "Multipath",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "iscsidirect",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "lvm",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "on-volume-remove" : {
+                                       "description" : "Optional actions when removing LVs.",
+                                       "format" : "on-volume-remove",
+                                       "optional" : 1,
+                                       "title" : "Volume Removal Actions",
+                                       "type" : "string",
+                                       "typetext" : "[discard=<1|0>]",
+                                       "verbose_description" : "Configure actions performed before removing an LV. Use 'discard=1' to issue discard (TRIM) requests before removal."
+                                    },
+                                    "saferemove" : {
+                                       "description" : "Zero-out data when removing LVs.",
+                                       "optional" : 1,
+                                       "title" : "Wipe Removed Volumes",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "saferemove-stepsize" : {
+                                       "default" : 32,
+                                       "description" : "Wipe step size in MiB. It will be capped to the maximum supported by the storage.",
+                                       "enum" : [
+                                          "1",
+                                          "2",
+                                          "4",
+                                          "8",
+                                          "16",
+                                          "32"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Wipe Step Size",
+                                       "type" : "integer"
+                                    },
+                                    "saferemove_throughput" : {
+                                       "description" : "Wipe throughput in bytes per second (optional suffix: k, m, or g).",
+                                       "optional" : 1,
+                                       "pattern" : "-?\\d+[kmgKMG]?",
+                                       "title" : "Wipe Throughput",
+                                       "type" : "string"
+                                    },
+                                    "shared" : {
+                                       "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                                       "optional" : 1,
+                                       "title" : "Shared",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "snapshot-as-volume-chain" : {
+                                       "default" : 0,
+                                       "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
+                                       "optional" : 1,
+                                       "title" : "Allow Snapshots as Volume-Chain",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "tagged_only" : {
+                                       "description" : "Only list logical volumes tagged with 'pve-vm-ID'.",
+                                       "optional" : 1,
+                                       "title" : "Tagged Volumes Only",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "lvmthin",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "nfs",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "content-dirs" : {
+                                       "description" : "Overrides for default content type directories.",
+                                       "format" : "pve-dir-override-list",
+                                       "optional" : 1,
+                                       "title" : "Content Directories",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "create-base-path" : {
+                                       "default" : "yes",
+                                       "description" : "Create the base directory if it doesn't exist.",
+                                       "optional" : 1,
+                                       "title" : "Create Base Directory",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "create-subdirs" : {
+                                       "default" : "yes",
+                                       "description" : "Populate the base directory with the default structure.",
+                                       "optional" : 1,
+                                       "title" : "Populate Base Directory",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "format" : {
+                                       "description" : "Default image format.",
+                                       "enum" : [
+                                          "raw",
+                                          "qcow2",
+                                          "subvol",
+                                          "vmdk"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Default Format",
+                                       "type" : "string"
+                                    },
+                                    "max-protected-backups" : {
+                                       "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                       "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                       "minimum" : -1,
+                                       "optional" : 1,
+                                       "title" : "Maximum Protected",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (-1 - N)"
+                                    },
+                                    "mkdir" : {
+                                       "default" : "yes",
+                                       "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "options" : {
+                                       "description" : "Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.",
+                                       "format" : "pve-storage-options",
+                                       "optional" : 1,
+                                       "title" : "Mount Options",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "preallocation" : {
+                                       "default" : "metadata",
+                                       "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                                       "enum" : [
+                                          "off",
+                                          "metadata",
+                                          "falloc",
+                                          "full"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Preallocation",
+                                       "type" : "string"
+                                    },
+                                    "prune-backups" : {
+                                       "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                       "format" : "prune-backups",
+                                       "optional" : 1,
+                                       "title" : "Backup Retention",
+                                       "type" : "string",
+                                       "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "nvmeof",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "fast-io-fail-tmo" : {
+                                       "default" : 120,
+                                       "description" : "Seconds before I/O through a reconnecting path fails. -1 disables this timeout; I/O can remain queued while paths reconnect.",
+                                       "minimum" : -1,
+                                       "optional" : 1,
+                                       "title" : "Fail I/O After (s)",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (-1 - N)"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "portals" : {
+                                       "description" : "TCP portals of the NVMe subsystem, as IPv4 or bracketed IPv6 addresses with an optional port (default 4420).",
+                                       "format" : "pve-storage-nvme-portal-list",
+                                       "optional" : 1,
+                                       "title" : "Portals",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "pbs",
+                                 "properties" : {
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "encryption-key" : {
+                                       "description" : "Encryption key. Use 'autogen' to generate one automatically without passphrase.",
+                                       "optional" : 1,
+                                       "sensitive" : 1,
+                                       "title" : "Encryption Key",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "fingerprint" : {
+                                       "description" : "Certificate SHA 256 fingerprint.",
+                                       "optional" : 1,
+                                       "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                                       "title" : "Fingerprint",
+                                       "type" : "string"
+                                    },
+                                    "master-pubkey" : {
+                                       "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
+                                       "optional" : 1,
+                                       "title" : "Master Public Key",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "max-protected-backups" : {
+                                       "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                       "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                       "minimum" : -1,
+                                       "optional" : 1,
+                                       "title" : "Maximum Protected",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (-1 - N)"
+                                    },
+                                    "namespace" : {
+                                       "description" : "The namespace used for grouping, isolation, or partitioning purposes.",
+                                       "optional" : 1,
+                                       "title" : "Namespace",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "password" : {
+                                       "description" : "The password used for authentication.",
+                                       "maxLength" : 256,
+                                       "optional" : 1,
+                                       "sensitive" : 1,
+                                       "title" : "Password",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "port" : {
+                                       "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
+                                       "maximum" : 65535,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "title" : "Port",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 65535)"
+                                    },
+                                    "prune-backups" : {
+                                       "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                       "format" : "prune-backups",
+                                       "optional" : 1,
+                                       "title" : "Backup Retention",
+                                       "type" : "string",
+                                       "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                    },
+                                    "username" : {
+                                       "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                                       "optional" : 1,
+                                       "title" : "Username",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "rbd",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "data-pool" : {
+                                       "description" : "Data pool name for erasure-coded images.",
+                                       "optional" : 1,
+                                       "title" : "Data Pool",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "keyring" : {
+                                       "description" : "Client keyring contents (for external clusters).",
+                                       "optional" : 1,
+                                       "sensitive" : 1,
+                                       "title" : "Keyring",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "krbd" : {
+                                       "default" : 0,
+                                       "description" : "Always access rbd through krbd kernel module.",
+                                       "optional" : 1,
+                                       "title" : "KRBD",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "monhost" : {
+                                       "description" : "IP addresses of monitors (for external clusters).",
+                                       "format" : "pve-storage-portal-dns-list",
+                                       "optional" : 1,
+                                       "title" : "Monitor(s)",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "namespace" : {
+                                       "description" : "The namespace used for grouping, isolation, or partitioning purposes.",
+                                       "optional" : 1,
+                                       "title" : "Namespace",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "pool" : {
+                                       "description" : "Name of the pool that stores images.",
+                                       "optional" : 1,
+                                       "title" : "Pool",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "username" : {
+                                       "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                                       "optional" : 1,
+                                       "title" : "Username",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "zfs",
+                                 "properties" : {
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "comstar_hg" : {
+                                       "description" : "Host group for COMSTAR views.",
+                                       "optional" : 1,
+                                       "title" : "Host Group",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "comstar_tg" : {
+                                       "description" : "Target group for COMSTAR views.",
+                                       "optional" : 1,
+                                       "title" : "Target Group",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "lio_tpg" : {
+                                       "description" : "Target portal group for Linux LIO targets.",
+                                       "optional" : 1,
+                                       "title" : "Target Portal Group",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "nowritecache" : {
+                                       "description" : "Disable write caching on the iSCSI target.",
+                                       "optional" : 1,
+                                       "title" : "Disable Write Cache",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "sparse" : {
+                                       "description" : "Use sparse (thin-provisioned) volumes.",
+                                       "optional" : 1,
+                                       "title" : "Thin Provision",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "zfs-base-path" : {
+                                       "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
+                                       "format" : "pve-storage-path",
+                                       "optional" : 1,
+                                       "title" : "Base Path",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              {
+                                 "additionalProperties" : 0,
+                                 "instance-type" : "zfspool",
+                                 "properties" : {
+                                    "blocksize" : {
+                                       "description" : "ZFS block size.",
+                                       "format" : "pve-storage-zfs-blocksize",
+                                       "format_description" : "a power of 2 with optional k or m suffix",
+                                       "optional" : 1,
+                                       "title" : "Block Size",
+                                       "type" : "string",
+                                       "typetext" : "<a power of 2 with optional k or m suffix>"
+                                    },
+                                    "bwlimit" : {
+                                       "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                       "format" : {
+                                          "clone" : {
+                                             "description" : "bandwidth limit in KiB/s for cloning disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "default" : {
+                                             "description" : "default bandwidth limit in KiB/s",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migration" : {
+                                             "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "move" : {
+                                             "description" : "bandwidth limit in KiB/s for moving disks",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "restore" : {
+                                             "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                             "format_description" : "LIMIT",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "title" : "Bandwidth Limit",
+                                       "type" : "string",
+                                       "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                                    },
+                                    "content" : {
+                                       "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                       "format" : "pve-storage-content-list",
+                                       "optional" : 1,
+                                       "title" : "Content",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the storage.",
+                                       "optional" : 1,
+                                       "title" : "Disable",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "mountpoint" : {
+                                       "description" : "Path to the directory where the storage is mounted.",
+                                       "format" : "pve-storage-path",
+                                       "optional" : 1,
+                                       "title" : "Mountpoint",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of nodes for which the storage configuration applies.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "title" : "Nodes",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "sparse" : {
+                                       "description" : "Use sparse (thin-provisioned) volumes.",
+                                       "optional" : 1,
+                                       "title" : "Thin Provision",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              }
                            ],
-                           "optional" : 1,
-                           "title" : "Default Format",
-                           "type" : "string"
-                        },
-                        "fs-name" : {
-                           "description" : "The name or identifier of the filesystem.",
-                           "format" : "pve-configid",
-                           "optional" : 1,
-                           "title" : "Filesystem Name",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "fuse" : {
-                           "description" : "Mount the filesystem through FUSE.",
-                           "optional" : 1,
-                           "title" : "Mount with FUSE",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "is_mountpoint" : {
-                           "default" : "no",
-                           "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
-                           "optional" : 1,
-                           "title" : "Is Mountpoint",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "keyring" : {
-                           "description" : "Client keyring contents (for external clusters).",
-                           "optional" : 1,
-                           "sensitive" : 1,
-                           "title" : "Keyring",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "krbd" : {
-                           "default" : 0,
-                           "description" : "Always access rbd through krbd kernel module.",
-                           "optional" : 1,
-                           "title" : "KRBD",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "lio_tpg" : {
-                           "description" : "Target portal group for Linux LIO targets.",
-                           "optional" : 1,
-                           "title" : "Target Portal Group",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "managed-multipath" : {
-                           "description" : "Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.",
-                           "optional" : 1,
-                           "title" : "Multipath",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "master-pubkey" : {
-                           "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
-                           "optional" : 1,
-                           "title" : "Master Public Key",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "max-protected-backups" : {
-                           "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
-                           "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
-                           "minimum" : -1,
-                           "optional" : 1,
-                           "title" : "Maximum Protected",
-                           "type" : "integer",
-                           "typetext" : "<integer> (-1 - N)"
-                        },
-                        "mkdir" : {
-                           "default" : "yes",
-                           "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
-                           "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "monhost" : {
-                           "description" : "IP addresses of monitors (for external clusters).",
-                           "format" : "pve-storage-portal-dns-list",
-                           "optional" : 1,
-                           "title" : "Monitor(s)",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "mountpoint" : {
-                           "description" : "Path to the directory where the storage is mounted.",
-                           "format" : "pve-storage-path",
-                           "optional" : 1,
-                           "title" : "Mountpoint",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "namespace" : {
-                           "description" : "The namespace used for grouping, isolation, or partitioning purposes.",
-                           "optional" : 1,
-                           "title" : "Namespace",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "nocow" : {
-                           "default" : 0,
-                           "description" : "Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.",
-                           "optional" : 1,
-                           "title" : "Set NOCOW Flag",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "nodes" : {
-                           "description" : "List of nodes for which the storage configuration applies.",
-                           "format" : "pve-node-list",
-                           "optional" : 1,
-                           "title" : "Nodes",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "nowritecache" : {
-                           "description" : "Disable write caching on the iSCSI target.",
-                           "optional" : 1,
-                           "title" : "Disable Write Cache",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "on-volume-remove" : {
-                           "description" : "Optional actions when removing LVs.",
-                           "format" : "on-volume-remove",
-                           "optional" : 1,
-                           "title" : "Volume Removal Actions",
-                           "type" : "string",
-                           "typetext" : "[discard=<1|0>]",
-                           "verbose_description" : "Configure actions performed before removing an LV. Use 'discard=1' to issue discard (TRIM) requests before removal."
-                        },
-                        "options" : {
-                           "description" : "Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.",
-                           "format" : "pve-storage-options",
-                           "optional" : 1,
-                           "title" : "Mount Options",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "password" : {
-                           "description" : "The password used for authentication.",
-                           "maxLength" : 256,
-                           "optional" : 1,
-                           "sensitive" : 1,
-                           "title" : "Password",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "pool" : {
-                           "description" : "Name of the pool that stores images.",
-                           "optional" : 1,
-                           "title" : "Pool",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "port" : {
-                           "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
-                           "maximum" : 65535,
-                           "minimum" : 1,
-                           "optional" : 1,
-                           "title" : "Port",
-                           "type" : "integer",
-                           "typetext" : "<integer> (1 - 65535)"
-                        },
-                        "preallocation" : {
-                           "default" : "metadata",
-                           "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
-                           "enum" : [
-                              "off",
-                              "metadata",
-                              "falloc",
-                              "full"
-                           ],
-                           "optional" : 1,
-                           "title" : "Preallocation",
-                           "type" : "string"
-                        },
-                        "prune-backups" : {
-                           "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
-                           "format" : "prune-backups",
-                           "optional" : 1,
-                           "title" : "Backup Retention",
-                           "type" : "string",
-                           "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
-                        },
-                        "saferemove" : {
-                           "description" : "Zero-out data when removing LVs.",
-                           "optional" : 1,
-                           "title" : "Wipe Removed Volumes",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "saferemove-stepsize" : {
-                           "default" : 32,
-                           "description" : "Wipe step size in MiB. It will be capped to the maximum supported by the storage.",
-                           "enum" : [
-                              "1",
-                              "2",
-                              "4",
-                              "8",
-                              "16",
-                              "32"
-                           ],
-                           "optional" : 1,
-                           "title" : "Wipe Step Size",
-                           "type" : "integer"
-                        },
-                        "saferemove_throughput" : {
-                           "description" : "Wipe throughput in bytes per second (optional suffix: k, m, or g).",
-                           "optional" : 1,
-                           "pattern" : "-?\\d+[kmgKMG]?",
-                           "title" : "Wipe Throughput",
-                           "type" : "string"
-                        },
-                        "shared" : {
-                           "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
-                           "optional" : 1,
-                           "title" : "Shared",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "skip-cert-verification" : {
-                           "default" : "false",
-                           "description" : "Disable TLS certificate verification, only enable on fully trusted networks!",
-                           "optional" : 1,
-                           "title" : "Skip Certificate Verification",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "smbversion" : {
-                           "default" : "default",
-                           "description" : "SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.",
-                           "enum" : [
-                              "default",
-                              "2.0",
-                              "2.1",
-                              "3",
-                              "3.0",
-                              "3.11"
-                           ],
-                           "optional" : 1,
-                           "title" : "SMB Version",
-                           "type" : "string"
-                        },
-                        "snapshot-as-volume-chain" : {
-                           "default" : 0,
-                           "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
-                           "optional" : 1,
-                           "title" : "Allow Snapshots as Volume-Chain",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "sparse" : {
-                           "description" : "Use sparse (thin-provisioned) volumes.",
-                           "optional" : 1,
-                           "title" : "Thin Provision",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "storage" : {
-                           "description" : "The storage identifier.",
-                           "format" : "pve-storage-id",
-                           "format_description" : "storage ID",
-                           "title" : "ID",
-                           "type" : "string",
-                           "typetext" : "<storage ID>"
-                        },
-                        "subdir" : {
-                           "description" : "Subdir to mount.",
-                           "format" : "pve-storage-path",
-                           "optional" : 1,
-                           "title" : "Subdirectory",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "tagged_only" : {
-                           "description" : "Only list logical volumes tagged with 'pve-vm-ID'.",
-                           "optional" : 1,
-                           "title" : "Tagged Volumes Only",
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
-                        },
-                        "username" : {
-                           "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
-                           "optional" : 1,
-                           "title" : "Username",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "zfs-base-path" : {
-                           "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
-                           "format" : "pve-storage-path",
-                           "optional" : 1,
-                           "title" : "Base Path",
-                           "type" : "string",
-                           "typetext" : "<string>"
+                           "type-property" : "type",
+                           "type-property-schema" : {
+                              "description" : "Storage type.",
+                              "enum" : [
+                                 "btrfs",
+                                 "cephfs",
+                                 "cifs",
+                                 "dir",
+                                 "esxi",
+                                 "iscsi",
+                                 "iscsidirect",
+                                 "lvm",
+                                 "lvmthin",
+                                 "nfs",
+                                 "nvmeof",
+                                 "pbs",
+                                 "rbd",
+                                 "zfs",
+                                 "zfspool"
+                              ],
+                              "title" : "Type",
+                              "type" : "string"
+                           }
                         }
-                     },
-                     "type" : "object"
+                     ]
                   },
                   "permissions" : {
                      "check" : [
@@ -76744,6 +78464,7 @@ const apiSchema = [
                               "lvm",
                               "lvmthin",
                               "nfs",
+                              "nvmeof",
                               "pbs",
                               "rbd",
                               "zfs",
@@ -76783,6 +78504,7 @@ const apiSchema = [
                         "lvm",
                         "lvmthin",
                         "nfs",
+                        "nvmeof",
                         "pbs",
                         "rbd",
                         "zfs",
@@ -76821,566 +78543,2055 @@ const apiSchema = [
             "method" : "POST",
             "name" : "create",
             "parameters" : {
-               "additionalProperties" : 0,
-               "properties" : {
-                  "authsupported" : {
-                     "description" : "Authsupported.",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "base" : {
-                     "description" : "Volume ID of the base volume (automatically activated).",
-                     "format" : "pve-volume-id",
-                     "optional" : 1,
-                     "title" : "Base Volume",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "blocksize" : {
-                     "description" : "ZFS block size.",
-                     "format" : "pve-storage-zfs-blocksize",
-                     "format_description" : "a power of 2 with optional k or m suffix",
-                     "optional" : 1,
-                     "title" : "Block Size",
-                     "type" : "string",
-                     "typetext" : "<a power of 2 with optional k or m suffix>"
-                  },
-                  "bwlimit" : {
-                     "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
-                     "format" : {
-                        "clone" : {
-                           "description" : "bandwidth limit in KiB/s for cloning disks",
-                           "format_description" : "LIMIT",
-                           "minimum" : "0",
-                           "optional" : 1,
-                           "type" : "number"
-                        },
-                        "default" : {
-                           "description" : "default bandwidth limit in KiB/s",
-                           "format_description" : "LIMIT",
-                           "minimum" : "0",
-                           "optional" : 1,
-                           "type" : "number"
-                        },
-                        "migration" : {
-                           "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
-                           "format_description" : "LIMIT",
-                           "minimum" : "0",
-                           "optional" : 1,
-                           "type" : "number"
-                        },
-                        "move" : {
-                           "description" : "bandwidth limit in KiB/s for moving disks",
-                           "format_description" : "LIMIT",
-                           "minimum" : "0",
-                           "optional" : 1,
-                           "type" : "number"
-                        },
-                        "restore" : {
-                           "description" : "bandwidth limit in KiB/s for restoring guests from backups",
-                           "format_description" : "LIMIT",
-                           "minimum" : "0",
-                           "optional" : 1,
-                           "type" : "number"
+               "allOf" : [
+                  {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "storage" : {
+                           "description" : "The storage identifier.",
+                           "format" : "pve-storage-id",
+                           "format_description" : "storage ID",
+                           "title" : "ID",
+                           "type" : "string",
+                           "typetext" : "<storage ID>"
                         }
-                     },
-                     "optional" : 1,
-                     "title" : "Bandwidth Limit",
-                     "type" : "string",
-                     "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                     }
                   },
-                  "comstar_hg" : {
-                     "description" : "Host group for COMSTAR views.",
-                     "optional" : 1,
-                     "title" : "Host Group",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "comstar_tg" : {
-                     "description" : "Target group for COMSTAR views.",
-                     "optional" : 1,
-                     "title" : "Target Group",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "content" : {
-                     "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
-                     "format" : "pve-storage-content-list",
-                     "optional" : 1,
-                     "title" : "Content",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "content-dirs" : {
-                     "description" : "Overrides for default content type directories.",
-                     "format" : "pve-dir-override-list",
-                     "optional" : 1,
-                     "title" : "Content Directories",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "create-base-path" : {
-                     "default" : "yes",
-                     "description" : "Create the base directory if it doesn't exist.",
-                     "optional" : 1,
-                     "title" : "Create Base Directory",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "create-subdirs" : {
-                     "default" : "yes",
-                     "description" : "Populate the base directory with the default structure.",
-                     "optional" : 1,
-                     "title" : "Populate Base Directory",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "data-pool" : {
-                     "description" : "Data pool name for erasure-coded images.",
-                     "optional" : 1,
-                     "title" : "Data Pool",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "datastore" : {
-                     "description" : "Proxmox Backup Server datastore name.",
-                     "optional" : 1,
-                     "title" : "Datastore",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "disable" : {
-                     "description" : "Flag to disable the storage.",
-                     "optional" : 1,
-                     "title" : "Disable",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "domain" : {
-                     "description" : "The name of the user domain (workgroup) to use.",
-                     "maxLength" : 256,
-                     "optional" : 1,
-                     "title" : "Domain",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "encryption-key" : {
-                     "description" : "Encryption key. Use 'autogen' to generate one automatically without passphrase.",
-                     "optional" : 1,
-                     "sensitive" : 1,
-                     "title" : "Encryption Key",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "export" : {
-                     "description" : "Path exported by the NFS server (e.g., /srv/nfs).",
-                     "format" : "pve-storage-path",
-                     "optional" : 1,
-                     "title" : "Export Path",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "fingerprint" : {
-                     "description" : "Certificate SHA 256 fingerprint.",
-                     "optional" : 1,
-                     "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
-                     "title" : "Fingerprint",
-                     "type" : "string"
-                  },
-                  "format" : {
-                     "description" : "Default image format.",
-                     "enum" : [
-                        "raw",
-                        "qcow2",
-                        "subvol",
-                        "vmdk"
+                  {
+                     "oneOf" : [
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "btrfs",
+                           "properties" : {
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "create-base-path" : {
+                                 "default" : "yes",
+                                 "description" : "Create the base directory if it doesn't exist.",
+                                 "optional" : 1,
+                                 "title" : "Create Base Directory",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "create-subdirs" : {
+                                 "default" : "yes",
+                                 "description" : "Populate the base directory with the default structure.",
+                                 "optional" : 1,
+                                 "title" : "Populate Base Directory",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "format" : {
+                                 "description" : "Default image format.",
+                                 "enum" : [
+                                    "raw",
+                                    "qcow2",
+                                    "subvol",
+                                    "vmdk"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "Default Format",
+                                 "type" : "string"
+                              },
+                              "is_mountpoint" : {
+                                 "default" : "no",
+                                 "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
+                                 "optional" : 1,
+                                 "title" : "Is Mountpoint",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "max-protected-backups" : {
+                                 "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                 "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                 "minimum" : -1,
+                                 "optional" : 1,
+                                 "title" : "Maximum Protected",
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (-1 - N)"
+                              },
+                              "mkdir" : {
+                                 "default" : "yes",
+                                 "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nocow" : {
+                                 "default" : 0,
+                                 "description" : "Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.",
+                                 "optional" : 1,
+                                 "title" : "Set NOCOW Flag",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "path" : {
+                                 "description" : "Path of the storage in the local file system, for example its base directory or mount point.",
+                                 "format" : "pve-storage-path",
+                                 "optional" : 1,
+                                 "title" : "Path",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "preallocation" : {
+                                 "default" : "metadata",
+                                 "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                                 "enum" : [
+                                    "off",
+                                    "metadata",
+                                    "falloc",
+                                    "full"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "Preallocation",
+                                 "type" : "string"
+                              },
+                              "prune-backups" : {
+                                 "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                 "format" : "prune-backups",
+                                 "optional" : 1,
+                                 "title" : "Backup Retention",
+                                 "type" : "string",
+                                 "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                              },
+                              "shared" : {
+                                 "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                                 "optional" : 1,
+                                 "title" : "Shared",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "cephfs",
+                           "properties" : {
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "content-dirs" : {
+                                 "description" : "Overrides for default content type directories.",
+                                 "format" : "pve-dir-override-list",
+                                 "optional" : 1,
+                                 "title" : "Content Directories",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "create-base-path" : {
+                                 "default" : "yes",
+                                 "description" : "Create the base directory if it doesn't exist.",
+                                 "optional" : 1,
+                                 "title" : "Create Base Directory",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "create-subdirs" : {
+                                 "default" : "yes",
+                                 "description" : "Populate the base directory with the default structure.",
+                                 "optional" : 1,
+                                 "title" : "Populate Base Directory",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "format" : {
+                                 "description" : "Default image format.",
+                                 "enum" : [
+                                    "raw",
+                                    "qcow2",
+                                    "subvol",
+                                    "vmdk"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "Default Format",
+                                 "type" : "string"
+                              },
+                              "fs-name" : {
+                                 "description" : "The name or identifier of the filesystem.",
+                                 "format" : "pve-configid",
+                                 "optional" : 1,
+                                 "title" : "Filesystem Name",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "fuse" : {
+                                 "description" : "Mount the filesystem through FUSE.",
+                                 "optional" : 1,
+                                 "title" : "Mount with FUSE",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "keyring" : {
+                                 "description" : "Client keyring contents (for external clusters).",
+                                 "optional" : 1,
+                                 "sensitive" : 1,
+                                 "title" : "Keyring",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "max-protected-backups" : {
+                                 "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                 "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                 "minimum" : -1,
+                                 "optional" : 1,
+                                 "title" : "Maximum Protected",
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (-1 - N)"
+                              },
+                              "mkdir" : {
+                                 "default" : "yes",
+                                 "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "monhost" : {
+                                 "description" : "IP addresses of monitors (for external clusters).",
+                                 "format" : "pve-storage-portal-dns-list",
+                                 "optional" : 1,
+                                 "title" : "Monitor(s)",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "options" : {
+                                 "description" : "Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.",
+                                 "format" : "pve-storage-options",
+                                 "optional" : 1,
+                                 "title" : "Mount Options",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "path" : {
+                                 "description" : "Path of the storage in the local file system, for example its base directory or mount point.",
+                                 "format" : "pve-storage-path",
+                                 "optional" : 1,
+                                 "title" : "Path",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "prune-backups" : {
+                                 "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                 "format" : "prune-backups",
+                                 "optional" : 1,
+                                 "title" : "Backup Retention",
+                                 "type" : "string",
+                                 "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                              },
+                              "subdir" : {
+                                 "description" : "Subdir to mount.",
+                                 "format" : "pve-storage-path",
+                                 "optional" : 1,
+                                 "title" : "Subdirectory",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "username" : {
+                                 "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                                 "optional" : 1,
+                                 "title" : "Username",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "cifs",
+                           "properties" : {
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "content-dirs" : {
+                                 "description" : "Overrides for default content type directories.",
+                                 "format" : "pve-dir-override-list",
+                                 "optional" : 1,
+                                 "title" : "Content Directories",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "create-base-path" : {
+                                 "default" : "yes",
+                                 "description" : "Create the base directory if it doesn't exist.",
+                                 "optional" : 1,
+                                 "title" : "Create Base Directory",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "create-subdirs" : {
+                                 "default" : "yes",
+                                 "description" : "Populate the base directory with the default structure.",
+                                 "optional" : 1,
+                                 "title" : "Populate Base Directory",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "domain" : {
+                                 "description" : "The name of the user domain (workgroup) to use.",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "title" : "Domain",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "format" : {
+                                 "description" : "Default image format.",
+                                 "enum" : [
+                                    "raw",
+                                    "qcow2",
+                                    "subvol",
+                                    "vmdk"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "Default Format",
+                                 "type" : "string"
+                              },
+                              "max-protected-backups" : {
+                                 "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                 "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                 "minimum" : -1,
+                                 "optional" : 1,
+                                 "title" : "Maximum Protected",
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (-1 - N)"
+                              },
+                              "mkdir" : {
+                                 "default" : "yes",
+                                 "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "options" : {
+                                 "description" : "Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.",
+                                 "format" : "pve-storage-options",
+                                 "optional" : 1,
+                                 "title" : "Mount Options",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "password" : {
+                                 "description" : "The password used for authentication.",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "sensitive" : 1,
+                                 "title" : "Password",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "path" : {
+                                 "description" : "Path of the storage in the local file system, for example its base directory or mount point.",
+                                 "format" : "pve-storage-path",
+                                 "optional" : 1,
+                                 "title" : "Path",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "preallocation" : {
+                                 "default" : "metadata",
+                                 "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                                 "enum" : [
+                                    "off",
+                                    "metadata",
+                                    "falloc",
+                                    "full"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "Preallocation",
+                                 "type" : "string"
+                              },
+                              "prune-backups" : {
+                                 "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                 "format" : "prune-backups",
+                                 "optional" : 1,
+                                 "title" : "Backup Retention",
+                                 "type" : "string",
+                                 "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                              },
+                              "server" : {
+                                 "description" : "IP address or hostname of the server.",
+                                 "format" : "pve-storage-server",
+                                 "optional" : 1,
+                                 "title" : "Server",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "share" : {
+                                 "description" : "The name of the share to use.",
+                                 "optional" : 1,
+                                 "title" : "Share",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "smbversion" : {
+                                 "default" : "default",
+                                 "description" : "SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.",
+                                 "enum" : [
+                                    "default",
+                                    "2.0",
+                                    "2.1",
+                                    "3",
+                                    "3.0",
+                                    "3.11"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "SMB Version",
+                                 "type" : "string"
+                              },
+                              "snapshot-as-volume-chain" : {
+                                 "default" : 0,
+                                 "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
+                                 "optional" : 1,
+                                 "title" : "Allow Snapshots as Volume-Chain",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "subdir" : {
+                                 "description" : "Subdir to mount.",
+                                 "format" : "pve-storage-path",
+                                 "optional" : 1,
+                                 "title" : "Subdirectory",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "username" : {
+                                 "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                                 "optional" : 1,
+                                 "title" : "Username",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "dir",
+                           "properties" : {
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "content-dirs" : {
+                                 "description" : "Overrides for default content type directories.",
+                                 "format" : "pve-dir-override-list",
+                                 "optional" : 1,
+                                 "title" : "Content Directories",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "create-base-path" : {
+                                 "default" : "yes",
+                                 "description" : "Create the base directory if it doesn't exist.",
+                                 "optional" : 1,
+                                 "title" : "Create Base Directory",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "create-subdirs" : {
+                                 "default" : "yes",
+                                 "description" : "Populate the base directory with the default structure.",
+                                 "optional" : 1,
+                                 "title" : "Populate Base Directory",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "format" : {
+                                 "description" : "Default image format.",
+                                 "enum" : [
+                                    "raw",
+                                    "qcow2",
+                                    "subvol",
+                                    "vmdk"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "Default Format",
+                                 "type" : "string"
+                              },
+                              "is_mountpoint" : {
+                                 "default" : "no",
+                                 "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
+                                 "optional" : 1,
+                                 "title" : "Is Mountpoint",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "max-protected-backups" : {
+                                 "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                 "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                 "minimum" : -1,
+                                 "optional" : 1,
+                                 "title" : "Maximum Protected",
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (-1 - N)"
+                              },
+                              "mkdir" : {
+                                 "default" : "yes",
+                                 "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "path" : {
+                                 "description" : "Path of the storage in the local file system, for example its base directory or mount point.",
+                                 "format" : "pve-storage-path",
+                                 "optional" : 1,
+                                 "title" : "Path",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "preallocation" : {
+                                 "default" : "metadata",
+                                 "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                                 "enum" : [
+                                    "off",
+                                    "metadata",
+                                    "falloc",
+                                    "full"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "Preallocation",
+                                 "type" : "string"
+                              },
+                              "prune-backups" : {
+                                 "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                 "format" : "prune-backups",
+                                 "optional" : 1,
+                                 "title" : "Backup Retention",
+                                 "type" : "string",
+                                 "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                              },
+                              "shared" : {
+                                 "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                                 "optional" : 1,
+                                 "title" : "Shared",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "snapshot-as-volume-chain" : {
+                                 "default" : 0,
+                                 "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
+                                 "optional" : 1,
+                                 "title" : "Allow Snapshots as Volume-Chain",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "esxi",
+                           "properties" : {
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "password" : {
+                                 "description" : "The password used for authentication.",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "sensitive" : 1,
+                                 "title" : "Password",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "port" : {
+                                 "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
+                                 "maximum" : 65535,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "title" : "Port",
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 65535)"
+                              },
+                              "server" : {
+                                 "description" : "IP address or hostname of the server.",
+                                 "format" : "pve-storage-server",
+                                 "optional" : 1,
+                                 "title" : "Server",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "shared" : {
+                                 "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                                 "optional" : 1,
+                                 "title" : "Shared",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "skip-cert-verification" : {
+                                 "default" : "false",
+                                 "description" : "Disable TLS certificate verification, only enable on fully trusted networks!",
+                                 "optional" : 1,
+                                 "title" : "Skip Certificate Verification",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "username" : {
+                                 "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                                 "optional" : 1,
+                                 "title" : "Username",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "iscsi",
+                           "properties" : {
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "managed-multipath" : {
+                                 "description" : "Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.",
+                                 "optional" : 1,
+                                 "title" : "Multipath",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "portal" : {
+                                 "description" : "iSCSI portal (IP or hostname, optionally with port).",
+                                 "format" : "pve-storage-portal-dns",
+                                 "optional" : 1,
+                                 "title" : "Portal",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "target" : {
+                                 "description" : "iSCSI target name (an iSCSI Qualified Name - IQN).",
+                                 "optional" : 1,
+                                 "title" : "Target",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "iscsidirect",
+                           "properties" : {
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "portal" : {
+                                 "description" : "iSCSI portal (IP or hostname, optionally with port).",
+                                 "format" : "pve-storage-portal-dns",
+                                 "optional" : 1,
+                                 "title" : "Portal",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "target" : {
+                                 "description" : "iSCSI target name (an iSCSI Qualified Name - IQN).",
+                                 "optional" : 1,
+                                 "title" : "Target",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "lvm",
+                           "properties" : {
+                              "base" : {
+                                 "description" : "Volume ID of the base volume (automatically activated).",
+                                 "format" : "pve-volume-id",
+                                 "optional" : 1,
+                                 "title" : "Base Volume",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "on-volume-remove" : {
+                                 "description" : "Optional actions when removing LVs.",
+                                 "format" : "on-volume-remove",
+                                 "optional" : 1,
+                                 "title" : "Volume Removal Actions",
+                                 "type" : "string",
+                                 "typetext" : "[discard=<1|0>]",
+                                 "verbose_description" : "Configure actions performed before removing an LV. Use 'discard=1' to issue discard (TRIM) requests before removal."
+                              },
+                              "saferemove" : {
+                                 "description" : "Zero-out data when removing LVs.",
+                                 "optional" : 1,
+                                 "title" : "Wipe Removed Volumes",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "saferemove-stepsize" : {
+                                 "default" : 32,
+                                 "description" : "Wipe step size in MiB. It will be capped to the maximum supported by the storage.",
+                                 "enum" : [
+                                    "1",
+                                    "2",
+                                    "4",
+                                    "8",
+                                    "16",
+                                    "32"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "Wipe Step Size",
+                                 "type" : "integer"
+                              },
+                              "saferemove_throughput" : {
+                                 "description" : "Wipe throughput in bytes per second (optional suffix: k, m, or g).",
+                                 "optional" : 1,
+                                 "pattern" : "-?\\d+[kmgKMG]?",
+                                 "title" : "Wipe Throughput",
+                                 "type" : "string"
+                              },
+                              "shared" : {
+                                 "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                                 "optional" : 1,
+                                 "title" : "Shared",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "snapshot-as-volume-chain" : {
+                                 "default" : 0,
+                                 "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
+                                 "optional" : 1,
+                                 "title" : "Allow Snapshots as Volume-Chain",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "tagged_only" : {
+                                 "description" : "Only list logical volumes tagged with 'pve-vm-ID'.",
+                                 "optional" : 1,
+                                 "title" : "Tagged Volumes Only",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "vgname" : {
+                                 "description" : "LVM volume group name.",
+                                 "format" : "pve-storage-vgname",
+                                 "optional" : 1,
+                                 "title" : "Volume Group",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "lvmthin",
+                           "properties" : {
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "thinpool" : {
+                                 "description" : "Name of the LVM thin pool logical volume.",
+                                 "format" : "pve-storage-vgname",
+                                 "optional" : 1,
+                                 "title" : "Thin Pool",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "vgname" : {
+                                 "description" : "LVM volume group name.",
+                                 "format" : "pve-storage-vgname",
+                                 "optional" : 1,
+                                 "title" : "Volume Group",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "nfs",
+                           "properties" : {
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "content-dirs" : {
+                                 "description" : "Overrides for default content type directories.",
+                                 "format" : "pve-dir-override-list",
+                                 "optional" : 1,
+                                 "title" : "Content Directories",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "create-base-path" : {
+                                 "default" : "yes",
+                                 "description" : "Create the base directory if it doesn't exist.",
+                                 "optional" : 1,
+                                 "title" : "Create Base Directory",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "create-subdirs" : {
+                                 "default" : "yes",
+                                 "description" : "Populate the base directory with the default structure.",
+                                 "optional" : 1,
+                                 "title" : "Populate Base Directory",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "export" : {
+                                 "description" : "Path exported by the NFS server (e.g., /srv/nfs).",
+                                 "format" : "pve-storage-path",
+                                 "optional" : 1,
+                                 "title" : "Export Path",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "format" : {
+                                 "description" : "Default image format.",
+                                 "enum" : [
+                                    "raw",
+                                    "qcow2",
+                                    "subvol",
+                                    "vmdk"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "Default Format",
+                                 "type" : "string"
+                              },
+                              "max-protected-backups" : {
+                                 "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                 "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                 "minimum" : -1,
+                                 "optional" : 1,
+                                 "title" : "Maximum Protected",
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (-1 - N)"
+                              },
+                              "mkdir" : {
+                                 "default" : "yes",
+                                 "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "options" : {
+                                 "description" : "Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.",
+                                 "format" : "pve-storage-options",
+                                 "optional" : 1,
+                                 "title" : "Mount Options",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "path" : {
+                                 "description" : "Path of the storage in the local file system, for example its base directory or mount point.",
+                                 "format" : "pve-storage-path",
+                                 "optional" : 1,
+                                 "title" : "Path",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "preallocation" : {
+                                 "default" : "metadata",
+                                 "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                                 "enum" : [
+                                    "off",
+                                    "metadata",
+                                    "falloc",
+                                    "full"
+                                 ],
+                                 "optional" : 1,
+                                 "title" : "Preallocation",
+                                 "type" : "string"
+                              },
+                              "prune-backups" : {
+                                 "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                 "format" : "prune-backups",
+                                 "optional" : 1,
+                                 "title" : "Backup Retention",
+                                 "type" : "string",
+                                 "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                              },
+                              "server" : {
+                                 "description" : "IP address or hostname of the server.",
+                                 "format" : "pve-storage-server",
+                                 "optional" : 1,
+                                 "title" : "Server",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "snapshot-as-volume-chain" : {
+                                 "default" : 0,
+                                 "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
+                                 "optional" : 1,
+                                 "title" : "Allow Snapshots as Volume-Chain",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "nvmeof",
+                           "properties" : {
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "fast-io-fail-tmo" : {
+                                 "default" : 120,
+                                 "description" : "Seconds before I/O through a reconnecting path fails. -1 disables this timeout; I/O can remain queued while paths reconnect.",
+                                 "minimum" : -1,
+                                 "optional" : 1,
+                                 "title" : "Fail I/O After (s)",
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (-1 - N)"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "portals" : {
+                                 "description" : "TCP portals of the NVMe subsystem, as IPv4 or bracketed IPv6 addresses with an optional port (default 4420).",
+                                 "format" : "pve-storage-nvme-portal-list",
+                                 "title" : "Portals",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "subsysnqn" : {
+                                 "description" : "The NQN of the NVMe subsystem.",
+                                 "maxLength" : 223,
+                                 "pattern" : "nqn\\.[^\\s\\x00-\\x1f\\x7f,=]+",
+                                 "title" : "Subsystem",
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "pbs",
+                           "properties" : {
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "datastore" : {
+                                 "description" : "Proxmox Backup Server datastore name.",
+                                 "optional" : 1,
+                                 "title" : "Datastore",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "encryption-key" : {
+                                 "description" : "Encryption key. Use 'autogen' to generate one automatically without passphrase.",
+                                 "optional" : 1,
+                                 "sensitive" : 1,
+                                 "title" : "Encryption Key",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "fingerprint" : {
+                                 "description" : "Certificate SHA 256 fingerprint.",
+                                 "optional" : 1,
+                                 "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                                 "title" : "Fingerprint",
+                                 "type" : "string"
+                              },
+                              "master-pubkey" : {
+                                 "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
+                                 "optional" : 1,
+                                 "title" : "Master Public Key",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "max-protected-backups" : {
+                                 "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                                 "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                                 "minimum" : -1,
+                                 "optional" : 1,
+                                 "title" : "Maximum Protected",
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (-1 - N)"
+                              },
+                              "namespace" : {
+                                 "description" : "The namespace used for grouping, isolation, or partitioning purposes.",
+                                 "optional" : 1,
+                                 "title" : "Namespace",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "password" : {
+                                 "description" : "The password used for authentication.",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "sensitive" : 1,
+                                 "title" : "Password",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "port" : {
+                                 "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
+                                 "maximum" : 65535,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "title" : "Port",
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 65535)"
+                              },
+                              "prune-backups" : {
+                                 "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                                 "format" : "prune-backups",
+                                 "optional" : 1,
+                                 "title" : "Backup Retention",
+                                 "type" : "string",
+                                 "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                              },
+                              "server" : {
+                                 "description" : "IP address or hostname of the server.",
+                                 "format" : "pve-storage-server",
+                                 "optional" : 1,
+                                 "title" : "Server",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "username" : {
+                                 "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                                 "optional" : 1,
+                                 "title" : "Username",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "rbd",
+                           "properties" : {
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "data-pool" : {
+                                 "description" : "Data pool name for erasure-coded images.",
+                                 "optional" : 1,
+                                 "title" : "Data Pool",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "keyring" : {
+                                 "description" : "Client keyring contents (for external clusters).",
+                                 "optional" : 1,
+                                 "sensitive" : 1,
+                                 "title" : "Keyring",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "krbd" : {
+                                 "default" : 0,
+                                 "description" : "Always access rbd through krbd kernel module.",
+                                 "optional" : 1,
+                                 "title" : "KRBD",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "monhost" : {
+                                 "description" : "IP addresses of monitors (for external clusters).",
+                                 "format" : "pve-storage-portal-dns-list",
+                                 "optional" : 1,
+                                 "title" : "Monitor(s)",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "namespace" : {
+                                 "description" : "The namespace used for grouping, isolation, or partitioning purposes.",
+                                 "optional" : 1,
+                                 "title" : "Namespace",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "pool" : {
+                                 "description" : "Name of the pool that stores images.",
+                                 "optional" : 1,
+                                 "title" : "Pool",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "username" : {
+                                 "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
+                                 "optional" : 1,
+                                 "title" : "Username",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "zfs",
+                           "properties" : {
+                              "blocksize" : {
+                                 "description" : "ZFS block size.",
+                                 "format" : "pve-storage-zfs-blocksize",
+                                 "format_description" : "a power of 2 with optional k or m suffix",
+                                 "optional" : 1,
+                                 "title" : "Block Size",
+                                 "type" : "string",
+                                 "typetext" : "<a power of 2 with optional k or m suffix>"
+                              },
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "comstar_hg" : {
+                                 "description" : "Host group for COMSTAR views.",
+                                 "optional" : 1,
+                                 "title" : "Host Group",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "comstar_tg" : {
+                                 "description" : "Target group for COMSTAR views.",
+                                 "optional" : 1,
+                                 "title" : "Target Group",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "iscsiprovider" : {
+                                 "description" : "The iSCSI target implementation used on the remote machine.",
+                                 "optional" : 1,
+                                 "title" : "iSCSI Provider",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "lio_tpg" : {
+                                 "description" : "Target portal group for Linux LIO targets.",
+                                 "optional" : 1,
+                                 "title" : "Target Portal Group",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "nowritecache" : {
+                                 "description" : "Disable write caching on the iSCSI target.",
+                                 "optional" : 1,
+                                 "title" : "Disable Write Cache",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "pool" : {
+                                 "description" : "Name of the pool that stores images.",
+                                 "optional" : 1,
+                                 "title" : "Pool",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "portal" : {
+                                 "description" : "iSCSI portal (IP or hostname, optionally with port).",
+                                 "format" : "pve-storage-portal-dns",
+                                 "optional" : 1,
+                                 "title" : "Portal",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "sparse" : {
+                                 "description" : "Use sparse (thin-provisioned) volumes.",
+                                 "optional" : 1,
+                                 "title" : "Thin Provision",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "target" : {
+                                 "description" : "iSCSI target name (an iSCSI Qualified Name - IQN).",
+                                 "optional" : 1,
+                                 "title" : "Target",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "zfs-base-path" : {
+                                 "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
+                                 "format" : "pve-storage-path",
+                                 "optional" : 1,
+                                 "title" : "Base Path",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        {
+                           "additionalProperties" : 0,
+                           "instance-type" : "zfspool",
+                           "properties" : {
+                              "blocksize" : {
+                                 "description" : "ZFS block size.",
+                                 "format" : "pve-storage-zfs-blocksize",
+                                 "format_description" : "a power of 2 with optional k or m suffix",
+                                 "optional" : 1,
+                                 "title" : "Block Size",
+                                 "type" : "string",
+                                 "typetext" : "<a power of 2 with optional k or m suffix>"
+                              },
+                              "bwlimit" : {
+                                 "description" : "Set I/O bandwidth limit for various operations (in KiB/s).",
+                                 "format" : {
+                                    "clone" : {
+                                       "description" : "bandwidth limit in KiB/s for cloning disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "default" : {
+                                       "description" : "default bandwidth limit in KiB/s",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "migration" : {
+                                       "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "move" : {
+                                       "description" : "bandwidth limit in KiB/s for moving disks",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "restore" : {
+                                       "description" : "bandwidth limit in KiB/s for restoring guests from backups",
+                                       "format_description" : "LIMIT",
+                                       "minimum" : "0",
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "title" : "Bandwidth Limit",
+                                 "type" : "string",
+                                 "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                              },
+                              "content" : {
+                                 "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.\n",
+                                 "format" : "pve-storage-content-list",
+                                 "optional" : 1,
+                                 "title" : "Content",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the storage.",
+                                 "optional" : 1,
+                                 "title" : "Disable",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "mountpoint" : {
+                                 "description" : "Path to the directory where the storage is mounted.",
+                                 "format" : "pve-storage-path",
+                                 "optional" : 1,
+                                 "title" : "Mountpoint",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of nodes for which the storage configuration applies.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "title" : "Nodes",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "pool" : {
+                                 "description" : "Name of the pool that stores images.",
+                                 "optional" : 1,
+                                 "title" : "Pool",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "sparse" : {
+                                 "description" : "Use sparse (thin-provisioned) volumes.",
+                                 "optional" : 1,
+                                 "title" : "Thin Provision",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           }
+                        }
                      ],
-                     "optional" : 1,
-                     "title" : "Default Format",
-                     "type" : "string"
-                  },
-                  "fs-name" : {
-                     "description" : "The name or identifier of the filesystem.",
-                     "format" : "pve-configid",
-                     "optional" : 1,
-                     "title" : "Filesystem Name",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "fuse" : {
-                     "description" : "Mount the filesystem through FUSE.",
-                     "optional" : 1,
-                     "title" : "Mount with FUSE",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "is_mountpoint" : {
-                     "default" : "no",
-                     "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
-                     "optional" : 1,
-                     "title" : "Is Mountpoint",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "iscsiprovider" : {
-                     "description" : "The iSCSI target implementation used on the remote machine.",
-                     "optional" : 1,
-                     "title" : "iSCSI Provider",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "keyring" : {
-                     "description" : "Client keyring contents (for external clusters).",
-                     "optional" : 1,
-                     "sensitive" : 1,
-                     "title" : "Keyring",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "krbd" : {
-                     "default" : 0,
-                     "description" : "Always access rbd through krbd kernel module.",
-                     "optional" : 1,
-                     "title" : "KRBD",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "lio_tpg" : {
-                     "description" : "Target portal group for Linux LIO targets.",
-                     "optional" : 1,
-                     "title" : "Target Portal Group",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "managed-multipath" : {
-                     "description" : "Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.",
-                     "optional" : 1,
-                     "title" : "Multipath",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "master-pubkey" : {
-                     "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
-                     "optional" : 1,
-                     "title" : "Master Public Key",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "max-protected-backups" : {
-                     "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
-                     "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
-                     "minimum" : -1,
-                     "optional" : 1,
-                     "title" : "Maximum Protected",
-                     "type" : "integer",
-                     "typetext" : "<integer> (-1 - N)"
-                  },
-                  "mkdir" : {
-                     "default" : "yes",
-                     "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
-                     "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "monhost" : {
-                     "description" : "IP addresses of monitors (for external clusters).",
-                     "format" : "pve-storage-portal-dns-list",
-                     "optional" : 1,
-                     "title" : "Monitor(s)",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "mountpoint" : {
-                     "description" : "Path to the directory where the storage is mounted.",
-                     "format" : "pve-storage-path",
-                     "optional" : 1,
-                     "title" : "Mountpoint",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "namespace" : {
-                     "description" : "The namespace used for grouping, isolation, or partitioning purposes.",
-                     "optional" : 1,
-                     "title" : "Namespace",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "nocow" : {
-                     "default" : 0,
-                     "description" : "Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.",
-                     "optional" : 1,
-                     "title" : "Set NOCOW Flag",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "nodes" : {
-                     "description" : "List of nodes for which the storage configuration applies.",
-                     "format" : "pve-node-list",
-                     "optional" : 1,
-                     "title" : "Nodes",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "nowritecache" : {
-                     "description" : "Disable write caching on the iSCSI target.",
-                     "optional" : 1,
-                     "title" : "Disable Write Cache",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "on-volume-remove" : {
-                     "description" : "Optional actions when removing LVs.",
-                     "format" : "on-volume-remove",
-                     "optional" : 1,
-                     "title" : "Volume Removal Actions",
-                     "type" : "string",
-                     "typetext" : "[discard=<1|0>]",
-                     "verbose_description" : "Configure actions performed before removing an LV. Use 'discard=1' to issue discard (TRIM) requests before removal."
-                  },
-                  "options" : {
-                     "description" : "Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.",
-                     "format" : "pve-storage-options",
-                     "optional" : 1,
-                     "title" : "Mount Options",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "password" : {
-                     "description" : "The password used for authentication.",
-                     "maxLength" : 256,
-                     "optional" : 1,
-                     "sensitive" : 1,
-                     "title" : "Password",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "path" : {
-                     "description" : "Path of the storage in the local file system, for example its base directory or mount point.",
-                     "format" : "pve-storage-path",
-                     "optional" : 1,
-                     "title" : "Path",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "pool" : {
-                     "description" : "Name of the pool that stores images.",
-                     "optional" : 1,
-                     "title" : "Pool",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "port" : {
-                     "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
-                     "maximum" : 65535,
-                     "minimum" : 1,
-                     "optional" : 1,
-                     "title" : "Port",
-                     "type" : "integer",
-                     "typetext" : "<integer> (1 - 65535)"
-                  },
-                  "portal" : {
-                     "description" : "iSCSI portal (IP or hostname, optionally with port).",
-                     "format" : "pve-storage-portal-dns",
-                     "optional" : 1,
-                     "title" : "Portal",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "preallocation" : {
-                     "default" : "metadata",
-                     "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
-                     "enum" : [
-                        "off",
-                        "metadata",
-                        "falloc",
-                        "full"
-                     ],
-                     "optional" : 1,
-                     "title" : "Preallocation",
-                     "type" : "string"
-                  },
-                  "prune-backups" : {
-                     "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
-                     "format" : "prune-backups",
-                     "optional" : 1,
-                     "title" : "Backup Retention",
-                     "type" : "string",
-                     "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
-                  },
-                  "saferemove" : {
-                     "description" : "Zero-out data when removing LVs.",
-                     "optional" : 1,
-                     "title" : "Wipe Removed Volumes",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "saferemove-stepsize" : {
-                     "default" : 32,
-                     "description" : "Wipe step size in MiB. It will be capped to the maximum supported by the storage.",
-                     "enum" : [
-                        "1",
-                        "2",
-                        "4",
-                        "8",
-                        "16",
-                        "32"
-                     ],
-                     "optional" : 1,
-                     "title" : "Wipe Step Size",
-                     "type" : "integer"
-                  },
-                  "saferemove_throughput" : {
-                     "description" : "Wipe throughput in bytes per second (optional suffix: k, m, or g).",
-                     "optional" : 1,
-                     "pattern" : "-?\\d+[kmgKMG]?",
-                     "title" : "Wipe Throughput",
-                     "type" : "string"
-                  },
-                  "server" : {
-                     "description" : "IP address or hostname of the server.",
-                     "format" : "pve-storage-server",
-                     "optional" : 1,
-                     "title" : "Server",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "share" : {
-                     "description" : "The name of the share to use.",
-                     "optional" : 1,
-                     "title" : "Share",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "shared" : {
-                     "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
-                     "optional" : 1,
-                     "title" : "Shared",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "skip-cert-verification" : {
-                     "default" : "false",
-                     "description" : "Disable TLS certificate verification, only enable on fully trusted networks!",
-                     "optional" : 1,
-                     "title" : "Skip Certificate Verification",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "smbversion" : {
-                     "default" : "default",
-                     "description" : "SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.",
-                     "enum" : [
-                        "default",
-                        "2.0",
-                        "2.1",
-                        "3",
-                        "3.0",
-                        "3.11"
-                     ],
-                     "optional" : 1,
-                     "title" : "SMB Version",
-                     "type" : "string"
-                  },
-                  "snapshot-as-volume-chain" : {
-                     "default" : 0,
-                     "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
-                     "optional" : 1,
-                     "title" : "Allow Snapshots as Volume-Chain",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "sparse" : {
-                     "description" : "Use sparse (thin-provisioned) volumes.",
-                     "optional" : 1,
-                     "title" : "Thin Provision",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "storage" : {
-                     "description" : "The storage identifier.",
-                     "format" : "pve-storage-id",
-                     "format_description" : "storage ID",
-                     "title" : "ID",
-                     "type" : "string",
-                     "typetext" : "<storage ID>"
-                  },
-                  "subdir" : {
-                     "description" : "Subdir to mount.",
-                     "format" : "pve-storage-path",
-                     "optional" : 1,
-                     "title" : "Subdirectory",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "tagged_only" : {
-                     "description" : "Only list logical volumes tagged with 'pve-vm-ID'.",
-                     "optional" : 1,
-                     "title" : "Tagged Volumes Only",
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
-                  },
-                  "target" : {
-                     "description" : "iSCSI target name (an iSCSI Qualified Name - IQN).",
-                     "optional" : 1,
-                     "title" : "Target",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "thinpool" : {
-                     "description" : "Name of the LVM thin pool logical volume.",
-                     "format" : "pve-storage-vgname",
-                     "optional" : 1,
-                     "title" : "Thin Pool",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "type" : {
-                     "description" : "Storage type.",
-                     "enum" : [
-                        "btrfs",
-                        "cephfs",
-                        "cifs",
-                        "dir",
-                        "esxi",
-                        "iscsi",
-                        "iscsidirect",
-                        "lvm",
-                        "lvmthin",
-                        "nfs",
-                        "pbs",
-                        "rbd",
-                        "zfs",
-                        "zfspool"
-                     ],
-                     "title" : "Type",
-                     "type" : "string"
-                  },
-                  "username" : {
-                     "description" : "The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.",
-                     "optional" : 1,
-                     "title" : "Username",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "vgname" : {
-                     "description" : "LVM volume group name.",
-                     "format" : "pve-storage-vgname",
-                     "optional" : 1,
-                     "title" : "Volume Group",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "zfs-base-path" : {
-                     "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
-                     "format" : "pve-storage-path",
-                     "optional" : 1,
-                     "title" : "Base Path",
-                     "type" : "string",
-                     "typetext" : "<string>"
+                     "type-property" : "type",
+                     "type-property-schema" : {
+                        "description" : "Storage type.",
+                        "enum" : [
+                           "btrfs",
+                           "cephfs",
+                           "cifs",
+                           "dir",
+                           "esxi",
+                           "iscsi",
+                           "iscsidirect",
+                           "lvm",
+                           "lvmthin",
+                           "nfs",
+                           "nvmeof",
+                           "pbs",
+                           "rbd",
+                           "zfs",
+                           "zfspool"
+                        ],
+                        "title" : "Type",
+                        "type" : "string"
+                     }
                   }
-               },
-               "type" : "object"
+               ]
             },
             "permissions" : {
                "check" : [
@@ -77424,6 +80635,7 @@ const apiSchema = [
                         "lvm",
                         "lvmthin",
                         "nfs",
+                        "nvmeof",
                         "pbs",
                         "rbd",
                         "zfs",

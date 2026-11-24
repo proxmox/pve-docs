@@ -6,7 +6,7 @@
 
 Create a new storage.
 
-`<type>`: `<btrfs | cephfs | cifs | dir | esxi | iscsi | iscsidirect | lvm | lvmthin | nfs | pbs | rbd | zfs | zfspool>` ::
+`<type>`: `<btrfs | cephfs | cifs | dir | esxi | iscsi | iscsidirect | lvm | lvmthin | nfs | nvmeof | pbs | rbd | zfs | zfspool>` ::
 
 Storage type.
 
@@ -14,251 +14,384 @@ Storage type.
 
 The storage identifier.
 
-`--authsupported` `<string>` ::
-
-Authsupported.
-
-`--base` `<string>` ::
-
-Volume ID of the base volume (automatically activated).
-
-`--blocksize` `<a power of 2 with optional k or m suffix>` ::
-
-ZFS block size.
-
-`--bwlimit` `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
-
-Set I/O bandwidth limit for various operations (in KiB/s).
-
-`--comstar_hg` `<string>` ::
-
-Host group for COMSTAR views.
-
-`--comstar_tg` `<string>` ::
-
-Target group for COMSTAR views.
-
 `--content` `<string>` ::
 
 Allowed content types.
 +
 NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.
 
-`--content-dirs` `<string>` ::
-
-Overrides for default content type directories.
-
-`--create-base-path` `<boolean>` ('default =' `yes`)::
-
-Create the base directory if it doesn't exist.
-
-`--create-subdirs` `<boolean>` ('default =' `yes`)::
-
-Populate the base directory with the default structure.
-
-`--data-pool` `<string>` ::
-
-Data pool name for erasure-coded images.
-
-`--datastore` `<string>` ::
-
-Proxmox Backup Server datastore name.
-
 `--disable` `<boolean>` ::
 
 Flag to disable the storage.
-
-`--domain` `<string>` ::
-
-The name of the user domain (workgroup) to use.
-
-`--encryption-key` `a file containing an encryption key, or the special value "autogen"` ::
-
-Encryption key. Use 'autogen' to generate one automatically without passphrase.
-
-`--export` `<string>` ::
-
-Path exported by the NFS server (e.g., /srv/nfs).
-
-`--fingerprint` `([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}` ::
-
-Certificate SHA 256 fingerprint.
-
-`--format` `<qcow2 | raw | subvol | vmdk>` ::
-
-Default image format.
-
-`--fs-name` `<string>` ::
-
-The name or identifier of the filesystem.
-
-`--fuse` `<boolean>` ::
-
-Mount the filesystem through FUSE.
-
-`--is_mountpoint` `<string>` ('default =' `no`)::
-
-Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.
-
-`--iscsiprovider` `<string>` ::
-
-The iSCSI target implementation used on the remote machine.
-
-`--keyring` `file containing the keyring to authenticate in the Ceph cluster` ::
-
-Client keyring contents (for external clusters).
-
-`--krbd` `<boolean>` ('default =' `0`)::
-
-Always access rbd through krbd kernel module.
-
-`--lio_tpg` `<string>` ::
-
-Target portal group for Linux LIO targets.
-
-`--managed-multipath` `<boolean>` ::
-
-Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.
-
-`--master-pubkey` `a file containing a PEM-formatted master public key` ::
-
-Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.
-
-`--max-protected-backups` `<integer> (-1 - N)` ('default =' `Unlimited for users with Datastore.Allocate privilege, 5 for other users`)::
-
-Maximal number of protected backups per guest. Use '-1' for unlimited.
-
-`--mkdir` `<boolean>` ('default =' `yes`)::
-
-Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.
-
-`--monhost` `<string>` ::
-
-IP addresses of monitors (for external clusters).
-
-`--mountpoint` `<string>` ::
-
-Path to the directory where the storage is mounted.
-
-`--namespace` `<string>` ::
-
-The namespace used for grouping, isolation, or partitioning purposes.
-
-`--nocow` `<boolean>` ('default =' `0`)::
-
-Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.
 
 `--nodes` `<string>` ::
 
 List of nodes for which the storage configuration applies.
 
+
+
+
+`Conditional options:`
+
+`--base` `<string>` ::
+
+Volume ID of the base volume (automatically activated).
++
+`[type=lvm]`
+
+`--blocksize` `<a power of 2 with optional k or m suffix>` ::
+
+ZFS block size.
++
+`[type=zfs, zfspool]`
+
+`--bwlimit` `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
+
+Set I/O bandwidth limit for various operations (in KiB/s).
++
+`[type=cephfs, cifs, dir, iscsi, iscsidirect, lvm, lvmthin, nfs, nvmeof, rbd, zfs, zfspool]`
+
+`--comstar_hg` `<string>` ::
+
+Host group for COMSTAR views.
++
+`[type=zfs]`
+
+`--comstar_tg` `<string>` ::
+
+Target group for COMSTAR views.
++
+`[type=zfs]`
+
+`--content-dirs` `<string>` ::
+
+Overrides for default content type directories.
++
+`[type=cephfs, cifs, dir, nfs]`
+
+`--create-base-path` `<boolean>` ('default =' `yes`)::
+
+Create the base directory if it doesn't exist.
++
+`[type=btrfs, cephfs, cifs, dir, nfs]`
+
+`--create-subdirs` `<boolean>` ('default =' `yes`)::
+
+Populate the base directory with the default structure.
++
+`[type=btrfs, cephfs, cifs, dir, nfs]`
+
+`--data-pool` `<string>` ::
+
+Data pool name for erasure-coded images.
++
+`[type=rbd]`
+
+`--datastore` `<string>` ::
+
+Proxmox Backup Server datastore name.
++
+`[type=pbs]`
+
+`--domain` `<string>` ::
+
+The name of the user domain (workgroup) to use.
++
+`[type=cifs]`
+
+`--encryption-key` `a file containing an encryption key, or the special value "autogen"` ::
+
+Encryption key. Use 'autogen' to generate one automatically without passphrase.
++
+`[type=pbs]`
+
+`--export` `<string>` ::
+
+Path exported by the NFS server (e.g., /srv/nfs).
++
+`[type=nfs]`
+
+`--fast-io-fail-tmo` `<integer> (-1 - N)` ('default =' `120`)::
+
+Seconds before I/O through a reconnecting path fails. -1 disables this timeout; I/O can remain queued while paths reconnect.
++
+`[type=nvmeof]`
+
+`--fingerprint` `([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}` ::
+
+Certificate SHA 256 fingerprint.
++
+`[type=pbs]`
+
+`--format` `<qcow2 | raw | subvol | vmdk>` ::
+
+Default image format.
++
+`[type=btrfs, cephfs, cifs, dir, nfs]`
+
+`--fs-name` `<string>` ::
+
+The name or identifier of the filesystem.
++
+`[type=cephfs]`
+
+`--fuse` `<boolean>` ::
+
+Mount the filesystem through FUSE.
++
+`[type=cephfs]`
+
+`--is_mountpoint` `<string>` ('default =' `no`)::
+
+Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.
++
+`[type=btrfs, dir]`
+
+`--iscsiprovider` `<string>` ::
+
+The iSCSI target implementation used on the remote machine.
++
+`[type=zfs]`
+
+`--keyring` `file containing the keyring to authenticate in the Ceph cluster` ::
+
+Client keyring contents (for external clusters).
++
+`[type=cephfs, rbd]`
+
+`--krbd` `<boolean>` ('default =' `0`)::
+
+Always access rbd through krbd kernel module.
++
+`[type=rbd]`
+
+`--lio_tpg` `<string>` ::
+
+Target portal group for Linux LIO targets.
++
+`[type=zfs]`
+
+`--managed-multipath` `<boolean>` ::
+
+Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.
++
+`[type=iscsi]`
+
+`--master-pubkey` `a file containing a PEM-formatted master public key` ::
+
+Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.
++
+`[type=pbs]`
+
+`--max-protected-backups` `<integer> (-1 - N)` ('default =' `Unlimited for users with Datastore.Allocate privilege, 5 for other users`)::
+
+Maximal number of protected backups per guest. Use '-1' for unlimited.
++
+`[type=btrfs, cephfs, cifs, dir, nfs, pbs]`
+
+`--mkdir` `<boolean>` ('default =' `yes`)::
+
+Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.
++
+`[type=btrfs, cephfs, cifs, dir, nfs]`
+
+`--monhost` `<string>` ::
+
+IP addresses of monitors (for external clusters).
++
+`[type=cephfs, rbd]`
+
+`--mountpoint` `<string>` ::
+
+Path to the directory where the storage is mounted.
++
+`[type=zfspool]`
+
+`--namespace` `<string>` ::
+
+The namespace used for grouping, isolation, or partitioning purposes.
++
+`[type=pbs, rbd]`
+
+`--nocow` `<boolean>` ('default =' `0`)::
+
+Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.
++
+`[type=btrfs]`
+
 `--nowritecache` `<boolean>` ::
 
 Disable write caching on the iSCSI target.
++
+`[type=zfs]`
 
 `--on-volume-remove` `[discard=<1|0>]` ::
 
 Optional actions when removing LVs.
++
+`[type=lvm]`
 
 `--options` `<string>` ::
 
 Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.
++
+`[type=cephfs, cifs, nfs]`
 
 `--password` `<password>` ::
 
 The password used for authentication.
++
+`[type=cifs, esxi, pbs]`
 
 `--path` `<string>` ::
 
 Path of the storage in the local file system, for example its base directory or mount point.
++
+`[type=btrfs, cephfs, cifs, dir, nfs]`
 
 `--pool` `<string>` ::
 
 Name of the pool that stores images.
++
+`[type=rbd, zfs, zfspool]`
 
 `--port` `<integer> (1 - 65535)` ::
 
 Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.
++
+`[type=esxi, pbs]`
 
 `--portal` `<string>` ::
 
 iSCSI portal (IP or hostname, optionally with port).
++
+`[type=iscsi, iscsidirect, zfs]`
+
+`--portals` `<string>` ::
+
+TCP portals of the NVMe subsystem, as IPv4 or bracketed IPv6 addresses with an optional port (default 4420).
++
+`[type=nvmeof]`
 
 `--preallocation` `<falloc | full | metadata | off>` ('default =' `metadata`)::
 
 Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.
++
+`[type=btrfs, cifs, dir, nfs]`
 
 `--prune-backups` `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
 
 The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.
++
+`[type=btrfs, cephfs, cifs, dir, nfs, pbs]`
 
 `--saferemove` `<boolean>` ::
 
 Zero-out data when removing LVs.
++
+`[type=lvm]`
 
 `--saferemove-stepsize` `<1 | 16 | 2 | 32 | 4 | 8>` ('default =' `32`)::
 
 Wipe step size in MiB. It will be capped to the maximum supported by the storage.
++
+`[type=lvm]`
 
 `--saferemove_throughput` `-?\d+[kmgKMG]?` ::
 
 Wipe throughput in bytes per second (optional suffix: k, m, or g).
++
+`[type=lvm]`
 
 `--server` `<string>` ::
 
 IP address or hostname of the server.
++
+`[type=cifs, esxi, nfs, pbs]`
 
 `--share` `<string>` ::
 
 The name of the share to use.
++
+`[type=cifs]`
 
 `--shared` `<boolean>` ::
 
 Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!
++
+`[type=btrfs, dir, esxi, lvm]`
 
 `--skip-cert-verification` `<boolean>` ('default =' `false`)::
 
 Disable TLS certificate verification, only enable on fully trusted networks!
++
+`[type=esxi]`
 
 `--smbversion` `<2.0 | 2.1 | 3 | 3.0 | 3.11 | default>` ('default =' `default`)::
 
 SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.
++
+`[type=cifs]`
 
 `--snapshot-as-volume-chain` `<boolean>` ('default =' `0`)::
 
 Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.
++
+`[type=cifs, dir, lvm, nfs]`
 
 `--sparse` `<boolean>` ::
 
 Use sparse (thin-provisioned) volumes.
++
+`[type=zfs, zfspool]`
 
 `--subdir` `<string>` ::
 
 Subdir to mount.
++
+`[type=cephfs, cifs]`
+
+`--subsysnqn` `nqn\.[^\s\x00-\x1f\x7f,=]+` ::
+
+The NQN of the NVMe subsystem.
++
+`[type=nvmeof]`
 
 `--tagged_only` `<boolean>` ::
 
 Only list logical volumes tagged with 'pve-vm-ID'.
++
+`[type=lvm]`
 
 `--target` `<string>` ::
 
 iSCSI target name (an iSCSI Qualified Name - IQN).
++
+`[type=iscsi, iscsidirect, zfs]`
 
 `--thinpool` `<string>` ::
 
 Name of the LVM thin pool logical volume.
++
+`[type=lvmthin]`
 
 `--username` `<string>` ::
 
 The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.
++
+`[type=cephfs, cifs, esxi, pbs, rbd]`
 
 `--vgname` `<string>` ::
 
 LVM volume group name.
++
+`[type=lvm, lvmthin]`
 
 `--zfs-base-path` `<string>` ::
 
 Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.
++
+`[type=zfs]`
 
 [[cli_pvesm_alloc]]
 *pvesm alloc* `<storage> <vmid> <filename> <size>` `[OPTIONS]`
@@ -569,6 +702,16 @@ Scan remote NFS server.
 
 The server address (name or IP).
 
+[[cli_pvesm_scan_nvmeof]]
+*pvesm scan nvmeof* `<portal>` `[FORMAT_OPTIONS]`
+
+List the NVMe over TCP subsystems offered to this node by a discovery
+controller.
+
+`<portal>`: `<string>` ::
+
+IPv4 or bracketed IPv6 discovery address with an optional port. Without a port, try 8009 then 4420.
+
 [[cli_pvesm_scan_pbs]]
 *pvesm scan pbs* `<server> <username> --password <string>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
@@ -613,43 +756,11 @@ Update storage configuration.
 
 The storage identifier.
 
-`--blocksize` `<a power of 2 with optional k or m suffix>` ::
-
-ZFS block size.
-
-`--bwlimit` `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
-
-Set I/O bandwidth limit for various operations (in KiB/s).
-
-`--comstar_hg` `<string>` ::
-
-Host group for COMSTAR views.
-
-`--comstar_tg` `<string>` ::
-
-Target group for COMSTAR views.
-
 `--content` `<string>` ::
 
 Allowed content types.
 +
 NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs. A storage can instead be restricted to some of their volume types: 'vm-vol' for the disks of VMs, 'vm-state' for the saved states of VMs, and 'ct-vol' for the volumes of Containers.
-
-`--content-dirs` `<string>` ::
-
-Overrides for default content type directories.
-
-`--create-base-path` `<boolean>` ('default =' `yes`)::
-
-Create the base directory if it doesn't exist.
-
-`--create-subdirs` `<boolean>` ('default =' `yes`)::
-
-Populate the base directory with the default structure.
-
-`--data-pool` `<string>` ::
-
-Data pool name for erasure-coded images.
 
 `--delete` `<string>` ::
 
@@ -663,161 +774,306 @@ Prevent changes if current configuration file has a different digest. This can b
 
 Flag to disable the storage.
 
-`--domain` `<string>` ::
-
-The name of the user domain (workgroup) to use.
-
-`--encryption-key` `a file containing an encryption key, or the special value "autogen"` ::
-
-Encryption key. Use 'autogen' to generate one automatically without passphrase.
-
-`--fingerprint` `([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}` ::
-
-Certificate SHA 256 fingerprint.
-
-`--format` `<qcow2 | raw | subvol | vmdk>` ::
-
-Default image format.
-
-`--fs-name` `<string>` ::
-
-The name or identifier of the filesystem.
-
-`--fuse` `<boolean>` ::
-
-Mount the filesystem through FUSE.
-
-`--is_mountpoint` `<string>` ('default =' `no`)::
-
-Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.
-
-`--keyring` `file containing the keyring to authenticate in the Ceph cluster` ::
-
-Client keyring contents (for external clusters).
-
-`--krbd` `<boolean>` ('default =' `0`)::
-
-Always access rbd through krbd kernel module.
-
-`--lio_tpg` `<string>` ::
-
-Target portal group for Linux LIO targets.
-
-`--managed-multipath` `<boolean>` ::
-
-Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.
-
-`--master-pubkey` `a file containing a PEM-formatted master public key` ::
-
-Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.
-
-`--max-protected-backups` `<integer> (-1 - N)` ('default =' `Unlimited for users with Datastore.Allocate privilege, 5 for other users`)::
-
-Maximal number of protected backups per guest. Use '-1' for unlimited.
-
-`--mkdir` `<boolean>` ('default =' `yes`)::
-
-Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.
-
-`--monhost` `<string>` ::
-
-IP addresses of monitors (for external clusters).
-
-`--mountpoint` `<string>` ::
-
-Path to the directory where the storage is mounted.
-
-`--namespace` `<string>` ::
-
-The namespace used for grouping, isolation, or partitioning purposes.
-
-`--nocow` `<boolean>` ('default =' `0`)::
-
-Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.
-
 `--nodes` `<string>` ::
 
 List of nodes for which the storage configuration applies.
 
+`--type` `<btrfs | cephfs | cifs | dir | esxi | iscsi | iscsidirect | lvm | lvmthin | nfs | nvmeof | pbs | rbd | zfs | zfspool>` ::
+
+Storage type.
+
+
+
+
+`Conditional options:`
+
+`--blocksize` `<a power of 2 with optional k or m suffix>` ::
+
+ZFS block size.
++
+`[type=zfspool]`
+
+`--bwlimit` `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
+
+Set I/O bandwidth limit for various operations (in KiB/s).
++
+`[type=cephfs, cifs, dir, iscsi, iscsidirect, lvm, lvmthin, nfs, nvmeof, rbd, zfs, zfspool]`
+
+`--comstar_hg` `<string>` ::
+
+Host group for COMSTAR views.
++
+`[type=zfs]`
+
+`--comstar_tg` `<string>` ::
+
+Target group for COMSTAR views.
++
+`[type=zfs]`
+
+`--content-dirs` `<string>` ::
+
+Overrides for default content type directories.
++
+`[type=cephfs, cifs, dir, nfs]`
+
+`--create-base-path` `<boolean>` ('default =' `yes`)::
+
+Create the base directory if it doesn't exist.
++
+`[type=btrfs, cephfs, cifs, dir, nfs]`
+
+`--create-subdirs` `<boolean>` ('default =' `yes`)::
+
+Populate the base directory with the default structure.
++
+`[type=btrfs, cephfs, cifs, dir, nfs]`
+
+`--data-pool` `<string>` ::
+
+Data pool name for erasure-coded images.
++
+`[type=rbd]`
+
+`--domain` `<string>` ::
+
+The name of the user domain (workgroup) to use.
++
+`[type=cifs]`
+
+`--encryption-key` `a file containing an encryption key, or the special value "autogen"` ::
+
+Encryption key. Use 'autogen' to generate one automatically without passphrase.
++
+`[type=pbs]`
+
+`--fast-io-fail-tmo` `<integer> (-1 - N)` ('default =' `120`)::
+
+Seconds before I/O through a reconnecting path fails. -1 disables this timeout; I/O can remain queued while paths reconnect.
++
+`[type=nvmeof]`
+
+`--fingerprint` `([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}` ::
+
+Certificate SHA 256 fingerprint.
++
+`[type=pbs]`
+
+`--format` `<qcow2 | raw | subvol | vmdk>` ::
+
+Default image format.
++
+`[type=btrfs, cephfs, cifs, dir, nfs]`
+
+`--fs-name` `<string>` ::
+
+The name or identifier of the filesystem.
++
+`[type=cephfs]`
+
+`--fuse` `<boolean>` ::
+
+Mount the filesystem through FUSE.
++
+`[type=cephfs]`
+
+`--is_mountpoint` `<string>` ('default =' `no`)::
+
+Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.
++
+`[type=btrfs, dir]`
+
+`--keyring` `file containing the keyring to authenticate in the Ceph cluster` ::
+
+Client keyring contents (for external clusters).
++
+`[type=cephfs, rbd]`
+
+`--krbd` `<boolean>` ('default =' `0`)::
+
+Always access rbd through krbd kernel module.
++
+`[type=rbd]`
+
+`--lio_tpg` `<string>` ::
+
+Target portal group for Linux LIO targets.
++
+`[type=zfs]`
+
+`--managed-multipath` `<boolean>` ::
+
+Manage multipath access to the storage's LUNs and include them in the cluster-wide path-health monitoring.
++
+`[type=iscsi]`
+
+`--master-pubkey` `a file containing a PEM-formatted master public key` ::
+
+Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.
++
+`[type=pbs]`
+
+`--max-protected-backups` `<integer> (-1 - N)` ('default =' `Unlimited for users with Datastore.Allocate privilege, 5 for other users`)::
+
+Maximal number of protected backups per guest. Use '-1' for unlimited.
++
+`[type=btrfs, cephfs, cifs, dir, nfs, pbs]`
+
+`--mkdir` `<boolean>` ('default =' `yes`)::
+
+Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.
++
+`[type=btrfs, cephfs, cifs, dir, nfs]`
+
+`--monhost` `<string>` ::
+
+IP addresses of monitors (for external clusters).
++
+`[type=cephfs, rbd]`
+
+`--mountpoint` `<string>` ::
+
+Path to the directory where the storage is mounted.
++
+`[type=zfspool]`
+
+`--namespace` `<string>` ::
+
+The namespace used for grouping, isolation, or partitioning purposes.
++
+`[type=pbs, rbd]`
+
+`--nocow` `<boolean>` ('default =' `0`)::
+
+Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.
++
+`[type=btrfs]`
+
 `--nowritecache` `<boolean>` ::
 
 Disable write caching on the iSCSI target.
++
+`[type=zfs]`
 
 `--on-volume-remove` `[discard=<1|0>]` ::
 
 Optional actions when removing LVs.
++
+`[type=lvm]`
 
 `--options` `<string>` ::
 
 Comma-separated list of mount options. See 'man nfs', 'man mount.cifs', or 'man mount.ceph' for more information.
++
+`[type=cephfs, cifs, nfs]`
 
 `--password` `<password>` ::
 
 The password used for authentication.
++
+`[type=cifs, esxi, pbs]`
 
 `--pool` `<string>` ::
 
 Name of the pool that stores images.
++
+`[type=rbd]`
 
 `--port` `<integer> (1 - 65535)` ::
 
 Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.
++
+`[type=esxi, pbs]`
+
+`--portals` `<string>` ::
+
+TCP portals of the NVMe subsystem, as IPv4 or bracketed IPv6 addresses with an optional port (default 4420).
++
+`[type=nvmeof]`
 
 `--preallocation` `<falloc | full | metadata | off>` ('default =' `metadata`)::
 
 Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.
++
+`[type=btrfs, cifs, dir, nfs]`
 
 `--prune-backups` `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
 
 The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.
++
+`[type=btrfs, cephfs, cifs, dir, nfs, pbs]`
 
 `--saferemove` `<boolean>` ::
 
 Zero-out data when removing LVs.
++
+`[type=lvm]`
 
 `--saferemove-stepsize` `<1 | 16 | 2 | 32 | 4 | 8>` ('default =' `32`)::
 
 Wipe step size in MiB. It will be capped to the maximum supported by the storage.
++
+`[type=lvm]`
 
 `--saferemove_throughput` `-?\d+[kmgKMG]?` ::
 
 Wipe throughput in bytes per second (optional suffix: k, m, or g).
++
+`[type=lvm]`
 
 `--shared` `<boolean>` ::
 
 Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!
++
+`[type=btrfs, dir, esxi, lvm]`
 
 `--skip-cert-verification` `<boolean>` ('default =' `false`)::
 
 Disable TLS certificate verification, only enable on fully trusted networks!
++
+`[type=esxi]`
 
 `--smbversion` `<2.0 | 2.1 | 3 | 3.0 | 3.11 | default>` ('default =' `default`)::
 
 SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.
++
+`[type=cifs]`
 
 `--snapshot-as-volume-chain` `<boolean>` ('default =' `0`)::
 
 Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.
++
+`[type=lvm]`
 
 `--sparse` `<boolean>` ::
 
 Use sparse (thin-provisioned) volumes.
++
+`[type=zfs, zfspool]`
 
 `--subdir` `<string>` ::
 
 Subdir to mount.
++
+`[type=cephfs, cifs]`
 
 `--tagged_only` `<boolean>` ::
 
 Only list logical volumes tagged with 'pve-vm-ID'.
++
+`[type=lvm]`
 
 `--username` `<string>` ::
 
 The username for authentication. For RBD and CephFS, the Ceph client ID without the 'client.' prefix.
++
+`[type=cephfs, cifs, esxi, pbs, rbd]`
 
 `--zfs-base-path` `<string>` ::
 
 Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.
++
+`[type=zfs]`
 
 [[cli_pvesm_status]]
 *pvesm status* `[OPTIONS]`

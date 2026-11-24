@@ -22,7 +22,7 @@ bandwidth limit in KiB/s for moving disks
 
 bandwidth limit in KiB/s for restoring guests from backups
 
-`consent-text`: `[A-Za-z0-9+/]+={0,2}` ::
+`consent-text`: `[A-Za-z0-9+/]*={0,2}` ::
 
 Consent text that is displayed before logging in. Needs to be base64 encoded.
 
