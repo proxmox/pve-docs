@@ -1,3 +1,13 @@
+pve-docs (9.2.23) trixie; urgency=medium
+
+  * installation: name the management VLAN interface after the bridge, like
+    'vmbr0.<tag>', as proxmox-installer 9.2.13 and newer does.
+
+  * zfs: describe that mails to root go through the notification system,
+    instead of always to the email address of the root user.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 24 Nov 2026 22:05:53 +0100
+
 pve-docs (9.2.22) trixie; urgency=medium
 
   * storage: list snapshots as not available for CephFS in the table of
