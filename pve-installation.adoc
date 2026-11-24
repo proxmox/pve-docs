@@ -419,8 +419,8 @@ frames sent over an interface other than the active one.
 
 Tags the management network with the given `VLAN Tag`, for networks that are
 only reachable tagged. The bridge `vmbr0` then becomes VLAN-aware and the host
-address is configured on the interface `vlan<tag>` on top of it, so that guests
-can still use other VLANs on the bridge. Valid tags are 2 to 4094, as the
+address is configured on the VLAN interface `vmbr0.<tag>` on top of it, so that
+guests can still use other VLANs on the bridge. Valid tags are 2 to 4094, as the
 VLAN-aware bridge sends VLAN 1 untagged. Leave the VLAN setup disabled for an
 untagged management network.
 +
