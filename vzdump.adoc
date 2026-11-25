@@ -678,10 +678,10 @@ Reading the Identity
 The following places show the guest identity. All of them require the
 `VM.Audit` privilege on the guest.
 
-* In the web interface, the 'Summary' panel of the guest shows the `uid` as
-  'Unique ID'. The 'Details' button next to it, which has an info icon, opens
-  the 'Guest Identity' window. This window additionally shows the `rtime` as
-  'Registered' and the creation information.
+* In the web interface, the info icon in the title bar of the status panel on
+  the 'Summary' of the guest opens the 'Guest Identity' window. It shows the
+  `uid` as 'Unique ID', the `rtime` as 'Registered' and the creation
+  information. The tooltip of the icon shows the `uid` as well.
 * The guest configuration, for example with `qm config <vmid>` or
   `pct config <vmid>`, and through the API paths
   `/nodes/<node>/qemu/<vmid>/config` and `/nodes/<node>/lxc/<vmid>/config`.
