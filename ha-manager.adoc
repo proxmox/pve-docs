@@ -613,8 +613,6 @@ Groups
 NOTE: HA Groups are deprecated and migrated to HA Node Affinity rules since
 Proxmox VE 9.0.
 
-[thumbnail="screenshot/gui-ha-manager-groups-view.png"]
-
 The HA group configuration file `/etc/pve/ha/groups.cfg` is used to
 define groups of cluster nodes. A resource can be restricted to run
 only on the members of such group. A group configuration look like
@@ -628,8 +626,6 @@ group: <group>
 ----
 
 include::generated/ha-groups-opts.adoc[]
-
-[thumbnail="screenshot/gui-ha-manager-add-group.png"]
 
 A common requirement is that a resource should run on a specific
 node. Usually the resource is able to run on other nodes, so you can define
