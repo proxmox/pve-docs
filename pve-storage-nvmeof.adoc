@@ -151,6 +151,8 @@ is named `nvme-<wwid>` after its namespace, like its link in `/dev/disk/by-id/`.
 Checking and Disconnecting Paths
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[thumbnail="screenshot/gui-node-san-nvmeof.png"]
+
 *Datacenter -> SAN* lists the namespaces of NVMe over Fabrics storages among the
 LUNs, with their state on each node of the storage and *Multipath* shown as
 *Native*, as does *Node -> SAN* for the namespaces of a node. Expand a namespace

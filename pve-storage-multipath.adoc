@@ -79,6 +79,8 @@ unless a storage uses it or it was changed meanwhile. If the web UI lost its
 connection, check whether that iSCSI storage is left over. Other changes stay,
 such as a multipath entry that the Fibre Channel setup added.
 
+[thumbnail="screenshot/gui-storage-add-iscsi-lun.png"]
+
 The setup refuses a LUN on which it finds data. To keep a volume group that a
 LUN already holds, add it under *Datacenter -> Storage -> Add -> LVM* with
 *Shared* enabled. To reuse a LUN whose data is no longer needed, stop its users
@@ -182,10 +184,14 @@ Removing the iSCSI storage of a target does not log out its sessions; use
 Checking Path Failures
 ~~~~~~~~~~~~~~~~~~~~~
 
+[thumbnail="screenshot/gui-datacenter-san.png"]
+
 *Datacenter -> SAN* shows configuration errors of the nodes, and the
 LUNs that {pve} manages or that a storage uses with their state on each node.
 Other maps, for example those of a third-party storage plugin, are only counted
 under *Other Maps*. *Node -> SAN* lists all LUNs of a node with their paths.
+
+[thumbnail="screenshot/gui-node-san.png", float="left"]
 
 *Used By* under *Node -> SAN* names the storage that uses a LUN or, without
 one, the process that has it open for writing, for example a guest with the LUN
