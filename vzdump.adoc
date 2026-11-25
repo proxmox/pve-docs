@@ -675,6 +675,8 @@ clusters can have the same `uid`.
 Reading the Identity
 ~~~~~~~~~~~~~~~~~~~~
 
+[thumbnail="screenshot/gui-guest-identity.png"]
+
 The following places show the guest identity. All of them require the
 `VM.Audit` privilege on the guest.
 
