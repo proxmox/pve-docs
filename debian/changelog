@@ -1,3 +1,9 @@
+pve-docs (9.3.0) trixie; urgency=medium
+
+  * bump for Proxmox VE 9.3.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 25 Nov 2026 01:06:53 +0100
+
 pve-docs (9.2.23) trixie; urgency=medium
 
   * installation: name the management VLAN interface after the bridge, like
