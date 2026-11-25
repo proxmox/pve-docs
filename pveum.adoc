@@ -104,6 +104,8 @@ API tokens come in two basic types:
   associated user. Disable Privilege Separation only when the integration
   genuinely needs the user's full permissions.
 
+[thumbnail="screenshot/gui-datacenter-api-token-add.png"]
+
 Set an `expire` timestamp (Unix epoch seconds) when creating a token so
 that abandoned automation does not silently keep working. The
 authentication code refuses requests once the deadline has passed.
@@ -118,6 +120,8 @@ refer to your API client's documentation.
 [[pveum_token_policy]]
 Token Policy
 ~~~~~~~~~~~~
+
+[thumbnail="screenshot/gui-datacenter-token-policy.png"]
 
 The optional `token-policy` datacenter option sets cluster-wide rules for
 creating and updating API tokens, as compliance standards like PCI DSS,
