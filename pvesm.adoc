@@ -145,6 +145,8 @@ free space to avoid such conditions.
 Storage Configuration
 ---------------------
 
+[thumbnail="screenshot/gui-datacenter-storage.png"]
+
 All {pve} related storage configuration is stored within a single text
 file at `/etc/pve/storage.cfg`. As this file is within `/etc/pve/`, it
 gets automatically distributed to all cluster nodes. So all nodes
@@ -155,6 +157,8 @@ because the same ``shared'' storage is accessible from all nodes. But it is
 also useful for local storage types. In this case such local storage
 is available on all nodes, but it is physically different and can have
 totally different content.
+
+[thumbnail="screenshot/gui-storage-add-wizard.png", float="left"]
 
 To add a storage in the web UI, use *Datacenter -> Storage -> Add*, which opens
 a wizard. Its first step lists the storage types and guided setups, grouped and
