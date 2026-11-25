@@ -687,6 +687,8 @@ moving straight back to the fenced node.
 Rules
 ~~~~~
 
+[thumbnail="screenshot/gui-ha-manager-rules-view.png"]
+
 HA rules are used to put certain constraints on HA-managed resources, which are
 defined in the HA rules configuration file `/etc/pve/ha/rules.cfg`.
 
@@ -722,6 +724,8 @@ separate nodes.
 [[ha_manager_node_affinity_rules]]
 Node Affinity Rules
 ^^^^^^^^^^^^^^^^^^^
+
+[thumbnail="screenshot/gui-ha-manager-add-node-affinity-rule.png"]
 
 By default, an HA resource is able to run on any cluster node, but a common
 requirement is that an HA resource should run on a specific node. That can be
@@ -800,6 +804,8 @@ include::generated/ha-rules-node-affinity-opts.adoc[]
 [[ha_manager_resource_affinity_rules]]
 Resource Affinity Rules
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+[thumbnail="screenshot/gui-ha-manager-add-resource-affinity-rule.png"]
 
 Another common requirement is that two or more HA resources should run on
 either the same node, or should be distributed on separate nodes. These are
